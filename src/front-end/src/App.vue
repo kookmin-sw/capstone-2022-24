@@ -1,12 +1,24 @@
 <template>
 	<div class="container">
-		<div id="nav">
-			<router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link>
+		<g-n-b></g-n-b>
+		<div class="body-container">
+			<div id="nav">
+				<router-link to="/">Home</router-link> |
+				<router-link to="/about">About</router-link>
+			</div>
+			<router-view />
 		</div>
-		<router-view />
 	</div>
 </template>
+
+<script>
+import GNB from '@/components/GNB';
+export default {
+	components: {
+		GNB,
+	},
+};
+</script>
 
 <style>
 #app {
@@ -28,5 +40,9 @@
 
 #nav a.router-link-exact-active {
 	color: #42b983;
+}
+
+.body-container {
+	padding-top: 84px;
 }
 </style>
