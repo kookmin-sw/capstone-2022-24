@@ -2,18 +2,15 @@
 	<!--  <q-separator color="blue" inset />-->
 	<div class="footer">
 		<div class="text-menu-frame row text-left text-grey-8">
-			<div>회사소개</div>
-			<div>이용약관</div>
-			<div>개인정보처리방침</div>
-			<div>고객센터</div>
-			<div>1:1문의</div>
+			<div>{{ $t('company') }}</div>
+			<div>{{ $t('tos') }}</div>
+			<div>{{ $t('privacyPolicy') }}</div>
+			<div>{{ $t('cs') }}</div>
+			<div>{{ $t('qa') }}</div>
 		</div>
 		<div class="business-info col">
-			<div class="row text-left text-grey">
-				(주) 서비스명 | 대표이사: 구다희 | 소재지: 서울 특별시 성북구 정릉로 77
-				| 사업자 등록번호: 123-45-6790
-			</div>
-			<div class="row text-left text-grey">copyright 어쩌구</div>
+			<div class="row text-left text-grey">{{ $t('businessInfo') }}</div>
+			<div class="row text-left text-grey">{{ $t('copyright') }}</div>
 		</div>
 	</div>
 </template>
