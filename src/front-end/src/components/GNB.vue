@@ -24,8 +24,8 @@
 				<!--				</div>-->
 			</div>
 			<div class="col-2">
-				<q-btn unelevated color="blue">로그인/회원가입</q-btn>
-				<!--				<q-btn unelevated color="blue">로그아웃</q-btn>-->
+				<q-btn unelevated color="blue">{{ $t('gnb.login') }}</q-btn>
+				<!--				<q-btn unelevated color="blue">{{ $t('gnb.logout') }}</q-btn>-->
 			</div>
 		</div>
 		<q-separator color="blue" inset />

@@ -11,7 +11,9 @@
   "gnb": {
     "home": "홈",
     "discontinued": "종료 예정작",
-    "groupJoin": "모임 신청"
+    "groupJoin": "모임 신청",
+    "login": "로그인/회원가입",
+    "logout": "로그아웃"
   },
   "message": "안녕하세요!!"
 }
