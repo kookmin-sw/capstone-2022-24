@@ -1,10 +1,17 @@
 {
-  "company": "회사소개",
-  "tos": "이용약관",
-  "privacyPolicy": "개인정보처리방침",
-  "cs": "고객센터",
-  "qa": "1:1문의",
-  "businessInfo": "(주)서비스명  /  대표이사: 구다희  /  소재지: 서울특별시 성북구 정릉로 77  /  사업자 등록번호: 123-45-6790",
-  "copyright": "copyright 어쩌구",
+  "footer": {
+    "company": "회사소개",
+    "tos": "이용약관",
+    "privacyPolicy": "개인정보처리방침",
+    "cs": "고객센터",
+    "qa": "1:1문의",
+    "businessInfo": "(주)서비스명  /  대표이사: 구다희  /  소재지: 서울특별시 성북구 정릉로 77  /  사업자 등록번호: 123-45-6790",
+    "copyright": "copyright 어쩌구"
+  },
+  "gnb": {
+    "home": "홈",
+    "discontinued": "종료 예정작",
+    "groupJoin": "모임 신청"
+  },
   "message": "안녕하세요!!"
 }

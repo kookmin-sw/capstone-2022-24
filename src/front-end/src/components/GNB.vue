@@ -6,9 +6,9 @@
 			</div>
 			<div class="text-menu-frame col-6">
 				<div class="row">
-					<span class="col-4"> 홈 </span>
-					<span class="col-4"> 종료 예정작 </span>
-					<span class="col-4"> 모임 신청 </span>
+					<span class="col-4"> {{ $t('gnb.home') }} </span>
+					<span class="col-4"> {{ $t('gnb.discontinued') }} </span>
+					<span class="col-4"> {{ $t('gnb.groupJoin') }} </span>
 				</div>
 			</div>
 			<div class="icon-menu-frame col-2">
