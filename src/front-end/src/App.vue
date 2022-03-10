@@ -1,21 +1,23 @@
 <template>
 	<div class="container">
-		<g-n-b></g-n-b>
+		<g-n-b />
 		<div class="body-container">
-			<div id="nav">
-				<router-link to="/">Home</router-link> |
-				<router-link to="/about">About</router-link>
-			</div>
 			<router-view />
+			<footer>
+				<q-separator color="blue" inset />
+				<service-footer />
+			</footer>
 		</div>
 	</div>
 </template>
 
 <script>
 import GNB from '@/components/GNB';
+import ServiceFooter from '@/components/ServiceFooter';
 export default {
 	components: {
 		GNB,
+		ServiceFooter,
 	},
 };
 </script>
