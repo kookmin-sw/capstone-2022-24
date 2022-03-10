@@ -1,3 +1,19 @@
 {
-  "message": "안녕하세요!!"
+  "footer": {
+    "company": "Introduced",
+    "tos": "Terms of Use",
+    "privacyPolicy": "Privacy Policy",
+    "cs": "Customer Service",
+    "qa": "Q&A",
+    "businessInfo": "(주)서비스명  /  CEO: Dahee Goo  /  Location: Jeongneung-ro, Seongbuk-gu, Seoul, Republic of Korea  /  Business registration number: 123-45-6790",
+    "copyright": "copyright 어쩌구"
+  },
+  "gnb": {
+    "home": "Home",
+    "discontinued": "Discounted",
+    "groupJoin": "Group Join",
+    "login": "Login/Signup",
+    "logout": "Logout"
+  },
+  "message": "Hello!!"
 }
