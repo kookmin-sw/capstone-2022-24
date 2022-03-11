@@ -60,7 +60,7 @@
 			<div class="explanationn col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
-			<q-btn unelevated color="blue" class="full-width" disabled="true">
+			<q-btn unelevated color="grey" class="full-width" disabled="true">
 				신청하기
 			</q-btn>
 		</div>
