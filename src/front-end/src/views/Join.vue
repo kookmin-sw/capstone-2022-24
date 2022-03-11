@@ -4,8 +4,8 @@
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
-				<div class="text-h6 text-weight-bold">1단계</div>
-				<div>신청할 OTT 서비스 선택</div>
+				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
+				<div>{{ $t('join.stepTitle1') }}</div>
 			</div>
 			<div class="ott-icons-frame row">
 				<q-avatar rounded color="blue" size="60px"></q-avatar>
@@ -24,22 +24,24 @@
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
-				<div class="text-h6 text-bold">2단계</div>
-				<div>모임장/모임원 선택</div>
+				<div class="text-h6 text-weight-bold">{{ $t('join.step2') }}</div>
+				<div>{{ $t('join.stepTitle2') }}</div>
 			</div>
 			<div class="explanation col text-left q-mb-lg">
 				<div class="leader-expl col q-mb-md">
-					<div class="text-weight-bold">모임장이란?</div>
-					<div>모임장 설명</div>
+					<div class="text-weight-bold">{{ $t('join.leaderGuideTitle') }}</div>
+					<div>{{ $t('join.leaderGuide') }}</div>
+					<div>{{ $t('join.leaderPaymentGuide') }}</div>
 				</div>
 				<div class="member-expl col">
-					<div class="text-weight-bold">모임원이란?</div>
-					<div>모임원 설명</div>
+					<div class="text-weight-bold">{{ $t('join.memberGuideTitle') }}</div>
+					<div>{{ $t('join.memberGuide') }}</div>
+					<div>{{ $t('join.memberPaymentGuide') }}</div>
 				</div>
 			</div>
 			<div class="btn-frame row">
-				<q-btn outline color="blue" class="col">모임장</q-btn>
-				<q-btn outline color="blue" class="col">모임원</q-btn>
+				<q-btn outline color="blue" class="col">{{ $t('leader') }}</q-btn>
+				<q-btn outline color="blue" class="col">{{ $t('member') }}</q-btn>
 				<!--        <q-space class="col-2" />-->
 			</div>
 		</div>
@@ -52,8 +54,8 @@
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
-				<div class="text-h6 text-bold">3단계</div>
-				<div>모임 신청 및 결제</div>
+				<div class="text-h6 text-weight-bold">{{ $t('join.step3') }}</div>
+				<div>{{ $t('join.stepTitle3') }}</div>
 			</div>
 			<div class="explanationn col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
