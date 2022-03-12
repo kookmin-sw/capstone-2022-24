@@ -1,7 +1,7 @@
 <template>
 	<q-card style="width: 600px; max-width: 80vw" v-if="isActive">
 		<q-card-section class="row items-center q-pb-none">
-			<div class="text-h6">로그인</div>
+			<div class="text-h6">{{ $t('gnb.login') }}</div>
 			<q-space />
 			<q-btn icon="close" flat round dense v-close-popup />
 		</q-card-section>
