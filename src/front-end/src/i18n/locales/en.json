@@ -38,5 +38,6 @@
   "alarm": "Alarm",
   "afterLoginMsg": "로그인 후 이용 가능한 서비스입니다.",
   "goLoginMsg": "Go Login",
+  "goJoinMsg": "모임 신청하러 가기",
   "message": "Hello!!"
 }
