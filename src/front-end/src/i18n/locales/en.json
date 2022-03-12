@@ -13,7 +13,8 @@
     "discontinued": "Discounted",
     "groupJoin": "Group Join",
     "login": "Login/Signup",
-    "logout": "Logout"
+    "logout": "Logout",
+    "alarm": "Alarm"
   },
   "join": {
     "step1": "1단계",
@@ -37,10 +38,12 @@
     "kakao": "Start with Kakao",
     "naver": "Start with Naver"
   },
+  "alarm": {
+    "delWarningMsg": "모든 알림은 확인 여부와 상관없이 전송 후 30일 뒤 삭제됩니다."
+  },
   "serviceName": "온갖",
   "leader": "Leader",
   "member": "Member",
-  "alarm": "Alarm",
   "afterLoginMsg": "로그인 후 이용 가능한 서비스입니다.",
   "goLoginMsg": "Go Login",
   "goJoinMsg": "모임 신청하러 가기",

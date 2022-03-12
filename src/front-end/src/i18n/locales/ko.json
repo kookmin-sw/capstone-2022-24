@@ -13,7 +13,8 @@
     "discontinued": "종료 예정작",
     "groupJoin": "모임 신청",
     "login": "로그인/회원가입",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "alarm": "알림"
   },
   "join": {
     "step1": "1단계",
@@ -37,10 +38,15 @@
     "kakao": "카카오로 시작하기",
     "naver": "네이버로 시작하기"
   },
+  "alarm": {
+    "delWarningMsg": "모든 알림은 확인 여부와 상관없이 전송 후 30일 뒤 삭제됩니다.",
+    "allRead": "전체 읽음 표시",
+    "readDel": "읽은 알람 삭제",
+    "allDel": "전체 삭제"
+  },
   "serviceName": "온갖",
   "leader": "모임장",
   "member": "모임원",
-  "alarm": "알림",
   "afterLoginMsg": "로그인 후 이용 가능한 서비스입니다.",
   "goLoginMsg": "로그인하러 가기",
   "goJoinMsg": "모임 신청하러 가기",
