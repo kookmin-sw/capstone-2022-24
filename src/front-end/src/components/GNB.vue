@@ -7,7 +7,9 @@
 	<div class="gnb container">
 		<div class="row">
 			<div class="col-2">
-				<span> logo </span>
+				<span class="text-h6 text-weight-bolder">
+					{{ $t('serviceName') }}
+				</span>
 			</div>
 			<div class="text-menu-frame col-6">
 				<div class="row">

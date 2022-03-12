@@ -33,6 +33,7 @@
     "kakao": "Start with Kakao",
     "naver": "Start with Naver"
   },
+  "serviceName": "온갖",
   "leader": "Leader",
   "member": "Member",
   "alarm": "Alarm",
