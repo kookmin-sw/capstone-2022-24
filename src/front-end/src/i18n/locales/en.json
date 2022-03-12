@@ -15,5 +15,21 @@
     "login": "Login/Signup",
     "logout": "Logout"
   },
+  "join": {
+    "step1": "1단계",
+    "step2": "2단계",
+    "step3": "3단계",
+    "stepTitle1": "신청할 OTT 서비스 선택",
+    "stepTitle2": "모임장/모임원 선택",
+    "stepTitle3": "모임 신청 및 결제",
+    "leaderGuideTitle": "모임장이란?",
+    "leaderGuide": "선택한 OTT 서비스 계정을 공유하는 구성원입니다.",
+    "leaderPaymentGuide": "모임의 인원이 모두 모이면 OTT 서비스 계정 정보를 등록 후 모임원의 이용료를 정산받습니다.",
+    "memberGuideTitle": "모임원이란?",
+    "memberGuide": "모임장의 OTT 서비스 계정을 공유받는 구성원입니다.",
+    "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다."
+  },
+  "leader": "Leader",
+  "member": "Member",
   "message": "Hello!!"
 }
