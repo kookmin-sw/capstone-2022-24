@@ -29,6 +29,10 @@
     "memberGuide": "모임장의 OTT 서비스 계정을 공유받는 구성원입니다.",
     "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다."
   },
+  "login": {
+    "kakao": "카카오로 시작하기",
+    "naver": "네이버로 시작하기"
+  },
   "leader": "모임장",
   "member": "모임원",
   "message": "안녕하세요!!"
