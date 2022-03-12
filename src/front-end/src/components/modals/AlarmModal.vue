@@ -2,12 +2,15 @@
 	<q-card style="width: 480px; max-width: 60vw" v-if="isActive">
 		<!--    alarm title    -->
 		<q-card-section class="row items-center q-pb-none q-pt-sm">
-			<div class="text-subtitle1 text-weight-bold">
+			<div class="text-subtitle1 text-weight-bold q-pt-auto q-pb-auto">
 				<q-icon name="notifications_none" size="md" color="blue" />
-				{{ $t('alarm') }}
+				{{ $t('gnb.alarm') }}
 			</div>
 			<q-space />
-			<q-btn icon="close" flat round dense v-close-popup />
+			<q-btn icon="close" flat round dense v-close-popup class="" />
+			<div class="q-ml-sm q-mr-lg text-blue text-weight-bold">
+				모든 알림은 확인 여부와 상관없이 전송 후 30일 뒤 삭제됩니다.
+			</div>
 		</q-card-section>
 
 		<!--    delete button   -->
@@ -35,7 +38,7 @@
 			</div>
 		</q-card-section>
 		<!--    msg 2   -->
-		<q-separator color="blue" />
+		<q-separator color="grey" />
 		<q-card-section
 			class="row text-center q-mt-md q-mr-lg q-mb-sm q-ml-lg"
 			v-if="isActive">
