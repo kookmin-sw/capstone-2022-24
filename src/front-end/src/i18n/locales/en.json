@@ -27,7 +27,11 @@
     "leaderPaymentGuide": "모임의 인원이 모두 모이면 OTT 서비스 계정 정보를 등록 후 모임원의 이용료를 정산받습니다.",
     "memberGuideTitle": "모임원이란?",
     "memberGuide": "모임장의 OTT 서비스 계정을 공유받는 구성원입니다.",
-    "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다."
+    "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다.",
+    "success": "모임 신청이 완료되었습니다.",
+    "fail": "모임 신청에 실패하였습니다.",
+    "retry": "모임 신청을 다시 시도해주시기 바랍니다.",
+    "goGroupState": "모임 상태 보러가기"
   },
   "login": {
     "kakao": "Start with Kakao",
