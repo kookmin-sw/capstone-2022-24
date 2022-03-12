@@ -5,7 +5,7 @@
 			<q-btn icon="close" flat round dense v-close-popup />
 		</q-card-section>
 
-		<q-card-section class="col text-center q-mb-lg" v-if="isActive">
+		<q-card-section class="col text-center q-ma-lg q-mt-none" v-if="isActive">
 			<div class="text-h6">{{ $t('afterLoginMsg') }}</div>
 			<q-btn flat color="blue">
 				<div class="text-underline">{{ $t('goLoginMsg') }}</div>
