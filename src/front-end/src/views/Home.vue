@@ -178,6 +178,15 @@
 		</div>
 		<!-- hr -->
 		<q-separator inset color="blue" />
+		<!-- 정렬 -->
+		<div class="row q-ma-md q-mt-xl q-pl-md q-pr-md text-left">
+			<div class="col">정렬<q-icon class="q-pl-md" name="east" /></div>
+			<div class="col">랜덤순</div>
+			<div class="col">평점순</div>
+			<div class="col">최신순</div>
+			<div class="col">인기순</div>
+			<q-space class="col-7" />
+		</div>
 		<!-- 작품 포스터 단락 -->
 		<q-infinite-scroll
 			class="video-frame items-center"
