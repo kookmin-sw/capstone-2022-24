@@ -13,7 +13,6 @@
 						outlined
 						dense>
 						<q-separator color="blue" vertical inset />
-						<!-- 슬롯을 왜 씀?(찾아보기) -->
 						<template v-slot:append>
 							<q-icon name="search" color="blue" />
 						</template>
@@ -28,165 +27,177 @@
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
 				</div>
 				<!-- 필터링 조건 -->
-				<q-expansion-item label="필터링 조건들">
-					<!-- 작품 종류 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">작품 종류</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="category in filters.categories"
-								:key="category.id">
-								{{ category }}
-							</q-chip>
+				<q-list bordered>
+					<q-expansion-item
+						style="border-radius: 50%"
+						header-class="bg-blue text-white"
+						expand-icon-class="text-white"
+						label="필터링 항목">
+						<!-- 작품 종류 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">작품 종류</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="category in filters.categories"
+									:key="category.id">
+									{{ category }}
+								</q-chip>
+							</div>
 						</div>
-					</div>
-					<!-- 상영 등급 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">상영 등급</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="rate in filters.filmRatings"
-								:key="rate.id">
-								{{ rate }}
-							</q-chip>
+						<!-- 상영 등급 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">상영 등급</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="rate in filters.filmRatings"
+									:key="rate.id">
+									{{ rate }}
+								</q-chip>
+							</div>
 						</div>
-					</div>
-					<!-- 장르 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">장르</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="genre in filters.genres"
-								:key="genre.id">
-								{{ genre }}
-							</q-chip>
+						<!-- 장르 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">장르</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="genre in filters.genres"
+									:key="genre.id">
+									{{ genre }}
+								</q-chip>
+							</div>
 						</div>
-					</div>
-					<!-- 결제 종류 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">결제 종류</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="offer in filters.offers"
-								:key="offer.id">
-								{{ offer }}
-							</q-chip>
+						<!-- 결제 종류 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">결제 종류</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="offer in filters.offers"
+									:key="offer.id">
+									{{ offer }}
+								</q-chip>
+							</div>
 						</div>
-					</div>
-					<!-- 국가 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">국가</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="country in filters.countries"
-								:key="country.id">
-								{{ country }}
-							</q-chip>
+						<!-- 국가 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">국가</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="country in filters.countries"
+									:key="country.id">
+									{{ country }}
+								</q-chip>
+							</div>
+							<!-- 관람 여부 -->
 						</div>
-						<!-- 관람 여부 -->
-					</div>
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">관람 여부</div>
-						<q-separator color="blue" vertical inset />
-						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip
-								outline
-								color="blue"
-								v-for="work in filters.watched"
-								:key="work.id">
-								{{ work }}
-							</q-chip>
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">관람 여부</div>
+							<q-separator color="blue" vertical inset />
+							<div class="chips-frame q-ml-sm text-left col-9">
+								<q-chip
+									outline
+									color="blue"
+									v-for="work in filters.watched"
+									:key="work.id">
+									{{ work }}
+								</q-chip>
+							</div>
 						</div>
-					</div>
-					<!-- 슬라이더 형태 필터링 -->
-					<!-- 연도 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">연도</div>
-						<q-separator color="blue" vertical inset />
-						<div class="q-pa-md q-pb-lg col-9">
-							<q-range
-								v-model="filters.year"
-								:min="1970"
-								:max="2022"
-								:step="1"
-								:left-label-value="filters.year.min + '년'"
-								:right-label-value="filters.year.max + '년'"
-								label-always
-								switch-label-side
-								color="blue" />
+						<!-- 슬라이더 형태 필터링 -->
+						<!-- 연도 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">연도</div>
+							<q-separator color="blue" vertical inset />
+							<div class="q-pa-md q-pb-lg col-9">
+								<q-range
+									v-model="filters.year"
+									:min="1970"
+									:max="2022"
+									:step="1"
+									:left-label-value="filters.year.min + '년'"
+									:right-label-value="filters.year.max + '년'"
+									label-always
+									switch-label-side
+									color="blue" />
+							</div>
 						</div>
-					</div>
-					<!-- 평점 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">평점</div>
-						<q-separator color="blue" vertical inset />
-						<div class="q-pa-md q-pb-lg col-9">
-							<q-range
-								class="range-slider"
-								v-model="filters.rate"
-								:min="0.5"
-								:max="5.0"
-								:step="0.5"
-								:left-label-value="filters.rate.min + '점'"
-								:right-label-value="filters.rate.max + '점'"
-								label-always
-								switch-label-side
-								color="blue" />
+						<!-- 평점 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">평점</div>
+							<q-separator color="blue" vertical inset />
+							<div class="q-pa-md q-pb-lg col-9">
+								<q-range
+									class="range-slider"
+									v-model="filters.rate"
+									:min="0.5"
+									:max="5.0"
+									:step="0.5"
+									:left-label-value="filters.rate.min + '점'"
+									:right-label-value="filters.rate.max + '점'"
+									label-always
+									switch-label-side
+									color="blue" />
+							</div>
 						</div>
-					</div>
-					<!-- 상영 시간 -->
-					<div class="filter-frame row q-mt-md">
-						<div class="q-mt-auto q-mb-auto col-2">상영 시간</div>
-						<q-separator color="blue" vertical inset />
-						<div class="q-pa-md q-pb-lg col-9">
-							<q-range
-								class="range-slider"
-								v-model="filters.runtime"
-								:min="0"
-								:max="240"
-								:step="10"
-								:left-label-value="filters.runtime.min + '분'"
-								:right-label-value="filters.runtime.max + '분'"
-								label-always
-								switch-label-side
-								color="blue" />
+						<!-- 상영 시간 -->
+						<div class="filter-frame row q-mt-md">
+							<div class="q-mt-auto q-mb-auto col-2">상영 시간</div>
+							<q-separator color="blue" vertical inset />
+							<div class="q-pa-md q-pb-lg col-9">
+								<q-range
+									class="range-slider"
+									v-model="filters.runtime"
+									:min="0"
+									:max="240"
+									:step="10"
+									:left-label-value="filters.runtime.min + '분'"
+									:right-label-value="filters.runtime.max + '분'"
+									label-always
+									switch-label-side
+									color="blue" />
+							</div>
 						</div>
-					</div>
-					<q-btn>초기화</q-btn>
-				</q-expansion-item>
+						<q-btn unelevated outline class="q-ma-lg" color="blue">
+							필터 초기화
+						</q-btn>
+					</q-expansion-item>
+				</q-list>
 			</div>
 			<q-space class="col-2" />
 		</div>
 		<!-- hr -->
 		<q-separator color="blue" inset />
 		<!-- 작품 포스터 단락 -->
-		<div>
-			<div class="video-frame row">
+		<q-infinite-scroll @load="onLoad" :offset="250" class="video-frame">
+			<div class="row">
 				<div
-					v-for="idx in 24"
-					:key="idx.id"
+					v-for="(poster, index) in posters"
+					:key="index"
 					class="video col-2 q-ma-md"
 					style="background: grey">
-					poster
+					{{ poster }}
 				</div>
 			</div>
-			<q-btn>더보기</q-btn>
-		</div>
+			<template v-slot:loading>
+				<div class="row justify-center q-my-md">
+					<q-spinner-dots color="primary" size="40px" />
+				</div>
+			</template>
+		</q-infinite-scroll>
 	</div>
 </template>
 
@@ -235,7 +246,16 @@ export default {
 				},
 			},
 			search: null,
+			posters: [{}, {}, {}, {}, {}],
 		};
+	},
+	methods: {
+		onLoad(index, done) {
+			setTimeout(() => {
+				this.posters.value.push({}, {}, {}, {}, {});
+				done();
+			}, 2000);
+		},
 	},
 };
 </script>
