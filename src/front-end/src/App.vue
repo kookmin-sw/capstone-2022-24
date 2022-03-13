@@ -33,17 +33,8 @@ export default {
 	color: #2c3e50;
 }
 
-#nav a {
-	font-weight: bold;
-	color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-	color: #42b983;
-}
-
-.body-container {
-	padding-top: 84px;
+nav {
+	z-index: 999;
 }
 
 .top-fixed {
