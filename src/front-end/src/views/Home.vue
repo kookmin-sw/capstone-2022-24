@@ -188,20 +188,17 @@
 			<q-space class="col-7" />
 		</div>
 		<!-- 작품 포스터 단락 -->
-		<q-infinite-scroll
-			class="video-frame items-center"
-			:offset="250"
-			@load="posterOnLoad">
-			<div class="row q-mt-lg">
+		<q-infinite-scroll :offset="250" @load="posterOnLoad">
+			<div class="row q-ma-lg video-frame">
 				<div
-					class="poster col-2 q-ma-md"
+					class="video-poster"
 					v-for="(poster, index) in posters"
 					:key="index">
 					{{ poster }}
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div class="row q-my-md justify-center">
+				<div class="row q-mb-lg justify-center">
 					<q-spinner-dots color="primary" size="40px" />
 				</div>
 			</template>
@@ -273,36 +270,13 @@ export default {
 				{},
 				{},
 				{},
-				{},
-				{},
 			],
 		};
 	},
 	methods: {
 		posterOnLoad(index, done) {
 			setTimeout(() => {
-				this.posters.push(
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-					{},
-				);
+				this.posters.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
 				done();
 			}, 2000);
 		},
@@ -314,9 +288,17 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 }
-.poster {
+.video-frame {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.video-poster {
+	width: 15%;
 	height: 0;
 	padding-bottom: 20%;
+	margin: 0 0 24px 0;
 	background: grey;
 }
 </style>
