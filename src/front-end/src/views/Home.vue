@@ -7,7 +7,7 @@
 				<!-- 검색 -->
 				<div class="search-frame row text-left q-mb-md">
 					<q-input
-						class="search-bar q-mb-lg"
+						class="search-bar q-mb-lg full-width"
 						v-model="search"
 						type="search"
 						outlined
@@ -183,12 +183,11 @@
 		<q-separator color="blue" inset />
 		<!-- 작품 포스터 단락 -->
 		<q-infinite-scroll @load="onLoad" :offset="250" class="video-frame">
-			<div class="row">
+			<div class="row q-mt-lg">
 				<div
 					v-for="(poster, index) in posters"
 					:key="index"
-					class="video col-2 q-ma-md"
-					style="background: grey">
+					class="poster col-2 q-ma-md">
 					{{ poster }}
 				</div>
 			</div>
@@ -303,15 +302,12 @@ export default {
 </script>
 
 <style scoped>
-.search-bar {
-	width: 750px;
-}
-
-.btn-frame * {
-	margin-right: 12px;
-}
-
 .ott-icons-frame {
 	column-gap: 16px;
+}
+.poster {
+	height: 0;
+	padding-bottom: 20%;
+	background: grey;
 }
 </style>
