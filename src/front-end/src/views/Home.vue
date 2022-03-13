@@ -1,25 +1,25 @@
 <template>
 	<div class="home">
 		<!-- 검색창~필터링 단락 -->
-		<div class="search-filter-frame row q-mt-xl q-mb-xl">
+		<div class="row q-mt-xl q-mb-xl search-filter-frame">
 			<q-space class="col-2" />
 			<div class="col-8">
 				<!-- 검색 -->
-				<div class="search-frame row text-left q-mb-md">
+				<div class="row q-mb-xl text-left search-frame">
 					<q-input
-						class="search-bar q-mb-lg full-width"
-						v-model="search"
-						type="search"
 						outlined
-						dense>
-						<q-separator color="blue" vertical inset />
-						<template v-slot:append>
-							<q-icon name="search" color="blue" />
-						</template>
+						dense
+						type="search"
+						color="blue"
+						class="col-9 search-bar"
+						v-model="search">
 					</q-input>
+					<q-btn unelevated outline color="blue" class="col-2">
+						<q-icon name="search" color="blue" />
+					</q-btn>
 				</div>
 				<!--  ott 로고 필터 -->
-				<div class="ott-icons-frame row q-mb-lg">
+				<div class="row q-mb-lg ott-icons-frame">
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
@@ -29,15 +29,14 @@
 				<!-- 필터링 조건 -->
 				<q-list bordered>
 					<q-expansion-item
-						style="border-radius: 50%"
+						label="필터링 항목"
 						header-class="bg-blue text-white"
-						expand-icon-class="text-white"
-						label="필터링 항목">
+						expand-icon-class="text-white">
 						<!-- 작품 종류 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">작품 종류</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -48,10 +47,10 @@
 							</div>
 						</div>
 						<!-- 상영 등급 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">상영 등급</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">상영 등급</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -62,10 +61,10 @@
 							</div>
 						</div>
 						<!-- 장르 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">장르</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">장르</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -76,10 +75,10 @@
 							</div>
 						</div>
 						<!-- 결제 종류 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">결제 종류</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">결제 종류</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -90,10 +89,10 @@
 							</div>
 						</div>
 						<!-- 국가 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">국가</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">국가</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -104,10 +103,10 @@
 							</div>
 							<!-- 관람 여부 -->
 						</div>
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">관람 여부</div>
-							<q-separator color="blue" vertical inset />
-							<div class="chips-frame q-ml-sm text-left col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">관람 여부</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-ml-sm text-left chips-frame">
 								<q-chip
 									outline
 									color="blue"
@@ -119,59 +118,57 @@
 						</div>
 						<!-- 슬라이더 형태 필터링 -->
 						<!-- 연도 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">연도</div>
-							<q-separator color="blue" vertical inset />
-							<div class="q-pa-md q-pb-lg col-9">
+						<div class="row filter-frame q-mt-md">
+							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-pa-md q-pb-lg">
 								<q-range
+									label-always
+									switch-label-side
+									color="blue"
 									v-model="filters.year"
 									:min="1970"
 									:max="2022"
 									:step="1"
 									:left-label-value="`${filters.year.min}년`"
-									:right-label-value="`${filters.year.max}년`"
-									label-always
-									switch-label-side
-									color="blue" />
+									:right-label-value="`${filters.year.max}년`" />
 							</div>
 						</div>
 						<!-- 평점 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">평점</div>
-							<q-separator color="blue" vertical inset />
-							<div class="q-pa-md q-pb-lg col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">평점</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-pa-md q-pb-lg">
 								<q-range
-									class="range-slider"
-									v-model="filters.rate"
-									:min="0.5"
-									:max="5.0"
-									:step="0.5"
-									:left-label-value="`${filters.rate.min}점`"
-									:right-label-value="`${filters.rate.max}점`"
 									label-always
 									switch-label-side
-									color="blue" />
+									color="blue"
+									v-model="filters.rate"
+									:min="0.5"
+									:max="5"
+									:step="0.5"
+									:left-label-value="`${filters.rate.min}점`"
+									:right-label-value="`${filters.rate.max}점`" />
 							</div>
 						</div>
 						<!-- 상영 시간 -->
-						<div class="filter-frame row q-mt-md">
-							<div class="q-mt-auto q-mb-auto col-2">상영 시간</div>
-							<q-separator color="blue" vertical inset />
-							<div class="q-pa-md q-pb-lg col-9">
+						<div class="row q-mt-md filter-frame">
+							<div class="col-2 q-mt-auto q-mb-auto">상영 시간</div>
+							<q-separator vertical inset color="blue" />
+							<div class="col-9 q-pa-md q-pb-lg">
 								<q-range
-									class="range-slider"
+									label-always
+									switch-label-side
+									color="blue"
 									v-model="filters.runtime"
 									:min="0"
 									:max="240"
 									:step="10"
 									:left-label-value="`${filters.runtime.min}분`"
-									:right-label-value="`${filters.runtime.max}분`"
-									label-always
-									switch-label-side
-									color="blue" />
+									:right-label-value="`${filters.runtime.max}분`" />
 							</div>
 						</div>
-						<q-btn unelevated outline class="q-ma-lg" color="blue">
+						<q-btn unelevated outline color="blue" class="q-ma-lg">
 							필터 초기화
 						</q-btn>
 					</q-expansion-item>
@@ -180,22 +177,22 @@
 			<q-space class="col-2" />
 		</div>
 		<!-- hr -->
-		<q-separator color="blue" inset />
+		<q-separator inset color="blue" />
 		<!-- 작품 포스터 단락 -->
 		<q-infinite-scroll
-			@load="posterOnLoad"
+			class="video-frame items-center"
 			:offset="250"
-			class="video-frame items-center">
+			@load="posterOnLoad">
 			<div class="row q-mt-lg">
 				<div
+					class="poster col-2 q-ma-md"
 					v-for="(poster, index) in posters"
-					:key="index"
-					class="poster col-2 q-ma-md">
+					:key="index">
 					{{ poster }}
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div class="row justify-center q-my-md">
+				<div class="row q-my-md justify-center">
 					<q-spinner-dots color="primary" size="40px" />
 				</div>
 			</template>
