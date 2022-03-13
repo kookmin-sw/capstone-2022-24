@@ -246,13 +246,55 @@ export default {
 				},
 			},
 			search: null,
-			posters: [{}, {}, {}, {}, {}],
+			posters: [
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+				{},
+			],
 		};
 	},
 	methods: {
 		onLoad(index, done) {
 			setTimeout(() => {
-				this.posters.value.push({}, {}, {}, {}, {});
+				this.posters.push(
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+					{},
+				);
 				done();
 			}, 2000);
 		},
@@ -272,18 +314,4 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 }
-
-/*.video-frame {*/
-/*	display: grid;*/
-/*	grid-template-columns: repeat(6, 170px);*/
-/*	grid-template-rows: repeat(6, 238px);*/
-/*	column-gap: 24px;*/
-/*	row-gap: 40px;*/
-/*}*/
-
-/*.video {*/
-/*	width: 170px;*/
-/*	height: 238px;*/
-/*	background-color: #828282;*/
-/*}*/
 </style>
