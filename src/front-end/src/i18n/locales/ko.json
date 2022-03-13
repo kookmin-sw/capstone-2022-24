@@ -13,7 +13,8 @@
     "discontinued": "종료 예정작",
     "groupJoin": "모임 신청",
     "login": "로그인/회원가입",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "alarm": "알림"
   },
   "join": {
     "step1": "1단계",
@@ -27,9 +28,27 @@
     "leaderPaymentGuide": "모임의 인원이 모두 모이면 OTT 서비스 계정 정보를 등록 후 모임원의 이용료를 정산받습니다.",
     "memberGuideTitle": "모임원이란?",
     "memberGuide": "모임장의 OTT 서비스 계정을 공유받는 구성원입니다.",
-    "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다."
+    "memberPaymentGuide": "첫 결제 이후 모임에 참여하는 동안 한 달마다 자동으로 이용료가 결제됩니다.",
+    "success": "모임 신청이 완료되었습니다.",
+    "fail": "모임 신청에 실패하였습니다.",
+    "retry": "모임 신청을 다시 시도해주시기 바랍니다.",
+    "goGroupState": "모임 상태 보러가기"
   },
+  "login": {
+    "kakao": "카카오로 시작하기",
+    "naver": "네이버로 시작하기"
+  },
+  "alarm": {
+    "delWarningMsg": "모든 알림은 확인 여부와 상관없이 전송 후 30일 뒤 삭제됩니다.",
+    "allRead": "전체 읽음 표시",
+    "readDel": "읽은 알람 삭제",
+    "allDel": "전체 삭제"
+  },
+  "serviceName": "온갖",
   "leader": "모임장",
   "member": "모임원",
+  "afterLoginMsg": "로그인 후 이용 가능한 서비스입니다.",
+  "goLoginMsg": "로그인하러 가기",
+  "goJoinMsg": "모임 신청하러 가기",
   "message": "안녕하세요!!"
 }
