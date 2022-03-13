@@ -46,5 +46,6 @@ export default {
 	height: 84px;
 	line-height: 84px;
 	background-color: white;
+	z-index: 10;
 }
 </style>
