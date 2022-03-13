@@ -34,9 +34,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">작품 종류</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>영화</q-chip>
-							<q-chip>TV 시리즈</q-chip>
+							<q-chip v-for="category in filters.categories" :key="category.id">
+								{{ category }}
+							</q-chip>
 						</div>
 					</div>
 					<!-- 상영 등급 -->
@@ -44,11 +44,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">상영 등급</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>전체관람가</q-chip>
-							<q-chip>12세 이상 관람가</q-chip>
-							<q-chip>15세 이상 관람가</q-chip>
-							<q-chip>청소년 관람불가</q-chip>
+							<q-chip v-for="rate in filters.ratings" :key="rate.id">
+								{{ rate }}
+							</q-chip>
 						</div>
 					</div>
 					<!-- 장르 -->
@@ -56,18 +54,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">장르</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>SF/판타지</q-chip>
-							<q-chip>공포</q-chip>
-							<q-chip>드라마</q-chip>
-							<q-chip>로맨스</q-chip>
-							<q-chip>스릴러</q-chip>
-							<q-chip>시대극</q-chip>
-							<q-chip>무협</q-chip>
-							<q-chip>범죄/추리</q-chip>
-							<q-chip>애니메이션</q-chip>
-							<q-chip>액션</q-chip>
-							<q-chip>코미디</q-chip>
+							<q-chip v-for="genre in filters.genres" :key="genre.id">
+								{{ genre }}
+							</q-chip>
 						</div>
 					</div>
 					<!-- 결제 종류 -->
@@ -75,10 +64,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">결제 종류</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>구매</q-chip>
-							<q-chip>대여</q-chip>
-							<q-chip>정액제</q-chip>
+							<q-chip v-for="offer in filters.offers" :key="offer.id">
+								{{ offer }}
+							</q-chip>
 						</div>
 					</div>
 					<!-- 국가 -->
@@ -86,9 +74,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">국가</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>국내</q-chip>
-							<q-chip>해외</q-chip>
+							<q-chip v-for="country in filters.countries" :key="country.id">
+								{{ country }}
+							</q-chip>
 						</div>
 						<!-- 관람 여부 -->
 					</div>
@@ -96,9 +84,9 @@
 						<div class="q-mt-auto q-mb-auto col-2">관람 여부</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip>전체</q-chip>
-							<q-chip>본 작품</q-chip>
-							<q-chip>안 본 작품</q-chip>
+							<q-chip v-for="work in filters.watched" :key="work.id">
+								{{ work }}
+							</q-chip>
 						</div>
 					</div>
 					<!-- 슬라이더 형태 필터링 -->
@@ -188,8 +176,35 @@ import { ref } from 'vue';
 
 export default {
 	name: 'Home',
-	setup() {
+	data() {
 		return {
+			filters: {
+				categories: ['전체', '영화', 'TV 시리즈'],
+				ratings: [
+					'전체',
+					'전체관람가',
+					'12세 이상 관람가',
+					'15세 이상 관람가',
+					'청소년 관람불가',
+				],
+				genres: [
+					'전체',
+					'SF/판타지',
+					'공포',
+					'드라마',
+					'로맨스',
+					'스릴러',
+					'시대극',
+					'무협',
+					'범죄/추리',
+					'애니메이션',
+					'액션',
+					'코미디',
+				],
+				offers: ['전체', '구매', '대여', '정액제'],
+				countries: ['전체', '국내', '해외'],
+				watched: ['전체', '본 작품', '안 본 작품'],
+			},
 			search: ref(''),
 			year: ref({
 				min: 1990,
