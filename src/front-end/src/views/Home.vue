@@ -34,7 +34,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">작품 종류</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="category in filters.categories" :key="category.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="category in filters.categories"
+								:key="category.id">
 								{{ category }}
 							</q-chip>
 						</div>
@@ -44,7 +48,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">상영 등급</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="rate in filters.ratings" :key="rate.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="rate in filters.filmRatings"
+								:key="rate.id">
 								{{ rate }}
 							</q-chip>
 						</div>
@@ -54,7 +62,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">장르</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="genre in filters.genres" :key="genre.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="genre in filters.genres"
+								:key="genre.id">
 								{{ genre }}
 							</q-chip>
 						</div>
@@ -64,7 +76,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">결제 종류</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="offer in filters.offers" :key="offer.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="offer in filters.offers"
+								:key="offer.id">
 								{{ offer }}
 							</q-chip>
 						</div>
@@ -74,7 +90,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">국가</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="country in filters.countries" :key="country.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="country in filters.countries"
+								:key="country.id">
 								{{ country }}
 							</q-chip>
 						</div>
@@ -84,7 +104,11 @@
 						<div class="q-mt-auto q-mb-auto col-2">관람 여부</div>
 						<q-separator color="blue" vertical inset />
 						<div class="chips-frame q-ml-sm text-left col-9">
-							<q-chip v-for="work in filters.watched" :key="work.id">
+							<q-chip
+								outline
+								color="blue"
+								v-for="work in filters.watched"
+								:key="work.id">
 								{{ work }}
 							</q-chip>
 						</div>
@@ -96,12 +120,12 @@
 						<q-separator color="blue" vertical inset />
 						<div class="q-pa-md q-pb-lg col-9">
 							<q-range
-								v-model="year"
+								v-model="filters.year"
 								:min="1970"
 								:max="2022"
 								:step="1"
-								:left-label-value="year.min + '년'"
-								:right-label-value="year.max + '년'"
+								:left-label-value="filters.year.min + '년'"
+								:right-label-value="filters.year.max + '년'"
 								label-always
 								switch-label-side
 								color="blue" />
@@ -114,12 +138,12 @@
 						<div class="q-pa-md q-pb-lg col-9">
 							<q-range
 								class="range-slider"
-								v-model="rate"
-								:min="0"
+								v-model="filters.rate"
+								:min="0.5"
 								:max="5.0"
 								:step="0.5"
-								:left-label-value="rate.min + '점'"
-								:right-label-value="rate.max + '점'"
+								:left-label-value="filters.rate.min + '점'"
+								:right-label-value="filters.rate.max + '점'"
 								label-always
 								switch-label-side
 								color="blue" />
@@ -132,12 +156,12 @@
 						<div class="q-pa-md q-pb-lg col-9">
 							<q-range
 								class="range-slider"
-								v-model="runtime"
+								v-model="filters.runtime"
 								:min="0"
 								:max="240"
 								:step="10"
-								:left-label-value="runtime.min + '분'"
-								:right-label-value="runtime.max + '분'"
+								:left-label-value="filters.runtime.min + '분'"
+								:right-label-value="filters.runtime.max + '분'"
 								label-always
 								switch-label-side
 								color="blue" />
@@ -152,19 +176,14 @@
 		<q-separator color="blue" inset />
 		<!-- 작품 포스터 단락 -->
 		<div>
-			<div class="video-frame q-mt-xl q-mb-xl">
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
-				<div class="video">poster</div>
+			<div class="video-frame row">
+				<div
+					v-for="idx in 24"
+					:key="idx.id"
+					class="video col-2 q-ma-md"
+					style="background: grey">
+					poster
+				</div>
 			</div>
 			<q-btn>더보기</q-btn>
 		</div>
@@ -172,15 +191,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-
 export default {
 	name: 'Home',
 	data() {
 		return {
 			filters: {
 				categories: ['전체', '영화', 'TV 시리즈'],
-				ratings: [
+				filmRatings: [
 					'전체',
 					'전체관람가',
 					'12세 이상 관람가',
@@ -204,20 +221,20 @@ export default {
 				offers: ['전체', '구매', '대여', '정액제'],
 				countries: ['전체', '국내', '해외'],
 				watched: ['전체', '본 작품', '안 본 작품'],
+				year: {
+					min: 1970,
+					max: 2022,
+				},
+				rate: {
+					min: 0.5,
+					max: 5.0,
+				},
+				runtime: {
+					min: 0,
+					max: 240,
+				},
 			},
-			search: ref(''),
-			year: ref({
-				min: 1990,
-				max: 2010,
-			}),
-			rate: ref({
-				min: 0.5,
-				max: 4.5,
-			}),
-			runtime: ref({
-				min: 5,
-				max: 180,
-			}),
+			search: null,
 		};
 	},
 };
@@ -236,17 +253,17 @@ export default {
 	column-gap: 16px;
 }
 
-.video-frame {
-	display: grid;
-	grid-template-columns: repeat(6, 170px);
-	grid-template-rows: repeat(6, 238px);
-	column-gap: 24px;
-	row-gap: 40px;
-}
+/*.video-frame {*/
+/*	display: grid;*/
+/*	grid-template-columns: repeat(6, 170px);*/
+/*	grid-template-rows: repeat(6, 238px);*/
+/*	column-gap: 24px;*/
+/*	row-gap: 40px;*/
+/*}*/
 
-.video {
-	width: 170px;
-	height: 238px;
-	background-color: #828282;
-}
+/*.video {*/
+/*	width: 170px;*/
+/*	height: 238px;*/
+/*	background-color: #828282;*/
+/*}*/
 </style>
