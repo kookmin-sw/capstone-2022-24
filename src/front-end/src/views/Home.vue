@@ -180,12 +180,16 @@
 		<q-separator inset color="blue" />
 		<!-- 정렬 -->
 		<div class="row q-ma-md q-mt-xl q-pl-md q-pr-md text-left">
-			<div class="col">정렬<q-icon class="q-pl-md" name="east" /></div>
-			<div class="col">랜덤순</div>
-			<div class="col">평점순</div>
-			<div class="col">최신순</div>
-			<div class="col">인기순</div>
-			<q-space class="col-7" />
+			<div class="q-mt-auto q-mb-auto text-center">정렬</div>
+			<q-icon
+				color="blue"
+				size="24px"
+				class="q-mt-auto q-mb-auto"
+				name="navigate_next" />
+			<q-btn flat>랜덤순</q-btn>
+			<q-btn flat>평점순</q-btn>
+			<q-btn flat>최신순</q-btn>
+			<q-btn flat>인기순</q-btn>
 		</div>
 		<!-- 작품 포스터 단락 -->
 		<q-infinite-scroll :offset="250" @load="posterOnLoad">
