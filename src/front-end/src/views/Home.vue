@@ -128,8 +128,8 @@
 									:min="1970"
 									:max="2022"
 									:step="1"
-									:left-label-value="filters.year.min + '년'"
-									:right-label-value="filters.year.max + '년'"
+									:left-label-value="`${filters.year.min}년`"
+									:right-label-value="`${filters.year.max}년`"
 									label-always
 									switch-label-side
 									color="blue" />
@@ -146,8 +146,8 @@
 									:min="0.5"
 									:max="5.0"
 									:step="0.5"
-									:left-label-value="filters.rate.min + '점'"
-									:right-label-value="filters.rate.max + '점'"
+									:left-label-value="`${filters.rate.min}점`"
+									:right-label-value="`${filters.rate.max}점`"
 									label-always
 									switch-label-side
 									color="blue" />
@@ -164,8 +164,8 @@
 									:min="0"
 									:max="240"
 									:step="10"
-									:left-label-value="filters.runtime.min + '분'"
-									:right-label-value="filters.runtime.max + '분'"
+									:left-label-value="`${filters.runtime.min}분`"
+									:right-label-value="`${filters.runtime.max}분`"
 									label-always
 									switch-label-side
 									color="blue" />
@@ -182,7 +182,10 @@
 		<!-- hr -->
 		<q-separator color="blue" inset />
 		<!-- 작품 포스터 단락 -->
-		<q-infinite-scroll @load="onLoad" :offset="250" class="video-frame">
+		<q-infinite-scroll
+			@load="posterOnLoad"
+			:offset="250"
+			class="video-frame items-center">
 			<div class="row q-mt-lg">
 				<div
 					v-for="(poster, index) in posters"
@@ -270,7 +273,7 @@ export default {
 		};
 	},
 	methods: {
-		onLoad(index, done) {
+		posterOnLoad(index, done) {
 			setTimeout(() => {
 				this.posters.push(
 					{},
