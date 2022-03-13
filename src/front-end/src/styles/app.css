@@ -50,3 +50,7 @@
 /*        max-width: 1440px;*/
 /*    }*/
 /*}*/
+
+.text-underline{
+    text-decoration: underline;
+}

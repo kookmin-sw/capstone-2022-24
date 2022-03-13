@@ -1,13 +1,15 @@
 <template>
 	<div class="container">
-		<g-n-b />
+		<nav class="top-fixed">
+			<g-n-b />
+		</nav>
 		<div class="body-container">
 			<router-view />
-			<footer>
-				<q-separator color="blue" inset />
-				<service-footer />
-			</footer>
 		</div>
+		<footer>
+			<q-separator color="blue" inset />
+			<service-footer />
+		</footer>
 	</div>
 </template>
 
@@ -31,10 +33,6 @@ export default {
 	color: #2c3e50;
 }
 
-#nav {
-	padding: 30px;
-}
-
 #nav a {
 	font-weight: bold;
 	color: #2c3e50;
@@ -46,5 +44,10 @@ export default {
 
 .body-container {
 	padding-top: 84px;
+}
+
+.top-fixed {
+	position: sticky;
+	top: 0;
 }
 </style>
