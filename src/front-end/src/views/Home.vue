@@ -192,13 +192,10 @@
 			<q-btn flat>인기순</q-btn>
 		</div>
 		<!-- 작품 포스터 단락 -->
-		<q-infinite-scroll :offset="250" @load="posterOnLoad">
-			<div class="row q-ma-lg video-frame">
-				<div
-					class="video-poster"
-					v-for="(poster, index) in posters"
-					:key="index">
-					{{ poster }}
+		<q-infinite-scroll :offset="250" @load="videoOnLoad">
+			<div class="row q-ma-lg video-list-frame">
+				<div class="video-poster" v-for="(video, index) in videos" :key="index">
+					{{ video.value }}
 				</div>
 			</div>
 			<template v-slot:loading>
@@ -255,7 +252,7 @@ export default {
 				},
 			},
 			search: null,
-			posters: [
+			videos: [
 				{},
 				{},
 				{},
@@ -278,9 +275,9 @@ export default {
 		};
 	},
 	methods: {
-		posterOnLoad(index, done) {
+		videoOnLoad(index, done) {
 			setTimeout(() => {
-				this.posters.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
+				this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
 				done();
 			}, 2000);
 		},
@@ -292,7 +289,7 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 }
-.video-frame {
+.video-list-frame {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -303,6 +300,6 @@ export default {
 	height: 0;
 	padding-bottom: 20%;
 	margin: 0 0 24px 0;
-	background: grey;
+	background: lightgrey;
 }
 </style>
