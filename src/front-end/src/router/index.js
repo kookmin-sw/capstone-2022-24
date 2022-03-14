@@ -18,6 +18,11 @@ const routes = [
 		name: 'Join',
 		component: () => import(/* webpackChunkName: "Join" */ '@/views/Join.vue'),
 	},
+	{
+		path: '/details',
+		name: 'Details',
+		component: () => import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
+	},
 ];
 
 const router = createRouter({
