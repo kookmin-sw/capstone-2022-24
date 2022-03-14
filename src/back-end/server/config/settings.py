@@ -32,7 +32,19 @@ ALLOWED_HOSTS = []
 
 CUSTOM_APPS = [
     'users',
-
+    'accounts',
+    'applies',
+    'dibs',
+    'fellows',
+    'groups',
+    'notifications',
+    'payments',
+    'providers',
+    'recent_views',
+    'remittances',
+    'star_ratings',
+    'videos',
+    'watching_marks',
 ]
 
 INSTALLED_APPS = [
