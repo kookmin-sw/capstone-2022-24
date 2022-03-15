@@ -1,4 +1,4 @@
-name: [BACK-END] API Server - Django CI
+name: Backend API Server - Django CI
 
 on:
   push:
