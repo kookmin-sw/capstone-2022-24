@@ -24,6 +24,11 @@ const routes = [
 		component: () =>
 			import(/* webpackChunkName: "Join" */ '@/views/Discontinue.vue'),
 	},
+  {
+    path: '/details',
+		name: 'Details',
+		component: () => import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
+  },
 ];
 
 const router = createRouter({
