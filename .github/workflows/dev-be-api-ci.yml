@@ -1,4 +1,4 @@
-name: Backend API Server - Django CI
+name: dev-be-api-ci
 
 on:
   push:
