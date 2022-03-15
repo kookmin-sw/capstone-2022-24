@@ -58,6 +58,3 @@ repos:
         files: ^src/back-end/
       - id: end-of-file-fixer
         files: ^src/back-end/
-      - id: name-tests-test
-        args: ["--django"]
-        files: ^src/back-end/
