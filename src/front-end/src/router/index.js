@@ -39,6 +39,21 @@ const routes = [
       ),
   },
   {
+    path: '/tos',
+    name: 'Terms of Service',
+    component: () =>
+      import(/* webpackChunkName: "Tos" */ '@/views/footer/Tos.vue'),
+  },
+  {
+    path: '/privacy',
+    name: 'Privacy Policy',
+    component: () =>
+      import(
+        /* webpackChunkName: "PrivacyPolicy" */
+        '@/views/footer/PrivacyPolicy.vue'
+      ),
+  },
+  {
     path: '/center',
     name: 'Center',
     component: () =>
