@@ -1,33 +1,199 @@
 <template>
-  <!-- 프로필 영역 -->
-  <div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg profile-frame">
-    <div class="row profile-info">
-      <div class="profile-img">프로필 사진</div>
-      <div class="col text-left profile-text ">
-        <div class="q-mb-sm">사용자 닉네임</div>
-        <div>010-1234-5678</div>
-        <div class="row">
-          <!-- 로고는 가입시 이용한 카카오/네이버 API 아이콘 -->
-          <div class="api-logo q-mr-xs">로고</div>
-          <div>naver_email@naver.com</div>
+	<!-- 프로필 영역 -->
+	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg profile-area">
+		<div class="row profile-info">
+			<q-avatar rounded color="blue" size="73px"></q-avatar>
+			<div class="col text-left profile-text">
+				<div class="q-mb-sm">사용자 닉네임</div>
+				<div>010-1234-5678</div>
+				<div class="row" style="column-gap: 12px">
+					<!-- 가입시 이용한 카카오/네이버 API 아이콘 -->
+					<div class="api-icon"></div>
+					<div>naver_email@naver.com</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- hr -->
+	<q-separator color="blue" inset />
+	<!-- 모임 관련 영역 -->
+	<div class="row q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
+		<div class="col">
+			<div class="guide-text text-left q-mb-lg">참여 중인 모임</div>
+			<div class="row q-mb-md ott-icons-frame">
+				<q-avatar rounded color="blue" size="40px"></q-avatar>
+				<q-avatar rounded color="blue" size="40px"></q-avatar>
+				<q-avatar rounded color="blue" size="40px"></q-avatar>
+				<q-avatar rounded color="blue" size="40px"></q-avatar>
+				<q-avatar rounded color="blue" size="40px"></q-avatar>
+			</div>
+			<div class="col text-left group-text">
+				<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
+				<div>모집 상태 설명</div>
+				<div>추가 설명들</div>
+				<div style="display: flex; flex-direction: row-reverse">
+          <q-btn dense unelevated>모임 탈퇴 하기 ></q-btn>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- hr -->
-  <q-separator color="blue" inset />
+      <!-- 모임 구성원 관련 영역 -->
+      <div class="col group-members">
+        <div style="display: flex; flex-direction: row-reverse">
+          <q-badge
+            color="blue"
+            text-color="white"
+            align="top"
+            class="state-badge"
+            >모임 상태 설명</q-badge>
+        </div>
+        <div class="row q-pt-lg q-pb-xl group-profile-frame">
+          <q-space class="col-2" />
+          <div class="col group-nicknames">
+            <q-avatar rounded color="blue" size="73px" />
+            <div>사용자닉네임</div>
+          </div>
+          <div class="col group-nicknames">
+            <q-avatar rounded color="blue" size="73px" />
+            <div>
+              <q-icon name="military_tech" size="16px" />
+              닉네임
+            </div>
+          </div>
+          <div class="col group-nicknames">
+            <q-avatar rounded color="blue" size="73px" />
+            <div>닉네임</div>
+          </div>
+          <div class="col group-nicknames">
+            <q-avatar rounded color="blue" size="73px" />
+            <div>닉네임</div>
+          </div>
+          <q-space class="col-2" />
+        </div>
+      </div>
+      <!-- 모임장: OTT 계정 ID/PW 입력 및 수정 가능 -->
+			<div class="col q-mt-md q-mb-md">
+				<q-input label="아이디" color="blue" class="ott-id" v-model="ottId">
+					<q-btn unelevated>
+						<q-icon name="edit" color="blue" />
+					</q-btn>
+				</q-input>
+				<q-input label="비밀번호" color="blue" class="ott-pw" v-model="ottPw">
+					<q-btn unelevated>
+						<q-icon name="edit" color="blue" />
+					</q-btn>
+				</q-input>
+			</div>
+      <!-- 모임원: 모임장이 공유해 준 OTT 계정 ID/PW read only(드래그 & 복사 가능) -->
+			<div class="col q-mt-md q-mb-md">
+				<q-input
+					readonly
+					label="아이디"
+					color="blue"
+					class="ott-id"
+					v-model="ottId">
+				</q-input>
+				<q-input
+					readonly
+					label="비밀번호"
+					color="blue"
+					class="ott-pw"
+					v-model="ottPw">
+				</q-input>
+			</div>
+      <div class="row" style="column-gap: 12px;">
+        <q-space class="col-8" />
+        <q-btn dense outline color="blue">
+          <q-icon name="report" />
+          신고
+        </q-btn>
+        <q-btn dense outline color="blue">OTT 바로가기</q-btn>
+      </div>
+		</div>
+	</div>
+	<!-- hr -->
+	<q-separator color="blue" inset />
+	<!-- 최근 조회 작품 영역 -->
+	<div>최근 조회한 작품</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<!-- 본 작품 영역 -->
+	<div>본 작품</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<!-- 찜한 작품 영역 -->
+	<div>찜한 작품</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<!-- 별점 준 작품 -->
+	<div>별점 준 작품</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
+	<div>영화 포스터</div>
 </template>
 
+<script>
+export default {
+	name: 'My',
+	data() {
+		return {
+			ottId: 'netfilxID@gmail.com',
+			ottPw: 'netflix*Password',
+		};
+	},
+};
+</script>
+
 <style scoped>
-.profile-img {
-  width: 73px;
-  height: 73px;
-  background-color: #83BBFB;
-}
 .profile-info {
-  column-gap: 24px;
+	column-gap: 24px;
 }
 .profile-text {
-  row-gap: 12px;
+	row-gap: 12px;
+}
+.api-icon {
+	width: 20px;
+	height: 20px;
+	background-color: #828282;
+}
+.ott-icons-frame {
+	column-gap: 16px;
+}
+.group-text {
+	row-gap: 12px;
+}
+.state-badge {
+	width: auto;
+	height: 30px;
+}
+.group-members {
+	background-color: #e3f0ff;
+}
+.group-profile-frame {
+	column-gap: 24px;
+}
+.group-nicknames {
+	text-align: center;
 }
 </style>
