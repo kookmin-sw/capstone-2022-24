@@ -115,6 +115,11 @@ web_modules/
 .env.dev
 .env.prod
 
+# mongodb setting file
+src/back-end/web/config/local.py
+src/back-end/web/config/development.py
+src/back-end/web/config/production.py.py
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
