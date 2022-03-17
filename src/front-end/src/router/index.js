@@ -8,6 +8,10 @@ const routes = [
     component: Home,
   },
   {
+    path: '/home',
+    redirect: '/',
+  },
+  {
     path: '/about',
     name: 'About',
     component: () =>
@@ -66,6 +70,16 @@ const routes = [
       import(
         /* webpackChunkName: "Questions" */ '@/views/footer/Questions.vue'
       ),
+  },
+  {
+    path: '/404',
+    name: 'Not Found',
+    component: () =>
+      import(/* webpackChunkName: "NotFound" */ '@/views/NotFound.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404',
   },
 ];
 
