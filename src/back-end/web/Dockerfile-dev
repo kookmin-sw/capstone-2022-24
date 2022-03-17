@@ -1,0 +1,26 @@
+FROM python:3.9
+
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ARG WEB
+ARG STATIC
+ARG WEB_PORT
+ARG APP_USER
+
+# set working directory
+RUN addgroup -S $APP_USER && adduser -S $APP_USER -G $APP_USER
+RUN mkdir -p $WEB
+RUN mkdir -p $STATIC
+WORKDIR ${WEB}
+
+# Install dependencies
+RUN pip install --upgrade pip
+
+# Copy project
+COPY ./web ${WEB}
+RUN pip install -r requirements.txt
+
+# Expose port for running the application
+EXPOSE ${WEB_PORT}

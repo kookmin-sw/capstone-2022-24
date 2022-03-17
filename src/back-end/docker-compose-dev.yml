@@ -1,0 +1,61 @@
+version : '3'
+services:
+  db:
+    container_name: mongo_service
+    image: mongo:5.0.6
+    restart: on-failure
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+      - ./db:${DB}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    command: -p ${DB_PORT}
+
+  db-seed:
+    build:
+      context: ./db
+      dockerfile : Dockerfile-dev
+    depends_on:
+      - db
+
+  web:
+    container_name: web_service
+    build:
+      context: ./web
+      dockerfile : Dockerfile-dev
+      args:
+        WEB: ${WEB}
+        STATIC: ${STATIC}
+        WEB_PORT: ${WEB_PORT}
+        APP_USER: ${APP_USER}
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py initiate_admin &&
+                    python manage.py collectstatic &&
+                    uvicorn config.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+    volumes:
+      - ./web:${WEB}
+    ports:
+      - "${WEB_PORT}:${WEB_PORT}"
+    depends_on:
+      - db
+
+  nginx:
+    container_name: nginx_service
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-dev
+    volumes:
+      - ./nginx:${NGINX}
+    ports:
+      - "${NGINX_PORT1}:${NGINX_PORT1}"
+      - "${NGINX_PORT2}:${NGINX_PORT2}"
+    depends_on:
+      - web
+    environment:
+      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
+      - WEB_HOST=${WEB_HOST}
