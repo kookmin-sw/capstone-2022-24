@@ -48,13 +48,21 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
+      - id: check-json
+        files: ^src/back-end/
+      - id: pretty-format-json
+        files: ^src/back-end/
       - id: trailing-whitespace
         files: ^src/back-end/
       - id: debug-statements
         files: ^src/back-end/
       - id: check-merge-conflict
         files: ^src/back-end/
-      - id: requirements-txt-fixer
+      - id: detect-aws-credentials
+        files: ^src/back-end/
+      - id: detect-private-key
         files: ^src/back-end/
       - id: end-of-file-fixer
+        files: ^src/back-end/
+      - id: name-tests-test
         files: ^src/back-end/
