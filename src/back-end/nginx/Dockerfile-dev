@@ -1,0 +1,6 @@
+FROM nginx:stable
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d
+
+CMD ["/bin/sh" , "-c" , "envsubst '$USER_NAME $PASSWORD $KEY' < /nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
