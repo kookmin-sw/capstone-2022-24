@@ -30,7 +30,8 @@ repos:
          files: ^src/back-end/
          exclude: ^.*\b(migrations)\b.*$
          args: ["--line-length=120"]
-  - repo: local
+  - repo: https://github.com/pycqa/pylint
+    rev: pylint-2.7.2
     hooks:
       - id: pylint
         name: pylint
