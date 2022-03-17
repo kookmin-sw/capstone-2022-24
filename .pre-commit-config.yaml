@@ -36,7 +36,6 @@ repos:
       - id: pylint
         name: pylint
         entry: pylint
-        language: system
         types: [python]
         files: ^src/back-end/
         exclude: ^.*\b(migrations)\b.*$
