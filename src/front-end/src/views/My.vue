@@ -72,12 +72,12 @@
       <!-- 모임장: OTT 계정 ID/PW 입력 및 수정 가능 -->
 			<div class="col q-mt-md q-mb-md">
 				<q-input label="아이디" color="blue" class="ott-id" v-model="ottId">
-					<q-btn unelevated>
+					<q-btn dense unelevated>
 						<q-icon name="edit" color="blue" />
 					</q-btn>
 				</q-input>
 				<q-input label="비밀번호" color="blue" class="ott-pw" v-model="ottPw">
-					<q-btn unelevated>
+					<q-btn dense unelevated>
 						<q-icon name="edit" color="blue" />
 					</q-btn>
 				</q-input>
