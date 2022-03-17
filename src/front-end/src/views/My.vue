@@ -3,10 +3,10 @@
 	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg profile-area">
 		<div class="row profile-info">
 			<q-avatar rounded color="blue" size="73px"></q-avatar>
-			<div class="col text-left profile-text">
+			<div class="col text-left row-gap-12">
 				<div class="q-mb-sm">사용자 닉네임</div>
 				<div>010-1234-5678</div>
-				<div class="row" style="column-gap: 12px">
+				<div class="row col-gap-12">
 					<!-- 가입시 이용한 카카오/네이버 API 아이콘 -->
 					<div class="api-icon"></div>
 					<div>naver_email@naver.com</div>
@@ -27,7 +27,7 @@
 				<q-avatar rounded color="blue" size="40px"></q-avatar>
 				<q-avatar rounded color="blue" size="40px"></q-avatar>
 			</div>
-			<div class="col text-left group-text">
+			<div class="col text-left row-gap-12">
 				<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
 				<div>모집 상태 설명</div>
 				<div>추가 설명들</div>
@@ -99,7 +99,7 @@
 					v-model="ottPw">
 				</q-input>
 			</div>
-      <div class="row" style="column-gap: 12px;">
+      <div class="row col-gap-12">
         <q-space class="col-8" />
         <q-btn dense outline color="blue">
           <q-icon name="report" />
@@ -113,8 +113,9 @@
 	<q-separator color="blue" inset />
 	<!-- 최근 조회 작품 영역 -->
 	<div>최근 조회한 작품</div>
-	<div>영화 포스터</div>
-	<div>영화 포스터</div>
+  <q-btn dense unelevated>전체보기</q-btn>
+  <div>영화 포스터</div>
+  <div>영화 포스터</div>
 	<div>영화 포스터</div>
 	<div>영화 포스터</div>
 	<div>영화 포스터</div>
@@ -169,9 +170,6 @@ export default {
 .profile-info {
 	column-gap: 24px;
 }
-.profile-text {
-	row-gap: 12px;
-}
 .api-icon {
 	width: 20px;
 	height: 20px;
@@ -179,9 +177,6 @@ export default {
 }
 .ott-icons-frame {
 	column-gap: 16px;
-}
-.group-text {
-	row-gap: 12px;
 }
 .state-badge {
 	width: auto;
