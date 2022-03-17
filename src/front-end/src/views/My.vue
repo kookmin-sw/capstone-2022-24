@@ -118,51 +118,50 @@
 			<div class="q-mr-md">최근 조회한 작품</div>
 			<q-btn>전체보기</q-btn>
 		</div>
-    <div class="q-mt-lg">
-      <q-carousel
-          v-model="recent"
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          swipeable
-          animated
-          control-color="primary"
-          padding
-          arrows
-          height="230px"
-          class="bg-blue-1"
-      >
-        <q-carousel-slide :name="1" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="3" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
+		<div class="q-mt-lg">
+			<q-carousel
+				v-model="recent"
+				transition-prev="slide-right"
+				transition-next="slide-left"
+				swipeable
+				animated
+				control-color="primary"
+				padding
+				arrows
+				height="230px"
+				class="bg-blue-1">
+				<q-carousel-slide :name="1" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="2" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="3" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+			</q-carousel>
+		</div>
 	</div>
 	<!-- hr -->
 	<q-separator color="blue" inset />
@@ -172,51 +171,50 @@
 			<div class="q-mr-md">본 작품</div>
 			<q-btn>전체보기</q-btn>
 		</div>
-    <div class="q-mt-lg">
-      <q-carousel
-          v-model="watched"
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          swipeable
-          animated
-          control-color="primary"
-          padding
-          arrows
-          height="230px"
-          class="bg-blue-1"
-      >
-        <q-carousel-slide :name="1" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="3" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
+		<div class="q-mt-lg">
+			<q-carousel
+				v-model="watched"
+				transition-prev="slide-right"
+				transition-next="slide-left"
+				swipeable
+				animated
+				control-color="primary"
+				padding
+				arrows
+				height="230px"
+				class="bg-blue-1">
+				<q-carousel-slide :name="1" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="2" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="3" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+			</q-carousel>
+		</div>
 	</div>
 	<!-- hr -->
 	<q-separator color="blue" inset />
@@ -226,51 +224,50 @@
 			<div class="q-mr-md">찜한 작품</div>
 			<q-btn>전체보기</q-btn>
 		</div>
-    <div class="q-mt-lg">
-      <q-carousel
-          v-model="scrap"
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          swipeable
-          animated
-          control-color="primary"
-          padding
-          arrows
-          height="230px"
-          class="bg-blue-1"
-      >
-        <q-carousel-slide :name="1" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="3" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
+		<div class="q-mt-lg">
+			<q-carousel
+				v-model="scrap"
+				transition-prev="slide-right"
+				transition-next="slide-left"
+				swipeable
+				animated
+				control-color="primary"
+				padding
+				arrows
+				height="230px"
+				class="bg-blue-1">
+				<q-carousel-slide :name="1" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="2" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="3" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+			</q-carousel>
+		</div>
 	</div>
 	<!-- hr -->
 	<q-separator color="blue" inset />
@@ -280,51 +277,50 @@
 			<div class="q-mr-md">별점 준 작품</div>
 			<q-btn>전체보기</q-btn>
 		</div>
-    <div class="q-mt-lg">
-      <q-carousel
-          v-model="rated"
-          transition-prev="slide-right"
-          transition-next="slide-left"
-          swipeable
-          animated
-          control-color="primary"
-          padding
-          arrows
-          height="230px"
-          class="bg-blue-1"
-      >
-        <q-carousel-slide :name="1" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="2" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide :name="3" class="column no-wrap">
-          <div class="row fit justify-center items-center col-gap-16 no-wrap">
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-            <div class="col-2 full-height video-poster" />
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
+		<div class="q-mt-lg">
+			<q-carousel
+				v-model="rated"
+				transition-prev="slide-right"
+				transition-next="slide-left"
+				swipeable
+				animated
+				control-color="primary"
+				padding
+				arrows
+				height="230px"
+				class="bg-blue-1">
+				<q-carousel-slide :name="1" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="2" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+				<q-carousel-slide :name="3" class="column no-wrap">
+					<div class="row fit justify-center items-center col-gap-16 no-wrap">
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+						<div class="col-2 full-height video-poster" />
+					</div>
+				</q-carousel-slide>
+			</q-carousel>
+		</div>
 	</div>
 </template>
 
@@ -335,10 +331,10 @@ export default {
 		return {
 			ottId: 'netfilxID@gmail.com',
 			ottPw: 'netflix*Password',
-      recent: 1,
-      watched: 1,
-      scrap: 1,
-      rated: 1,
+			recent: 1,
+			watched: 1,
+			scrap: 1,
+			rated: 1,
 		};
 	},
 };
@@ -373,6 +369,6 @@ export default {
 .video-poster {
 	width: 15%;
 	height: auto;
-	background: #83BBFB;
+	background: #83bbfb;
 }
 </style>
