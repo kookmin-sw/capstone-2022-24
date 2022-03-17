@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src/back-end/server
+        working-directory: src/back-end/web
     strategy:
       max-parallel: 4
       matrix:
