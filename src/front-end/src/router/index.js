@@ -26,60 +26,13 @@ const routes = [
     path: '/discontinue',
     name: 'Discontinue',
     component: () =>
-      import(/* webpackChunkName: "Discontinue" */ '@/views/Discontinue.vue'),
+      import(/* webpackChunkName: "Join" */ '@/views/Discontinue.vue'),
   },
   {
     path: '/details',
     name: 'Details',
     component: () =>
       import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
-  },
-  {
-    path: '/introduction',
-    name: 'Introduction',
-    component: () =>
-      import(
-        /* webpackChunkName: "Introduction" */ '@/views/footer/Introduction.vue'
-      ),
-  },
-  {
-    path: '/tos',
-    name: 'Terms of Service',
-    component: () =>
-      import(/* webpackChunkName: "Tos" */ '@/views/footer/Tos.vue'),
-  },
-  {
-    path: '/privacy',
-    name: 'Privacy Policy',
-    component: () =>
-      import(
-        /* webpackChunkName: "PrivacyPolicy" */
-        '@/views/footer/PrivacyPolicy.vue'
-      ),
-  },
-  {
-    path: '/center',
-    name: 'Center',
-    component: () =>
-      import(/* webpackChunkName: "Center" */ '@/views/footer/Center.vue'),
-  },
-  {
-    path: '/questions',
-    name: 'Questions',
-    component: () =>
-      import(
-        /* webpackChunkName: "Questions" */ '@/views/footer/Questions.vue'
-      ),
-  },
-  {
-    path: '/404',
-    name: 'Not Found',
-    component: () =>
-      import(/* webpackChunkName: "NotFound" */ '@/views/NotFound.vue'),
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
   },
 ];
 
