@@ -3,6 +3,15 @@ import Home from '@/views/Home.vue';
 
 import store from '@/store/index.js';
 
+const onlyAuthUser = (to, from, next) => {
+	if (store.state.isLogin === false) {
+		alert('로그인 후 사용하실 수 있습니다.');
+		next('/');
+	} else {
+		next();
+	}
+};
+
 const routes = [
 	{
 		path: '/',
@@ -17,14 +26,7 @@ const routes = [
 		path: '/join',
 		name: 'Join',
 		component: () => import(/* webpackChunkName: "Join" */ '@/views/Join.vue'),
-		beforeEnter: (to, from, next) => {
-			if (store.getters['auth/isLogin'] === false) {
-				alert('로그인 후 사용하실 수 있습니다.');
-				next('/');
-			} else {
-				next();
-			}
-		},
+		beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/discontinue',
@@ -42,6 +44,7 @@ const routes = [
 		path: '/my',
 		name: 'My',
 		component: () => import(/* webpackChunkName: "My" */ '@/views/My.vue'),
+		beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/introduction',
