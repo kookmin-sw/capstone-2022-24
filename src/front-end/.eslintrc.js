@@ -14,7 +14,7 @@ module.exports = {
       singleQuote: true,
       quoteProps: 'as-needed',
       semi: true,
-      useTabs: false,
+      useTabs: true,
       tabWidth: 2,
       trailingComma: 'all',
       printWidth: 80,
