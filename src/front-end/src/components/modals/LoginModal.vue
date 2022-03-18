@@ -7,7 +7,7 @@
 
 		<q-card-section class="col q-ma-lg" v-if="isActive">
 			<h3 class="text-center">온갖</h3>
-			<q-btn unelevated class="kakao-btn full-width" size="md">
+			<q-btn unelevated size="md" class="full-width kakao-btn" @click="login">
 				<q-icon
 					class="q-ma-sm"
 					name="fas fa-solid fa-comment"
@@ -15,7 +15,11 @@
 					color="#191919" />
 				{{ $t('login.kakao') }}
 			</q-btn>
-			<q-btn unelevated class="naver-btn full-width q-mt-md" size="md">
+			<q-btn
+				unelevated
+				size="md"
+				class="q-mt-md full-width naver-btn"
+				@click="login">
 				<img src="@/assets/naver-circle-logo.png" class="q-mr-xs" alt="" />
 				{{ $t('login.naver') }}
 			</q-btn>
@@ -30,6 +34,11 @@ export default {
 		isActive: {
 			type: Boolean,
 			require: true,
+		},
+	},
+	methods: {
+		login() {
+			this.$store.dispatch('auth/setToken', 'example-token');
 		},
 	},
 };

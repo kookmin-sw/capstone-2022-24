@@ -6,20 +6,28 @@
 	<!--  GNB -->
 	<div class="gnb container">
 		<div class="row items-center">
-			<div class="col-2">
-				<span class="text-h6 text-weight-bolder">
-					{{ $t('serviceName') }}
-				</span>
-			</div>
-			<div class="text-menu-frame col-6">
-				<div class="row">
-					<q-btn flat class="col-4"> {{ $t('gnb.home') }} </q-btn>
-					<q-btn flat class="col-4"> {{ $t('gnb.discontinued') }} </q-btn>
-					<q-btn flat class="col-4"> {{ $t('gnb.groupJoin') }} </q-btn>
+			<div class="col-2 q-pl-lg">
+				<div class="q-pt-sm q-pl-md q-pb-md">
+					<img
+						src="@/assets/logo.png"
+						alt=""
+						style="display: block; width: 100%; height: 76px"
+						@click="$router.push({ name: 'Home' })" />
 				</div>
 			</div>
+			<div class="text-menu-frame col-6 row">
+				<router-link to="/" class="col-4">
+					{{ $t('gnb.home') }}
+				</router-link>
+				<router-link to="/discontinue" class="col-4">
+					{{ $t('gnb.discontinued') }}
+				</router-link>
+				<router-link to="/join" class="col-4">
+					{{ $t('gnb.groupJoin') }}
+				</router-link>
+			</div>
 			<div class="icon-menu-frame col-2">
-				<div class="row">
+				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
 					<q-btn flat class="col-4">
 						<q-icon name="person" size="md" color="blue" />
@@ -31,10 +39,16 @@
 				</div>
 			</div>
 			<div class="col-2">
-				<q-btn unelevated color="blue" @click="loginBtnClick">
+				<q-btn
+					unelevated
+					color="blue"
+					v-if="isLogin === false"
+					@click="loginBtnClick">
 					{{ $t('gnb.login') }}
 				</q-btn>
-				<!--				<q-btn unelevated color="blue">{{ $t('gnb.logout') }}</q-btn>-->
+				<q-btn unelevated color="blue" v-else @click="logoutBtnClick">
+					{{ $t('gnb.logout') }}
+				</q-btn>
 			</div>
 		</div>
 		<q-separator color="blue" inset />
@@ -42,6 +56,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import LoginModal from '@/components/modals/LoginModal';
 export default {
 	name: 'GNB',
@@ -53,9 +68,16 @@ export default {
 			isLoginModal: false,
 		};
 	},
+	computed: {
+		...mapGetters('auth', ['isLogin']),
+	},
 	methods: {
 		loginBtnClick() {
 			this.isLoginModal = !this.isLoginModal;
+		},
+		logoutBtnClick() {
+			this.$store.dispatch('auth/setToken', null);
+			this.$router.push({ name: 'Home' });
 		},
 	},
 };
@@ -63,9 +85,8 @@ export default {
 
 <style scoped>
 .gnb {
-	height: 84px;
-	line-height: 84px;
+	height: 100px;
+	line-height: 100px;
 	background-color: white;
-	z-index: 10;
 }
 </style>
