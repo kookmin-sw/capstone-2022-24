@@ -46,7 +46,9 @@
 					@click="loginBtnClick">
 					{{ $t('gnb.login') }}
 				</q-btn>
-				<q-btn unelevated color="blue" v-else>{{ $t('gnb.logout') }}</q-btn>
+				<q-btn unelevated color="blue" v-else @click="logoutBtnClick">
+					{{ $t('gnb.logout') }}
+				</q-btn>
 			</div>
 		</div>
 		<q-separator color="blue" inset />
@@ -72,6 +74,10 @@ export default {
 	methods: {
 		loginBtnClick() {
 			this.isLoginModal = !this.isLoginModal;
+		},
+		logoutBtnClick() {
+			this.$store.dispatch('auth/setToken', null);
+			this.$router.push({ name: 'Home' });
 		},
 	},
 };
