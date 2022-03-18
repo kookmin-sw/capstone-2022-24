@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+# pylint: disable=R0801,W0401,W0614
 import os
 from pathlib import Path
 
@@ -122,10 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
 USE_I18N = True
 
 USE_TZ = True
@@ -145,3 +142,36 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LANGUAGE_CODE = "ko-kr"
+
+TIME_ZONE = "Asia/Seoul"
+
+# CORS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "host",
+    "x-real-ip",
+    "x-forwarded-for",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "location",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]

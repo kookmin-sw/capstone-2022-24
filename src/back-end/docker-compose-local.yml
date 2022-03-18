@@ -7,10 +7,6 @@ services:
     environment:
       - DB_NAME=${DB_NAME}
       - DB_ENFORCE_SCHEMA=True
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_PORT=${DB_PORT}
     ports:
       - "${DB_PORT}:${DB_PORT}"
     command: -p ${DB_PORT}
@@ -18,7 +14,7 @@ services:
   db-seed:
     build:
       context: ./db
-      dockerfile : Dockerfile-dev
+      dockerfile : Dockerfile-local
     depends_on:
       - db
 
@@ -26,7 +22,7 @@ services:
     container_name: web_service
     build:
       context: ./web
-      dockerfile : Dockerfile-dev
+      dockerfile : Dockerfile-local
       args:
         WEB: ${WEB}
         STATIC: ${STATIC}
@@ -48,7 +44,7 @@ services:
     container_name: nginx_service
     build:
       context: ./nginx
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile-local
     volumes:
       - ./nginx:${NGINX}
     ports:
