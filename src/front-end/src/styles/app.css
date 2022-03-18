@@ -6,7 +6,6 @@
     width: 100%;
     margin-right: auto;
     margin-left: auto;
-    /*background-color: yellowgreen;*/
 }
 
 @media (max-width: 1024px){
@@ -55,10 +54,28 @@
     text-decoration: underline;
 }
 
+a{
+    text-decoration: none;
+    color: #1B1B1B;
+}
+
+a:hover{
+    color:#83BBFB;
+}
+
+a.router-link-exact-active{
+    color: #449BFE;
+    text-weight: bold;
+}
+
 .col-gap-12{
     column-gap: 12px;
 }
 
 .col-gap-16{
     column-gap: 16px;
+}
+
+.row-gap-12{
+    row-gap: 12px;
 }
