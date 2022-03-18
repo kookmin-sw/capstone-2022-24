@@ -2,9 +2,13 @@
 
 ## Prerequisite
 
+### Install python
+Requires Python Version `3.9.10`
+
+
 ### Create a virtual environment
 ```shell
-$ python -m venv env
+$ python3.9 -m venv env
 ```
 
 ### Activate the virtual environment

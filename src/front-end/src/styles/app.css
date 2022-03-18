@@ -75,3 +75,7 @@ a.router-link-exact-active{
 .col-gap-16{
     column-gap: 16px;
 }
+
+.row-gap-12{
+    row-gap: 12px;
+}
