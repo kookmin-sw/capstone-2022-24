@@ -6,7 +6,6 @@
     width: 100%;
     margin-right: auto;
     margin-left: auto;
-    /*background-color: yellowgreen;*/
 }
 
 @media (max-width: 1024px){
@@ -53,6 +52,20 @@
 
 .text-underline{
     text-decoration: underline;
+}
+
+a{
+    text-decoration: none;
+    color: #1B1B1B;
+}
+
+a:hover{
+    color:#83BBFB;
+}
+
+a.router-link-exact-active{
+    color: #449BFE;
+    text-weight: bold;
 }
 
 .col-gap-12{
