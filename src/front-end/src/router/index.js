@@ -4,7 +4,7 @@ import Home from '@/views/Home.vue';
 import store from '@/store/index.js';
 
 const onlyAuthUser = (to, from, next) => {
-	if (store.state.isLogin === false) {
+	if (store.getters['auth/isLogin'] === false) {
 		alert('로그인 후 사용하실 수 있습니다.');
 		next('/');
 	} else {
