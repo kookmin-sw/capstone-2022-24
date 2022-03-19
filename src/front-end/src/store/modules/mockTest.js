@@ -1,4 +1,6 @@
-import axios from 'axios';
+// import axios from 'axios';
+
+import http from '@/api/http';
 
 export const mockTest = {
 	namespaced: true,
@@ -13,8 +15,7 @@ export const mockTest = {
 	},
 	actions: {
 		setMsg({ commit }) {
-			console.log('setMSG!!!');
-			axios
+			http
 				.get('/message')
 				.then(res => {
 					commit('SET_MSG', res.data.message);
