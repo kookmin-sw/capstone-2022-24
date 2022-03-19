@@ -22,7 +22,7 @@
 				<router-link to="/discontinue" class="col-4">
 					{{ $t('gnb.discontinued') }}
 				</router-link>
-				<router-link to="/join" class="col-4">
+				<router-link :to="`/join/${userId}`" class="col-4">
 					{{ $t('gnb.groupJoin') }}
 				</router-link>
 			</div>
@@ -30,7 +30,9 @@
 				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
 					<q-btn flat class="col-4">
-						<q-icon name="person" size="md" color="blue" />
+						<router-link :to="`/my/${userId}`">
+							<q-icon name="person" size="md" color="blue" />
+						</router-link>
 					</q-btn>
 					<q-btn flat class="col-4">
 						<q-icon name="notifications_none" size="md" color="blue" />
@@ -56,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import LoginModal from '@/components/modals/LoginModal';
 export default {
 	name: 'GNB',
@@ -69,6 +71,7 @@ export default {
 		};
 	},
 	computed: {
+		...mapState('auth', ['userId']),
 		...mapGetters('auth', ['isLogin']),
 	},
 	methods: {
