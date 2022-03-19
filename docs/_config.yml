@@ -1,0 +1,18 @@
+# Setup
+title:        Project or Site name
+tagline:      A responsive theme for your project on GitHub Pages
+baseurl:      "https://kookmin-sw.github.io/capstone-2022-24/"
+paginate:     1
+locale:       "en"
+
+# About/contact
+author:
+  name:       Author name
+  url:        https://kookmin-sw.github.io/capstone-2022-24/
+
+# Gems
+gems:
+  - jekyll-paginate
+
+#Others
+markdown: kramdown
