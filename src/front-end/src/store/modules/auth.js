@@ -2,6 +2,7 @@ export const auth = {
 	namespaced: true,
 	state: {
 		token: null,
+		userId: 'abc',
 	},
 	getters: {
 		isLogin(state) {
