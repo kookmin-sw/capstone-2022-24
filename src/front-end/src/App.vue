@@ -21,14 +21,6 @@ export default {
 		GNB,
 		ServiceFooter,
 	},
-	// created() {
-	// 	this.setMsg();
-	// },
-	// methods: {
-	// 	setMsg() {
-	// 		this.$store.dispatch('mockTest/setMsg');
-	// 	},
-	// },
 };
 </script>
 
