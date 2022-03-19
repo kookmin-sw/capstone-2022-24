@@ -1,7 +1,11 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7010679&assignment_repo_type=AssignmentRepo)
-# Welcome to GitHub
+# 온갖 - OTT 통합 검색 및 계정 공유 매칭
 
-캡스톤 팀 생성을 축하합니다.
+온-갖  
+발음 [ 온ː갇 ]  
+표준국어대사전  
+관형사  
+1.이런저런 여러 가지의.
 
 ## 팀소개 및 페이지를 꾸며주세요.
 
@@ -34,8 +38,57 @@
 
 팀을 소개하세요.
 
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
+팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.  
 
+사용 기술들?(프레임워크 등)  
+프론트  
+<img src="https://img.shields.io/badge/HTML5-e34f26?style=flat-square&logo=html5&logoColor=white"/>
+HTML5  
+<img src="https://img.shields.io/badge/CSS3-1572b6?style=flat-square&logo=css3&logoColor=white"/>
+CSS3  
+<img src="https://img.shields.io/badge/JavaScript-f7df1e?style=flat-square&logo=javascript&logoColor=white"/>
+Javscript ES6  
+<img src="https://img.shields.io/badge/Vue.js-4fc08d?style=flat-square&logo=vue.js&logoColor=white"/>
+Vue 3(Vue.js)  
+<img src="https://img.shields.io/badge/Quasar-1976d2?style=flat-square&logo=quasar&logoColor=white"/>
+Quasar(CSS Framework)  
+
+백  
+<img src="https://img.shields.io/badge/Django-092e20?style=flat-square&logo=django&logoColor=white"/>
+Django  
+<img src="https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white"/>
+Mongo DB  
+
+
+팀원소개  
+구다희
+~~~
+Student ID: 20181575
+github: @dadahee
+e-mail: heeouo@kookmin.ac.kr
+Role: back-end
+~~~
+김아성
+~~~
+Student ID: 20181591
+github: @a-sung
+e-mail: 5012s@kookmin.ac.kr
+Role: front-end
+~~~
+김정연
+~~~
+Student ID: 20181594
+github: @KimKimJungyeon
+e-mail: kjy20177@kookmin.ac.kr
+Role: back-end
+~~~
+이예슬
+~~~
+Student ID: 20181667
+github: @yesslee
+e-mail: lys0301174@kookmin.ac.kr
+Role: front-end
+~~~
 ### 4. 사용법
 
 소스코드제출시 설치법이나 사용법을 작성하세요.
