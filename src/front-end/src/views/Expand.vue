@@ -15,7 +15,7 @@
                   :key="index">
             <q-card-section class="q-pa-sm">
               <div class="video-poster">{{ video.value }}</div>
-              <div class="text-left">영화 제목</div>
+              <div class="video-title text-left">영화 제목</div>
               <div class="row no-wrap items-center q-mt-sm">
                 <div class="col text-right">
                   <q-rating size="18px" v-model="stars" :max="5" color="blue" />
@@ -83,5 +83,10 @@ export default {
   width: 100%;
   height: 210px;
   background: lightgrey;
+}
+.video-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
