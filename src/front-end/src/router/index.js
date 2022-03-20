@@ -19,8 +19,12 @@ const routes = [
 		component: Home,
 	},
 	{
-		path: '/home',
-		redirect: '/',
+		path: '/login/:naver',
+		name: 'NaverCallback',
+		beforeEnter(to, from, next) {
+			console.log(window.location.href);
+			next('/');
+		},
 	},
 	{
 		path: '/join/:userId',
