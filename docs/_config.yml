@@ -1,19 +1,1 @@
-# Setup
-title:        온갖 - OTT 통합 검색 및 계정 공유 매칭
-tagline:      A responsive theme for your project on GitHub Pages
-baseurl:      "https://kookmin-sw.github.io/capstone-2022-24/"
-paginate:     1
-locale:       "ko"
-
-# About/contact
-author:
-  name:       capstone-2022-24
-  url:        https://github.com/kookmin-sw/capstone-2022-24
-
-# Gems
-gems:
-  - jekyll-paginate
-
-#Others
-markdown: kramdown
 theme: jekyll-theme-cayman
