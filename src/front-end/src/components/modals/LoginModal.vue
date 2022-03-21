@@ -7,7 +7,11 @@
 
 		<q-card-section class="col q-ma-lg" v-if="isActive">
 			<h3 class="text-center">온갖</h3>
-			<q-btn unelevated size="md" class="full-width kakao-btn" @click="login">
+			<q-btn
+				unelevated
+				size="md"
+				class="full-width kakao-btn"
+				@click="loginWithGoogle">
 				<q-icon
 					class="q-ma-sm"
 					name="fas fa-solid fa-comment"
@@ -36,9 +40,15 @@ export default {
 			require: true,
 		},
 	},
+	created() {
+		window.onSignIn = this.onSignIn;
+	},
 	methods: {
 		loginWithNaver() {
 			this.$store.dispatch('auth/requestNaverAuth');
+		},
+		loginWithGoogle() {
+			this.$store.dispatch('auth/requestGoogleAuth');
 		},
 	},
 };
