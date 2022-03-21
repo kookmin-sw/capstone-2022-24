@@ -23,7 +23,7 @@ const routes = [
 		redirect: '/',
 	},
 	{
-		path: '/join',
+		path: '/join/:userId',
 		name: 'Join',
 		component: () => import(/* webpackChunkName: "Join" */ '@/views/Join.vue'),
 		beforeEnter: onlyAuthUser,
@@ -35,16 +35,22 @@ const routes = [
 			import(/* webpackChunkName: "Join" */ '@/views/Discontinue.vue'),
 	},
 	{
-		path: '/details',
+		path: '/details/:videoId',
 		name: 'Details',
 		component: () =>
 			import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
 	},
 	{
-		path: '/my',
+		path: '/my/:userId',
 		name: 'My',
 		component: () => import(/* webpackChunkName: "My" */ '@/views/My.vue'),
 		beforeEnter: onlyAuthUser,
+	},
+	{
+		path: '/expand',
+		name: 'Expand',
+		component: () =>
+			import(/* webpackChunkName: "Expand" */ '@/views/Expand.vue'),
 	},
 	{
 		path: '/introduction',
