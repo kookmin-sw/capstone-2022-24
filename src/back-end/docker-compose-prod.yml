@@ -8,18 +8,18 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
     volumes:
-      - ./db:/docker-entrypoint-initdb.d:ro
-      - ./db:${DB}
+      - ./mongo:/docker-entrypoint-initdb.d:ro
+      - ./mongo:${DB}
     ports:
       - "${DB_PORT}:${DB_PORT}"
     command: -port ${DB_PORT}
 
-#  db-seed:
+#  mongo-seed:
 #    build:
-#      context: ./db
+#      context: ./mongo
 #      dockerfile : Dockerfile-prod
 #    depends_on:
-#      - db
+#      - mongo
 
   web:
     container_name: web_service
@@ -30,11 +30,9 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-    command: sh -c "python manage.py prod collectstatic --no-input &&
-                    python manage.py prod makemigrations &&
+    command: sh -c "python manage.py prod makemigrations &&
                     python manage.py prod migrate &&
-                    python manage.py prod initiate_admin &&
-                    python manage.py prod collectstatic"
+                    python manage.py prod collectstatic --no-input"
     environment:
       - DB_NAME=${DB_NAME}
       - DB_ENFORCE_SCHEMA=True

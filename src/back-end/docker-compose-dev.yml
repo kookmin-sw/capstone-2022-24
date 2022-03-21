@@ -11,12 +11,12 @@ services:
       - "${DB_PORT}:${DB_PORT}"
     command: -port ${DB_PORT}
 
-#  db-seed:
+#  mongo-seed:
 #    build:
-#      context: ./db
+#      context: ./mongo
 #      dockerfile : Dockerfile-dev
 #    depends_on:
-#      - db
+#      - mongo
 
   web:
     container_name: web_service
@@ -30,7 +30,6 @@ services:
     command: sh -c "python manage.py dev collectstatic --no-input &&
                     python manage.py dev makemigrations &&
                     python manage.py dev migrate &&
-                    python manage.py dev initiate_admin &&
                     python manage.py dev collectstatic"
     environment:
       - DB_NAME=${DB_NAME}
