@@ -19,7 +19,7 @@
 				unelevated
 				size="md"
 				class="q-mt-md full-width naver-btn"
-				@click="login">
+				@click="loginWithNaver">
 				<img src="@/assets/naver-circle-logo.png" class="q-mr-xs" alt="" />
 				{{ $t('login.naver') }}
 			</q-btn>
@@ -37,8 +37,8 @@ export default {
 		},
 	},
 	methods: {
-		login() {
-			this.$store.dispatch('auth/loginWithNaver');
+		loginWithNaver() {
+			this.$store.dispatch('auth/requestNaverAuth');
 		},
 	},
 };

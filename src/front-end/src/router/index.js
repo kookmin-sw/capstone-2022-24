@@ -21,12 +21,17 @@ const routes = [
 	{
 		path: '/login/:naver',
 		name: 'NaverCallback',
-		beforeEnter(to, from, next) {
+		async beforeEnter(to, from, next) {
+			// 네이버가 url로 넘겨준 code, state를 vuex 변수에 저장
 			const url = new URL(window.location.href);
 			const code = url.searchParams.get('code');
-			const naverState = url.searchParams.get('state');
-			store.dispatch('auth/setNaverAuth', { code, naverState });
-			next('/');
+			const state = url.searchParams.get('state');
+			const response = {
+				code: code,
+				resState: state,
+			};
+			await store.dispatch('auth/setNaverAuth', response);
+			next(router.back());
 		},
 	},
 	{
