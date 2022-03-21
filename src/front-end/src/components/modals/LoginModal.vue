@@ -5,9 +5,12 @@
 			<q-btn icon="close" flat round dense v-close-popup />
 		</q-card-section>
 
-		<q-card-section class="col q-ma-lg" v-if="isActive">
-			<h3 class="text-center">온갖</h3>
-
+		<q-card-section class="col q-mr-lg q-mb-lg q-ml-lg" v-if="isActive">
+			<img
+				src="@/assets/service_logo.svg"
+				alt=""
+				style="display: block; width: 50%"
+				class="q-mr-auto q-mb-lg q-ml-auto" />
 			<q-btn
 				unelevated
 				size="md"
