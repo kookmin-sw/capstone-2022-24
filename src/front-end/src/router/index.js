@@ -32,16 +32,16 @@ const routes = [
 					resState: state,
 				};
 				await store.dispatch('auth/setNaverAuth', response);
+				store.dispatch('auth/naver');
 				next(router.back());
+				next(false);
 			} else if (url.pathname === '/login/google') {
 				// 구글이 hash로 넘겨준 token을 vuex 변수에 저장
 				const href = url.hash;
 				const hash = href.split('&')[1];
 				const token = hash.split('=')[1];
-				console.log(token);
-				console.log(url);
 				await store.dispatch('auth/setGoogleAuth', token);
-				next(router.go(-2));
+				next('/');
 			} else {
 				next('/');
 			}
