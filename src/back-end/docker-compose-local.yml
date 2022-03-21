@@ -4,54 +4,78 @@ services:
     container_name: mongo_service
     image: mongo:5.0.6
     restart: on-failure
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_ENFORCE_SCHEMA=True
     ports:
       - "${DB_PORT}:${DB_PORT}"
-    command: -p ${DB_PORT}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
+      interval: 4s
+      timeout: 3s
+      retries: 10
 
-  db-seed:
-    build:
-      context: ./db
-      dockerfile : Dockerfile-local
-    depends_on:
-      - db
+#  db-seed:
+#    build:
+#      context: ./db
+#      dockerfile : Dockerfile-local
+#    depends_on:
+#      - db
 
   web:
     container_name: web_service
     build:
-      context: ./web
-      dockerfile : Dockerfile-local
+      context: .
+      dockerfile : ./web/Dockerfile-local
       args:
         WEB: ${WEB}
+        BASE: ${BASE}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-        APP_USER: ${APP_USER}
-    command: sh -c "python manage.py makemigrations &&
+        MODULE_NAME: ${WEB}/config/wsgi/local
+        VARIABLE_NAME: application
+    command: sh -c "python manage.py collectstatic --no-input &&
+                    python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py initiate_admin &&
-                    python manage.py collectstatic &&
-                    uvicorn config.wsgi:application --bind 0.0.0.0:${APP_PORT}"
+                    python manage.py collectstatic"
+    restart: on-failure
     volumes:
       - ./web:${WEB}
+      - ${PWD}/.env.local:${BASE}/.env.local
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
     depends_on:
       - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}"]
+      interval: 2.5s
+      timeout: 2s
+      retries: 5
 
   nginx:
     container_name: nginx_service
     build:
       context: ./nginx
       dockerfile: Dockerfile-local
+    restart: on-failure
     volumes:
       - ./nginx:${NGINX}
+      - ./web/static:${STATIC}
+    environment:
+      - WEB_HOST=${WEB_HOST}
+      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
     ports:
-      - "${NGINX_PORT1}:${NGINX_PORT1}"
-      - "${NGINX_PORT2}:${NGINX_PORT2}"
+      - "80:80" # http
+      - "443:443" # https
     depends_on:
       - web
-    environment:
-      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
-      - WEB_HOST=${WEB_HOST}
+
+#  certbot:
+#    image: certbot/certbot
+#    container_name: certbot_service
+#    volumes :
+#      - ./certbot/conf:${LETSENCRYPT}
+#      - ./certbot/www:${CERTBOT}
+#    entrypoint:
+#      - "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

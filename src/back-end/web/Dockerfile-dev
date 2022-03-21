@@ -1,26 +1,33 @@
 FROM python:3.9
 
-
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ARG WEB
 ARG STATIC
 ARG WEB_PORT
-ARG APP_USER
 
 # set working directory
-RUN addgroup -S $APP_USER && adduser -S $APP_USER -G $APP_USER
 RUN mkdir -p $WEB
 RUN mkdir -p $STATIC
 WORKDIR ${WEB}
 
+# copy Requirements
+COPY ./requirements.txt ./requirements.txt
+
 # Install dependencies
-RUN pip install --upgrade pip
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Copy project
-COPY ./web ${WEB}
-RUN pip install -r requirements.txt
+COPY . ${WEB}
+
+RUN chmod +x ./config/start.sh
+RUN chmod +x ./config/start-reload.sh
+
+ENV PYTHONPATH=${WEB}
 
 # Expose port for running the application
 EXPOSE ${WEB_PORT}
+
+# Start gunicorn with uvicorn
+CMD ["./config/start.sh"]

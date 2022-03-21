@@ -5,10 +5,6 @@ services:
     image: mongo:5.0.6
     restart: on-failure
     environment:
-      - DB_NAME=${DB_NAME}
-      - DB_ENFORCE_SCHEMA=True
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
     volumes:
@@ -16,14 +12,14 @@ services:
       - ./db:${DB}
     ports:
       - "${DB_PORT}:${DB_PORT}"
-    command: -p ${DB_PORT}
+    command: -port ${DB_PORT}
 
-  db-seed:
-    build:
-      context: ./db
-      dockerfile : Dockerfile-prod
-    depends_on:
-      - db
+#  db-seed:
+#    build:
+#      context: ./db
+#      dockerfile : Dockerfile-prod
+#    depends_on:
+#      - db
 
   web:
     container_name: web_service
@@ -34,14 +30,14 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-        APP_USER: ${APP_USER}
-    command: sh -c "python manage.py makemigrations &&
-                    python manage.py migrate &&
-                    python manage.py initiate_admin &&
-                    python manage.py collectstatic &&
-                    uvicorn config.wsgi:application --bind 0.0.0.0:${APP_PORT}"
-    volumes:
-      - ./web:${WEB}
+    command: sh -c "python manage.py prod collectstatic --no-input &&
+                    python manage.py prod makemigrations &&
+                    python manage.py prod migrate &&
+                    python manage.py prod initiate_admin &&
+                    python manage.py prod collectstatic"
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_ENFORCE_SCHEMA=True
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
     depends_on:
@@ -54,11 +50,12 @@ services:
       dockerfile: Dockerfile-prod
     volumes:
       - ./nginx:${NGINX}
+      - ./web/static:${STATIC}
+    environment:
+      - WEB_HOST=${WEB_HOST}
+      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
     ports:
-      - "${NGINX_PORT1}:${NGINX_PORT1}"
-      - "${NGINX_PORT2}:${NGINX_PORT2}"
+      - "80:80" # http
+      - "443:443" # https
     depends_on:
       - web
-    environment:
-      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
-      - WEB_HOST=${WEB_HOST}
