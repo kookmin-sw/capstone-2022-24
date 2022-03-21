@@ -40,9 +40,6 @@ export default {
 			require: true,
 		},
 	},
-	created() {
-		window.onSignIn = this.onSignIn;
-	},
 	methods: {
 		loginWithNaver() {
 			this.$store.dispatch('auth/requestNaverAuth');
