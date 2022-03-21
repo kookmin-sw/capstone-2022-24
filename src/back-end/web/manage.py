@@ -8,10 +8,10 @@ def main():
     """Run administrative tasks."""
     if 'prod' in sys.argv:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
-        sys.argv.remove('production')
+        sys.argv.remove('prod')
     elif 'dev' in sys.argv:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.develop')
-        sys.argv.remove('develop')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
+        sys.argv.remove('dev')
     else:
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
     try:
