@@ -1,6 +1,6 @@
 version : '3'
 services:
-  db:
+  mongo:
     container_name: mongo_service
     image: mongo:5.0.6
     restart: on-failure
@@ -11,47 +11,44 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
-      interval: 4s
-      timeout: 3s
-      retries: 10
+      interval: 1m
+      timeout: 15s
+      retries: 5
 
-#  db-seed:
+#  mongo-seed:
 #    build:
-#      context: ./db
+#      context: ./mongo
 #      dockerfile : Dockerfile-local
+#      args:
+#        DB_NAME: ${DB_NAME}
 #    depends_on:
-#      - db
+#      - mongo
 
   web:
     container_name: web_service
     build:
       context: .
-      dockerfile : ./web/Dockerfile-local
+      dockerfile : web/Dockerfile-local
       args:
-        WEB: ${WEB}
         BASE: ${BASE}
+        WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-        MODULE_NAME: ${WEB}/config/wsgi/local
-        VARIABLE_NAME: application
-    command: sh -c "python manage.py collectstatic --no-input &&
-                    python manage.py makemigrations &&
+    command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
-                    python manage.py initiate_admin &&
-                    python manage.py collectstatic"
+                    python manage.py collectstatic --no-input &&
+                    bash ./config/start.sh"
     restart: on-failure
     volumes:
       - ./web:${WEB}
-      - ${PWD}/.env.local:${BASE}/.env.local
+      - ./environment:${ENV}
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
+    environment:
+      - MODULE_NAME=${MODULE_NAME}
+      - VARIABLE_NAME=${VARIABLE_NAME}
     depends_on:
-      - db
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}"]
-      interval: 2.5s
-      timeout: 2s
-      retries: 5
+      - mongo
 
   nginx:
     container_name: nginx_service
@@ -61,7 +58,7 @@ services:
     restart: on-failure
     volumes:
       - ./nginx:${NGINX}
-      - ./web/static:${STATIC}
+      - ./static:${STATIC}
     environment:
       - WEB_HOST=${WEB_HOST}
       - WEB_DOCKERNAME=${WEB_DOCKERNAME}
