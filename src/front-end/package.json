@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
     "vue": "^3.0.0",
-    "vue-axios": "^3.4.1",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -35,7 +35,11 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "msw": "^0.39.2",
     "prettier": "^2.2.1",
     "vue-cli-plugin-quasar": "~4.0.4"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

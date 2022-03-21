@@ -7,6 +7,11 @@ import quasarUserOptions from './quasar-user-options';
 import './styles/app.css';
 import { i18n } from '@/i18n';
 
+if (process.env.NODE_ENV === 'development') {
+	const { worker } = require('./mocks/browser');
+	worker.start();
+}
+
 createApp(App)
 	.use(Quasar, quasarUserOptions)
 	.use(store)
