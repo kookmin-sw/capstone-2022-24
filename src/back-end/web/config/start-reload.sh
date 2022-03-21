@@ -1,21 +1,21 @@
 #! /usr/bin/env sh
 set -e
 
-if [ -f /app/app/main.py ]; then
-    DEFAULT_MODULE_NAME=app.main
-elif [ -f /app/main.py ]; then
-    DEFAULT_MODULE_NAME=main
+if [ -f /config/config/wsgi.py ]; then
+    DEFAULT_MODULE_NAME=config.wsgi
+elif [ -f /config/wsgi.py ]; then
+    DEFAULT_MODULE_NAME=wsgi
 fi
 MODULE_NAME=${MODULE_NAME:-$DEFAULT_MODULE_NAME}
-VARIABLE_NAME=${VARIABLE_NAME:-app}
+VARIABLE_NAME=${VARIABLE_NAME:-application}
 export APP_MODULE=${APP_MODULE:-"$MODULE_NAME:$VARIABLE_NAME"}
 
 HOST=${HOST:-0.0.0.0}
-PORT=${PORT:-80}
+PORT=${PORT:-8000}
 LOG_LEVEL=${LOG_LEVEL:-info}
 
-# If there's a prestart.sh script in the /app directory or other path specified, run it before starting
-PRE_START_PATH=${PRE_START_PATH:-/app/prestart.sh}
+# If there's a prestart.sh script in the /config directory or other path specified, run it before starting
+PRE_START_PATH=${PRE_START_PATH:-/config/prestart.sh}
 echo "Checking for script in $PRE_START_PATH"
 if [ -f $PRE_START_PATH ] ; then
     echo "Running script $PRE_START_PATH"
