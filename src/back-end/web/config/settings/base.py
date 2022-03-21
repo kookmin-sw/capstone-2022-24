@@ -131,11 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "/static"
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [
-    STATIC_DIR,
-]
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 # Default primary key field type
@@ -175,3 +172,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+# SSL settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
