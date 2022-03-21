@@ -410,7 +410,6 @@ media
 */back-end/*/static/
 
 # django settings file
-src/back-end/web/config/settings/local.py
 src/back-end/web/config/settings/development.py
 src/back-end/web/config/settings/production.py
 */back-end/*/environment/.env.*
