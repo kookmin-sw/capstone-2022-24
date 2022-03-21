@@ -14,26 +14,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      BASE: {{ secret.BASE }}
-      CRAWLER: {{ secret.CRAWLER }}
-      DB: {{ secret.DB }}
-      NGINX: {{ secret.NGINX}}
-      WEB: {{ secret.WEB}}
-      STATIC: {{ secret.STATIC }}
-      ENV: {{ secret.ENV }}
-      DB_USER: {{ secret.DB_USER }}
-      DB_PASSWORD: {{ secret.DB_PASSWORD }}
-      DB_HOST_NAME: {{ secret.DB_HOST_NAME }}
-      DB_HOST: {{ secret.DB_HOST }}
-      DB_PORT: {{ secret.DB_PORT }}
-      DB_ENFORCE_SCHEMA: {{ secret.DB_ENFORCE_SCHEMA }}
-      WEB_DOCKERNAME: {{ secret.WEB_DOCKERNAME }}
-      WEB_PORT: {{ secret.WEB_PORT }}
-      WEB_HOST: {{ secret.WEB_HOST }}
-      SECRET_KEY: {{ secret.SECRET_KEY }}
-      DEBUG: {{ secret.DEBUG }}
-      MODULE_NAME: {{ secret.MODULE_NAME }}
-      VARIABLE_NAME: {{ secret.VARIABLE_NAME }}
+      BASE: {{ secrets.BASE }}
+      CRAWLER: {{ secrets.CRAWLER }}
+      DB: {{ secrets.DB }}
+      NGINX: {{ secrets.NGINX}}
+      WEB: {{ secrets.WEB}}
+      STATIC: {{ secrets.STATIC }}
+      ENV: {{ secrets.ENV }}
+      DB_USER: {{ secrets.DB_USER }}
+      DB_PASSWORD: {{ secrets.DB_PASSWORD }}
+      DB_HOST_NAME: {{ secrets.DB_HOST_NAME }}
+      DB_HOST: {{ secrets.DB_HOST }}
+      DB_PORT: {{ secrets.DB_PORT }}
+      DB_ENFORCE_SCHEMA: {{ secrets.DB_ENFORCE_SCHEMA }}
+      WEB_DOCKERNAME: {{ secrets.WEB_DOCKERNAME }}
+      WEB_PORT: {{ secrets.WEB_PORT }}
+      WEB_HOST: {{ secrets.WEB_HOST }}
+      SECRET_KEY: {{ secrets.SECRET_KEY }}
+      DEBUG: {{ secrets.DEBUG }}
+      MODULE_NAME: {{ secrets.MODULE_NAME }}
+      VARIABLE_NAME: {{ secrets.VARIABLE_NAME }}
     defaults:
       run:
         working-directory: src/back-end/web
