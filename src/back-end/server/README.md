@@ -11,11 +11,35 @@ Requires Python Version `3.9.10`
 $ python3.9 -m venv env
 ```
 
+#### In window
+Case 1. Use CMD
+```shell
+& python -m venv env
+```
+Case 2. Windows PowerShell
+```shell
+& python -m venv env
+```
+
+
 ### Activate the virtual environment
 ```shell
 $ source env/bin/activate
 ```
-cf) deactivate: `$ deactivate`
+
+#### In window
+Case 1. Use CMD
+```shell
+& .\env\Scripts\activate.bat
+```
+Case 2. Windows PowerShell
+```shell
+& .\env\Scripts\Activate.ps1
+```
+cf1) If the ps1 file does not run, run PowerShell administrator mode : `& Set-ExecutionPolicy RemoteSigned`
+
+cf2) deactivate: `$ deactivate`
+
 
 
 ### Install dependent modules
