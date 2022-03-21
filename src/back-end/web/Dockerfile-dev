@@ -3,24 +3,32 @@ FROM python:3.9
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ARG BASE
 ARG WEB
 ARG STATIC
 ARG WEB_PORT
 
-# set working directory
+ENV MODULE_NAME=config.main
+ENV VARIABLE_NAME=application
+
+# Set working directory
 RUN mkdir -p $WEB
 RUN mkdir -p $STATIC
 WORKDIR ${WEB}
 
-# copy Requirements
-COPY ./requirements.txt ./requirements.txt
+# Copy Requirements
+COPY ./web/requirements.txt ./requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Copy project
-COPY . ${WEB}
+COPY ./web .
 
+# Copy environment variables
+COPY environment ${BASE}
+
+# shell script
 RUN chmod +x ./config/start.sh
 RUN chmod +x ./config/start-reload.sh
 
@@ -28,6 +36,3 @@ ENV PYTHONPATH=${WEB}
 
 # Expose port for running the application
 EXPOSE ${WEB_PORT}
-
-# Start gunicorn with uvicorn
-CMD ["./config/start.sh"]

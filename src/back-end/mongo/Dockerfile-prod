@@ -1,7 +1,8 @@
 FROM mongo:5.0.6
+ARG DB_NAME
 
 # import "users" initial data
 COPY data/users.json /users.json
-CMD mongoimport --host db --db ongajdb --collection users --type json --file /users.json --jsonArray
+CMD mongoimport --host db --db ${DB_NAME} --collection users --type json --file /users.json --jsonArray
 
 # import other things

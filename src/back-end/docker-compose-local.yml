@@ -1,7 +1,7 @@
 version : '3'
 services:
   mongo:
-    container_name: mongo_service
+    container_name: mongo_local
     image: mongo:5.0.6
     restart: on-failure
     ports:
@@ -12,7 +12,7 @@ services:
     healthcheck:
       test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
       interval: 1m
-      timeout: 15s
+      timeout: 10s
       retries: 5
 
 #  mongo-seed:
@@ -25,7 +25,7 @@ services:
 #      - mongo
 
   web:
-    container_name: web_service
+    container_name: web_local
     build:
       context: .
       dockerfile : web/Dockerfile-local
@@ -49,9 +49,14 @@ services:
       - VARIABLE_NAME=${VARIABLE_NAME}
     depends_on:
       - mongo
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
+      interval: 1m
+      timeout: 10s
+      retries: 5
 
   nginx:
-    container_name: nginx_service
+    container_name: nginx_local
     build:
       context: ./nginx
       dockerfile: Dockerfile-local
@@ -67,12 +72,3 @@ services:
       - "443:443" # https
     depends_on:
       - web
-
-#  certbot:
-#    image: certbot/certbot
-#    container_name: certbot_service
-#    volumes :
-#      - ./certbot/conf:${LETSENCRYPT}
-#      - ./certbot/www:${CERTBOT}
-#    entrypoint:
-#      - "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

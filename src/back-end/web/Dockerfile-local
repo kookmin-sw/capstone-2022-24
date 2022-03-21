@@ -1,7 +1,5 @@
 FROM python:3.9
 
-LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
-
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -28,7 +26,7 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY ./web .
 
 # Copy environment variables
-COPY env정ironment ${BASE}
+COPY environment ${BASE}
 
 # shell script
 RUN chmod +x ./config/start.sh
