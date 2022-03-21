@@ -115,11 +115,6 @@ web_modules/
 .env.dev
 .env.prod
 
-# mongodb setting file
-src/back-end/web/config/settings/local.py
-src/back-end/web/config/settings/development.py
-src/back-end/web/config/settings/production.py
-
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -407,6 +402,17 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+*.log
+*.pot
+*.pyc
+__pycache__/
+media
+static
+
+# django setting file
+src/back-end/web/config/settings/local.py
+src/back-end/web/config/settings/development.py
+src/back-end/web/config/settings/production.py
 
 # Flask stuff:
 instance/
