@@ -32,9 +32,6 @@ const routes = [
 					resState: state,
 				};
 				await store.dispatch('auth/setNaverAuth', response);
-				store.dispatch('auth/naver');
-				next(router.back());
-				next(false);
 			} else if (url.pathname === '/login/google') {
 				// 구글이 hash로 넘겨준 token을 vuex 변수에 저장
 				const href = url.hash;
@@ -42,9 +39,8 @@ const routes = [
 				const token = hash.split('=')[1];
 				await store.dispatch('auth/setGoogleAuth', token);
 				next('/');
-			} else {
-				next('/');
 			}
+			next('/');
 		},
 	},
 	{
