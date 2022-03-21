@@ -38,7 +38,7 @@ export default {
 	},
 	methods: {
 		login() {
-			this.$store.dispatch('auth/setToken', 'example-token');
+			this.$store.dispatch('auth/loginWithNaver');
 		},
 	},
 };

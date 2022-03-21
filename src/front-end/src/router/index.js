@@ -22,7 +22,10 @@ const routes = [
 		path: '/login/:naver',
 		name: 'NaverCallback',
 		beforeEnter(to, from, next) {
-			console.log(window.location.href);
+			const url = new URL(window.location.href);
+			const code = url.searchParams.get('code');
+			const naverState = url.searchParams.get('state');
+			store.dispatch('auth/setNaverAuth', { code, naverState });
 			next('/');
 		},
 	},
