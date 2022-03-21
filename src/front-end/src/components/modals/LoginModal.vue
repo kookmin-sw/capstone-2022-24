@@ -7,17 +7,14 @@
 
 		<q-card-section class="col q-ma-lg" v-if="isActive">
 			<h3 class="text-center">온갖</h3>
+
 			<q-btn
 				unelevated
 				size="md"
-				class="full-width kakao-btn"
+				class="full-width google-btn"
 				@click="loginWithGoogle">
-				<q-icon
-					class="q-ma-sm"
-					name="fas fa-solid fa-comment"
-					size="24px"
-					color="#191919" />
-				{{ $t('login.kakao') }}
+				<q-icon class="q-ma-sm" name="fas fa-brands fa-google" size="24px" />
+				{{ $t('login.google') }}
 			</q-btn>
 			<q-btn
 				unelevated
@@ -55,15 +52,17 @@ export default {
 </script>
 
 <style scoped>
-.kakao-btn {
-	background: #fee500;
+.google-btn {
+	background: white;
 	color: #191919;
 	border-radius: 6px;
+	border: solid 1px lightgrey;
 }
 
 .naver-btn {
 	background: #03c75a;
 	color: white;
+	border: solid 1px #03c75a;
 }
 .naver-btn img {
 	width: 36px;
