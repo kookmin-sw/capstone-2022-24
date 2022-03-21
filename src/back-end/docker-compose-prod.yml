@@ -1,54 +1,69 @@
 version : '3'
 services:
-  db:
-    container_name: mongo_service
+  mongo:
+    container_name: mongo_prod
     image: mongo:5.0.6
     restart: on-failure
-    environment:
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_PORT=${DB_PORT}
-    volumes:
-      - ./mongo:/docker-entrypoint-initdb.d:ro
-      - ./mongo:${DB}
     ports:
       - "${DB_PORT}:${DB_PORT}"
-    command: -port ${DB_PORT}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
+      interval: 1m
+      timeout: 15s
+      retries: 5
 
 #  mongo-seed:
 #    build:
 #      context: ./mongo
 #      dockerfile : Dockerfile-prod
+#      args:
+#        DB_NAME: ${DB_NAME}
 #    depends_on:
 #      - mongo
 
   web:
-    container_name: web_service
+    container_name: web_prod
     build:
-      context: ./web
-      dockerfile : Dockerfile-prod
+      context: .
+      dockerfile : web/Dockerfile-prod
       args:
+        BASE: ${BASE}
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
     command: sh -c "python manage.py prod makemigrations &&
                     python manage.py prod migrate &&
-                    python manage.py prod collectstatic --no-input"
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_ENFORCE_SCHEMA=True
+                    python manage.py prod collectstatic --no-input &&
+                    bash ./config/start.sh"
+    restart: on-failure
+    volumes:
+      - ./web:${WEB}
+      - ./environment:${ENV}
     ports:
       - "${WEB_PORT}:${WEB_PORT}"
+    environment:
+      - MODULE_NAME=${MODULE_NAME}
+      - VARIABLE_NAME=${VARIABLE_NAME}
     depends_on:
-      - db
+      - mongo
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   nginx:
-    container_name: nginx_service
+    container_name: nginx_prod
     build:
       context: ./nginx
       dockerfile: Dockerfile-prod
+    restart: on-failure
     volumes:
       - ./nginx:${NGINX}
-      - ./web/static:${STATIC}
+      - ./static:${STATIC}
     environment:
       - WEB_HOST=${WEB_HOST}
       - WEB_DOCKERNAME=${WEB_DOCKERNAME}
