@@ -49,9 +49,10 @@ export const auth = {
 				.post('/login/oauth/naver', { code: state.naver.code })
 				.then(res => {
 					// 로그인 성공
-					const token = res.data;
+					const token = res.data.accessToken;
 					commit('SET_REGISTER', true);
 					commit('SET_TOKEN', token);
+					// TODO: access token 저장해서 로그인 유지
 				})
 				.catch(err => {
 					// 최초 로그인 시도 (회원가입)
