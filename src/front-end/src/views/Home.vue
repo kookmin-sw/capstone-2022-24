@@ -20,7 +20,9 @@
 				</div>
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
+          <q-btn flat padding="none" @click="buttonOnClicked">
+					  <q-avatar rounded color="blue" size="60px"></q-avatar>
+          </q-btn>
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
 					<q-avatar rounded color="blue" size="60px"></q-avatar>
@@ -281,6 +283,9 @@ export default {
 				done();
 			}, 2000);
 		},
+    buttonOnClicked() {
+
+    },
 	},
 };
 </script>
