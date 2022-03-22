@@ -7,27 +7,27 @@ from .base import *
 env = environ.Env(DEBUG=(bool, False))
 
 # reading environment file
-# environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.dev"))
+environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.dev"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = False
 
-ALLOWED_HOSTS = [os.getenv("WEB_HOST"), "localhost"]
+ALLOWED_HOSTS = [env("WEB_HOST"), "localhost"]
 
 # Database
 
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
-        "NAME": os.getenv("DB_NAME"),
-        "ENFORCE_SCHEMA": os.getenv("DB_ENFORCE_SCHEMA"),
+        "NAME": env("DB_NAME"),
+        "ENFORCE_SCHEMA": env("DB_ENFORCE_SCHEMA"),
         'CLIENT': {
-            'host': os.getenv('DB_HOST_NAME'),
-            'port': int(os.getenv('DB_PORT', 27017)),
-            'username': os.getenv('DB_USER'),
-            'password': os.getenv('DB_PASSWORD'),
+            'host': env('DB_HOST_NAME'),
+            'port': int(env('DB_PORT')),
+            'username': env('DB_USER'),
+            'password': env('DB_PASSWORD'),
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1',
         },
