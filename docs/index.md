@@ -21,18 +21,43 @@
 
 ## 프로젝트 소개
 
+<p align="center">
+  <img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+  <img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+</p>
+
+<로고 이미지>
+
 > **온-갖**  
-발음 [ 온ː갇 ]  
-표준국어대사전  
+발음 [ 온ː갇 ]<br>
+<br>**표준국어대사전**  
 관형사  
 1.이런저런 여러 가지의.
 
-[ 소개 영상 ]
+온갖은 크롤링 ??? 통한 OTT 작품 통합검색 및 계정 공유 매칭 기능까지 제공하는 플랫폼형 웹 서비스입니다.  
+
+슬로건
+> ### _"표준국어대사전의 의미와 같이 OTT 관련 여러가지 기능을 한번에 제공할 수 있도록 하자"_
+
+
+[문서](링크)
+
+## README 목차
+- 팀 소개
+- 프로젝트 개요(슬로건 등)
+- 소개 영상
+- 시연 영상(기말 발표때 추가예정)
+- 핵심 기능
+- 시스템 구성도(기말 발표때 추가예정)
+- 시스템 설계도(기말 발표때 추가예정)
+- 데이터 흐름도(기말 발표때 추가예정)
 
 ## 팀 소개
 
 사용 기술들?(프레임워크 등)  
-<div style="background-color: white; padding: 16px; border-radius: 3px;">
+<p align="center">
   <img src="https://img.shields.io/badge/HTML5-e34f26?style=flat-square&logo=html5&logoColor=white"/>
   <img src="https://img.shields.io/badge/CSS3-1572b6?style=flat-square&logo=css3&logoColor=white"/>
   <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=flat-square&logo=javascript&logoColor=white"/>
@@ -41,26 +66,26 @@
   <img src="https://img.shields.io/badge/Quasar-1976d2?style=flat-square&logo=quasar&logoColor=white"/>
   <img src="https://img.shields.io/badge/Django-092e20?style=flat-square&logo=django&logoColor=white"/>
   <img src="https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white"/>
-</div>
+</p>
 
 ### 🌃팀원소개  
 - - -
 
 ✨**구다희** ✨
-<div style="background-color: #83BBFB; color: white; padding: 16px; font-family: SF Mono; font-size: 11px; border-radius: 3px;">
-  student ID: 20181575<br>
-  github: @dadahee<br>
-  e-mail: heeouo@kookmin.ac.kr<br>
-  role: back-end<br>
-</div>
+~~~
+student ID: 20181575
+github: @dadahee
+e-mail: heeouo@kookmin.ac.kr
+role: back-end
+~~~
 
 ✨**김아성** ✨
-<div style="background-color: #83BBFB; color: white; padding: 16px; font-family: SF Mono; font-size: 11px; border-radius: 3px;">
-  student ID: 20181591<br>
-  github: @a-sung<br>
-  e-mail: 5012s@kookmin.ac.kr<br>
-  role: front-end<br>
-</div>
+~~~
+student ID: 20181591
+github: @a-sung
+e-mail: 5012s@kookmin.ac.kr
+role: front-end
+~~~
 
 ✨**김정연** ✨
 ~~~
