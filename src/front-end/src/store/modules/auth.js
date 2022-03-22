@@ -60,9 +60,10 @@ export const auth = {
 			const apiUrl = `https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&include_granted_scopes=true&response_type=token`;
 			window.location.href = `${apiUrl}&state=${reqState}&redirect_uri=${state.google.redirectionUri}&client_id=${state.google.clientId}`;
 		},
-		async loginWithNaver({ state, commit }) {
+		async loginWithSocial({ state, commit }, social) {
+			const url = `/login/oauth/${social}`;
 			http
-				.post('/login/oauth/naver', { code: state.naver.code })
+				.post(url, { code: state.naver.code })
 				.then(res => {
 					// 로그인 성공
 					const token = res.data.accessToken;
