@@ -25,7 +25,7 @@ DATABASES = {
         "ENFORCE_SCHEMA": os.getenv("DB_ENFORCE_SCHEMA"),
         'CLIENT': {
             'host': os.getenv('DB_HOST_NAME'),
-            'port': int(os.getenv('DB_PORT')),
+            'port': os.getenv('DB_PORT', 27017),
             'username': os.getenv('DB_USER'),
             'password': os.getenv('DB_PASSWORD'),
             'authSource': 'admin',
