@@ -1,5 +1,27 @@
 name: dev-be-api-ci
 
+env:
+  BASE: ${{ secrets.BASE }}
+  CRAWLER: ${{ secrets.CRAWLER }}
+  DB: ${{ secrets.DB }}
+  NGINX: ${{ secrets.NGINX}}
+  WEB: ${{ secrets.WEB}}
+  STATIC: ${{ secrets.STATIC }}
+  ENV: ${{ secrets.ENV }}
+  DB_USER: ${{ secrets.DB_USER }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_HOST_NAME: ${{ secrets.DB_HOST_NAME }}
+  DB_HOST: ${{ secrets.DB_HOST }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+  DB_ENFORCE_SCHEMA: ${{ secrets.DB_ENFORCE_SCHEMA }}
+  WEB_DOCKERNAME: ${{ secrets.WEB_DOCKERNAME }}
+  WEB_PORT: ${{ secrets.WEB_PORT }}
+  WEB_HOST: ${{ secrets.WEB_HOST }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  DEBUG: ${{ secrets.DEBUG }}
+  MODULE_NAME: ${{ secrets.MODULE_NAME }}
+  VARIABLE_NAME: ${{ secrets.VARIABLE_NAME }}
+
 on:
   push:
     paths-ignore:
@@ -13,27 +35,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BASE: ${{ secrets.BASE }}
-      CRAWLER: ${{ secrets.CRAWLER }}
-      DB: ${{ secrets.DB }}
-      NGINX: ${{ secrets.NGINX}}
-      WEB: ${{ secrets.WEB}}
-      STATIC: ${{ secrets.STATIC }}
-      ENV: ${{ secrets.ENV }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_HOST_NAME: ${{ secrets.DB_HOST_NAME }}
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      DB_ENFORCE_SCHEMA: ${{ secrets.DB_ENFORCE_SCHEMA }}
-      WEB_DOCKERNAME: ${{ secrets.WEB_DOCKERNAME }}
-      WEB_PORT: ${{ secrets.WEB_PORT }}
-      WEB_HOST: ${{ secrets.WEB_HOST }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      DEBUG: ${{ secrets.DEBUG }}
-      MODULE_NAME: ${{ secrets.MODULE_NAME }}
-      VARIABLE_NAME: ${{ secrets.VARIABLE_NAME }}
     defaults:
       run:
         working-directory: src/back-end/web
