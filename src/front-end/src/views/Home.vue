@@ -21,25 +21,17 @@
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
 					<q-btn flat padding="none"
-                 v-for="otts in ottFilters.ottName"
-                 :key="otts.id"
-                 :class="{ 'is-select': ottFilters.isSelect }"
-                 @click="buttonOnClicked()">
+                 v-for="(otts, index) in ottFilters"
+                 :key="index"
+                 :class="{ 'is-select': otts.isSelect }"
+                 @click="ottFilterClick(index)"><!-- console.log() 확인용 매개변수 -->
 						<q-avatar rounded color="blue" size="60px" />
 					</q-btn>
-<!--          <q-avatar rounded color="blue" size="60px" v-for="ottName in ottFilters" :key="ottName.id" @click="buttonOnClicked(ottName)"/>-->
-					<!-- q-btn flat padding="none" :class="{ 'is-select': isSelect, 'on': selected === 'watcha'}" @click="buttonOnClicked(ottName)">
-						<q-avatar rounded color="blue" size="60px"></q-avatar>
-					</q-btn>
-					<q-btn flat padding="none" :class="{ 'is-select': isSelect, 'on': selected === 'disney'}" @click="buttonOnClicked('disney')">
-						<q-avatar rounded color="blue" size="60px"></q-avatar>
-					</q-btn -->
-					<!-- q-btn flat padding="none" :class="{'is-select': isSelect}" @click="buttonOnClicked">
-						<q-avatar rounded color="blue" size="60px"></q-avatar>
-					</q-btn>
-					<q-btn flat padding="none" :class="{'is-select': isSelect}" @click="buttonOnClicked">
-						<q-avatar rounded color="blue" size="60px"></q-avatar>
-					</q-btn -->
+<!--          <q-avatar rounded color="blue" size="60px"-->
+<!--                    v-for="(otts, index) in ottFilters"-->
+<!--                    :key="index"-->
+<!--                    :class="{ 'is-select': otts.isSelect }"-->
+<!--                    @click="ottFilterClick(index)"/>-->
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -228,13 +220,11 @@ export default {
 	data() {
 		return {
       ottFilters: {
-        ottName: [ 'netflix', 'watcha', 'disneyPlus', 'tving', 'wavve' ],
-        isSelect: false,
-        // [ ottName: 'netflix', isSelect: false ],
-        // [ ottName: 'watcha', isSelect: false ],
-        // [ ottName: 'disneyplus', isSelect: false ],
-        // [ ottName: 'tving', isSelect: false ],
-        // [ ottName: 'wavve', isSelect: false],
+        netflix: { isSelect: false },
+        watcha: { isSelect: false },
+        disneyPlus: { isSelect: false },
+        tving: { isSelect: false },
+        wavve: { isSelect: false },
       },
 			filters: {
 				categories: ['전체', '영화', 'TV 시리즈'],
@@ -307,10 +297,9 @@ export default {
 				done();
 			}, 2000);
 		},
-		buttonOnClicked() {
-      this.isSelect = !this.isSelect;
-      console.log(this.isSelect);
-		},
+		ottFilterClick(idx) {
+      this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+    },
 	},
 };
 </script>
