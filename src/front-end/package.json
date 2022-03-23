@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
+    "prepare": "cd ../.. && husky install src/front-end/.husky",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -35,11 +36,19 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.2.6",
     "msw": "^0.39.2",
     "prettier": "^2.2.1",
     "vue-cli-plugin-quasar": "~4.0.4"
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
   }
 }
