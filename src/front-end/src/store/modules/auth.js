@@ -6,7 +6,7 @@ export const auth = {
 	state: {
 		token: null,
 		userId: 'abc',
-		isRegister: null,
+		isRegister: false,
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
 			redirectionUri: `${window.location.origin}/login/naver`,
@@ -49,6 +49,9 @@ export const auth = {
 		setGoogleAuth({ commit }, response) {
 			commit('SET_GOOGLE_AUTH', response);
 		},
+		setRegister({ commit }, payload) {
+			commit('SET_REGISTER', payload);
+		},
 		async requestNaverAuth({ state }) {
 			// 네이버 로그인 호출
 			const reqState = Math.random().toString(36).substr(2, 11);
@@ -69,25 +72,23 @@ export const auth = {
 				? (code = state.naver.code)
 				: (code = state.google.token);
 
-			http
+			await http
 				.post(url, { code: code })
 				.then(res => {
 					// 로그인 성공
 					const token = res.headers.accesstoken;
-					commit('SET_REGISTER', true);
 					commit('SET_TOKEN', token);
 					localStorage.setItem('ACCESS_TOKEN', token);
 				})
 				.catch(err => {
 					// 최초 로그인 시도 (회원가입)
 					if (err.response.status === 301) {
-						commit('SET_REGISTER', false);
+						commit('SET_REGISTER', true);
 					}
 				});
 		},
 		keepLoginToken({ commit }) {
 			const token = localStorage.getItem('ACCESS_TOKEN');
-			console.log(token);
 			commit('SET_TOKEN', token);
 		},
 		logout() {
