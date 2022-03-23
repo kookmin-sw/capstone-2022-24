@@ -35,7 +35,7 @@
     "goGroupState": "모임 상태 보러가기"
   },
   "login": {
-    "kakao": "카카오로 시작하기",
+    "google": "구글로 시작하기",
     "naver": "네이버로 시작하기"
   },
   "alarm": {
