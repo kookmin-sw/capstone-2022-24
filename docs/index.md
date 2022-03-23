@@ -26,23 +26,23 @@
   <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
   <img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
   <img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
-</p>
+</p>  
 
-<로고 이미지>
+로고 이미지  
 
 > **온-갖**  
 발음 [ 온ː갇 ]<br>
 <br>**표준국어대사전**  
 관형사  
-1.이런저런 여러 가지의.
+1.이런저런 여러 가지의.  
 
 온갖은 크롤링 ??? 통한 OTT 작품 통합검색 및 계정 공유 매칭 기능까지 제공하는 플랫폼형 웹 서비스입니다.  
 
 슬로건
-> ### _"표준국어대사전의 의미와 같이 OTT 관련 여러가지 기능을 한번에 제공할 수 있도록 하자"_
+> ### _"표준국어대사전의 의미와 같이 OTT 관련 여러가지 기능을 한번에 제공할 수 있도록 하자"_  
 
 
-[문서](링크)
+[문서](링크)  
 
 ## README 목차
 - 팀 소개
@@ -52,7 +52,7 @@
 - 핵심 기능
 - 시스템 구성도(기말 발표때 추가예정)
 - 시스템 설계도(기말 발표때 추가예정)
-- 데이터 흐름도(기말 발표때 추가예정)
+- 데이터 흐름도(기말 발표때 추가예정)  
 
 ## 팀 소개
 
