@@ -4,7 +4,7 @@ from .settings.base import STATIC_LOCATION, MEDIA_LOCATION
 
 # static file storage
 class StaticStorage(S3Boto3Storage):
-    default_acl = 'public-read'
+    default_acl = None
     location = STATIC_LOCATION
 
 
