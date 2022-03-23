@@ -5,12 +5,8 @@ name: dev-fe-ci
 
 on:
   push:
-    paths-ignore:
-      - 'src/back-end/**'
     branches: [ develop ]
   pull_request:
-    paths-ignore:
-      - 'src/back-end/**'
     branches: [ develop ]
 
 jobs:
