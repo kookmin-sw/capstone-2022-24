@@ -69,4 +69,4 @@ services:
       - "80:80" # http
       - "443:443" # https
     depends_on:
-      - web지
+      - web
