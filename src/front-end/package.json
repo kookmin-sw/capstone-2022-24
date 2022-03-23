@@ -7,13 +7,14 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "prepare": "cd ../.. && husky install src/front-end/.husky",
-    "lint": "vue-cli-service lint --fix"
+    "prepare": "cd ../../ && husky install ./src/front-end/.husky",
+    "lint": "vue-cli-service lint --fix",
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
+    "lint-staged": "^12.3.7",
     "quasar": "^2.0.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.9",
@@ -36,6 +37,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "husky": "^7.0.4",
     "msw": "^0.39.2",
     "prettier": "^2.2.1",
     "vue-cli-plugin-quasar": "~4.0.4"
