@@ -68,6 +68,7 @@ export default {
 	data() {
 		return {
 			isLoginModal: false,
+			isRegisterModal: false,
 		};
 	},
 	computed: {
