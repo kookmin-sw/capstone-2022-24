@@ -57,16 +57,14 @@ services:
 
   nginx:
     container_name: nginx_dev
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile-dev
+    image: nginx:stable
     restart: on-failure
     volumes:
-      - ./nginx:${NGINX}
-      - ./static:${STATIC}
+      - ./nginx:/etc/nginx/templates
     environment:
       - WEB_HOST=${WEB_HOST}
-      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
+      - BASE=${BASE}
+      - AWS_S3_URL=${AWS_S3_URL}
     ports:
       - "80:80" # http
       - "443:443" # https
