@@ -93,15 +93,3 @@ def dictVideoUpdate(Movie_dict,Tv_dict):
 
     return videos_dict
 
-
-if __name__ == '__main__':
-    #now= datetime.datetime.now()
-    Movie_dict={}
-    Tv_dict={}
-    video_dict = dictVideoUpdate(Movie_dict,Tv_dict) #평소엔 이런식으로 전체 업데이트를 함.
-    #end= datetime.datetime.now()
-    #print(end-now) 시간 테스트용 설정
-
-    #dictMovieUpdate(Movie_dict) #tmdb id/title/Category까지만
-    #dictTvUpdate(Tv_dict) #tmdb id/title/Category까지만
-    #1차적으로 {id: (시리즈 분류/title/id)} 이렇게 되도록 나눠둠
