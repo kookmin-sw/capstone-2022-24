@@ -9,7 +9,7 @@
 			<div class="col-2 q-pl-lg">
 				<div class="q-pt-sm q-pl-md q-pb-md">
 					<img
-						src="@/assets/logo.png"
+						src="@/assets/service_logo.svg"
 						alt=""
 						style="display: block; width: 100%; height: 76px"
 						@click="$router.push({ name: 'Home' })" />
