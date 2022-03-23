@@ -1,4 +1,3 @@
-// import msg from '@/mocks/handlers/msg.js';
-import socialLogin from '@/mocks/handlers/socialLogin';
+import oauth from '@/mocks/handlers/oauth';
 
-export const handlers = [...Object.values(socialLogin)];
+export const handlers = [...Object.values(oauth)];

@@ -1,4 +1,5 @@
 import http from '@/api/http';
+import router from '@/router';
 
 export const auth = {
 	namespaced: true,
@@ -62,14 +63,20 @@ export const auth = {
 		},
 		async loginWithSocial({ state, commit }, social) {
 			const url = `/login/oauth/${social}`;
+			let code = null;
+
+			social === 'naver'
+				? (code = state.naver.code)
+				: (code = state.google.token);
+
 			http
-				.post(url, { code: state.naver.code })
+				.post(url, { code: code })
 				.then(res => {
 					// 로그인 성공
-					const token = res.data.accessToken;
+					const token = res.headers.accesstoken;
 					commit('SET_REGISTER', true);
 					commit('SET_TOKEN', token);
-					// TODO: access token 저장해서 로그인 유지
+					localStorage.setItem('ACCESS_TOKEN', token);
 				})
 				.catch(err => {
 					// 최초 로그인 시도 (회원가입)
@@ -77,6 +84,15 @@ export const auth = {
 						commit('SET_REGISTER', false);
 					}
 				});
+		},
+		keepLoginToken({ commit }) {
+			const token = localStorage.getItem('ACCESS_TOKEN');
+			console.log(token);
+			commit('SET_TOKEN', token);
+		},
+		logout() {
+			localStorage.removeItem('ACCESS_TOKEN');
+			router.go(0);
 		},
 	},
 };
