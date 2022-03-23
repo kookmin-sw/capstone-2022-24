@@ -6,8 +6,11 @@ from .base import *
 
 env = environ.Env(DEBUG=(bool, False))
 
-# reading environment file
+# read environment file
 environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.prod"))
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = False
 
@@ -41,5 +44,12 @@ DATABASES = {
     }
 }
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+# aws s3
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SECURE_URLS = env('AWS_S3_SECURE_URLS')
+AWS_QUERY_STRING_AUTH = env('AWS_QUERY_STRING_AUTH')
+
+# boto3
+DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE')
