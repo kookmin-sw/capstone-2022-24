@@ -15,9 +15,12 @@ server {
         proxy_pass http://unix:/app/back-end/web/gunicorn.sock;
     }
 
-    # s3 전환 시 삭제
     location /static/ {
-        root /app/back-end;
+        root ${AWS_S3_URL}${BASE};
+    }
+
+    location /media/ {
+        root ${AWS_S3_URL}${BASE};
     }
 }
 
