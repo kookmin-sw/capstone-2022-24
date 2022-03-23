@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # django-rest-framework
     "rest_framework",
+    'storages'
 ] + CUSTOM_APPS
 
 MIDDLEWARE = [
