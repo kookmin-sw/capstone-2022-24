@@ -21,6 +21,9 @@ export default {
 		GNB,
 		ServiceFooter,
 	},
+	beforeCreate() {
+		this.$store.dispatch('auth/keepLoginToken');
+	},
 };
 </script>
 

@@ -79,8 +79,7 @@ export default {
 			this.isLoginModal = !this.isLoginModal;
 		},
 		logoutBtnClick() {
-			this.$store.dispatch('auth/setToken', null);
-			this.$router.push({ name: 'Home' });
+			this.$store.dispatch('auth/logout');
 		},
 	},
 };
