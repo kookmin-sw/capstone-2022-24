@@ -1,0 +1,38 @@
+# http
+server {
+
+    listen 80;
+    listen [::]:80;
+    server_name ${WEB_HOST};
+
+    location / {
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/app/back-end/web/gunicorn.sock;
+    }
+
+    location /static/ {
+        root ${AWS_S3_URL}${BASE};
+    }
+
+    location /media/ {
+        root ${AWS_S3_URL}${BASE};
+    }
+}
+
+
+# https
+# further change requested
+server {
+
+    listen 443;
+    server_name ${WEB_HOST};
+
+    location / {
+        return 301 https://$server_name$request_uri; # https to http redirect
+    }
+}
