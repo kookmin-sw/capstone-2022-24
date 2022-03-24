@@ -2,12 +2,8 @@ name: prod-be-api-ci
 
 on:
   push:
-    paths-ignore:
-      - 'src/front-end/**'
     branches: [ main ]
   pull_request:
-    paths-ignore:
-      - 'src/front-end/**'
     branches: [ main ]
 
 jobs:
