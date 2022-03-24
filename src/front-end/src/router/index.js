@@ -21,7 +21,8 @@ const routes = [
 	{
 		path: '/login/:social',
 		name: 'LoginCallback',
-		async beforeEnter(to, from, next) {
+		async beforeEnter() {
+			// TODO: 회원가입 페이지 또는 로그인 직후 뒤로가기 시 소셜 로그인 창 안나오도록
 			const url = new URL(window.location.href);
 			let social = null;
 			if (url.pathname === '/login/naver') {
@@ -42,9 +43,22 @@ const routes = [
 				const token = hash.split('=')[1];
 				await store.dispatch('auth/setGoogleAuth', token);
 			}
-			await store.dispatch('auth/loginWithSocial', social);
-			next('/');
+			await store
+				.dispatch('auth/loginWithSocial', social)
+				.then(() => {
+					router.replace('/');
+				})
+				.catch(() => {
+					router.replace({ name: 'Register' });
+				});
 		},
+	},
+	{
+		// TODO: beforeEnter: url 입력으로 인한 접근 막기
+		path: '/register',
+		name: 'Register',
+		component: () =>
+			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
 	},
 	{
 		path: '/join/:userId',
