@@ -92,9 +92,10 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="offer in filters.offers"
-									:key="offer.id">
-									{{ offer }}
+									v-for="(offer, index) in offerFilters"
+									:key="index"
+                  v-model:selected="offer.isSelect">
+									{{ offer.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -255,22 +256,13 @@ export default {
         action: { label: '액션', isSelect: false },
         comedy: { label: '코미디', isSelect: false },
       },
+      offerFilters: {
+        all: { label: '전체', isSelect: false },
+        purchase: { label: '구매', isSelect: false },
+        rental: { label: '대여', isSelect: false },
+        flatRate: { label: '정액제', isSelect: false },
+      },
 			filters: {
-				genres: [
-					'전체',
-					'SF/판타지',
-					'공포',
-					'드라마',
-					'로맨스',
-					'스릴러',
-					'시대극',
-					'무협',
-					'범죄/추리',
-					'애니메이션',
-					'액션',
-					'코미디',
-				],
-				offers: ['전체', '구매', '대여', '정액제'],
 				countries: ['전체', '국내', '해외'],
 				watched: ['전체', '본 작품', '안 본 작품'],
 				year: {
