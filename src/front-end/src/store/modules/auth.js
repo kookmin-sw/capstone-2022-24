@@ -95,5 +95,23 @@ export const auth = {
 			localStorage.removeItem('ACCESS_TOKEN');
 			router.go(0);
 		},
+		nicknameDuplication(context, nickname) {
+			// 닉네임 중복 검사
+			const params = {
+				nickname: nickname,
+			};
+			http
+				.get('/users/validate-nickname', { params: params })
+				.then(() => {
+					// console.log("닉네임 사용 가능");
+					return true;
+				})
+				.catch(err => {
+					if (err.response.status === 409) {
+						// console.log('중복된 닉네임');
+						return false;
+					}
+				});
+		},
 	},
 };

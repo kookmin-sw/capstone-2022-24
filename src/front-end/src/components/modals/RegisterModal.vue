@@ -20,11 +20,17 @@
 					label="닉네임"
 					class="col-8 q-pr-lg"
 					v-model="nickname" />
-				<q-btn outline color="blue" class="col-4"> 중복 확인</q-btn>
+				<q-btn
+					outline
+					color="blue"
+					class="col-4"
+					@click="this.nicknameDuplication(this.nickname)">
+					중복 확인</q-btn
+				>
 			</div>
 		</q-card-section>
 		<q-card-actions align="right" class="text-primary">
-			<q-btn flat label="취소" v-close-popup @click="setRegister(false)" />
+			<q-btn flat label="취소" v-close-popup @click="this.setRegister(false)" />
 			<q-btn flat label="회원가입" v-close-popup />
 		</q-card-actions>
 	</q-card>
@@ -46,7 +52,7 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions('auth', ['setRegister']),
+		...mapActions('auth', ['setRegister', 'nicknameDuplication']),
 	},
 };
 </script>
