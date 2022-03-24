@@ -17,7 +17,7 @@
 				outline
 				color="blue"
 				class="col-4"
-				@click="this.nicknameDuplication(this.nickname)">
+				@click="duplicationCheckBtnClick">
 				중복 확인
 			</q-btn>
 		</div>
@@ -35,10 +35,26 @@ export default {
 	data() {
 		return {
 			nickname: null,
+			canNickname: false,
 		};
 	},
 	methods: {
 		...mapActions('auth', ['nicknameDuplication']),
+		duplicationCheckBtnClick() {
+			if (!this.nickname) {
+				alert('닉네임 형식을 맞추어 입력해주세요.');
+				return;
+			}
+			this.nicknameDuplication(this.nickname)
+				.then(() => {
+					alert('사용 가능한 닉네임입니다.');
+					this.canNickname = true;
+				})
+				.catch(() => {
+					alert('사용 불가능한 닉네임입니다.');
+					this.canNickname = false;
+				});
+		},
 	},
 };
 </script>
