@@ -62,9 +62,10 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="rate in filters.filmRatings"
-									:key="rate.id">
-									{{ rate }}
+									v-for="(rate, index) in filmRateFilters"
+									:key="index"
+                  v-model:selected="rate.isSelect">
+									{{ rate.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -232,14 +233,14 @@ export default {
         movies: { label: '영화', isSelect: false },
         tvSeries: { label: 'TV 시리즈', isSelect: false },
       },
+      filmRateFilters: {
+        all: { label: '전체', isSelect: false },
+        gRated: { label: '전체관람가', isSelect: false },
+        pg12: { label: '12세 이상 관람가', isSelect: false },
+        pg15: { label: '15세 이상 관람가', isSelect: false },
+        pg18: { label: '청소년 관람불가', isSelect: false },
+      },
 			filters: {
-				filmRatings: [
-					'전체',
-					'전체관람가',
-					'12세 이상 관람가',
-					'15세 이상 관람가',
-					'청소년 관람불가',
-				],
 				genres: [
 					'전체',
 					'SF/판타지',
