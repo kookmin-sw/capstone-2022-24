@@ -44,13 +44,14 @@
 							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>
 							<q-separator vertical inset color="blue" />
 							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="category in filters.categories"
-									:key="category.id">
-									{{ category }}
-								</q-chip>
+                <q-chip
+                    outline
+                    color="blue"
+                    v-for="(category, index) in categoryFilters"
+                    :key="index"
+                    v-model:selected="category.isSelect">
+                  {{ category.label }}
+                </q-chip>
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -226,8 +227,12 @@ export default {
         tving: { isSelect: false },
         wavve: { isSelect: false },
       },
+      categoryFilters: {
+        all: { label: '전체', isSelect: false },
+        movies: { label: '영화', isSelect: false },
+        tvSeries: { label: 'TV 시리즈', isSelect: false },
+      },
 			filters: {
-				categories: ['전체', '영화', 'TV 시리즈'],
 				filmRatings: [
 					'전체',
 					'전체관람가',
