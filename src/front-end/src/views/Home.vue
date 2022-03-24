@@ -1,9 +1,4 @@
 <template>
-	<!-- 회원가입 모달 -->
-	<q-dialog v-model="isRegisterModal" persistent>
-		<register-modal :is-active="isRegisterModal" />
-	</q-dialog>
-
 	<div class="home">
 		<!-- 검색창~필터링 단락 -->
 		<div class="row q-mt-xl q-mb-xl search-filter-frame">
@@ -213,13 +208,8 @@
 </template>
 
 <script>
-import RegisterModal from '@/components/modals/RegisterModal';
-import { mapState } from 'vuex';
 export default {
 	name: 'Home',
-	components: {
-		RegisterModal,
-	},
 	data() {
 		return {
 			isRegisterModal: false,
@@ -284,14 +274,6 @@ export default {
 				{},
 			],
 		};
-	},
-	created() {
-		if (this.isRegister) {
-			this.isRegisterModal = true;
-		}
-	},
-	computed: {
-		...mapState('auth', ['isRegister']),
 	},
 	methods: {
 		videoOnLoad(index, done) {

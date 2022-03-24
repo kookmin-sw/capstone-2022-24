@@ -6,7 +6,6 @@ export const auth = {
 	state: {
 		token: null,
 		userId: 'abc',
-		isRegister: false,
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
 			redirectionUri: `${window.location.origin}/login/naver`,
@@ -28,9 +27,6 @@ export const auth = {
 		SET_TOKEN(state, token) {
 			state.token = token;
 		},
-		SET_REGISTER(state, isRegister) {
-			state.isRegister = isRegister;
-		},
 		SET_NAVER_AUTH(state, response) {
 			state.naver.code = response.code;
 			state.naver.resState = response.resState;
@@ -48,9 +44,6 @@ export const auth = {
 		},
 		setGoogleAuth({ commit }, response) {
 			commit('SET_GOOGLE_AUTH', response);
-		},
-		setRegister({ commit }, payload) {
-			commit('SET_REGISTER', payload);
 		},
 		async requestNaverAuth({ state }) {
 			// 네이버 로그인 호출
@@ -72,20 +65,23 @@ export const auth = {
 				? (code = state.naver.code)
 				: (code = state.google.token);
 
-			await http
-				.post(url, { code: code })
-				.then(res => {
-					// 로그인 성공
-					const token = res.headers.accesstoken;
-					commit('SET_TOKEN', token);
-					localStorage.setItem('ACCESS_TOKEN', token);
-				})
-				.catch(err => {
-					// 최초 로그인 시도 (회원가입)
-					if (err.response.status === 301) {
-						commit('SET_REGISTER', true);
-					}
-				});
+			return new Promise((resolve, reject) => {
+				http
+					.post(url, { code: code })
+					.then(res => {
+						// 로그인 성공
+						const token = res.headers.accesstoken;
+						commit('SET_TOKEN', token);
+						localStorage.setItem('ACCESS_TOKEN', token);
+						resolve();
+					})
+					.catch(err => {
+						// 최초 로그인 시도 (회원가입)
+						if (err.response.status === 301) {
+							reject();
+						}
+					});
+			});
 		},
 		keepLoginToken({ commit }) {
 			const token = localStorage.getItem('ACCESS_TOKEN');
@@ -103,13 +99,11 @@ export const auth = {
 			http
 				.get('/users/validate-nickname', { params: params })
 				.then(() => {
-					// console.log("닉네임 사용 가능");
-					return true;
+					console.log('닉네임 사용 가능');
 				})
 				.catch(err => {
 					if (err.response.status === 409) {
-						// console.log('중복된 닉네임');
-						return false;
+						console.log('중복된 닉네임');
 					}
 				});
 		},
