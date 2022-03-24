@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint"
+    "prepare": "cd ../.. && husky install src/front-end/.husky",
+    "lint": "vue-cli-service lint --fix"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

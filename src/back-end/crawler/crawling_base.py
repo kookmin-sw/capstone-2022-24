@@ -2,12 +2,14 @@ import crawling_sample as cs
 import json
 import requests
 import os
+import sys
 ## Python이 실행될 때 DJANGO_SETTINGS_MODULE이라는 환경 변수에 현재 프로젝트의 settings.py파일 경로를 등록
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.config.settings")
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.config.settings")
 import django
 django.setup()
 
-from server.videos.models import videos
+from web.videos.models import videos
 
 def getbaseCrawler(): 
     result = getMoviebaseCrawler()+getTvbaseCrawler()
@@ -72,7 +74,6 @@ def getTvbaseCrawler():
 
 if __name__ == '__main__':
     videoData = getbaseCrawler()
-    print(videoData)
     for item in videoData: #videos Model에 data 저장
         videos(tmdbid = item['tmdbid'], title = item['title'], releaseDate = item['DateField'],
         filmRating= item['filmRating'], category= item['category'], posterKey= item['posterKey'], titleEnglish= item['titleEnglish'] ).save()
