@@ -77,9 +77,10 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="genre in filters.genres"
-									:key="genre.id">
-									{{ genre }}
+									v-for="(genre, index) in genreFilters"
+									:key="index"
+                  v-model:selected="genre.isSelect">
+									{{ genre.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -239,6 +240,20 @@ export default {
         pg12: { label: '12세 이상 관람가', isSelect: false },
         pg15: { label: '15세 이상 관람가', isSelect: false },
         pg18: { label: '청소년 관람불가', isSelect: false },
+      },
+      genreFilters: {
+        all: { label: '전체', isSelect: false },
+        fantasy: { label: 'SF/판타지', isSelect: false },
+        horror: { label: '공포', isSelect: false },
+        drama: { label: '드라마', isSelect: false },
+        romance: { label: '로맨스', isSelect: false },
+        thriller: { label: '스릴러', isSelect: false },
+        historicalDrama: { label: '시대극', isSelect: false },
+        martialArts: { label: '무협', isSelect: false },
+        mystery: { label: '범죄/추리', isSelect: false },
+        animation: { label: '애니메이션', isSelect: false },
+        action: { label: '액션', isSelect: false },
+        comedy: { label: '코미디', isSelect: false },
       },
 			filters: {
 				genres: [
