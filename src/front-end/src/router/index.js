@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
-
 import store from '@/store/index.js';
+import Home from '@/views/Home.vue';
 
 const onlyAuthUser = (to, from, next) => {
 	if (store.getters['auth/isLogin'] === false) {
@@ -21,8 +20,10 @@ const routes = [
 	{
 		path: '/login/:social',
 		name: 'LoginCallback',
-		async beforeEnter() {
+		async beforeEnter(to, from, next) {
 			// TODO: 회원가입 페이지 또는 로그인 직후 뒤로가기 시 소셜 로그인 창 안나오도록
+			// TODO: 네이버 로그인 필수 제공 항목 동의 미체크 시 로그인 취소
+			// TODO: 네이버 정보 제공 동의 항목이 로그인 할 때 마다 나온다면...? 해결하기
 			const url = new URL(window.location.href);
 			let social = null;
 			if (url.pathname === '/login/naver') {
@@ -30,6 +31,10 @@ const routes = [
 				social = 'naver';
 				const code = url.searchParams.get('code');
 				const state = url.searchParams.get('state');
+				if (code === null) {
+					alert('필수 정보 제공에 동의하지 않아 로그인을 취소합니다.');
+					next('/');
+				}
 				const response = {
 					code: code,
 					resState: state,
@@ -46,10 +51,10 @@ const routes = [
 			await store
 				.dispatch('auth/loginWithSocial', social)
 				.then(() => {
-					router.replace('/');
+					next('/');
 				})
 				.catch(() => {
-					router.replace({ name: 'Register' });
+					next('/register');
 				});
 		},
 	},
