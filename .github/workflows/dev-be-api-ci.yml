@@ -2,12 +2,8 @@ name: dev-be-api-ci
 
 on:
   push:
-    paths-ignore:
-      - 'src/front-end/**'
     branches: [ develop ]
   pull_request:
-    paths-ignore:
-      - 'src/front-end/**'
     branches: [ develop ]
 
 jobs:
