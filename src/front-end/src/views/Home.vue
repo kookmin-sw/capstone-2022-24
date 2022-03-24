@@ -107,9 +107,10 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="country in filters.countries"
-									:key="country.id">
-									{{ country }}
+									v-for="(country, index) in countryFilters"
+									:key="index"
+                  v-model:selected="country.isSelect">
+									{{ country.label }}
 								</q-chip>
 							</div>
 							<!-- 관람 여부 -->
@@ -121,9 +122,10 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="work in filters.watched"
-									:key="work.id">
-									{{ work }}
+									v-for="(work, index) in watchedFilters"
+									:key="index"
+                  v-model:selected="work.isSelect">
+									{{ work.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -262,9 +264,17 @@ export default {
         rental: { label: '대여', isSelect: false },
         flatRate: { label: '정액제', isSelect: false },
       },
+      countryFilters: {
+        all: { label: '전체', isSelect: false },
+        domestic: { label: '국내', isSelect: false },
+        international: { label: '해외', isSelect: false },
+      },
+      watchedFilters: {
+        all: { label: '전체', isSelect: false },
+        watched: { label: '본 작품', isSelect: false },
+        unwathced: { label: '안 본 작품', isSelect: false },
+      },
 			filters: {
-				countries: ['전체', '국내', '해외'],
-				watched: ['전체', '본 작품', '안 본 작품'],
 				year: {
 					min: 1970,
 					max: 2022,
