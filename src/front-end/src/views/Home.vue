@@ -23,14 +23,14 @@
 					<q-btn flat padding="none"
                  v-for="(otts, index) in ottFilters"
                  :key="index"
-                 :class="{ 'is-select': otts.isSelect }"
+                 :class="{ 'ott-filter-select': otts.isSelect }"
                  @click="ottFilterClick(index)"><!-- console.log() 확인용 매개변수 -->
 						<q-avatar rounded color="blue" size="60px" />
 					</q-btn>
 <!--          <q-avatar rounded color="blue" size="60px"-->
 <!--                    v-for="(otts, index) in ottFilters"-->
 <!--                    :key="index"-->
-<!--                    :class="{ 'is-select': otts.isSelect }"-->
+<!--                    :class="{ 'ott-filter-select': otts.isSelect }"-->
 <!--                    @click="ottFilterClick(index)"/>-->
 				</div>
 				<!-- 필터링 조건 -->
@@ -313,7 +313,7 @@ export default {
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-.is-select {
+.ott-filter-select {
   border: 3px solid darkblue;
   border-radius: 7px;
 }
