@@ -8,8 +8,9 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "prepare": "cd ../.. && husky install ./src/front-end/.husky",
-    "create-hook": "cd ../.. && husky add ./src/front-end/.husky/pre-commit \"npm run lint-staged\"",
-    "lint": "vue-cli-service lint --fix"
+    "enable-hook": "cd ../.. && npx husky-init",
+    "lint": "vue-cli-service lint --fix",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -45,5 +46,11 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
