@@ -28,7 +28,6 @@ class User(models.Model):
     cell_phone_number = models.CharField(
         max_length=14,
         null=False,
-        db_column="cellPhoneNumber"
     ),
     # account = models.ForeignKey(
     #     Account,
@@ -38,12 +37,10 @@ class User(models.Model):
     social_type = models.EmbeddedField(
         null=False,
         model_container=SocialType,
-        db_column="socialType"
     ),
     profile_image_url = models.ImageField(
         blank=True,
         null=True,
-        db_column="profileImageUrl"
     ),
     birthday = models.DateField(
         null=True
@@ -51,15 +48,12 @@ class User(models.Model):
     is_blocked = models.BooleanField(
         null=False,
         default=False,
-        db_column="isBlocked"
     ),
     registration_date_time = models.DateTimeField(
         null=False,
         default=timezone.now,
-        db_column="registrationDateTime"
     ),
     withdrawal_date_time = models.DateTimeField(
         null=True,
         default=None,
-        db_column="withdrawalDateTime"
     )
