@@ -7,6 +7,8 @@
 				<!-- 검색 -->
 				<div class="row q-mb-xl text-left search-frame">
 					<q-input
+              clearable
+              clear-icon="close"
 						outlined
 						dense
 						type="search"
@@ -14,7 +16,7 @@
 						class="col-9 search-bar"
 						v-model="search">
 					</q-input>
-					<q-btn unelevated outline color="blue" class="col-2">
+					<q-btn unelevated outline color="blue" class="col-2" @click="clearSearchTab">
 						<q-icon name="search" color="blue" />
 					</q-btn>
 				</div>
@@ -322,6 +324,9 @@ export default {
 		},
 		ottFilterClick(idx) {
       this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+    },
+    clearSearchTab() {
+      this.search
     },
 	},
 };
