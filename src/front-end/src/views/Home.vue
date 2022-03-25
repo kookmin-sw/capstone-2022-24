@@ -20,28 +20,27 @@
 						unelevated
 						outline
 						color="blue"
-						class="col-2"
-						@click="clearSearchTab">
+						class="col-2">
 						<q-icon name="search" color="blue" />
 					</q-btn>
 				</div>
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
-					<q-btn
-						flat
-						padding="none"
-						v-for="(otts, index) in ottFilters"
-						:key="index"
-						:class="{ 'ott-filter-select': otts.isSelect }"
-						@click="ottFilterClick(index)"
-						><!-- console.log() 확인용 매개변수 -->
-						<q-avatar rounded color="blue" size="60px" />
-					</q-btn>
-					<!--          <q-avatar rounded color="blue" size="60px"-->
-					<!--                    v-for="(otts, index) in ottFilters"-->
-					<!--                    :key="index"-->
-					<!--                    :class="{ 'ott-filter-select': otts.isSelect }"-->
-					<!--                    @click="ottFilterClick(index)"/>-->
+<!--					<q-btn-->
+<!--						flat-->
+<!--						padding="none"-->
+<!--						v-for="(otts, index) in ottFilters"-->
+<!--						:key="index"-->
+<!--						:class="{ 'ott-filter-select': otts.isSelect }"-->
+<!--						@click="ottFilterClick(index)"-->
+<!--						>&lt;!&ndash; console.log() 확인용 매개변수 &ndash;&gt;-->
+<!--						<q-avatar rounded color="blue" size="60px" />-->
+<!--					</q-btn>-->
+					          <q-avatar rounded color="blue" size="60px"
+					                    v-for="(otts, index) in ottFilters"
+					                    :key="index"
+					                    :class="{ 'ott-filter-select': otts.isSelect }"
+					                    @click="ottFilterClick(index)"/>
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -59,9 +58,11 @@
 									color="blue"
 									v-for="(category, index) in categoryFilters"
 									:key="index"
-									v-model:selected="category.isSelect">
+									v-model:selected="category.isSelect"
+                  @click="filterClick(category)">
 									{{ category.label }}
 								</q-chip>
+                확인 :{{ selected }}
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -74,9 +75,11 @@
 									color="blue"
 									v-for="(rate, index) in filmRateFilters"
 									:key="index"
-									v-model:selected="rate.isSelect">
+									v-model:selected="rate.isSelect"
+                  @click="filterClick(rate)">
 									{{ rate.label }}
 								</q-chip>
+                확인 :{{ selected }}
 							</div>
 						</div>
 						<!-- 장르 -->
@@ -243,16 +246,16 @@ export default {
 				wavve: { isSelect: false },
 			},
 			categoryFilters: {
-				all: { label: '전체', isSelect: false },
-				movies: { label: '영화', isSelect: false },
-				tvSeries: { label: 'TV 시리즈', isSelect: false },
+				all: { label: '전체', isSelect: false, filterName: 'category' },
+				movies: { label: '영화', isSelect: false, filterName: 'category' },
+				tvSeries: { label: 'TV 시리즈', isSelect: false, filterName: 'category' },
 			},
 			filmRateFilters: {
-				all: { label: '전체', isSelect: false },
-				gRated: { label: '전체관람가', isSelect: false },
-				pg12: { label: '12세 이상 관람가', isSelect: false },
-				pg15: { label: '15세 이상 관람가', isSelect: false },
-				pg18: { label: '청소년 관람불가', isSelect: false },
+				all: { label: '전체', isSelect: false , filterName: 'filmRate' },
+				gRated: { label: '전체관람가', isSelect: false, filterName: 'filmRate' },
+				pg12: { label: '12세 이상 관람가', isSelect: false, filterName: 'filmRate' },
+				pg15: { label: '15세 이상 관람가', isSelect: false, filterName: 'filmRate' },
+				pg18: { label: '청소년 관람불가', isSelect: false, filterName: 'filmRate' },
 			},
 			genreFilters: {
 				all: { label: '전체', isSelect: false },
@@ -319,8 +322,7 @@ export default {
 				{},
 				{},
 			],
-
-			selected: '',
+      selected: [],
 		};
 	},
 	methods: {
@@ -333,6 +335,21 @@ export default {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 		},
+    filterClick(idx) {
+      if ((idx.label === '전체') && (idx.isSelect === true)){
+        this.selected.push(this.categoryFilters.movies.label)
+        this.selected.push(this.categoryFilters.tvSeries.label)
+      }else if ((idx.label === '전체') && (idx.isSelect === false)){
+        this.selected = this.selected.filter(element => element === idx.label)
+      } else if ((idx.label !== '전체') && (idx.isSelect === true)) {
+        this.selected.push(idx.label)
+      }else if ((idx.label !== '전체') && (idx.isSelect === false)) {
+        this.selected = this.selected.filter(element => element !== idx.label)
+      }
+      console.log(idx);
+      console.log(this.selected);
+      console.log(this.selected.filterName);
+    },
 	},
 };
 </script>
