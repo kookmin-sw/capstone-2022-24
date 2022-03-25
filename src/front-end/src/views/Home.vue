@@ -333,9 +333,6 @@ export default {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 		},
-		clearSearchTab() {
-			this.search;
-		},
 	},
 };
 </script>
