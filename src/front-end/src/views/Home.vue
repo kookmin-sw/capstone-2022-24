@@ -7,8 +7,8 @@
 				<!-- 검색 -->
 				<div class="row q-mb-xl text-left search-frame">
 					<q-input
-              clearable
-              clear-icon="close"
+						clearable
+						clear-icon="close"
 						outlined
 						dense
 						type="search"
@@ -16,24 +16,32 @@
 						class="col-9 search-bar"
 						v-model="search">
 					</q-input>
-					<q-btn unelevated outline color="blue" class="col-2" @click="clearSearchTab">
+					<q-btn
+						unelevated
+						outline
+						color="blue"
+						class="col-2"
+						@click="clearSearchTab">
 						<q-icon name="search" color="blue" />
 					</q-btn>
 				</div>
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
-					<q-btn flat padding="none"
-                 v-for="(otts, index) in ottFilters"
-                 :key="index"
-                 :class="{ 'ott-filter-select': otts.isSelect }"
-                 @click="ottFilterClick(index)"><!-- console.log() 확인용 매개변수 -->
+					<q-btn
+						flat
+						padding="none"
+						v-for="(otts, index) in ottFilters"
+						:key="index"
+						:class="{ 'ott-filter-select': otts.isSelect }"
+						@click="ottFilterClick(index)"
+						><!-- console.log() 확인용 매개변수 -->
 						<q-avatar rounded color="blue" size="60px" />
 					</q-btn>
-<!--          <q-avatar rounded color="blue" size="60px"-->
-<!--                    v-for="(otts, index) in ottFilters"-->
-<!--                    :key="index"-->
-<!--                    :class="{ 'ott-filter-select': otts.isSelect }"-->
-<!--                    @click="ottFilterClick(index)"/>-->
+					<!--          <q-avatar rounded color="blue" size="60px"-->
+					<!--                    v-for="(otts, index) in ottFilters"-->
+					<!--                    :key="index"-->
+					<!--                    :class="{ 'ott-filter-select': otts.isSelect }"-->
+					<!--                    @click="ottFilterClick(index)"/>-->
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -46,14 +54,14 @@
 							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>
 							<q-separator vertical inset color="blue" />
 							<div class="col-9 q-ml-sm text-left chips-frame">
-                <q-chip
-                    outline
-                    color="blue"
-                    v-for="(category, index) in categoryFilters"
-                    :key="index"
-                    v-model:selected="category.isSelect">
-                  {{ category.label }}
-                </q-chip>
+								<q-chip
+									outline
+									color="blue"
+									v-for="(category, index) in categoryFilters"
+									:key="index"
+									v-model:selected="category.isSelect">
+									{{ category.label }}
+								</q-chip>
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -66,7 +74,7 @@
 									color="blue"
 									v-for="(rate, index) in filmRateFilters"
 									:key="index"
-                  v-model:selected="rate.isSelect">
+									v-model:selected="rate.isSelect">
 									{{ rate.label }}
 								</q-chip>
 							</div>
@@ -81,7 +89,7 @@
 									color="blue"
 									v-for="(genre, index) in genreFilters"
 									:key="index"
-                  v-model:selected="genre.isSelect">
+									v-model:selected="genre.isSelect">
 									{{ genre.label }}
 								</q-chip>
 							</div>
@@ -96,7 +104,7 @@
 									color="blue"
 									v-for="(offer, index) in offerFilters"
 									:key="index"
-                  v-model:selected="offer.isSelect">
+									v-model:selected="offer.isSelect">
 									{{ offer.label }}
 								</q-chip>
 							</div>
@@ -111,7 +119,7 @@
 									color="blue"
 									v-for="(country, index) in countryFilters"
 									:key="index"
-                  v-model:selected="country.isSelect">
+									v-model:selected="country.isSelect">
 									{{ country.label }}
 								</q-chip>
 							</div>
@@ -126,7 +134,7 @@
 									color="blue"
 									v-for="(work, index) in watchedFilters"
 									:key="index"
-                  v-model:selected="work.isSelect">
+									v-model:selected="work.isSelect">
 									{{ work.label }}
 								</q-chip>
 							</div>
@@ -227,55 +235,55 @@ export default {
 	name: 'Home',
 	data() {
 		return {
-      ottFilters: {
-        netflix: { isSelect: false },
-        watcha: { isSelect: false },
-        disneyPlus: { isSelect: false },
-        tving: { isSelect: false },
-        wavve: { isSelect: false },
-      },
-      categoryFilters: {
-        all: { label: '전체', isSelect: false },
-        movies: { label: '영화', isSelect: false },
-        tvSeries: { label: 'TV 시리즈', isSelect: false },
-      },
-      filmRateFilters: {
-        all: { label: '전체', isSelect: false },
-        gRated: { label: '전체관람가', isSelect: false },
-        pg12: { label: '12세 이상 관람가', isSelect: false },
-        pg15: { label: '15세 이상 관람가', isSelect: false },
-        pg18: { label: '청소년 관람불가', isSelect: false },
-      },
-      genreFilters: {
-        all: { label: '전체', isSelect: false },
-        fantasy: { label: 'SF/판타지', isSelect: false },
-        horror: { label: '공포', isSelect: false },
-        drama: { label: '드라마', isSelect: false },
-        romance: { label: '로맨스', isSelect: false },
-        thriller: { label: '스릴러', isSelect: false },
-        historicalDrama: { label: '시대극', isSelect: false },
-        martialArts: { label: '무협', isSelect: false },
-        mystery: { label: '범죄/추리', isSelect: false },
-        animation: { label: '애니메이션', isSelect: false },
-        action: { label: '액션', isSelect: false },
-        comedy: { label: '코미디', isSelect: false },
-      },
-      offerFilters: {
-        all: { label: '전체', isSelect: false },
-        purchase: { label: '구매', isSelect: false },
-        rental: { label: '대여', isSelect: false },
-        flatRate: { label: '정액제', isSelect: false },
-      },
-      countryFilters: {
-        all: { label: '전체', isSelect: false },
-        domestic: { label: '국내', isSelect: false },
-        international: { label: '해외', isSelect: false },
-      },
-      watchedFilters: {
-        all: { label: '전체', isSelect: false },
-        watched: { label: '본 작품', isSelect: false },
-        unwathced: { label: '안 본 작품', isSelect: false },
-      },
+			ottFilters: {
+				netflix: { isSelect: false },
+				watcha: { isSelect: false },
+				disneyPlus: { isSelect: false },
+				tving: { isSelect: false },
+				wavve: { isSelect: false },
+			},
+			categoryFilters: {
+				all: { label: '전체', isSelect: false },
+				movies: { label: '영화', isSelect: false },
+				tvSeries: { label: 'TV 시리즈', isSelect: false },
+			},
+			filmRateFilters: {
+				all: { label: '전체', isSelect: false },
+				gRated: { label: '전체관람가', isSelect: false },
+				pg12: { label: '12세 이상 관람가', isSelect: false },
+				pg15: { label: '15세 이상 관람가', isSelect: false },
+				pg18: { label: '청소년 관람불가', isSelect: false },
+			},
+			genreFilters: {
+				all: { label: '전체', isSelect: false },
+				fantasy: { label: 'SF/판타지', isSelect: false },
+				horror: { label: '공포', isSelect: false },
+				drama: { label: '드라마', isSelect: false },
+				romance: { label: '로맨스', isSelect: false },
+				thriller: { label: '스릴러', isSelect: false },
+				historicalDrama: { label: '시대극', isSelect: false },
+				martialArts: { label: '무협', isSelect: false },
+				mystery: { label: '범죄/추리', isSelect: false },
+				animation: { label: '애니메이션', isSelect: false },
+				action: { label: '액션', isSelect: false },
+				comedy: { label: '코미디', isSelect: false },
+			},
+			offerFilters: {
+				all: { label: '전체', isSelect: false },
+				purchase: { label: '구매', isSelect: false },
+				rental: { label: '대여', isSelect: false },
+				flatRate: { label: '정액제', isSelect: false },
+			},
+			countryFilters: {
+				all: { label: '전체', isSelect: false },
+				domestic: { label: '국내', isSelect: false },
+				international: { label: '해외', isSelect: false },
+			},
+			watchedFilters: {
+				all: { label: '전체', isSelect: false },
+				watched: { label: '본 작품', isSelect: false },
+				unwathced: { label: '안 본 작품', isSelect: false },
+			},
 			filters: {
 				year: {
 					min: 1970,
@@ -312,7 +320,7 @@ export default {
 				{},
 			],
 
-      selected: '',
+			selected: '',
 		};
 	},
 	methods: {
@@ -323,11 +331,11 @@ export default {
 			}, 2000);
 		},
 		ottFilterClick(idx) {
-      this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
-    },
-    clearSearchTab() {
-      this.search
-    },
+			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+		},
+		clearSearchTab() {
+			this.search;
+		},
 	},
 };
 </script>
@@ -342,8 +350,8 @@ export default {
 	justify-content: space-between;
 }
 .ott-filter-select {
-  border: 3px solid darkblue;
-  border-radius: 7px;
+	border: 3px solid darkblue;
+	border-radius: 7px;
 }
 .video-poster {
 	width: 15%;
