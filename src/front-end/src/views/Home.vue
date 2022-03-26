@@ -389,40 +389,52 @@ export default {
 			if (idx.label === '전체' && idx.isSelect === true) {
 				switch (idx.filterName) {
 					case 'category':
-						this.selected.category.push(this.categoryFilters.movies.label);
-						this.selected.category.push(this.categoryFilters.tvSeries.label);
+						for (let key in this.categoryFilters) {
+							this.selected.category.push(this.categoryFilters[key].label);
+							this.selected.category = this.selected.category.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 					case 'filmRate':
-						this.selected.filmRate.push(this.filmRateFilters.gRated.label);
-						this.selected.filmRate.push(this.filmRateFilters.pg12.label);
-						this.selected.filmRate.push(this.filmRateFilters.pg15.label);
-						this.selected.filmRate.push(this.filmRateFilters.pg18.label);
+						for (let key in this.filmRateFilters) {
+							this.selected.filmRate.push(this.filmRateFilters[key].label);
+							this.selected.filmRate = this.selected.filmRate.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 					case 'genre':
-						this.selected.genre.push(this.genreFilters.fantasy.label);
-						this.selected.genre.push(this.genreFilters.horror.label);
-						this.selected.genre.push(this.genreFilters.drama.label);
-						this.selected.genre.push(this.genreFilters.romance.label);
-						this.selected.genre.push(this.genreFilters.thriller.label);
-						this.selected.genre.push(this.genreFilters.historicalDrama.label);
-						this.selected.genre.push(this.genreFilters.martialArts.label);
-						this.selected.genre.push(this.genreFilters.mystery.label);
-						this.selected.genre.push(this.genreFilters.animation.label);
-						this.selected.genre.push(this.genreFilters.action.label);
-						this.selected.genre.push(this.genreFilters.comedy.label);
+						for (let key in this.genreFilters) {
+							this.selected.genre.push(this.genreFilters[key].label);
+							this.selected.genre = this.selected.genre.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 					case 'offer':
-						this.selected.offer.push(this.offerFilters.purchase.label);
-						this.selected.offer.push(this.offerFilters.rental.label);
-						this.selected.offer.push(this.offerFilters.flatRate.label);
+						for (let key in this.offerFilters) {
+							this.selected.offer.push(this.offerFilters[key].label);
+							this.selected.offer = this.selected.offer.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 					case 'country':
-						this.selected.country.push(this.countryFilters.domestic.label);
-						this.selected.country.push(this.countryFilters.international.label);
+						for (let key in this.countryFilters) {
+							this.selected.country.push(this.countryFilters[key].label);
+							this.selected.country = this.selected.country.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 					case 'watched':
-						this.selected.watched.push(this.watchedFilters.watched.label);
-						this.selected.watched.push(this.watchedFilters.unwathced.label);
+						for (let key in this.watchedFilters) {
+							this.selected.watched.push(this.watchedFilters[key].label);
+							this.selected.watched = this.selected.watched.filter(
+								element => element !== idx.label,
+							);
+						}
 						break;
 				}
 			} else if (idx.label === '전체' && idx.isSelect === false) {
