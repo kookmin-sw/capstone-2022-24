@@ -62,7 +62,7 @@
                   @click="filterClick(category)">
 									{{ category.label }}
 								</q-chip>
-                확인 :{{ selected }}
+                확인 :{{ selected.category }}
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -79,7 +79,7 @@
                   @click="filterClick(rate)">
 									{{ rate.label }}
 								</q-chip>
-                확인 :{{ selected }}
+                확인 :{{ selected.filmRate }}
 							</div>
 						</div>
 						<!-- 장르 -->
@@ -92,9 +92,11 @@
 									color="blue"
 									v-for="(genre, index) in genreFilters"
 									:key="index"
-									v-model:selected="genre.isSelect">
+									v-model:selected="genre.isSelect"
+                  @click="filterClick(genre)">
 									{{ genre.label }}
 								</q-chip>
+                확인 :{{ selected.genre }}
 							</div>
 						</div>
 						<!-- 결제 종류 -->
@@ -107,9 +109,11 @@
 									color="blue"
 									v-for="(offer, index) in offerFilters"
 									:key="index"
-									v-model:selected="offer.isSelect">
+									v-model:selected="offer.isSelect"
+                  @click="filterClick(offer)">
 									{{ offer.label }}
 								</q-chip>
+                확인 :{{ selected.offer }}
 							</div>
 						</div>
 						<!-- 국가 -->
@@ -122,9 +126,11 @@
 									color="blue"
 									v-for="(country, index) in countryFilters"
 									:key="index"
-									v-model:selected="country.isSelect">
+									v-model:selected="country.isSelect"
+                  @click="filterClick(country)">
 									{{ country.label }}
 								</q-chip>
+                확인 :{{ selected.country }}
 							</div>
 							<!-- 관람 여부 -->
 						</div>
@@ -137,9 +143,11 @@
 									color="blue"
 									v-for="(work, index) in watchedFilters"
 									:key="index"
-									v-model:selected="work.isSelect">
+									v-model:selected="work.isSelect"
+                  @click="filterClick(work)">
 									{{ work.label }}
 								</q-chip>
+                확인 :{{ selected.watched }}
 							</div>
 						</div>
 						<!-- 슬라이더 형태 필터링 -->
@@ -251,41 +259,41 @@ export default {
 				tvSeries: { label: 'TV 시리즈', isSelect: false, filterName: 'category' },
 			},
 			filmRateFilters: {
-				all: { label: '전체', isSelect: false , filterName: 'filmRate' },
+				all: { label: '전체', isSelect: false, filterName: 'filmRate' },
 				gRated: { label: '전체관람가', isSelect: false, filterName: 'filmRate' },
 				pg12: { label: '12세 이상 관람가', isSelect: false, filterName: 'filmRate' },
 				pg15: { label: '15세 이상 관람가', isSelect: false, filterName: 'filmRate' },
 				pg18: { label: '청소년 관람불가', isSelect: false, filterName: 'filmRate' },
 			},
 			genreFilters: {
-				all: { label: '전체', isSelect: false },
-				fantasy: { label: 'SF/판타지', isSelect: false },
-				horror: { label: '공포', isSelect: false },
-				drama: { label: '드라마', isSelect: false },
-				romance: { label: '로맨스', isSelect: false },
-				thriller: { label: '스릴러', isSelect: false },
-				historicalDrama: { label: '시대극', isSelect: false },
-				martialArts: { label: '무협', isSelect: false },
-				mystery: { label: '범죄/추리', isSelect: false },
-				animation: { label: '애니메이션', isSelect: false },
-				action: { label: '액션', isSelect: false },
-				comedy: { label: '코미디', isSelect: false },
+				all: { label: '전체', isSelect: false, filterName: 'genre' },
+				fantasy: { label: 'SF/판타지', isSelect: false, filterName: 'genre' },
+				horror: { label: '공포', isSelect: false, filterName: 'genre' },
+				drama: { label: '드라마', isSelect: false, filterName: 'genre' },
+				romance: { label: '로맨스', isSelect: false, filterName: 'genre' },
+				thriller: { label: '스릴러', isSelect: false, filterName: 'genre' },
+				historicalDrama: { label: '시대극', isSelect: false, filterName: 'genre' },
+				martialArts: { label: '무협', isSelect: false, filterName: 'genre' },
+				mystery: { label: '범죄/추리', isSelect: false, filterName: 'genre' },
+				animation: { label: '애니메이션', isSelect: false, filterName: 'genre' },
+				action: { label: '액션', isSelect: false, filterName: 'genre' },
+				comedy: { label: '코미디', isSelect: false, filterName: 'genre' },
 			},
 			offerFilters: {
-				all: { label: '전체', isSelect: false },
-				purchase: { label: '구매', isSelect: false },
-				rental: { label: '대여', isSelect: false },
-				flatRate: { label: '정액제', isSelect: false },
+				all: { label: '전체', isSelect: false, filterName: 'offer' },
+				purchase: { label: '구매', isSelect: false, filterName: 'offer' },
+				rental: { label: '대여', isSelect: false, filterName: 'offer' },
+				flatRate: { label: '정액제', isSelect: false, filterName: 'offer' },
 			},
 			countryFilters: {
-				all: { label: '전체', isSelect: false },
-				domestic: { label: '국내', isSelect: false },
-				international: { label: '해외', isSelect: false },
+				all: { label: '전체', isSelect: false, filterName: 'country' },
+				domestic: { label: '국내', isSelect: false, filterName: 'country' },
+				international: { label: '해외', isSelect: false, filterName: 'country' },
 			},
 			watchedFilters: {
-				all: { label: '전체', isSelect: false },
-				watched: { label: '본 작품', isSelect: false },
-				unwathced: { label: '안 본 작품', isSelect: false },
+				all: { label: '전체', isSelect: false, filterName: 'watched' },
+				watched: { label: '본 작품', isSelect: false, filterName: 'watched' },
+				unwathced: { label: '안 본 작품', isSelect: false, filterName: 'watched' },
 			},
 			filters: {
 				year: {
@@ -322,7 +330,14 @@ export default {
 				{},
 				{},
 			],
-      selected: [],
+      selected: {
+        category: [],
+        filmRate: [],
+        genre: [],
+        offer: [],
+        country: [],
+        watched: [],
+      },
 		};
 	},
 	methods: {
@@ -337,18 +352,108 @@ export default {
 		},
     filterClick(idx) {
       if ((idx.label === '전체') && (idx.isSelect === true)){
-        this.selected.push(this.categoryFilters.movies.label)
-        this.selected.push(this.categoryFilters.tvSeries.label)
+        switch (idx.filterName) {
+          case 'category':
+            this.selected.category.push(this.categoryFilters.movies.label);
+            this.selected.category.push(this.categoryFilters.tvSeries.label);
+            break;
+          case 'filmRate':
+            this.selected.filmRate.push(this.filmRateFilters.gRated.label);
+            this.selected.filmRate.push(this.filmRateFilters.pg12.label);
+            this.selected.filmRate.push(this.filmRateFilters.pg15.label);
+            this.selected.filmRate.push(this.filmRateFilters.pg18.label);
+            break;
+          case 'genre':
+            this.selected.genre.push(this.genreFilters.fantasy.label);
+            this.selected.genre.push(this.genreFilters.horror.label);
+            this.selected.genre.push(this.genreFilters.drama.label);
+            this.selected.genre.push(this.genreFilters.romance.label);
+            this.selected.genre.push(this.genreFilters.thriller.label);
+            this.selected.genre.push(this.genreFilters.historicalDrama.label);
+            this.selected.genre.push(this.genreFilters.martialArts.label);
+            this.selected.genre.push(this.genreFilters.mystery.label);
+            this.selected.genre.push(this.genreFilters.animation.label);
+            this.selected.genre.push(this.genreFilters.action.label);
+            this.selected.genre.push(this.genreFilters.comedy.label);
+            break;
+          case 'offer':
+            this.selected.offer.push(this.offerFilters.purchase.label);
+            this.selected.offer.push(this.offerFilters.rental.label);
+            this.selected.offer.push(this.offerFilters.flatRate.label);
+            break;
+          case 'country':
+            this.selected.country.push(this.countryFilters.domestic.label);
+            this.selected.country.push(this.countryFilters.international.label);
+            break;
+          case 'watched':
+            this.selected.watched.push(this.watchedFilters.watched.label);
+            this.selected.watched.push(this.watchedFilters.unwathced.label);
+            break;
+        }
       }else if ((idx.label === '전체') && (idx.isSelect === false)){
-        this.selected = this.selected.filter(element => element === idx.label)
-      } else if ((idx.label !== '전체') && (idx.isSelect === true)) {
-        this.selected.push(idx.label)
+        switch (idx.filterName) {
+          case 'category':
+            this.selected.category = this.selected.category.filter(element => element === idx.label);
+            break;
+          case 'filmRate':
+            this.selected.filmRate = this.selected.filmRate.filter(element => element === idx.label);
+            break;
+          case 'genre':
+            this.selected.genre = this.selected.genre.filter(element => element === idx.label);
+            break;
+          case 'offer':
+            this.selected.offer = this.selected.offer.filter(element => element === idx.label);
+            break;
+          case 'country':
+            this.selected.country = this.selected.country.filter(element => element === idx.label);
+            break;
+          case 'watched':
+            this.selected.watched = this.selected.watched.filter(element => element === idx.label);
+            break;
+        }
+      }else if ((idx.label !== '전체') && (idx.isSelect === true)) {
+        switch (idx.filterName) {
+          case 'category':
+            this.selected.category.push(idx.label);
+            break;
+          case 'filmRate':
+            this.selected.filmRate.push(idx.label);
+            break;
+          case 'genre':
+            this.selected.genre.push(idx.label);
+            break;
+          case 'offer':
+            this.selected.offer.push(idx.label);
+            break;
+          case 'country':
+            this.selected.country.push(idx.label);
+            break;
+          case 'watched':
+            this.selected.watched.push(idx.label);
+            break;
+        }
       }else if ((idx.label !== '전체') && (idx.isSelect === false)) {
-        this.selected = this.selected.filter(element => element !== idx.label)
+        switch (idx.filterName) {
+          case 'category':
+            this.selected.category = this.selected.category.filter(element => element !== idx.label);
+            break;
+          case 'filmRate':
+            this.selected.filmRate = this.selected.filmRate.filter(element => element !== idx.label);
+            break;
+          case 'genre':
+            this.selected.genre = this.selected.genre.filter(element => element !== idx.label);
+            break;
+          case 'offer':
+            this.selected.offer = this.selected.offer.filter(element => element !== idx.label);
+            break;
+          case 'country':
+            this.selected.country = this.selected.country.filter(element => element !== idx.label);
+            break;
+          case 'watched':
+            this.selected.watched = this.selected.watched.filter(element => element !== idx.label);
+            break;
+        }
       }
-      console.log(idx);
-      console.log(this.selected);
-      console.log(this.selected.filterName);
     },
 	},
 };
