@@ -3,19 +3,19 @@ from djongo import models
 # from accounts import model
 
 
-class SocialType(models.Model):
+class social_types(models.Model):
     _id = models.ObjectIdField()
     name = models.CharField(
         max_length=10,
         null=False
     ),
-    logo_key = models.CharField(
+    logoKey = models.CharField(
         max_length=30,
         null=False,
     )
 
 
-class User(models.Model):
+class users(models.Model):
     _id = models.ObjectIdField()
     nickname = models.CharField(
         max_length=15,
@@ -25,7 +25,7 @@ class User(models.Model):
         max_length=50,
         null=False
     )
-    cell_phone_number = models.CharField(
+    cellPhoneNumber = models.CharField(
         max_length=14,
         null=False,
     ),
@@ -34,26 +34,26 @@ class User(models.Model):
     #     null=True,
     #     on_delete=models.CASCADE
     # ),
-    social_type = models.EmbeddedField(
+    socialType = models.EmbeddedField(
         null=False,
-        model_container=SocialType,
+        model_container=social_types,
     ),
-    profile_image_url = models.ImageField(
+    profileImageUrl = models.ImageField(
         blank=True,
         null=True,
     ),
     birthday = models.DateField(
         null=True
     ),
-    is_blocked = models.BooleanField(
+    isBlocked = models.BooleanField(
         null=False,
         default=False,
     ),
-    registration_date_time = models.DateTimeField(
+    registrationDateTime = models.DateTimeField(
         null=False,
         default=timezone.now,
     ),
-    withdrawal_date_time = models.DateTimeField(
+    withdrawalDateTime = models.DateTimeField(
         null=True,
         default=None,
     )

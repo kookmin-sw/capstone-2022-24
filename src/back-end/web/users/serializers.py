@@ -1,10 +1,10 @@
-from .models import User, SocialType
+from .models import users, social_types
 from rest_framework import serializers
 
 
 class SocialTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocialType
+        model = social_types
         fields = '__all__'
         extra_kwargs = {
             'name': {
@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
     # account = AccountSerializer()
 
     class Meta:
-        model = User
+        model = users
         fields = '__all__'
         read_only_fields = [
             'nickname'
