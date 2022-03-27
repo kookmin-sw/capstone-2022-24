@@ -1,7 +1,7 @@
 from djongo import models
 
 
-class Bank(models.Model):
+class banks(models.Model):
     _id = models.ObjectIdField()
     code = models.CharField(
         max_length=10,
@@ -13,10 +13,10 @@ class Bank(models.Model):
     )
 
 
-class Account(models.Model):
+class accounts(models.Model):
     _id = models.ObjectIdField()
     bank = models.ForeignKey(
-        Bank,
+        banks,
         on_delete=models.CASCADE,
         null=False,
     )
