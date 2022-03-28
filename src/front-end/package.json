@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "jest --coverage",
     "test:e2e": "vue-cli-service test:e2e",
     "prepare": "cd ../.. && husky install ./src/front-end/.husky",
     "lint": "vue-cli-service lint --fix",
@@ -27,7 +27,7 @@
     "@vue/cli-plugin-e2e-cypress": "~4.5.15",
     "@vue/cli-plugin-eslint": "~4.5.15",
     "@vue/cli-plugin-router": "~4.5.15",
-    "@vue/cli-plugin-unit-mocha": "~4.5.15",
+    "@vue/cli-plugin-unit-jest": "~4.5.15",
     "@vue/cli-plugin-vuex": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
     "@vue/compiler-sfc": "^3.0.0",
@@ -38,10 +38,13 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "jest": "^24.9.0",
     "husky": "^7.0.4",
     "msw": "^0.39.2",
     "prettier": "^2.2.1",
-    "vue-cli-plugin-quasar": "~4.0.4"
+    "typescript": "~3.9.3",
+    "vue-cli-plugin-quasar": "~4.0.4",
+    "vue-jest": "^5.0.0-0"
   },
   "msw": {
     "workerDirectory": "public"
