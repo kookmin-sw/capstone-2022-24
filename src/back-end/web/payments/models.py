@@ -29,7 +29,7 @@ class payments(models.Model):
     )
 
     _id = models.ObjectIdField()
-    account = models.PositiveIntegerField(
+    amount = models.PositiveIntegerField(
         null=False,
         blank=False,
         default=0
