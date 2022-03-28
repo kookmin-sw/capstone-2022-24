@@ -40,6 +40,7 @@
 						:key="index"
 						:class="{ 'ott-filter-select': otts.isSelect }"
 						@click="ottFilterClick(index)" />
+          확인: {{ selected.ott }}
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -246,11 +247,11 @@ export default {
 	data() {
 		return {
 			ottFilters: {
-				netflix: { isSelect: false },
-				watcha: { isSelect: false },
-				disneyPlus: { isSelect: false },
-				tving: { isSelect: false },
-				wavve: { isSelect: false },
+				netflix: { label: '넷플릭스', isSelect: false },
+				watcha: { label: '왓챠', isSelect: false },
+				disneyPlus: { label: '디즈니플러스', isSelect: false },
+				tving: { label: '티빙', isSelect: false },
+				wavve: { label: '웨이브', isSelect: false },
 			},
 			categoryFilters: {
 				all: { label: '전체', isSelect: false, filterName: 'category' },
@@ -366,6 +367,7 @@ export default {
 				{},
 			],
 			selected: {
+        ott: [],
 				category: [],
 				filmRate: [],
 				genre: [],
@@ -384,6 +386,9 @@ export default {
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+      if (this.ottFilters[idx].isSelect === true) {
+        this.selected.ott.push(this.ottFilters[idx].label);
+      }else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
 		filterClick(idx) {
 			if (idx.label === '전체' && idx.isSelect === true) {
