@@ -1,7 +1,8 @@
 from django.utils import timezone
 from djongo import models
 
-class providers(models.Model):
+
+class Provider(models.Model):
     NAME_CHOICES = (
         ('NE', 'Netflix'),
         ('WA', 'Watcha'),
@@ -9,26 +10,40 @@ class providers(models.Model):
         ('TV', 'Tving'),
         ('WA', 'Wavve'),
     )
-    _id = models.ObjectIdField()
-    tmdbId = models.PositiveBigIntegerField()
+    id = models.BigAutoField(
+        primary_key=True,
+    )
+    tmdb_id = models.PositiveBigIntegerField(
+        db_column="tmdbId"
+    )
     name = models.CharField(
         null=False,
         blank=False,
         max_length=2,
         choices=NAME_CHOICES,
     )
-    logoKey = models.CharField(
+    logo_key = models.CharField(
         null=False,
         blank=False,
-        max_length=200
+        max_length=200,
+        db_column="logoKey"
     )
 
+    class Meta:
+        db_table = "providers"
 
-class subscription_types(models.Model):
+    def __str__(self):
+        return f"{self.name}"
+
+
+class SubscriptionType(models.Model):
     name = models.CharField(
-        max_length=10
+        primary_key=True,
+        max_length=20
     )
-    numberOfSubscribers = models.PositiveSmallIntegerField()
+    number_of_subscribers = models.PositiveSmallIntegerField(
+        db_column="numberOfSubscribers"
+    )
     detail = models.CharField(
         null=True,
         blank=True,
@@ -36,31 +51,49 @@ class subscription_types(models.Model):
     )
 
     class Meta:
-        abstract = True
+        db_table = "subscription_types"
+
+    def __str__(self):
+        return f"{self.name}"
 
 
-class charges(models.Model):
-    _id = models.ObjectIdField()
+class Charge(models.Model):
+    id = models.BigAutoField(
+        primary_key=True
+    )
     provider = models.ForeignKey(
-        providers,
+        Provider,
+        on_delete=models.CASCADE,
+        db_column="provider",
+    )
+    subscription_type = models.ForeignKey(
+        SubscriptionType,
+        null=True,
+        on_delete=models.SET_NULL,
+        db_column="subscriptionType",
+    )
+    service_charge_per_member = models.PositiveIntegerField(
         null=False,
-        on_delete=models.CASCADE
+        default=0,
+        db_column="serviceChargePerMember"
     )
-    subscriptionType = models.EmbeddedField(
-        model_container=subscription_types,
-    )
-    serviceChargePerMember = models.PositiveIntegerField(
+    subscription_charge_per_member = models.PositiveIntegerField(
         null=False,
-        default=0
+        default=0,
+        db_column="subscriptionChargePerMember"
     )
-    subscriptionChargePerMember = models.PositiveIntegerField(
+    total_subscription_charge = models.PositiveIntegerField(
         null=False,
-        default=0
+        default=0,
+        db_column="totalSubscriptionCharge"
     )
-    totalSubscriptionCharge = models.PositiveIntegerField(
-        null=False,
-        default=0
+    base_date = models.DateField(
+        default=timezone.now,
+        db_column="baseDate"
     )
-    baseDate = models.DateField(
-        default=timezone.now()
-    )
+
+    class Meta:
+        db_table = "charges"
+
+    def __str__(self):
+        return f"[{self.provider}] {self.subscription_type} 요금제"

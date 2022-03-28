@@ -1,32 +1,35 @@
-from .models import providers, charges, subscription_types
+from djongo import models
+
+from .models import Provider, Charge, SubscriptionType
 from rest_framework import serializers
 
 
 class ProviderSerializer(serializers.ModelSerializer):
+    _id = models.ObjectIdField()
+
     class Meta:
-        model = providers
+        model = Provider
         fields = '__all__'
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = subscription_types
+        model = SubscriptionType
         fields = '__all__'
 
 
 class ChargeSerializer(serializers.ModelSerializer):
+    _id = models.ObjectIdField()
     provider = serializers.SerializerMethodField()
     subscriptionType = serializers.SerializerMethodField()
 
     class Meta:
-        model = charges
+        model = Charge
         fields = '__all__'
-        read_only_fields = [
-            'provider'
-        ]
 
     def get_provider(self, obj):
         return ProviderSerializer(obj.provider).data
+
 
     def get_subscription_type(self, obj):
         return SubscriptionTypeSerializer(obj.subscriptionType).data
