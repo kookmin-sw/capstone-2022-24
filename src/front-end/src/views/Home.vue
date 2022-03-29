@@ -375,6 +375,14 @@ export default {
 				country: [],
 				watched: [],
 			},
+      beforeAll: {
+        category: [],
+        filmRate: [],
+        genre: [],
+        offer: [],
+        country: [],
+        watched: [],
+      },
 		};
 	},
 	methods: {
@@ -394,6 +402,10 @@ export default {
 			if (idx.label === '전체' && idx.isSelect === true) {
 				switch (idx.filterName) {
 					case 'category':
+            this.beforeAll.category = this.selected.category;
+            this.beforeAll.category = this.selected.category.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.categoryFilters) {
               if (!this.selected.category.includes(this.categoryFilters[key].label)) {
                 this.selected.category.push(this.categoryFilters[key].label);
@@ -404,6 +416,10 @@ export default {
 						}
 						break;
 					case 'filmRate':
+            this.beforeAll.filmRate = this.selected.filmRate;
+            this.beforeAll.filmRate = this.selected.filmRate.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.filmRateFilters) {
               if (!this.selected.filmRate.includes(this.filmRateFilters[key].label)) {
                 this.selected.filmRate.push(this.filmRateFilters[key].label);
@@ -414,6 +430,10 @@ export default {
 						}
 						break;
 					case 'genre':
+            this.beforeAll.genre = this.selected.genre;
+            this.beforeAll.genre = this.selected.genre.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.genreFilters) {
               if (!this.selected.genre.includes(this.genreFilters[key].label)) {
                 this.selected.genre.push(this.genreFilters[key].label);
@@ -424,6 +444,10 @@ export default {
 						}
 						break;
 					case 'offer':
+            this.beforeAll.offer = this.selected.offer;
+            this.beforeAll.offer = this.selected.offer.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.offerFilters) {
               if (!this.selected.offer.includes(this.offerFilters[key].label)) {
                 this.selected.offer.push(this.offerFilters[key].label);
@@ -434,6 +458,10 @@ export default {
 						}
 						break;
 					case 'country':
+            this.beforeAll.country = this.selected.country;
+            this.beforeAll.country = this.selected.country.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.countryFilters) {
               if (!this.selected.country.includes(this.countryFilters[key].label)) {
                 this.selected.country.push(this.countryFilters[key].label);
@@ -444,6 +472,10 @@ export default {
 						}
 						break;
 					case 'watched':
+            this.beforeAll.watched = this.selected.watched;
+            this.beforeAll.watched = this.selected.watched.filter(
+                element => element !== idx.label,
+            );
 						for (let key in this.watchedFilters) {
               if (!this.selected.watched.includes(this.watchedFilters[key].label)) {
                 this.selected.watched.push(this.watchedFilters[key].label);
@@ -457,34 +489,52 @@ export default {
 			} else if (idx.label === '전체' && idx.isSelect === false) {
 				switch (idx.filterName) {
 					case 'category':
-						this.selected.category = this.selected.category.filter(
-							element => element === idx.label,
-						);
+            this.selected.category = this.selected.category.filter(
+                element => element === idx.label,
+            );
+            for (let key in this.beforeAll.category) {
+              this.selected.category.push(this.beforeAll.category[key])
+            }
 						break;
 					case 'filmRate':
 						this.selected.filmRate = this.selected.filmRate.filter(
 							element => element === idx.label,
 						);
+            for (let key in this.beforeAll.filmRate) {
+              this.selected.filmRate.push(this.beforeAll.filmRate[key])
+            }
 						break;
 					case 'genre':
 						this.selected.genre = this.selected.genre.filter(
 							element => element === idx.label,
 						);
+            for (let key in this.beforeAll.genre) {
+              this.selected.genre.push(this.beforeAll.genre[key])
+            }
 						break;
 					case 'offer':
 						this.selected.offer = this.selected.offer.filter(
 							element => element === idx.label,
 						);
+            for (let key in this.beforeAll.offer) {
+              this.selected.offer.push(this.beforeAll.offer[key])
+            }
 						break;
 					case 'country':
 						this.selected.country = this.selected.country.filter(
 							element => element === idx.label,
 						);
+            for (let key in this.beforeAll.country) {
+              this.selected.country.push(this.beforeAll.country[key])
+            }
 						break;
 					case 'watched':
 						this.selected.watched = this.selected.watched.filter(
 							element => element === idx.label,
 						);
+            for (let key in this.beforeAll.watched) {
+              this.selected.watched.push(this.beforeAll.watched[key])
+            }
 						break;
 				}
 			} else if (idx.label !== '전체' && idx.isSelect === true) {
