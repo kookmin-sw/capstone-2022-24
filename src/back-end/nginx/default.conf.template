@@ -2,25 +2,25 @@
 server {
 
     listen 80;
-    listen [::]:80;
     server_name ${WEB_HOST};
 
     location / {
+        proxy_pass http://${WEB_DOCKERNAME}:${WEB_PORT};
         proxy_set_header Connection "upgrade";
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_pass http://unix:/app/back-end/web/gunicorn.sock;
+        proxy_redirect off;
     }
 
     location /static/ {
-        alias ${AWS_S3_URL}${AWS_STATIC_LOCATION};
-    }
+        alias ${AWS_S3_URL}/${AWS_STATIC_LOCATION};
+    }로
 
     location /media/ {
-        root ${AWS_S3_URL}${AWS_MEDIA_LOCATION};
+        root ${AWS_S3_URL}/${AWS_MEDIA_LOCATION};
     }
 }
 
