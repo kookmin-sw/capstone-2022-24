@@ -395,7 +395,9 @@ export default {
 				switch (idx.filterName) {
 					case 'category':
 						for (let key in this.categoryFilters) {
-							this.selected.category.push(this.categoryFilters[key].label);
+              if (!this.selected.category.includes(this.categoryFilters[key].label)) {
+                this.selected.category.push(this.categoryFilters[key].label);
+              }
 							this.selected.category = this.selected.category.filter(
 								element => element !== idx.label,
 							);
@@ -403,7 +405,9 @@ export default {
 						break;
 					case 'filmRate':
 						for (let key in this.filmRateFilters) {
-							this.selected.filmRate.push(this.filmRateFilters[key].label);
+              if (!this.selected.filmRate.includes(this.filmRateFilters[key].label)) {
+                this.selected.filmRate.push(this.filmRateFilters[key].label);
+              }
 							this.selected.filmRate = this.selected.filmRate.filter(
 								element => element !== idx.label,
 							);
@@ -411,7 +415,9 @@ export default {
 						break;
 					case 'genre':
 						for (let key in this.genreFilters) {
-							this.selected.genre.push(this.genreFilters[key].label);
+              if (!this.selected.genre.includes(this.genreFilters[key].label)) {
+                this.selected.genre.push(this.genreFilters[key].label);
+              }
 							this.selected.genre = this.selected.genre.filter(
 								element => element !== idx.label,
 							);
@@ -419,7 +425,9 @@ export default {
 						break;
 					case 'offer':
 						for (let key in this.offerFilters) {
-							this.selected.offer.push(this.offerFilters[key].label);
+              if (!this.selected.offer.includes(this.offerFilters[key].label)) {
+                this.selected.offer.push(this.offerFilters[key].label);
+              }
 							this.selected.offer = this.selected.offer.filter(
 								element => element !== idx.label,
 							);
@@ -427,7 +435,9 @@ export default {
 						break;
 					case 'country':
 						for (let key in this.countryFilters) {
-							this.selected.country.push(this.countryFilters[key].label);
+              if (!this.selected.country.includes(this.countryFilters[key].label)) {
+                this.selected.country.push(this.countryFilters[key].label);
+              }
 							this.selected.country = this.selected.country.filter(
 								element => element !== idx.label,
 							);
@@ -435,7 +445,9 @@ export default {
 						break;
 					case 'watched':
 						for (let key in this.watchedFilters) {
-							this.selected.watched.push(this.watchedFilters[key].label);
+              if (!this.selected.watched.includes(this.watchedFilters[key].label)) {
+                this.selected.watched.push(this.watchedFilters[key].label);
+              }
 							this.selected.watched = this.selected.watched.filter(
 								element => element !== idx.label,
 							);
@@ -478,56 +490,68 @@ export default {
 			} else if (idx.label !== '전체' && idx.isSelect === true) {
 				switch (idx.filterName) {
 					case 'category':
-						this.selected.category.push(idx.label);
+            if (!this.selected.category.includes(idx.label)) {
+              this.selected.category.push(idx.label);
+            }
 						break;
 					case 'filmRate':
-						this.selected.filmRate.push(idx.label);
+            if (!this.selected.filmRate.includes(idx.label)) {
+              this.selected.filmRate.push(idx.label);
+            }
 						break;
 					case 'genre':
-						this.selected.genre.push(idx.label);
+            if (!this.selected.genre.includes(idx.label)) {
+              this.selected.genre.push(idx.label);
+            }
 						break;
 					case 'offer':
-						this.selected.offer.push(idx.label);
+            if (!this.selected.offer.includes(idx.label)) {
+              this.selected.offer.push(idx.label);
+            }
 						break;
 					case 'country':
-						this.selected.country.push(idx.label);
+            if (!this.selected.country.includes(idx.label)) {
+              this.selected.country.push(idx.label);
+            }
 						break;
 					case 'watched':
-						this.selected.watched.push(idx.label);
+            if (!this.selected.watched.includes(idx.label)) {
+              this.selected.watched.push(idx.label);
+            }
 						break;
 				}
 			} else if (idx.label !== '전체' && idx.isSelect === false) {
 				switch (idx.filterName) {
 					case 'category':
-						this.selected.category = this.selected.category.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.categoryFilters.all.isSelect === false) {
+              this.selected.category.splice(idx.label, 1);
+            }
+            break;
 					case 'filmRate':
-						this.selected.filmRate = this.selected.filmRate.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.filmRateFilters.all.isSelect === false) {
+              this.selected.filmRate.splice(idx.label, 1)
+            }
+            break;
 					case 'genre':
-						this.selected.genre = this.selected.genre.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.genreFilters.all.isSelect === false) {
+              this.selected.genre.splice(idx.label, 1);
+            }
+            break;
 					case 'offer':
-						this.selected.offer = this.selected.offer.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.offerFilters.all.isSelect === false) {
+              this.selected.offer.splice(idx.label, 1);
+            }
+            break;
 					case 'country':
-						this.selected.country = this.selected.country.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.countryFilters.all.isSelect === false) {
+              this.selected.country.splice(idx.label, 1);
+            }
+            break;
 					case 'watched':
-						this.selected.watched = this.selected.watched.filter(
-							element => element !== idx.label,
-						);
-						break;
+            if (this.watchedFilters.all.isSelect === false) {
+              this.selected.watched.splice(idx.label, 1);
+            }
+            break;
 				}
 			}
 		},
