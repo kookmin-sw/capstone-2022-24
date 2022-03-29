@@ -63,7 +63,8 @@ services:
       - ./nginx:/etc/nginx/templates
     environment:
       - WEB_HOST=${WEB_HOST}
-      - BASE=${BASE}
+      - AWS_STATIC_LOCATION=${AWS_STATIC_LOCATION}
+      - AWS_MEDIA_LOCATION=${AWS_MEDIA_LOCATION}
       - AWS_S3_URL=${AWS_S3_URL}
     ports:
       - "80:80" # http
