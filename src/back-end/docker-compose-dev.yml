@@ -47,6 +47,8 @@ services:
     environment:
       - MODULE_NAME=${MODULE_NAME}
       - VARIABLE_NAME=${VARIABLE_NAME}
+      - GUNICORN_CONFIG=${GUNICORN_CONF}
+      - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
       - mongo
     healthcheck:
@@ -63,6 +65,8 @@ services:
       - ./nginx:/etc/nginx/templates
     environment:
       - WEB_HOST=${WEB_HOST}
+      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
+      - WEB_PORT=${WEB_PORT}
       - AWS_STATIC_LOCATION=${AWS_STATIC_LOCATION}
       - AWS_MEDIA_LOCATION=${AWS_MEDIA_LOCATION}
       - AWS_S3_URL=${AWS_S3_URL}
