@@ -129,16 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BACKEND_DIR, "static/") # caution
-STATIC_LOCATION = "static"
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BACKEND_DIR, "media/") # caution
-MEDIA_LOCATION = "media"
-
-# static / media storage
-DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
-STATICFILES_STORAGE = 'config.storages.StaticStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -181,4 +175,3 @@ CORS_ALLOW_HEADERS = [
 # SSL settings
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-
