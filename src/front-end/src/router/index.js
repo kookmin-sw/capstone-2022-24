@@ -19,19 +19,31 @@ const routes = [
 		component: Home,
 	},
 	{
-		path: '/login/:naver',
-		name: 'NaverCallback',
+		path: '/login/:social',
+		name: 'LoginCallback',
 		async beforeEnter(to, from, next) {
-			// 네이버가 url로 넘겨준 code, state를 vuex 변수에 저장
 			const url = new URL(window.location.href);
-			const code = url.searchParams.get('code');
-			const state = url.searchParams.get('state');
-			const response = {
-				code: code,
-				resState: state,
-			};
-			await store.dispatch('auth/setNaverAuth', response);
-			next(router.back());
+			let social = null;
+			if (url.pathname === '/login/naver') {
+				// 네이버가 url로 넘겨준 code, state를 vuex 변수에 저장
+				social = 'naver';
+				const code = url.searchParams.get('code');
+				const state = url.searchParams.get('state');
+				const response = {
+					code: code,
+					resState: state,
+				};
+				await store.dispatch('auth/setNaverAuth', response);
+			} else if (url.pathname === '/login/google') {
+				// 구글이 hash로 넘겨준 token을 vuex 변수에 저장
+				social = 'google';
+				const href = url.hash;
+				const hash = href.split('&')[1];
+				const token = hash.split('=')[1];
+				await store.dispatch('auth/setGoogleAuth', token);
+			}
+			await store.dispatch('auth/loginWithSocial', social);
+			next('/');
 		},
 	},
 	{

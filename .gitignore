@@ -112,6 +112,8 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+.env.dev
+.env.prod
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -400,6 +402,15 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+*.log
+*.pot
+*.pyc
+__pycache__/
+*/back-end/*/static/*
+*/back-end/*/media/*
+
+# django settings file
+*/back-end/*/environment/.env.*
 
 # Flask stuff:
 instance/
