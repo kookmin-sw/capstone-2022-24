@@ -42,12 +42,12 @@ services:
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-    ports:
-      - "${WEB_PORT}:${WEB_PORT}"
+    expose:
+      - "${WEB_PORT}"
     environment:
       - MODULE_NAME=${MODULE_NAME}
       - VARIABLE_NAME=${VARIABLE_NAME}
-      - GUNICORN_CONFIG=${GUNICORN_CONF}
+      - GUNICORN_CONFIG=${GUNICORN_CONFIG}
       - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
       - mongo
@@ -67,8 +67,8 @@ services:
       - WEB_HOST=${WEB_HOST}
       - WEB_DOCKERNAME=${WEB_DOCKERNAME}
       - WEB_PORT=${WEB_PORT}
-      - AWS_STATIC_LOCATION=${AWS_STATIC_LOCATION}
-      - AWS_MEDIA_LOCATION=${AWS_MEDIA_LOCATION}
+      - STATIC_LOCATION=${STATIC_LOCATION}
+      - MEDIA_LOCATION=${MEDIA_LOCATION}
       - AWS_S3_URL=${AWS_S3_URL}
     ports:
       - "80:80" # http
