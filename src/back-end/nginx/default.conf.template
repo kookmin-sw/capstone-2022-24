@@ -16,11 +16,11 @@ server {
     }
 
     location /static/ {
-        alias ${AWS_S3_URL}/${AWS_STATIC_LOCATION};
-    }로
+        alias ${AWS_S3_URL}/${AWS_STATIC_LOCATION}/;
+    }
 
     location /media/ {
-        root ${AWS_S3_URL}/${AWS_MEDIA_LOCATION};
+        alias ${AWS_S3_URL}/${AWS_MEDIA_LOCATION}/;
     }
 }
 
