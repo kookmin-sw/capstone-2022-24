@@ -5,8 +5,6 @@ from rest_framework import serializers
 
 
 class ProviderSerializer(serializers.ModelSerializer):
-    _id = models.ObjectIdField()
-
     class Meta:
         model = Provider
         fields = '__all__'
@@ -19,7 +17,6 @@ class SubscriptionTypeSerializer(serializers.ModelSerializer):
 
 
 class ChargeSerializer(serializers.ModelSerializer):
-    _id = models.ObjectIdField()
     provider = serializers.SerializerMethodField()
     subscriptionType = serializers.SerializerMethodField()
 
@@ -29,7 +26,6 @@ class ChargeSerializer(serializers.ModelSerializer):
 
     def get_provider(self, obj):
         return ProviderSerializer(obj.provider).data
-
 
     def get_subscription_type(self, obj):
         return SubscriptionTypeSerializer(obj.subscriptionType).data
