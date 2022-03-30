@@ -44,5 +44,5 @@ DATABASES = {
 }
 
 # static / media location in WAS(not s3 on local environment)
-AWS_STATIC_LOCATION = env("AWS_STATIC_LOCATION")
-AWS_MEDIA_LOCATION = env("AWS_MEDIA_LOCATION")
+STATIC_LOCATION = env("STATIC_LOCATION")
+MEDIA_LOCATION = env("MEDIA_LOCATION")
