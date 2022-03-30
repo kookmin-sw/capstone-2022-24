@@ -7,13 +7,17 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
 				<div>{{ $t('join.stepTitle1') }}</div>
 			</div>
-			<div class="ott-icons-frame row">
-				<q-avatar rounded color="blue" size="60px"></q-avatar>
-				<q-avatar rounded color="blue" size="60px"></q-avatar>
-				<q-avatar rounded color="blue" size="60px"></q-avatar>
-				<q-avatar rounded color="blue" size="60px"></q-avatar>
-				<q-avatar rounded color="blue" size="60px"></q-avatar>
-			</div>
+      <div class="row q-mb-lg ott-icons-frame">
+        <q-avatar
+            rounded
+            color="blue"
+            size="60px"
+            v-for="(otts, index) in ottFilters"
+            :key="index"
+            :class="{ 'ott-filter-select': otts.isSelect }"
+            @click="ottFilterClick(index)" />
+        확인: {{ selected.ott }}
+      </div>
 		</div>
 		<q-space class="col-2" />
 	</div>
@@ -68,6 +72,34 @@
 	</div>
 </template>
 
+<script>
+export default {
+  name: 'Home',
+  data() {
+    return {
+      ottFilters: {
+        netflix: {label: '넷플릭스', isSelect: false},
+        watcha: {label: '왓챠', isSelect: false},
+        disneyPlus: {label: '디즈니플러스', isSelect: false},
+        tving: {label: '티빙', isSelect: false},
+        wavve: {label: '웨이브', isSelect: false},
+      },
+      selected: {
+        ott: [],
+      },
+    };
+  },
+  methods: {
+    ottFilterClick(idx) {
+      this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+      if (this.ottFilters[idx].isSelect === true) {
+        this.selected.ott.push(this.ottFilters[idx].label);
+      } else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+    }
+  }
+}
+</script>
+
 <style scoped>
 .guide-text {
 	column-gap: 4px;
@@ -81,5 +113,9 @@
 }
 .ott-icons-frame {
 	column-gap: 16px;
+}
+.ott-filter-select {
+  border: 3px solid darkblue;
+  border-radius: 7px;
 }
 </style>
