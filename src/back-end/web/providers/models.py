@@ -25,7 +25,7 @@ class Provider(models.Model):
     logo_key = models.CharField(
         null=False,
         blank=False,
-        max_length=200,
+        max_length=100,
         db_column="logoKey"
     )
 
