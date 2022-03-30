@@ -42,11 +42,14 @@ services:
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-    ports:
-      - "${WEB_PORT}:${WEB_PORT}"
+      - ./static:${STATIC}
+    expose:
+      - "${WEB_PORT}"
     environment:
       - MODULE_NAME=${MODULE_NAME}
       - VARIABLE_NAME=${VARIABLE_NAME}
+      - GUNICORN_CONFIG=${GUNICORN_CONFIG}
+      - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
       - mongo
     healthcheck:
@@ -61,9 +64,14 @@ services:
     restart: on-failure
     volumes:
       - ./nginx:/etc/nginx/templates
+      - ./static:${STATIC}
+      - ./media:${MEDIA}
     environment:
       - WEB_HOST=${WEB_HOST}
-      - BASE=${BASE}
+      - WEB_DOCKERNAME=${WEB_DOCKERNAME}
+      - WEB_PORT=${WEB_PORT}
+      - STATIC_LOCATION=${STATIC_LOCATION}
+      - MEDIA_LOCATION=${MEDIA_LOCATION}
       - AWS_S3_URL=${AWS_S3_URL}
     ports:
       - "80:80" # http
