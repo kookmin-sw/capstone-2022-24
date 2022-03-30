@@ -2,7 +2,7 @@ from django.utils import timezone
 from djongo import models
 
 
-class payments(models.Model):
+class Payment(models.Model):
     CATEGORY_CHOICES = (
         ('n', 'NORMAL'),
         ('b', 'BILLING'),
@@ -28,42 +28,40 @@ class payments(models.Model):
         ('e', 'EXPIRED')
     )
 
-    _id = models.ObjectIdField()
+    id = models.BigAutoField(
+        primary_key=True
+    )
     amount = models.PositiveIntegerField(
-        null=False,
-        blank=False,
-        default=0
+        default=0,
     )
     content = models.CharField(
-        null=False,
-        blank=False,
         max_length=200
     )
     category = models.CharField(
-        null=False,
-        blank=False,
         choices=CATEGORY_CHOICES,
         max_length=1
     )
     method = models.CharField(
-        null=False,
-        blank=False,
         choices=METHOD_CHOICES,
         max_length=10
     )
     status = models.CharField(
-        null=False,
-        blank=False,
         default='r',
         choices=STATUS_CHOICES,
         max_length=1
     )
-    requestDateTime = models.DateTimeField(
-        null=False,
-        blank=False,
-        default=timezone.now
+    request_date_time = models.DateTimeField(
+        default=timezone.now,
+        db_column="requestDateTime"
     )
-    approvalDateTime = models.DateTimeField(
+    approval_date_time = models.DateTimeField(
         null=True,
         blank=True,
+        db_column="approvalDateTime"
     )
+
+    class Meta:
+        db_table = "payments"
+
+    def __str__(self):
+        return f"[{self.id}] {self.content}"
