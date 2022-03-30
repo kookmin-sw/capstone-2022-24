@@ -202,7 +202,7 @@
 									:right-label-value="`${filters.runtime.max}분`" />
 							</div>
 						</div>
-						<q-btn unelevated outline color="blue" class="q-ma-lg">
+						<q-btn unelevated outline color="blue" class="q-ma-lg initButton" @click="initButtonClick">
 							필터 초기화
 						</q-btn>
 					</q-expansion-item>
@@ -617,6 +617,46 @@ export default {
 				}
 			}
 		},
+    initButtonClick() {
+      for (let key in this.selected) {
+        this.selected[key].splice(0);
+      }
+      for (let key in this.ottFilters) {
+        if (this.ottFilters[key].isSelect === true) {
+          this.ottFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.categoryFilters) {
+        if (this.categoryFilters[key].isSelect === true) {
+          this.categoryFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.filmRateFilters) {
+        if (this.filmRateFilters[key].isSelect === true) {
+          this.filmRateFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.genreFilters) {
+        if (this.genreFilters[key].isSelect === true) {
+          this.genreFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.offerFilters) {
+        if (this.offerFilters[key].isSelect === true) {
+          this.offerFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.countryFilters) {
+        if (this.countryFilters[key].isSelect === true) {
+          this.countryFilters[key].isSelect = false;
+        }
+      }
+      for (let key in this.watchedFilters) {
+        if (this.watchedFilters[key].isSelect === true) {
+          this.watchedFilters[key].isSelect = false;
+        }
+      }
+    },
 	},
 };
 </script>
