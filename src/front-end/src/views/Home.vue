@@ -62,7 +62,7 @@
 									@click="filterClick(category)">
 									{{ category.label }}
 								</q-chip>
-								확인 :{{ selected.category }}
+								확인: {{ selected.category }}
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -388,6 +388,14 @@ export default {
 				country: [],
 				watched: [],
 			},
+			afterAll: {
+				category: [],
+				filmRate: [],
+				genre: [],
+				offer: [],
+				country: [],
+				watched: [],
+			},
 		};
 	},
 	methods: {
@@ -512,6 +520,12 @@ export default {
 						for (let key in this.beforeAll.category) {
 							this.selected.category.push(this.beforeAll.category[key]);
 						}
+						for (let key in this.categoryFilters) {
+							if (this.categoryFilters[key].isSelect) {
+								this.afterAll.category.push(this.categoryFilters[key].label);
+								this.selected.category = this.afterAll.category;
+							}
+						}
 						break;
 					case 'filmRate':
 						this.selected.filmRate = this.selected.filmRate.filter(
@@ -519,6 +533,12 @@ export default {
 						);
 						for (let key in this.beforeAll.filmRate) {
 							this.selected.filmRate.push(this.beforeAll.filmRate[key]);
+						}
+						for (let key in this.filmRateFilters) {
+							if (this.filmRateFilters[key].isSelect) {
+								this.afterAll.filmRate.push(this.filmRateFilters[key].label);
+								this.selected.filmRate = this.afterAll.filmRate;
+							}
 						}
 						break;
 					case 'genre':
@@ -528,6 +548,12 @@ export default {
 						for (let key in this.beforeAll.genre) {
 							this.selected.genre.push(this.beforeAll.genre[key]);
 						}
+						for (let key in this.genreFilters) {
+							if (this.genreFilters[key].isSelect) {
+								this.afterAll.genre.push(this.genreFilters[key].label);
+								this.selected.genre = this.afterAll.genre;
+							}
+						}
 						break;
 					case 'offer':
 						this.selected.offer = this.selected.offer.filter(
@@ -535,6 +561,12 @@ export default {
 						);
 						for (let key in this.beforeAll.offer) {
 							this.selected.offer.push(this.beforeAll.offer[key]);
+						}
+						for (let key in this.offerFilters) {
+							if (this.offerFilters[key].isSelect) {
+								this.afterAll.offer.push(this.offerFilters[key].label);
+								this.selected.offer = this.afterAll.offer;
+							}
 						}
 						break;
 					case 'country':
@@ -544,6 +576,12 @@ export default {
 						for (let key in this.beforeAll.country) {
 							this.selected.country.push(this.beforeAll.country[key]);
 						}
+						for (let key in this.countryFilters) {
+							if (this.countryFilters[key].isSelect) {
+								this.afterAll.country.push(this.countryFilters[key].label);
+								this.selected.country = this.afterAll.country;
+							}
+						}
 						break;
 					case 'watched':
 						this.selected.watched = this.selected.watched.filter(
@@ -551,6 +589,12 @@ export default {
 						);
 						for (let key in this.beforeAll.watched) {
 							this.selected.watched.push(this.beforeAll.watched[key]);
+						}
+						for (let key in this.watchedFilters) {
+							if (this.watchedFilters[key].isSelect) {
+								this.afterAll.watched.push(this.watchedFilters[key].label);
+								this.selected.watched = this.afterAll.watched;
+							}
 						}
 						break;
 				}
