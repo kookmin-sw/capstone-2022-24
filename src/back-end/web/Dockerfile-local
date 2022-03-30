@@ -8,8 +8,10 @@ ARG WEB
 ARG STATIC
 ARG WEB_PORT
 
-ENV MODULE_NAME=config.main
+ENV MODULE_NAME=config.asgi.local
 ENV VARIABLE_NAME=application
+ENV GUNICORN_CONF=config/gunicorn_config.py
+ENV DJANGO_SETTINGS_MODULE=config.settings.local
 
 # Set working directory
 RUN mkdir -p $WEB
