@@ -3,14 +3,14 @@ import http from '@/api/http';
 export const user = {
 	namespaced: true,
 	state: {
-		userInfo: {
+		userProfile: {
 			nickname: '',
 		},
 	},
 	getters: {},
 	mutations: {
-		SET_USER_INFO(state, userInfo) {
-			state.userInfo = userInfo;
+		SET_USER_PROFILE(state, userProfile) {
+			state.userProfile = userProfile;
 		},
 	},
 	actions: {
@@ -20,8 +20,9 @@ export const user = {
 				.get(url)
 				.then(res => {
 					const user = res.data.profile;
-					const userInfo = {
+					const userProfile = {
 						nickname: user.nickname,
+						phone: user.cellPhoneNumber,
 						email: user.email,
 						profileImg: user.profileImgUrl,
 						socialType: user.socialType.name,
@@ -29,11 +30,11 @@ export const user = {
 						isBlocked: user.block.isBlocked,
 						endBlocking: user.block.endBlockingDateTime,
 					};
-					commit('SET_USER_INFO', userInfo);
-					console.log('vuex actions: ', userInfo);
+					commit('SET_USER_PROFILE', userProfile);
+					console.log('vuex actions: ', userProfile);
 				})
 				.catch(err => {
-					console.log(err);
+					alert(err);
 				});
 		},
 	},
