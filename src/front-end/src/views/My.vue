@@ -1,15 +1,18 @@
 <template>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
-		<div class="text-left text-h6 text-weight-bold">사용자 닉네임</div>
-		<q-avatar rounded color="blue" size="73px" class="q-mr-lg" />
+		<div class="text-left text-h6 text-weight-bold">
+			{{ userProfile.nickname }}
+		</div>
+		<!--    TODO: profile img 태그 추가-->
+		<q-avatar rounded color="grey" size="73px" />
 		<div class="row text-left">
 			<div class="text-weight-bold q-mr-lg">전화번호</div>
-			<div>010-1234-5678</div>
+			<div>{{ userProfile.phone }}</div>
 		</div>
 		<div class="row text-left">
 			<div class="text-weight-bold q-mr-lg">이메일</div>
-			<div>email@naver.com</div>
+			<div>{{ userProfile.email }}</div>
 		</div>
 		<div class="row text-left">
 			<div class="text-weight-bold q-mr-lg">정직 비용</div>
@@ -331,6 +334,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	name: 'My',
 	data() {
@@ -343,15 +347,13 @@ export default {
 			rated: 1,
 		};
 	},
+	computed: {
+		...mapState('user', ['userProfile']),
+	},
 };
 </script>
 
 <style scoped>
-.api-icon {
-	width: 20px;
-	height: 20px;
-	background-color: #828282;
-}
 .ott-icons-frame {
 	column-gap: 16px;
 }
