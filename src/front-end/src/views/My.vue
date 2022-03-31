@@ -27,6 +27,7 @@
 	<!-- 모임 영역 -->
 	<q-separator color="blue" inset />
 	<div class="column q-ma-xl">
+		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
 		<div class="row q-mb-md">
 			<q-avatar
@@ -35,11 +36,13 @@
 				size="40px"
 				class="q-mr-sm"
 				v-for="group in this.userGroupList"
-				:key="group.id">
+				:key="group.id"
+				@click="setSelectedGroup(group.id)">
 				<div>{{ group.logoUrl }}</div>
 			</q-avatar>
 			<q-btn outline color="blue">+</q-btn>
 		</div>
+		<!-- 모임 상태 -->
 		<div class="text-left">
 			<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
 			<div>모임 상태 설명</div>
@@ -58,42 +61,23 @@
 			<!-- 구성원 목록 -->
 			<div class="row q-pa-md q-pb-xl">
 				<q-space class="col-2" />
-				<div class="col">
+				<div
+					class="col"
+					v-for="fellow in selectGroup.fellows"
+					:key="fellow.nickname">
 					<q-avatar rounded color="grey" size="73px" />
-					<div>닉네임</div>
-				</div>
-				<div class="col">
-					<q-avatar rounded color="grey" size="73px" />
-					<div>닉네임</div>
-				</div>
-				<div class="col">
-					<q-avatar rounded color="grey" size="73px" />
-					<div>닉네임</div>
-				</div>
-				<div class="col">
-					<q-avatar rounded color="grey" size="73px" />
-					<div>닉네임</div>
+					<div>{{ fellow.nickname }}</div>
 				</div>
 				<q-space class="col-2" />
 			</div>
 		</div>
-		<!-- 모임장: OTT 계정 입력 가능 -->
-		<!--		<div class="col q-mt-md q-mb-md">-->
-		<!--			<q-input label="아이디" color="blue" class="ott-id" v-model="ottId">-->
-		<!--				<q-btn dense unelevated>-->
-		<!--					<q-icon name="edit" color="blue" />-->
-		<!--				</q-btn>-->
-		<!--			</q-input>-->
-		<!--			<q-input label="비밀번호" color="blue" class="ott-pw" v-model="ottPw">-->
-		<!--				<q-btn dense unelevated>-->
-		<!--					<q-icon name="edit" color="blue" />-->
-		<!--				</q-btn>-->
-		<!--			</q-input>-->
-		<!--		</div>-->
-		<!-- 모임원: OTT 계정 read only -->
-		<div class="q-mb-lg">
-			<q-input readonly label="아이디" v-model="ottId"> </q-input>
-			<q-input readonly label="비밀번호" v-model="ottPw"> </q-input>
+		<!-- ott 계정 정보 -->
+		<div class="q-mb-lg" v-if="selectGroup.account">
+			<q-input readonly label="아이디" v-model="selectGroup.account.id" />
+			<q-input
+				readonly
+				label="비밀번호"
+				v-model="selectGroup.account.password" />
 		</div>
 		<div class="row">
 			<q-space class="col-8" />
@@ -278,6 +262,7 @@ export default {
 			watched: 1,
 			dibs: 1,
 			rated: 1,
+			selectGroup: {},
 		};
 	},
 	computed: {
@@ -286,8 +271,26 @@ export default {
 	beforeCreate() {
 		this.$store.dispatch('user/getUserGroups');
 	},
-	created() {
-		console.log(`groupsInfo:${this.userGroups}`);
+	methods: {
+		setSelectedGroup(ottId) {
+			const selected = this.userGroups.find(ott => {
+				return ott.provider.id === ottId;
+			});
+
+			// userGroups 가 set 일 때
+			// let selected = null;
+			// this.userGroups.forEach(ott => {
+			// 	if (ott.provider.id === ottId) {
+			// 		selected = ott;
+			// 	}
+			// });
+			if (!selected) {
+				console.log(`그 ott 정보는 가져와야됨!!`);
+				// TODO: 가져오고 return 삭제
+				return;
+			}
+			this.selectGroup = selected;
+		},
 	},
 };
 </script>
