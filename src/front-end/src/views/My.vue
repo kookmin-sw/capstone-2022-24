@@ -269,7 +269,7 @@ export default {
 		...mapState('user', ['userProfile', 'userGroups', 'userGroupList']),
 	},
 	beforeCreate() {
-		this.$store.dispatch('user/getUserGroups');
+		this.$store.dispatch('user/getGroupList');
 	},
 	methods: {
 		setSelectedGroup(ottId) {
