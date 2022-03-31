@@ -272,22 +272,18 @@ export default {
 		this.$store.dispatch('user/getGroupList');
 	},
 	methods: {
-		setSelectedGroup(ottId) {
+		findGroup(ottId) {
 			const selected = this.userGroups.find(ott => {
 				return ott.provider.id === ottId;
 			});
-
-			// userGroups 가 set 일 때
-			// let selected = null;
-			// this.userGroups.forEach(ott => {
-			// 	if (ott.provider.id === ottId) {
-			// 		selected = ott;
-			// 	}
-			// });
+			return selected;
+		},
+		setSelectedGroup(ottId) {
+			// TODO: bug fix - default 모임 외 나머지 첫 클릭 시 에러, 2번째 클릭 부터 제대로 동작
+			let selected = this.findGroup(ottId);
 			if (!selected) {
-				console.log(`그 ott 정보는 가져와야됨!!`);
-				// TODO: 가져오고 return 삭제
-				return;
+				this.$store.dispatch('user/getGroupInfo', ottId);
+				selected = this.findGroup(ottId);
 			}
 			this.selectGroup = selected;
 		},
