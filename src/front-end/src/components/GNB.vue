@@ -30,7 +30,7 @@
 				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
 					<q-btn flat class="my-menu col-4">
-						<router-link :to="`/my/${userId}`">
+						<router-link :to="`/my/${userInfo.nickname}`">
 							<q-icon name="person" size="md" color="blue" />
 						</router-link>
 					</q-btn>
@@ -84,6 +84,7 @@ export default {
 	},
 	computed: {
 		...mapState('auth', ['userId']),
+		...mapState('user', ['userInfo']),
 		...mapGetters('auth', ['isLogin']),
 	},
 	methods: {
