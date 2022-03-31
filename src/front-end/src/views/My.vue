@@ -24,9 +24,8 @@
 			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
 	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
 	<!-- 모임 영역 -->
+	<q-separator color="blue" inset />
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
 		<div class="row q-mb-md">
@@ -96,17 +95,16 @@
 			<q-btn outline color="blue">OTT 바로가기</q-btn>
 		</div>
 	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
 	<!-- 최근 조회 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">최근 조회한 작품</div>
-			<q-btn>전체보기</q-btn>
+	<q-separator color="blue" inset />
+	<div class="q-ma-xl">
+		<div class="row q-mb-md">
+			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>
+			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
-		<div class="q-mt-lg">
+		<div>
 			<q-carousel
-				v-model="recent"
+				v-model="recents"
 				transition-prev="slide-right"
 				transition-next="slide-left"
 				swipeable
@@ -116,48 +114,35 @@
 				arrows
 				height="230px"
 				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="1">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="2">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
 		</div>
 	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
 	<!-- 본 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">본 작품</div>
-			<q-btn>전체보기</q-btn>
+	<q-separator color="blue" inset />
+	<div class="q-ma-xl">
+		<div class="row q-mb-md">
+			<div class="text-h6 text-weight-bold">본 작품</div>
+			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
-		<div class="q-mt-lg">
+		<div>
 			<q-carousel
 				v-model="watched"
 				transition-prev="slide-right"
@@ -169,50 +154,37 @@
 				arrows
 				height="230px"
 				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="1">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="2">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
 		</div>
 	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
 	<!-- 찜한 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">찜한 작품</div>
-			<q-btn>전체보기</q-btn>
+	<q-separator color="blue" inset />
+	<div class="q-ma-xl">
+		<div class="row q-mb-md">
+			<div class="text-h6 text-weight-bold">찜한 작품</div>
+			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
-		<div class="q-mt-lg">
+		<div>
 			<q-carousel
-				v-model="scrap"
+				v-model="dibs"
 				transition-prev="slide-right"
 				transition-next="slide-left"
 				swipeable
@@ -222,48 +194,35 @@
 				arrows
 				height="230px"
 				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="1">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="2">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
 		</div>
 	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
 	<!-- 별점 준 작품 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">별점 준 작품</div>
-			<q-btn>전체보기</q-btn>
+	<q-separator color="blue" inset />
+	<div class="q-ma-xl">
+		<div class="row q-mb-md">
+			<div class="text-h6 text-weight-bold">별점 준 작품</div>
+			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
-		<div class="q-mt-lg">
+		<div>
 			<q-carousel
 				v-model="rated"
 				transition-prev="slide-right"
@@ -275,34 +234,22 @@
 				arrows
 				height="230px"
 				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="1">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
+				<q-carousel-slide :name="2">
+					<div class="row fit justify-center items-center video-list-frame">
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
+						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
@@ -318,9 +265,9 @@ export default {
 		return {
 			ottId: 'netfilxID@gmail.com',
 			ottPw: 'netflix*Password',
-			recent: 1,
+			recents: 1,
 			watched: 1,
-			scrap: 1,
+			dibs: 1,
 			rated: 1,
 		};
 	},
@@ -340,9 +287,17 @@ export default {
 	flex-direction: row-reverse;
 }
 
+.video-list-frame {
+	display: flex;
+	flex-wrap: wrap;
+	/*justify-content: space-between;*/
+}
+
 .video-poster {
-	width: 15%;
-	height: auto;
-	background: #83bbfb;
+	width: 14%;
+	height: 0;
+	padding-bottom: 20%;
+	margin: 0 12px 0 0;
+	background: lightgrey;
 }
 </style>
