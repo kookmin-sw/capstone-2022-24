@@ -6,11 +6,19 @@ export const user = {
 		userProfile: {
 			nickname: '',
 		},
+		userGroupList: [],
+		userGroups: [],
 	},
 	getters: {},
 	mutations: {
 		SET_USER_PROFILE(state, userProfile) {
 			state.userProfile = userProfile;
+		},
+		SET_GROUP_LIST(state, groupList) {
+			state.userGroupList = groupList;
+		},
+		ADD_GROUP_INFO(state, groupInfo) {
+			state.userGroups.push(groupInfo);
 		},
 	},
 	actions: {
@@ -31,7 +39,34 @@ export const user = {
 						endBlocking: user.block.endBlockingDateTime,
 					};
 					commit('SET_USER_PROFILE', userProfile);
-					console.log('vuex actions: ', userProfile);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		async getUserGroups({ commit }, videoSize) {
+			const url = `/users/mypage?videoSize=${videoSize}`;
+			await http
+				.get(url)
+				.then(res => {
+					const groups = res.data.groups;
+					// group list 생성
+					const others = groups.others;
+					const groupList = [
+						{
+							id: groups.default.provider.id,
+							logoUrl: groups.default.provider.logoUrl,
+						},
+					];
+					others.forEach(group => {
+						groupList.push({
+							id: group.provider.id,
+							logoUrl: group.provider.logoUrl,
+						});
+					});
+					commit('SET_GROUP_LIST', groupList);
+					// default group 추가
+					commit('ADD_GROUP_INFO', groups.default);
 				})
 				.catch(err => {
 					alert(err);
