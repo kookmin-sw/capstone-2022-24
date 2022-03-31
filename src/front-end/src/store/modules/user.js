@@ -44,7 +44,7 @@ export const user = {
 					alert(err);
 				});
 		},
-		async getUserGroups({ commit }, videoSize) {
+		async getGroupList({ commit }, videoSize) {
 			const url = `/users/mypage?videoSize=${videoSize}`;
 			await http
 				.get(url)
