@@ -415,6 +415,7 @@ export default {
 			if (idx.label === '전체' && idx.isSelect === true) {
 				switch (idx.filterName) {
 					case 'category':
+						this.beforeAll.category.splice(0);
 						this.beforeAll.category = this.selected.category;
 						this.beforeAll.category = this.selected.category.filter(
 							element => element !== idx.label,
@@ -433,6 +434,7 @@ export default {
 						}
 						break;
 					case 'filmRate':
+						this.beforeAll.filmRate.splice(0);
 						this.beforeAll.filmRate = this.selected.filmRate;
 						this.beforeAll.filmRate = this.selected.filmRate.filter(
 							element => element !== idx.label,
@@ -451,6 +453,7 @@ export default {
 						}
 						break;
 					case 'genre':
+						this.beforeAll.genre.splice(0);
 						this.beforeAll.genre = this.selected.genre;
 						this.beforeAll.genre = this.selected.genre.filter(
 							element => element !== idx.label,
@@ -465,6 +468,7 @@ export default {
 						}
 						break;
 					case 'offer':
+						this.beforeAll.offer.splice(0);
 						this.beforeAll.offer = this.selected.offer;
 						this.beforeAll.offer = this.selected.offer.filter(
 							element => element !== idx.label,
@@ -479,6 +483,7 @@ export default {
 						}
 						break;
 					case 'country':
+						this.beforeAll.country.splice(0);
 						this.beforeAll.country = this.selected.country;
 						this.beforeAll.country = this.selected.country.filter(
 							element => element !== idx.label,
@@ -495,6 +500,7 @@ export default {
 						}
 						break;
 					case 'watched':
+						this.beforeAll.watched.splice(0);
 						this.beforeAll.watched = this.selected.watched;
 						this.beforeAll.watched = this.selected.watched.filter(
 							element => element !== idx.label,
@@ -514,6 +520,8 @@ export default {
 			} else if (idx.label === '전체' && idx.isSelect === false) {
 				switch (idx.filterName) {
 					case 'category':
+						this.beforeAll.category.splice(0);
+						this.afterAll.category.splice(0);
 						this.selected.category = this.selected.category.filter(
 							element => element === idx.label,
 						);
@@ -528,6 +536,8 @@ export default {
 						}
 						break;
 					case 'filmRate':
+						this.beforeAll.filmRate.splice(0);
+						this.afterAll.filmRate.splice(0);
 						this.selected.filmRate = this.selected.filmRate.filter(
 							element => element === idx.label,
 						);
@@ -542,6 +552,8 @@ export default {
 						}
 						break;
 					case 'genre':
+						this.beforeAll.genre.splice(0);
+						this.afterAll.genre.splice(0);
 						this.selected.genre = this.selected.genre.filter(
 							element => element === idx.label,
 						);
@@ -556,6 +568,8 @@ export default {
 						}
 						break;
 					case 'offer':
+						this.beforeAll.offer.splice(0);
+						this.afterAll.offer.splice(0);
 						this.selected.offer = this.selected.offer.filter(
 							element => element === idx.label,
 						);
@@ -570,6 +584,8 @@ export default {
 						}
 						break;
 					case 'country':
+						this.beforeAll.country.splice(0);
+						this.afterAll.country.splice(0);
 						this.selected.country = this.selected.country.filter(
 							element => element === idx.label,
 						);
@@ -584,6 +600,8 @@ export default {
 						}
 						break;
 					case 'watched':
+						this.beforeAll.watched.splice(0);
+						this.afterAll.watched.splice(0);
 						this.selected.watched = this.selected.watched.filter(
 							element => element === idx.label,
 						);
