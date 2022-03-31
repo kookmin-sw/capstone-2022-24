@@ -73,5 +73,16 @@ export const user = {
 					alert(err);
 				});
 		},
+		async getGroupInfo({ commit }, ottId) {
+			const url = `/users/providers/${ottId}`;
+			await http
+				.get(url)
+				.then(res => {
+					commit('ADD_GROUP_INFO', res.data);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
 	},
 };
