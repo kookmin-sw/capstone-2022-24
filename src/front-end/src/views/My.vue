@@ -1,26 +1,27 @@
 <template>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
-		<div class="text-left text-h6 text-weight-bold">
+		<div class="q-mb-md text-left text-h6 text-weight-bold">
 			{{ userProfile.nickname }}
 		</div>
 		<!--    TODO: profile img 태그 추가-->
-		<q-avatar rounded color="grey" size="73px" />
-		<div class="row text-left">
-			<div class="text-weight-bold q-mr-lg">전화번호</div>
+		<q-avatar rounded color="grey" size="73px" class="q-mb-md" />
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">전화번호</div>
 			<div>{{ userProfile.phone }}</div>
 		</div>
-		<div class="row text-left">
-			<div class="text-weight-bold q-mr-lg">이메일</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">이메일</div>
 			<div>{{ userProfile.email }}</div>
 		</div>
-		<div class="row text-left">
-			<div class="text-weight-bold q-mr-lg">정직 비용</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
 		</div>
-		<div class="row text-left">
-			<div class="text-weight-bold q-mr-lg">등록된 계좌</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
+			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
 	</div>
 	<!-- hr -->
@@ -354,6 +355,9 @@ export default {
 </script>
 
 <style scoped>
+.info-item {
+	width: 100px;
+}
 .ott-icons-frame {
 	column-gap: 16px;
 }
