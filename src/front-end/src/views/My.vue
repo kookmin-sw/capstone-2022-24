@@ -29,7 +29,16 @@
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
 		<div class="row q-mb-md">
-			<q-avatar rounded color="grey" size="40px" class="q-mr-sm"></q-avatar>
+			<q-avatar
+				rounded
+				color="grey"
+				size="40px"
+				class="q-mr-sm"
+				v-for="group in this.userGroupList"
+				:key="group.id">
+				<div>{{ group.logoUrl }}</div>
+			</q-avatar>
+			<q-btn outline color="blue">+</q-btn>
 		</div>
 		<div class="text-left">
 			<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
@@ -272,7 +281,13 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('user', ['userProfile']),
+		...mapState('user', ['userProfile', 'userGroups', 'userGroupList']),
+	},
+	beforeCreate() {
+		this.$store.dispatch('user/getUserGroups');
+	},
+	created() {
+		console.log(`groupsInfo:${this.userGroups}`);
 	},
 };
 </script>
