@@ -50,12 +50,13 @@ export const user = {
 				.get(url)
 				.then(res => {
 					const groups = res.data.groups;
-					// group list 생성
+					// group list 추가
 					const others = groups.others;
+					const defaultGroup = groups.default;
 					const groupList = [
 						{
-							id: groups.default.provider.id,
-							logoUrl: groups.default.provider.logoUrl,
+							id: defaultGroup.provider.id,
+							logoUrl: defaultGroup.provider.logoUrl,
 						},
 					];
 					others.forEach(group => {
@@ -66,7 +67,7 @@ export const user = {
 					});
 					commit('SET_GROUP_LIST', groupList);
 					// default group 추가
-					commit('ADD_GROUP_INFO', groups.default);
+					commit('ADD_GROUP_INFO', defaultGroup);
 				})
 				.catch(err => {
 					alert(err);
