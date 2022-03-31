@@ -1,17 +1,23 @@
 <template>
 	<!-- 프로필 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg profile-area">
-		<div class="row">
-			<q-avatar rounded color="blue" size="73px" class="q-mr-lg" />
-			<div class="col text-left row-gap-12">
-				<div class="q-mb-sm">사용자 닉네임</div>
-				<div>010-1234-5678</div>
-				<div class="row col-gap-12">
-					<!-- 가입시 이용한 카카오/네이버 API 아이콘 -->
-					<div class="api-icon" />
-					<div>naver_email@naver.com</div>
-				</div>
-			</div>
+	<div class="column q-ma-xl">
+		<div class="text-left text-h6 text-weight-bold">사용자 닉네임</div>
+		<q-avatar rounded color="blue" size="73px" class="q-mr-lg" />
+		<div class="row text-left">
+			<div class="text-weight-bold q-mr-lg">전화번호</div>
+			<div>010-1234-5678</div>
+		</div>
+		<div class="row text-left">
+			<div class="text-weight-bold q-mr-lg">이메일</div>
+			<div>email@naver.com</div>
+		</div>
+		<div class="row text-left">
+			<div class="text-weight-bold q-mr-lg">정직 비용</div>
+			<div>1,000 원</div>
+		</div>
+		<div class="row text-left">
+			<div class="text-weight-bold q-mr-lg">등록된 계좌</div>
+			<div>(은행) 356-xxxx-xxxx-xx</div>
 		</div>
 	</div>
 	<!-- hr -->
