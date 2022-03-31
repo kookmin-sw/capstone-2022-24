@@ -6,8 +6,8 @@ export default [
 			ctx.status(200),
 			ctx.json({
 				profile: {
-					nickname: 'exampleNickname',
-					email: 'exampleEmail',
+					nickname: '모르는개산책',
+					email: 'example@naver.com',
 					cellPhoneNumber: '010-xxxx-xxxx',
 					profileImgUrl: 'exampleImgUrl',
 					block: {
@@ -22,57 +22,74 @@ export default [
 				groups: {
 					default: {
 						provider: {
-							id: 'ott id',
-							name: 'ott name',
-							link: 'ott link',
-							logoUrl: 'ott logo url',
+							id: 'ott0001',
+							name: 'netflix',
+							link: 'https://www.netflix.com/kr/',
+							logoUrl: 'netflix logo img',
 						},
-						status: 'reviewing',
+						status: 'watching',
 						timeStamps: {
-							creationDateTime: '모임시작일',
-							startWatchingDateTime: '관람시작일',
-							endWatchingDateTime: '관람종료일',
-							endReportingDateTime: '검토마감일시',
+							creationDateTime: '2022-03-01',
+							startWatchingDateTime: '2022-03-19',
+							endWatchingDateTime: '2022-04-18',
+							endReportingDateTime: '2022-03-22',
 						},
 						reportCount: 0,
 						account: {
-							id: 'example group ott id',
-							password: 'example group ott pw',
-							lastModifiedDateTime: '계정 최종 수정일',
+							id: 'netflix@email.com',
+							password: 'netflx01Pw',
+							lastModifiedDateTime: '2022-03-19',
 						},
 						fellows: [
 							{
-								id: 'member 01 id',
+								id: 'user0001',
 								profileImgUrl: 'member 01 profile url',
-								nickname: 'member 01 nickname',
+								nickname: '모르는개산책',
 								isLeader: true,
 								isMyself: true,
 							},
 							{
-								id: 'member 02 id',
+								id: 'user0002',
 								profileImgUrl: 'member 02 profile url',
-								nickname: 'member 02 nickname',
-								isLeader: true,
-								isMyself: true,
+								nickname: '난쟁이가쏘아올린작은공인인증서',
+								isLeader: false,
+								isMyself: false,
 							},
 							{
-								id: 'member 03 id',
+								id: 'user0003',
 								profileImgUrl: 'member 03 profile url',
-								nickname: 'member 03 nickname',
-								isLeader: true,
-								isMyself: true,
+								nickname: 'charlotte',
+								isLeader: false,
+								isMyself: false,
 							},
 							{
-								id: 'member 04 id',
+								id: 'user0004',
 								profileImgUrl: 'member 04 profile url',
-								nickname: 'member 04 nickname',
-								isLeader: true,
-								isMyself: true,
+								nickname: 'zi존국밥',
+								isLeader: false,
+								isMyself: false,
 							},
 						],
 					},
 					// 나머지 모임 구독 정보
-					others: null,
+					others: [
+						{
+							provider: {
+								id: 'ott0002',
+								name: 'watcha',
+								link: 'https://watcha.com/',
+								logoUrl: 'watcha logo img',
+							},
+						},
+						{
+							provider: {
+								id: 'ott0003',
+								name: 'wavve',
+								link: 'https://www.wavve.com/',
+								logoUrl: 'wavve logo img',
+							},
+						},
+					],
 				},
 				videos: {
 					recentViews: {
