@@ -7,17 +7,17 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
 				<div>{{ $t('join.stepTitle1') }}</div>
 			</div>
-      <div class="row q-mb-lg ott-icons-frame">
-        <q-avatar
-            rounded
-            color="blue"
-            size="60px"
-            v-for="(otts, index) in ottFilters"
-            :key="index"
-            :class="{ 'ott-filter-select': otts.isSelect }"
-            @click="ottFilterClick(index)" />
-        확인: {{ selected.ott }}
-      </div>
+			<div class="row q-mb-lg ott-icons-frame">
+				<q-avatar
+					rounded
+					color="blue"
+					size="60px"
+					v-for="(otts, index) in ottFilters"
+					:key="index"
+					:class="{ 'ott-select': otts.isSelect }"
+					@click="ottFilterClick(index)" />
+				확인: {{ selected.ott }}
+			</div>
 		</div>
 		<q-space class="col-2" />
 	</div>
@@ -43,11 +43,34 @@
 					<div>{{ $t('join.memberPaymentGuide') }}</div>
 				</div>
 			</div>
-			<div class="btn-frame row">
-				<q-btn outline color="blue" class="col">{{ $t('leader') }}</q-btn>
-				<q-btn outline color="blue" class="col">{{ $t('member') }}</q-btn>
-				<!--        <q-space class="col-2" />-->
-			</div>
+      <q-btn-toggle
+          v-model="role"
+          spread
+          class="role-toggle-button"
+          unelevated
+          toggle-color="blue"
+          text-color="blue"
+          :options="[
+						{ label: '모임장', value: 'leader' },
+						{ label: '모임원', value: 'member' },
+					]" />
+<!--			<div class="btn-frame row">-->
+<!--				<q-btn-->
+<!--					outline-->
+<!--					color="blue"-->
+<!--					class="col leader-button"-->
+<!--					@click="roleButtonClick"-->
+<!--					>{{ $t('leader') }}</q-btn-->
+<!--				>-->
+<!--				<q-btn-->
+<!--					outline-->
+<!--					color="blue"-->
+<!--					class="col member-button"-->
+<!--					@click="roleButtonClick"-->
+<!--					>{{ $t('member') }}</q-btn-->
+<!--				>-->
+<!--				&lt;!&ndash;        <q-space class="col-2" />&ndash;&gt;-->
+<!--			</div>-->
 		</div>
 		<q-space class="col-2" />
 	</div>
@@ -61,7 +84,7 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step3') }}</div>
 				<div>{{ $t('join.stepTitle3') }}</div>
 			</div>
-			<div class="explanationn col text-left q-mb-lg">
+			<div class="explanation col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
 			<q-btn unelevated color="grey" class="full-width" disabled="true">
@@ -74,30 +97,34 @@
 
 <script>
 export default {
-  name: 'Home',
-  data() {
-    return {
-      ottFilters: {
-        netflix: {label: '넷플릭스', isSelect: false},
-        watcha: {label: '왓챠', isSelect: false},
-        disneyPlus: {label: '디즈니플러스', isSelect: false},
-        tving: {label: '티빙', isSelect: false},
-        wavve: {label: '웨이브', isSelect: false},
-      },
-      selected: {
-        ott: [],
-      },
-    };
-  },
-  methods: {
-    ottFilterClick(idx) {
-      this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
-      if (this.ottFilters[idx].isSelect === true) {
-        this.selected.ott.push(this.ottFilters[idx].label);
-      } else this.selected.ott.splice(this.ottFilters[idx].label, 1);
-    }
-  }
-}
+	name: 'Home',
+	data() {
+		return {
+			ottFilters: {
+				netflix: { label: '넷플릭스', isSelect: false },
+				watcha: { label: '왓챠', isSelect: false },
+				disneyPlus: { label: '디즈니플러스', isSelect: false },
+				tving: { label: '티빙', isSelect: false },
+				wavve: { label: '웨이브', isSelect: false },
+			},
+			selected: {
+				ott: [],
+			},
+      role: 'leader',
+		};
+	},
+	methods: {
+		ottFilterClick(idx) {
+			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+			if (this.ottFilters[idx].isSelect === true) {
+				this.selected.ott.push(this.ottFilters[idx].label);
+			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+		},
+		// roleButtonClick() {
+		// 	console.log();
+		// },
+	},
+};
 </script>
 
 <style scoped>
@@ -114,8 +141,11 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 }
-.ott-filter-select {
-  border: 3px solid darkblue;
-  border-radius: 7px;
+.ott-select {
+	border: 3px solid darkblue;
+	border-radius: 7px;
+}
+.role-toggle-button {
+  border: 1px solid #2196f3
 }
 </style>
