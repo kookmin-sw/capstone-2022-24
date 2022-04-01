@@ -22,16 +22,6 @@
 				</div>
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
-					<!--					<q-btn-->
-					<!--						flat-->
-					<!--						padding="none"-->
-					<!--						v-for="(otts, index) in ottFilters"-->
-					<!--						:key="index"-->
-					<!--						:class="{ 'ott-filter-select': otts.isSelect }"-->
-					<!--						@click="ottFilterClick(index)"-->
-					<!--						>&lt;!&ndash; console.log() 확인용 매개변수 &ndash;&gt;-->
-					<!--						<q-avatar rounded color="blue" size="60px" />-->
-					<!--					</q-btn>-->
 					<q-avatar
 						rounded
 						color="blue"
