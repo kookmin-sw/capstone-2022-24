@@ -40,7 +40,6 @@
 						:key="index"
 						:class="{ 'ott-filter-select': otts.isSelect }"
 						@click="ottFilterClick(index)" />
-					확인: {{ selected.ott }}
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -62,7 +61,6 @@
 									@click="filterClick(category)">
 									{{ category.label }}
 								</q-chip>
-								확인: {{ selected.category }}
 							</div>
 						</div>
 						<!-- 상영 등급 -->
@@ -79,7 +77,6 @@
 									@click="filterClick(rate)">
 									{{ rate.label }}
 								</q-chip>
-								확인 :{{ selected.filmRate }}
 							</div>
 						</div>
 						<!-- 장르 -->
@@ -96,7 +93,6 @@
 									@click="filterClick(genre)">
 									{{ genre.label }}
 								</q-chip>
-								확인 :{{ selected.genre }}
 							</div>
 						</div>
 						<!-- 결제 종류 -->
@@ -113,7 +109,6 @@
 									@click="filterClick(offer)">
 									{{ offer.label }}
 								</q-chip>
-								확인 :{{ selected.offer }}
 							</div>
 						</div>
 						<!-- 국가 -->
@@ -130,7 +125,6 @@
 									@click="filterClick(country)">
 									{{ country.label }}
 								</q-chip>
-								확인 :{{ selected.country }}
 							</div>
 							<!-- 관람 여부 -->
 						</div>
@@ -147,7 +141,6 @@
 									@click="filterClick(work)">
 									{{ work.label }}
 								</q-chip>
-								확인 :{{ selected.watched }}
 							</div>
 						</div>
 						<!-- 슬라이더 형태 필터링 -->
