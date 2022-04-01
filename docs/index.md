@@ -6,7 +6,7 @@ _OTT 부가 기능 통합 웹서비스_
 
 - **관련 문서**
   - ["온갖" GitHub Wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
-  - [중간발표 문서]()
+  - 중간발표 문서
 ---
 >**팀페이지 주소**: https://kookmin-sw.github.io/capstone-2022-24  
 
@@ -32,13 +32,15 @@ _OTT 부가 기능 통합 웹서비스_
 3.OTT '모아보기' - OTT 공동구독 신청, 결제, 관람, 취소, 자동 연장
 
 ## 프로젝트 소개
-###소개 영상 - 추후 업로드 예정  
+### 소개 영상 - 추후 업로드 예정  
 
-<img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
-<img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
-<br>
-<img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
-<img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+<p align="left">
+  <img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+  <br>
+  <img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+</p>
 
 >**온-갖**  
 **표준국어대사전**  
