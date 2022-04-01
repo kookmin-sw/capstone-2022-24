@@ -91,23 +91,50 @@ export default [
 						},
 					],
 				},
+				// 사용자 작품 정보
 				videos: {
 					recentViews: {
 						results: [
 							{
 								id: 1,
-								tmbdId: 1,
-								posterUrl: 'poster url',
+								tmdbId: 1,
+								posterUrl: '01 poster Url',
+								dateTime: '2022-03-30',
 							},
 							{
 								id: 2,
-								tmbdId: 2,
-								posterUrl: 'poster url',
+								tmdbId: 2,
+								posterUrl: '02 poster Url',
+								dateTime: '2022-03-30',
+							},
+							{
+								id: 3,
+								tmdbId: 3,
+								posterUrl: '03 poster Url',
+								dateTime: '2022-03-30',
+							},
+							{
+								id: 4,
+								tmdbId: 4,
+								posterUrl: '04 poster Url',
+								dateTime: '2022-03-28',
+							},
+							{
+								id: 5,
+								tmdbId: 5,
+								posterUrl: '05 poster Url',
+								dateTime: '2022-03-27,',
+							},
+							{
+								id: 6,
+								tmdbId: 6,
+								posterUrl: '06 poster Url',
+								dateTime: '2022-03-27',
 							},
 						],
 						page: {
-							totalPage: 1,
-							totalResult: 2,
+							totalPage: 6,
+							totalResult: 31,
 						},
 					},
 					watchMarks: {
@@ -115,10 +142,19 @@ export default [
 						page: {},
 					},
 					dibs: {
-						results: null,
-						page: null,
+						results: [],
+						page: {
+							totalPage: 0,
+							totalResult: 0,
+						},
 					},
-					stars: null,
+					stars: {
+						results: [],
+						page: {
+							totalPage: 0,
+							totalResult: 0,
+						},
+					},
 				},
 			}),
 		);

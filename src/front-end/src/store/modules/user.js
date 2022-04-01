@@ -8,6 +8,7 @@ export const user = {
 		},
 		userGroupList: [],
 		userGroups: [],
+		userVideos: {},
 	},
 	getters: {},
 	mutations: {
@@ -19,6 +20,9 @@ export const user = {
 		},
 		ADD_GROUP_INFO(state, groupInfo) {
 			state.userGroups.push(groupInfo);
+		},
+		SET_USER_VIDEOS(state, userVideos) {
+			state.userVideos = userVideos;
 		},
 	},
 	actions: {
@@ -79,6 +83,37 @@ export const user = {
 				.get(url)
 				.then(res => {
 					commit('ADD_GROUP_INFO', res.data);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		async getUserVideos({ commit }, videoSize) {
+			const url = `/users/mypage?videoSize=${videoSize}`;
+			await http
+				.get(url)
+				.then(res => {
+					const videos = res.data.videos;
+					const userVideos = {
+						recentViews: {
+							total: videos.recentViews.page.totalResult,
+							results: videos.recentViews.results,
+						},
+						dibs: {
+							total: videos.dibs.page.totalResult,
+							results: videos.dibs.results,
+						},
+						stars: {
+							total: videos.stars.page.totalResult,
+							results: videos.stars.results,
+						},
+						watchMarks: {
+							total: videos.watchMarks.page.totalResult,
+							results: videos.watchMarks.results,
+						},
+					};
+					commit('SET_USER_VIDEOS', userVideos);
+					// console.log('vuex:', state.userVideos);
 				})
 				.catch(err => {
 					alert(err);

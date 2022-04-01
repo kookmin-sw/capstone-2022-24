@@ -109,20 +109,8 @@
 				class="bg-blue-1">
 				<q-carousel-slide :name="1">
 					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
+						<!--						            <div class="video-poster" v-for="video in this.recentViews" :key="video.id">{{video}}</div>-->
+						<!--						            <div class="video-poster" v-for="video in this.userVideos.recentViews.results" :key="video.id">{{video}}</div>-->
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
@@ -151,14 +139,6 @@
 					<div class="row fit justify-center items-center video-list-frame">
 						<div class="video-poster" />
 						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2">
-					<div class="row fit justify-center items-center video-list-frame">
 						<div class="video-poster" />
 						<div class="video-poster" />
 						<div class="video-poster" />
@@ -197,14 +177,6 @@
 						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
 			</q-carousel>
 		</div>
 	</div>
@@ -237,14 +209,6 @@
 						<div class="video-poster" />
 					</div>
 				</q-carousel-slide>
-				<q-carousel-slide :name="2">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
 			</q-carousel>
 		</div>
 	</div>
@@ -256,20 +220,24 @@ export default {
 	name: 'My',
 	data() {
 		return {
-			ottId: 'netfilxID@gmail.com',
-			ottPw: 'netflix*Password',
-			recents: 1,
 			watched: 1,
+			recents: 1,
 			dibs: 1,
 			rated: 1,
 			selectGroup: {},
 		};
 	},
 	computed: {
-		...mapState('user', ['userProfile', 'userGroups', 'userGroupList']),
+		...mapState('user', [
+			'userProfile',
+			'userGroups',
+			'userGroupList',
+			'userVideos',
+		]),
 	},
-	beforeCreate() {
-		this.$store.dispatch('user/getGroupList');
+	async beforeCreate() {
+		await this.$store.dispatch('user/getGroupList');
+		await this.$store.dispatch('user/getUserVideos');
 	},
 	methods: {
 		findGroup(ottId) {
