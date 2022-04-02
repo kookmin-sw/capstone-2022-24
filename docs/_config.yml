@@ -5,8 +5,8 @@ darkmode: false
 remote_theme: tuur29/pages-themes-cayman
 color:
   header: "#fff"
-  gradient_left: "#83bbfb"
-  gradient_right: "#ffffff"
+  gradient_left: "#ffffff"
+  gradient_right: "#83bbfb"
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
 buttons:
   zip_url: https://github.com/kookmin-sw/capstone-2022-24
