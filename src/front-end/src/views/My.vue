@@ -101,15 +101,15 @@
 			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
 		<div>
-			<!--      <div v-for="page in getRecentViews.totalPage" :key="page"> {{ page }}</div>-->
 			<q-carousel
-				v-model="recents"
+				v-model="recentPage"
 				transition-prev="slide-right"
 				transition-next="slide-left"
 				swipeable
 				animated
 				padding
 				arrows
+				ref="carousel"
 				control-color="primary"
 				height="230px"
 				class="bg-blue-1">
@@ -117,7 +117,6 @@
 					:name="page"
 					v-for="page in getRecentViews.totalPage"
 					:key="page">
-					{{ page }}
 					<div
 						class="row fit justify-center items-center video-list-frame"
 						v-if="getRecentViews.results[page - 1]">
@@ -125,7 +124,7 @@
 							class="video-poster"
 							v-for="video in getRecentViews.results[page - 1].videos"
 							:key="video.id">
-							{{ video }}
+							{{ video.posterUrl }}
 						</div>
 					</div>
 				</q-carousel-slide>
@@ -232,17 +231,26 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+// import { ref } from 'vue'
+
 export default {
 	name: 'My',
 	data() {
 		return {
-			watched: 1,
-			recents: 1,
+			selectGroup: {},
+			recentPage: 1,
+			recentViews: [],
 			dibs: 1,
 			rated: 1,
-			selectGroup: {},
-			recentViews: [],
+			watched: 1,
 		};
+	},
+	watch: {
+		recentPage: function (newVal) {
+			if (newVal >= this.getRecentViews.results.length) {
+				this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
+			}
+		},
 	},
 	computed: {
 		...mapState('user', ['userProfile']),
@@ -256,6 +264,9 @@ export default {
 	methods: {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/setSelectGroup', groupId);
+		},
+		changeSlide() {
+			console.log('change!');
 		},
 	},
 };

@@ -38,6 +38,9 @@ export const user = {
 		SET_RECENT_VIEWS(state, videoList) {
 			state.recentViews = videoList;
 		},
+		PUSH_RECENT_VIEWS(state, videoList) {
+			state.recentViews.results.push(videoList);
+		},
 	},
 	actions: {
 		async setUserProfile({ commit }, videoSize) {
@@ -134,9 +137,6 @@ export const user = {
 							{
 								videos: videos.recentViews.results,
 							},
-							{
-								videos: videos.recentViews.results,
-							},
 						],
 					};
 					commit('SET_RECENT_VIEWS', recentViews);
@@ -169,15 +169,20 @@ export const user = {
 					alert(err);
 				});
 		},
-		// divisionVideo(context, {arr, size}) {
-		// 	// 비디오 리스트 페이지 단위로 나누기
-		// 	const length = arr.length;
-		// 	const divide = Math.floor(length / size) + (Math.floor( length % size ) > 0 ? 1 : 0);
-		// 	const result = [];
-		// 	for (let i = 0; i <= divide; i++) {
-		// 		result.push(arr.splice(0, size));
-		// 	}
-		// 	return result;
-		// },
+		async pushRecentViews({ commit }, { page, size }) {
+			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
+			console.log(`url: ${url}`);
+			http
+				.get(url)
+				.then(res => {
+					const videoList = {
+						videos: res.data.results,
+					};
+					commit('PUSH_RECENT_VIEWS', videoList);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
 	},
 };
