@@ -55,9 +55,14 @@
 				</q-badge>
 			</div>
 			<!-- 모임 모집 완료 이전 -->
-			<div class="row q-pa-md q-pb-xl" v-if="!getSelectGroup.fellows">
+			<div
+				class="row q-pa-md q-pb-xl"
+				v-if="!getSelectGroup.fellows"
+				style="height: 343px">
 				<q-space class="col-2" />
-				<div>모임원 모집 중입니다.</div>
+				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">
+					모임 구성원을 기다리는 중입니다.
+				</div>
 				<q-space class="col-2" />
 			</div>
 			<!-- 모임 모집 완료 이후 -->
