@@ -5,8 +5,6 @@ darkmode: false
 remote_theme: tuur29/pages-themes-cayman
 color:
   header: "#ffffff"
-  link: "#449bfe"
-  section-title: "#83bbfb"
   gradient_left: "#83bbfb"
   gradient_right: "#ffffff"
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
