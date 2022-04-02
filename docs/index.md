@@ -60,25 +60,25 @@ OTT 관련 _**이런저런 여러 가지의**_ 부가기능을 통합 제공한�
 ## 팀 소개
 ### 팀원
 ✨**구다희** ✨
->student ID: 20181575  
+>student ID: ****1575  
 github: [@dadahee](https://github.com/dadahee)  
 e-mail: [heeouo@kookmin.ac.kr](heeouo@kookmin.ac.kr)  
 role: 팀장, back-end, 배포 환경 구성, 서버 개발, DB 구축  
 
 ✨**김아성** ✨
->student ID: 20181591  
+>student ID: ****1591  
 github: [@a-sung](https://github.com/asung)  
 e-mail: [5012s@kookmin.ac.kr](5012s@kookmin.ac.kr)  
 role: front-end, 웹 페이지 디자인, 라우팅, API 통신   
 
 ✨**김정연** ✨
->student ID: 20181594  
+>student ID: ****1594  
 github: [@KimKimJungyeon](https://github.com/KimKimJungyeon)  
 e-mail: [kjy20177@kookmin.ac.kr](kjy20177@kookmin.ac.kr)  
 role: back-end, 서버 개발, DB 구축, 크롤러 개발  
 
 ✨**이예슬** ✨
->student ID: 20181667  
+>student ID: ****1667  
 github: [@yesslee](https://github.com/yesslee)  
 e-mail: [lys0301174@kookmin.ac.kr](lys0301174@kookmin.ac.kr)  
 role: front-end, 웹 페이지 레이아웃, 이벤트 로직&렌더링, GitHub Page 문서 작성
