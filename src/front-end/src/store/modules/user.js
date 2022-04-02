@@ -10,6 +10,7 @@ export const user = {
 		groupsInfo: [],
 		selectGroup: {},
 		recentViews: {},
+		dibs: {},
 	},
 	getters: {
 		getGroupList(state) {
@@ -20,6 +21,9 @@ export const user = {
 		},
 		getRecentViews(state) {
 			return state.recentViews;
+		},
+		getDibs(state) {
+			return state.dibs;
 		},
 	},
 	mutations: {
@@ -40,6 +44,12 @@ export const user = {
 		},
 		PUSH_RECENT_VIEWS(state, videoList) {
 			state.recentViews.results.push(videoList);
+		},
+		SET_DIBS(state, videoList) {
+			state.dibs = videoList;
+		},
+		PUSH_DIBS(state, videoList) {
+			state.dibs.results.push(videoList);
 		},
 	},
 	actions: {
@@ -140,30 +150,17 @@ export const user = {
 						],
 					};
 					commit('SET_RECENT_VIEWS', recentViews);
-					// console.log(recentViews);
 
-					// 				const userVideos = {
-					// 					recentViews: {
-					// 						totalPage: videos.recentViews.page.totalPage,
-					// 						hasPage: 1,
-					// 						total: videos.recentViews.page.totalResult,
-					// 						results: videos.recentViews.results,
-					// 					},
-					// 					dibs: {
-					// 						total: videos.dibs.page.totalResult,
-					// 						results: videos.dibs.results,
-					// 					},
-					// 					stars: {
-					// 						total: videos.stars.page.totalResult,
-					// 						results: videos.stars.results,
-					// 					},
-					// 					watchMarks: {
-					// 						total: videos.watchMarks.page.totalResult,
-					// 						results: videos.watchMarks.results,
-					// 					},
-					// 				};
-					// 				commit('SET_USER_VIDEOS', userVideos);
-					// 				// console.log('vuex:', state.userVideos);
+					const dibs = {
+						totalPage: videos.dibs.page.totalPage,
+						totalResult: videos.dibs.page.totalResult,
+						results: [
+							{
+								videos: videos.dibs.results,
+							},
+						],
+					};
+					commit('SET_DIBS', dibs);
 				})
 				.catch(err => {
 					alert(err);
@@ -171,7 +168,6 @@ export const user = {
 		},
 		async pushRecentViews({ commit }, { page, size }) {
 			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
-			console.log(`url: ${url}`);
 			http
 				.get(url)
 				.then(res => {
@@ -179,6 +175,20 @@ export const user = {
 						videos: res.data.results,
 					};
 					commit('PUSH_RECENT_VIEWS', videoList);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		async pushDibs({ commit }, { page, size }) {
+			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
+			http
+				.get(url)
+				.then(res => {
+					const videoList = {
+						videos: res.data.results,
+					};
+					commit('PUSH_DIBS', videoList);
 				})
 				.catch(err => {
 					alert(err);
