@@ -55,7 +55,6 @@
 				</q-badge>
 			</div>
 			<!-- 모임 모집 완료 이전 -->
-			<!--  TODO: 정상 동작 하는데 null error 어떻게... 잡아야 할까...-->
 			<div class="row q-pa-md q-pb-xl" v-if="!getSelectGroup.fellows">
 				<q-space class="col-2" />
 				<div>모임원 모집 중입니다.</div>

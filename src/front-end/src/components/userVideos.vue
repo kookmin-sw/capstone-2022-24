@@ -57,9 +57,6 @@ export default {
 			currentPage: 1,
 		};
 	},
-	beforeCreate() {
-		console.log(this.title, ':', this.videoList);
-	},
 	watch: {
 		currentPage: function (newVal) {
 			if (newVal >= this.videoList.results.length) {
