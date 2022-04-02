@@ -142,10 +142,23 @@ export default [
 						page: {},
 					},
 					dibs: {
-						results: [],
+						results: [
+							{
+								id: 13,
+								tmdbId: 13,
+								posterUrl: '13 poster Url',
+								dateTime: '2022-03-30',
+							},
+							{
+								id: 14,
+								tmdbId: 14,
+								posterUrl: '14 poster Url',
+								dateTime: '2022-03-30',
+							},
+						],
 						page: {
-							totalPage: 0,
-							totalResult: 0,
+							totalPage: 1,
+							totalResult: 2,
 						},
 					},
 					stars: {

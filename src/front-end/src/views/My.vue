@@ -93,76 +93,21 @@
 		<!--			</q-btn>-->
 		<!--			<q-btn outline color="blue">OTT 바로가기</q-btn>-->
 	</div>
-	<!--	 최근 조회 작품 영역-->
+
+	<!--  최근 조회 작품  -->
 	<q-separator color="blue" inset />
-	<div class="q-ma-xl">
-		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
-		</div>
-		<div>
-			<q-carousel
-				v-model="recentPage"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				padding
-				arrows
-				ref="carousel"
-				control-color="primary"
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide
-					:name="page"
-					v-for="page in getRecentViews.totalPage"
-					:key="page">
-					<div
-						class="row fit justify-center items-center video-list-frame"
-						v-if="getRecentViews.results[page - 1]">
-						<div
-							class="video-poster"
-							v-for="video in getRecentViews.results[page - 1].videos"
-							:key="video.id">
-							{{ video.posterUrl }}
-						</div>
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!--	&lt;!&ndash; 본 작품 영역 &ndash;&gt;-->
-	<!--	<q-separator color="blue" inset />-->
-	<!--	<div class="q-ma-xl">-->
-	<!--		<div class="row q-mb-md">-->
-	<!--			<div class="text-h6 text-weight-bold">본 작품</div>-->
-	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
-	<!--		</div>-->
-	<!--		<div>-->
-	<!--			<q-carousel-->
-	<!--				v-model="watched"-->
-	<!--				transition-prev="slide-right"-->
-	<!--				transition-next="slide-left"-->
-	<!--				swipeable-->
-	<!--				animated-->
-	<!--				control-color="primary"-->
-	<!--				padding-->
-	<!--				arrows-->
-	<!--				height="230px"-->
-	<!--				class="bg-blue-1">-->
-	<!--				<q-carousel-slide :name="1">-->
-	<!--					<div class="row fit justify-center items-center video-list-frame">-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--					</div>-->
-	<!--				</q-carousel-slide>-->
-	<!--			</q-carousel>-->
-	<!--		</div>-->
-	<!--	</div>-->
+	<user-videos
+		:title="'최근 조회 작품'"
+		:video-list="getRecentViews"
+		:push-video-method="'user/pushRecentViews'" />
+
+	<!--  본 작품  -->
+	<q-separator color="blue" inset />
+	<user-videos
+		:title="'본 작품'"
+		:video-list="getDibs"
+		:push-video-method="'user/pushDibs'" />
+
 	<!--	&lt;!&ndash; 찜한 작품 영역 &ndash;&gt;-->
 	<!--	<q-separator color="blue" inset />-->
 	<!--	<div class="q-ma-xl">-->
@@ -231,42 +176,51 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-// import { ref } from 'vue'
+import UserVideos from '@/components/userVideos';
 
 export default {
 	name: 'My',
+	components: { UserVideos },
 	data() {
 		return {
 			selectGroup: {},
 			recentPage: 1,
 			recentViews: [],
-			dibs: 1,
+			dibPage: 1,
+			dibs: [],
 			rated: 1,
 			watched: 1,
 		};
 	},
 	watch: {
-		recentPage: function (newVal) {
+		// recentPage: function (newVal) {
+		// 	if (newVal >= this.getRecentViews.results.length) {
+		// 		this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
+		// 	}
+		// },
+		dibPage: function (newVal) {
 			if (newVal >= this.getRecentViews.results.length) {
-				this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
+				console.log(newVal);
+				// this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
 			}
 		},
 	},
 	computed: {
 		...mapState('user', ['userProfile']),
-		...mapGetters('user', ['getGroupList', 'getSelectGroup', 'getRecentViews']),
+		...mapGetters('user', [
+			'getGroupList',
+			'getSelectGroup',
+			'getRecentViews',
+			'getDibs',
+		]),
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('user/initUserGroups');
 		await this.$store.dispatch('user/initUserVideos', 6);
-		console.log(this.getRecentViews.results);
 	},
 	methods: {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/setSelectGroup', groupId);
-		},
-		changeSlide() {
-			console.log('change!');
 		},
 	},
 };
@@ -280,19 +234,5 @@ export default {
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
-}
-
-.video-list-frame {
-	display: flex;
-	flex-wrap: wrap;
-	/*justify-content: space-between;*/
-}
-
-.video-poster {
-	width: 14%;
-	height: 0;
-	padding-bottom: 20%;
-	margin: 0 12px 0 0;
-	background: lightgrey;
 }
 </style>
