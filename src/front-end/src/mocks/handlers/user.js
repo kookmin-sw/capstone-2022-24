@@ -133,7 +133,7 @@ export default [
 							},
 						],
 						page: {
-							totalPage: 6,
+							totalPage: 5,
 							totalResult: 31,
 						},
 					},
