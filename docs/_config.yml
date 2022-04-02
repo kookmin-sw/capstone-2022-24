@@ -7,7 +7,6 @@ color:
   header: "#fff"
   gradient_left: "#83bbfb"
   gradient_right: "#ffffff"
-logo_url: service_logo.png
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
 buttons:
   zip_url: https://github.com/kookmin-sw/capstone-2022-24
