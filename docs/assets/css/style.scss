@@ -7,13 +7,13 @@ $medium-breakpoint: 42em !default;
 
 // Headers
 $header-heading-color: {{ site.color.header | default: "#fff" }} !default;
-$header-bg-color: {{ site.color.gradient_right | default: "#83bbfb" }}
-$header-bg-color-secondary: {{ site.color.gradient_left | default: "#ffffff" }}
+$header-bg-color: {{ site.color.gradient_right | default: "#83bbfb" }};
+$header-bg-color-secondary: {{ site.color.gradient_left | default: "#ffffff" }};
 
 // Text
-$section-headings-color: {{ site.color.section_title | default: site.color.gradient_right | default: "#83bbfb" }}
+$section-headings-color: {{ site.color.section_title | default: site.color.gradient_right | default: "#83bbfb" }};
 $body-text-color: #606c71 !default;
-$body-link-color: {{ site.color.link | default: site.color.gradient_left | default: "#449bfe" }}
+$body-link-color: {{ site.color.link | default: site.color.gradient_left | default: "#449bfe" }};
 $blockquote-text-color: #819198 !default;
 
 // Code
