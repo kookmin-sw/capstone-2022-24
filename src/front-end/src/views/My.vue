@@ -78,20 +78,27 @@
 			</div>
 		</div>
 		<!-- ott 계정 정보 -->
-		<div class="q-mb-lg" v-if="getSelectGroup.account">
-			<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />
-			<q-input
-				readonly
-				label="비밀번호"
-				v-model="getSelectGroup.account.password" />
+		<div v-if="getSelectGroup.account">
+			<div class="q-mb-md">
+				<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />
+				<q-input
+					readonly
+					label="비밀번호"
+					v-model="getSelectGroup.account.password" />
+			</div>
+			<div class="row">
+				<q-space class="col-8" />
+				<q-btn outline color="blue" class="q-mr-sm">
+					신고<q-icon name="no_accounts" />
+				</q-btn>
+				<q-btn outline color="blue">
+					<a :href="getSelectGroup.provider.link" target="_blank">
+						{{ getSelectGroup.provider.name }} 바로가기
+					</a>
+					<q-icon name="arrow_right_alt" />
+				</q-btn>
+			</div>
 		</div>
-		<!--		<div class="row">-->
-		<!--			<q-space class="col-8" />-->
-		<!--			<q-btn outline color="blue" class="q-mr-sm">-->
-		<!--				<q-icon name="report" />-->
-		<!--				신고-->
-		<!--			</q-btn>-->
-		<!--			<q-btn outline color="blue">OTT 바로가기</q-btn>-->
 	</div>
 
 	<!--  최근 조회 작품  -->
@@ -180,5 +187,9 @@ export default {
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
+}
+
+a {
+	color: #0074d9;
 }
 </style>

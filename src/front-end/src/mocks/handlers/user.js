@@ -23,7 +23,7 @@ export default [
 					default: {
 						provider: {
 							id: 'ott0001',
-							name: 'netflix',
+							name: '넷플릭스',
 							link: 'https://www.netflix.com/kr/',
 							logoUrl: 'netflix logo img',
 						},
@@ -76,7 +76,7 @@ export default [
 						{
 							provider: {
 								id: 'ott0002',
-								name: 'watcha',
+								name: '왓챠',
 								link: 'https://watcha.com/',
 								logoUrl: 'watcha logo img',
 							},
@@ -84,7 +84,7 @@ export default [
 						{
 							provider: {
 								id: 'ott0003',
-								name: 'wavve',
+								name: '웨이브',
 								link: 'https://www.wavve.com/',
 								logoUrl: 'wavve logo img',
 							},
