@@ -90,7 +90,7 @@ const routes = [
 		beforeEnter: onlyAuthUser,
 	},
 	{
-		path: '/:userId/expand',
+		path: '/:userId/expand/:listType',
 		name: 'Expand',
 		component: () =>
 			import(/* webpackChunkName: "Expand" */ '@/views/Expand.vue'),
@@ -146,6 +146,9 @@ const routes = [
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
+	scrollBehavior() {
+		return { top: 0, left: 0 };
+	},
 });
 
 export default router;
