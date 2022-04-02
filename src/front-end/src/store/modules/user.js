@@ -6,27 +6,38 @@ export const user = {
 		userProfile: {
 			nickname: '',
 		},
-		userGroupList: [],
-		userGroups: [],
+		groupList: [],
+		groupsInfo: [],
+		selectGroup: null,
 		userVideos: {},
 	},
-	getters: {},
+	getters: {
+		getGroupList(state) {
+			return state.groupList;
+		},
+		getSelectGroup(state) {
+			return state.selectGroup;
+		},
+	},
 	mutations: {
 		SET_USER_PROFILE(state, userProfile) {
 			state.userProfile = userProfile;
 		},
 		SET_GROUP_LIST(state, groupList) {
-			state.userGroupList = groupList;
+			state.groupList = groupList;
 		},
-		ADD_GROUP_INFO(state, groupInfo) {
-			state.userGroups.push(groupInfo);
+		ADD_GROUP_INFO(state, group) {
+			state.groupsInfo.push(group);
 		},
-		SET_USER_VIDEOS(state, userVideos) {
-			state.userVideos = userVideos;
+		// SET_USER_VIDEOS(state, userVideos) {
+		// 	state.userVideos = userVideos;
+		// },
+		SET_SELECT_GROUP(state, group) {
+			state.selectGroup = group;
 		},
 	},
 	actions: {
-		async getUserProfile({ commit }, videoSize) {
+		async setUserProfile({ commit }, videoSize) {
 			const url = `/users/mypage?videoSize=${videoSize}`;
 			await http
 				.get(url)
@@ -48,21 +59,26 @@ export const user = {
 					alert(err);
 				});
 		},
-		async getGroupList({ commit }, videoSize) {
+		async initUserGroups({ commit }, videoSize) {
 			const url = `/users/mypage?videoSize=${videoSize}`;
 			await http
 				.get(url)
 				.then(res => {
 					const groups = res.data.groups;
-					// group list 추가
-					const others = groups.others;
+					// set: select group = default group
 					const defaultGroup = groups.default;
+					commit('ADD_GROUP_INFO', defaultGroup);
+					commit('SET_SELECT_GROUP', defaultGroup);
+
+					// list에 default group 추가
 					const groupList = [
 						{
 							id: defaultGroup.provider.id,
 							logoUrl: defaultGroup.provider.logoUrl,
 						},
 					];
+					// list에 others 추가
+					const others = groups.others;
 					others.forEach(group => {
 						groupList.push({
 							id: group.provider.id,
@@ -70,56 +86,68 @@ export const user = {
 						});
 					});
 					commit('SET_GROUP_LIST', groupList);
-					// default group 추가
-					commit('ADD_GROUP_INFO', defaultGroup);
 				})
 				.catch(err => {
 					alert(err);
 				});
 		},
-		async getGroupInfo({ commit }, ottId) {
-			const url = `/users/providers/${ottId}`;
+		async setSelectGroup({ state, commit, dispatch }, groupId) {
+			// 사용자가 선택한 모임 정보가 존재하는지 확인
+			const selected = state.groupsInfo.find(group => {
+				return group.provider.id === groupId;
+			});
+			if (!selected) {
+				// 존재하지 않으면 정보 가져오고 선택 모임 갱신
+				await dispatch('pushGroupInfo', groupId);
+			} else {
+				// 존재하면 선택 모임 갱신
+				commit('SET_SELECT_GROUP', selected);
+			}
+		},
+		async pushGroupInfo({ commit }, groupId) {
+			const url = `/users/providers/${groupId}`;
 			await http
 				.get(url)
 				.then(res => {
+					commit('SET_SELECT_GROUP', res.data);
 					commit('ADD_GROUP_INFO', res.data);
 				})
 				.catch(err => {
 					alert(err);
 				});
 		},
-		async getUserVideos({ commit }, videoSize) {
-			const url = `/users/mypage?videoSize=${videoSize}`;
-			await http
-				.get(url)
-				.then(res => {
-					const videos = res.data.videos;
-					const userVideos = {
-						recentViews: {
-							totalPage: videos.recentViews.page.totalPage,
-							hasPage: 1,
-							total: videos.recentViews.page.totalResult,
-							results: videos.recentViews.results,
-						},
-						dibs: {
-							total: videos.dibs.page.totalResult,
-							results: videos.dibs.results,
-						},
-						stars: {
-							total: videos.stars.page.totalResult,
-							results: videos.stars.results,
-						},
-						watchMarks: {
-							total: videos.watchMarks.page.totalResult,
-							results: videos.watchMarks.results,
-						},
-					};
-					commit('SET_USER_VIDEOS', userVideos);
-					// console.log('vuex:', state.userVideos);
-				})
-				.catch(err => {
-					alert(err);
-				});
-		},
+		// 	async getUserVideos({ commit }, videoSize) {
+		// 		const url = `/users/mypage?videoSize=${videoSize}`;
+		// 		await http
+		// 			.get(url)
+		// 			.then(res => {
+		// 				const videos = res.data.videos;
+		// 				const userVideos = {
+		// 					recentViews: {
+		// 						totalPage: videos.recentViews.page.totalPage,
+		// 						hasPage: 1,
+		// 						total: videos.recentViews.page.totalResult,
+		// 						results: videos.recentViews.results,
+		// 					},
+		// 					dibs: {
+		// 						total: videos.dibs.page.totalResult,
+		// 						results: videos.dibs.results,
+		// 					},
+		// 					stars: {
+		// 						total: videos.stars.page.totalResult,
+		// 						results: videos.stars.results,
+		// 					},
+		// 					watchMarks: {
+		// 						total: videos.watchMarks.page.totalResult,
+		// 						results: videos.watchMarks.results,
+		// 					},
+		// 				};
+		// 				commit('SET_USER_VIDEOS', userVideos);
+		// 				// console.log('vuex:', state.userVideos);
+		// 			})
+		// 			.catch(err => {
+		// 				alert(err);
+		// 			});
+		// 	},
 	},
 };

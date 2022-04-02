@@ -51,7 +51,7 @@ export default [
 							{
 								id: 'user0002',
 								profileImgUrl: 'member 02 profile url',
-								nickname: '난쟁이가쏘아올린작은공인인증서',
+								nickname: '난쟁이가쏘아올린',
 								isLeader: false,
 								isMyself: false,
 							},
@@ -165,16 +165,46 @@ export default [
 			ctx.json({
 				results: [
 					{
-						id: 1,
-						tmdbId: 1,
-						dateTime: '2022-03-29',
-						posterUrl: 'example poster URl',
+						id: 7,
+						tmdbId: 7,
+						posterUrl: '07 poster Url',
+						dateTime: '2022-03-30',
+					},
+					{
+						id: 8,
+						tmdbId: 8,
+						posterUrl: '08 poster Url',
+						dateTime: '2022-03-30',
+					},
+					{
+						id: 9,
+						tmdbId: 9,
+						posterUrl: '09 poster Url',
+						dateTime: '2022-03-30',
+					},
+					{
+						id: 10,
+						tmdbId: 10,
+						posterUrl: '10 poster Url',
+						dateTime: '2022-03-28',
+					},
+					{
+						id: 11,
+						tmdbId: 11,
+						posterUrl: '11 poster Url',
+						dateTime: '2022-03-27,',
+					},
+					{
+						id: 12,
+						tmdbId: 12,
+						posterUrl: '12 poster Url',
+						dateTime: '2022-03-27',
 					},
 				],
 				page: {
-					current: 1,
-					totalPage: 1,
-					totalResult: 2,
+					current: 2,
+					totalPage: 6,
+					totalResult: 31,
 				},
 			}),
 		);

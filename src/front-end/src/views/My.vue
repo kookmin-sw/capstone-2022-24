@@ -35,188 +35,196 @@
 				color="grey"
 				size="40px"
 				class="q-mr-sm"
-				v-for="group in this.userGroupList"
+				v-for="group in getGroupList"
 				:key="group.id"
-				@click="setSelectedGroup(group.id)">
+				@click="clickGroupLogo(group.id)">
 				<div>{{ group.logoUrl }}</div>
 			</q-avatar>
 			<q-btn outline color="blue">+</q-btn>
 		</div>
-		<!-- 모임 상태 -->
-		<div class="text-left">
-			<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
-			<div>모임 상태 설명</div>
-			<div class="align-right">
-				<q-btn flat dense>모임 탈퇴 하기 ></q-btn>
-			</div>
+		<!-- 모임 탈퇴 -->
+		<div class="text-left align-right">
+			<q-btn flat dense>모임 탈퇴 하기 ></q-btn>
 		</div>
-		<!-- 구성원 영역 -->
+		<!-- 모임 상세 정보 -->
 		<div class="q-mb-lg bg-blue-1">
-			<!-- 모임 상태 -->
+			<!-- 모임 상태 뱃지 -->
 			<div class="align-right">
 				<q-badge color="blue" text-color="white" align="top" class="q-pa-sm">
-					D-day
+					모임 상태 & D-day
 				</q-badge>
 			</div>
-			<!-- 구성원 목록 -->
-			<div class="row q-pa-md q-pb-xl">
+			<!-- 모임 모집 완료 이전 -->
+			<!--  TODO: 정상 동작 하는데 null error 어떻게... 잡아야 할까...-->
+			<div class="row q-pa-md q-pb-xl" v-if="!getSelectGroup.fellows">
 				<q-space class="col-2" />
-				<div
-					class="col"
-					v-for="fellow in selectGroup.fellows"
-					:key="fellow.nickname">
-					<q-avatar rounded color="grey" size="73px" />
-					<div>{{ fellow.nickname }}</div>
+				<div>모임원 모집 중입니다.</div>
+				<q-space class="col-2" />
+			</div>
+			<!-- 모임 모집 완료 이후 -->
+			<div v-else>
+				<!-- 구성원 -->
+				<div class="row q-pa-md q-pb-xl">
+					<q-space class="col-2" />
+					<div
+						class="col"
+						v-for="fellow in getSelectGroup.fellows"
+						:key="fellow.nickname">
+						<q-avatar rounded color="grey" size="73px" />
+						<div>{{ fellow.nickname }}</div>
+					</div>
+					<q-space class="col-2" />
 				</div>
-				<q-space class="col-2" />
 			</div>
 		</div>
 		<!-- ott 계정 정보 -->
-		<div class="q-mb-lg" v-if="selectGroup.account">
-			<q-input readonly label="아이디" v-model="selectGroup.account.id" />
+		<div class="q-mb-lg" v-if="getSelectGroup.account">
+			<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />
 			<q-input
 				readonly
 				label="비밀번호"
-				v-model="selectGroup.account.password" />
+				v-model="getSelectGroup.account.password" />
 		</div>
-		<div class="row">
-			<q-space class="col-8" />
-			<q-btn outline color="blue" class="q-mr-sm">
-				<q-icon name="report" />
-				신고
-			</q-btn>
-			<q-btn outline color="blue">OTT 바로가기</q-btn>
-		</div>
+		<!--		<div class="row">-->
+		<!--			<q-space class="col-8" />-->
+		<!--			<q-btn outline color="blue" class="q-mr-sm">-->
+		<!--				<q-icon name="report" />-->
+		<!--				신고-->
+		<!--			</q-btn>-->
+		<!--			<q-btn outline color="blue">OTT 바로가기</q-btn>-->
 	</div>
 	<!-- 최근 조회 작품 영역 -->
-	<q-separator color="blue" inset />
-	<div class="q-ma-xl">
-		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">
-				최근 조회한 작품
-			</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
-		</div>
-		<div>
-			<q-carousel
-				v-model="recents"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1">
-					<div class="row fit justify-center items-center video-list-frame">
-            <div class="video-poster" v-for="video in recentViews" :key="video.id">{{ video }}</div>
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- 본 작품 영역 -->
-	<q-separator color="blue" inset />
-	<div class="q-ma-xl">
-		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">본 작품</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
-		</div>
-		<div>
-			<q-carousel
-				v-model="watched"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- 찜한 작품 영역 -->
-	<q-separator color="blue" inset />
-	<div class="q-ma-xl">
-		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">찜한 작품</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
-		</div>
-		<div>
-			<q-carousel
-				v-model="dibs"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- 별점 준 작품 -->
-	<q-separator color="blue" inset />
-	<div class="q-ma-xl">
-		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">별점 준 작품</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
-		</div>
-		<div>
-			<q-carousel
-				v-model="rated"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1">
-					<div class="row fit justify-center items-center video-list-frame">
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-						<div class="video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
+	<!--	<q-separator color="blue" inset />-->
+	<!--	<div class="q-ma-xl">-->
+	<!--		<div class="row q-mb-md">-->
+	<!--			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>-->
+	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
+	<!--		</div>-->
+	<!--		<div>-->
+	<!--			<q-carousel-->
+	<!--				v-model="recents"-->
+	<!--				transition-prev="slide-right"-->
+	<!--				transition-next="slide-left"-->
+	<!--				swipeable-->
+	<!--				animated-->
+	<!--				control-color="primary"-->
+	<!--				padding-->
+	<!--				arrows-->
+	<!--				height="230px"-->
+	<!--				class="bg-blue-1">-->
+	<!--				&lt;!&ndash;				<q-carousel-slide :name="1" v-for="i in recentViews.totalPage" :key="i">&ndash;&gt;-->
+	<!--				&lt;!&ndash;					<div class="row fit justify-center items-center video-list-frame">&ndash;&gt;-->
+	<!--				&lt;!&ndash;						<div&ndash;&gt;-->
+	<!--				&lt;!&ndash;							class="video-poster"&ndash;&gt;-->
+	<!--				&lt;!&ndash;							v-for="video in recentViews.results"&ndash;&gt;-->
+	<!--				&lt;!&ndash;							:key="video.id">&ndash;&gt;-->
+	<!--				&lt;!&ndash;							{{ video }}&ndash;&gt;-->
+	<!--				&lt;!&ndash;						</div>&ndash;&gt;-->
+	<!--				&lt;!&ndash;					</div>&ndash;&gt;-->
+	<!--				&lt;!&ndash;				</q-carousel-slide>&ndash;&gt;-->
+	<!--			</q-carousel>-->
+	<!--		</div>-->
+	<!--	</div>-->
+	<!--	&lt;!&ndash; 본 작품 영역 &ndash;&gt;-->
+	<!--	<q-separator color="blue" inset />-->
+	<!--	<div class="q-ma-xl">-->
+	<!--		<div class="row q-mb-md">-->
+	<!--			<div class="text-h6 text-weight-bold">본 작품</div>-->
+	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
+	<!--		</div>-->
+	<!--		<div>-->
+	<!--			<q-carousel-->
+	<!--				v-model="watched"-->
+	<!--				transition-prev="slide-right"-->
+	<!--				transition-next="slide-left"-->
+	<!--				swipeable-->
+	<!--				animated-->
+	<!--				control-color="primary"-->
+	<!--				padding-->
+	<!--				arrows-->
+	<!--				height="230px"-->
+	<!--				class="bg-blue-1">-->
+	<!--				<q-carousel-slide :name="1">-->
+	<!--					<div class="row fit justify-center items-center video-list-frame">-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--					</div>-->
+	<!--				</q-carousel-slide>-->
+	<!--			</q-carousel>-->
+	<!--		</div>-->
+	<!--	</div>-->
+	<!--	&lt;!&ndash; 찜한 작품 영역 &ndash;&gt;-->
+	<!--	<q-separator color="blue" inset />-->
+	<!--	<div class="q-ma-xl">-->
+	<!--		<div class="row q-mb-md">-->
+	<!--			<div class="text-h6 text-weight-bold">찜한 작품</div>-->
+	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
+	<!--		</div>-->
+	<!--		<div>-->
+	<!--			<q-carousel-->
+	<!--				v-model="dibs"-->
+	<!--				transition-prev="slide-right"-->
+	<!--				transition-next="slide-left"-->
+	<!--				swipeable-->
+	<!--				animated-->
+	<!--				control-color="primary"-->
+	<!--				padding-->
+	<!--				arrows-->
+	<!--				height="230px"-->
+	<!--				class="bg-blue-1">-->
+	<!--				<q-carousel-slide :name="1">-->
+	<!--					<div class="row fit justify-center items-center video-list-frame">-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--					</div>-->
+	<!--				</q-carousel-slide>-->
+	<!--			</q-carousel>-->
+	<!--		</div>-->
+	<!--	</div>-->
+	<!--	&lt;!&ndash; 별점 준 작품 &ndash;&gt;-->
+	<!--	<q-separator color="blue" inset />-->
+	<!--	<div class="q-ma-xl">-->
+	<!--		<div class="row q-mb-md">-->
+	<!--			<div class="text-h6 text-weight-bold">별점 준 작품</div>-->
+	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
+	<!--		</div>-->
+	<!--		<div>-->
+	<!--			<q-carousel-->
+	<!--				v-model="rated"-->
+	<!--				transition-prev="slide-right"-->
+	<!--				transition-next="slide-left"-->
+	<!--				swipeable-->
+	<!--				animated-->
+	<!--				control-color="primary"-->
+	<!--				padding-->
+	<!--				arrows-->
+	<!--				height="230px"-->
+	<!--				class="bg-blue-1">-->
+	<!--				<q-carousel-slide :name="1">-->
+	<!--					<div class="row fit justify-center items-center video-list-frame">-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--						<div class="video-poster" />-->
+	<!--					</div>-->
+	<!--				</q-carousel-slide>-->
+	<!--			</q-carousel>-->
+	<!--		</div>-->
+	<!--	</div>-->
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
 	name: 'My',
 	data() {
@@ -230,33 +238,19 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('user', [
-			'userProfile',
-			'userGroups',
-			'userGroupList',
-			'userVideos',
-		]),
+		...mapState('user', ['userProfile', 'userVideos']),
+		...mapGetters('user', ['getGroupList', 'getSelectGroup']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('user/getGroupList');
-		await this.$store.dispatch('user/getUserVideos');
-    this.recentViews = await this.userVideos.recentViews.results;
+		await this.$store.dispatch('user/initUserGroups');
+
+		// userVideo 1 page
+		// await this.$store.dispatch('user/getUserVideos');
+		// this.recentViews = await this.userVideos.recentViews;
 	},
 	methods: {
-		findGroup(ottId) {
-			const selected = this.userGroups.find(ott => {
-				return ott.provider.id === ottId;
-			});
-			return selected;
-		},
-		setSelectedGroup(ottId) {
-			// TODO: bug fix - default 모임 외 나머지 첫 클릭 시 에러, 2번째 클릭 부터 제대로 동작
-			let selected = this.findGroup(ottId);
-			if (!selected) {
-				this.$store.dispatch('user/getGroupInfo', ottId);
-				selected = this.findGroup(ottId);
-			}
-			this.selectGroup = selected;
+		async clickGroupLogo(groupId) {
+			await this.$store.dispatch('user/setSelectGroup', groupId);
 		},
 	},
 };
