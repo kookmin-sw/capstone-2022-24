@@ -110,26 +110,30 @@
 	<user-videos
 		:title="recentList.title"
 		:video-list="getRecentList"
-		:push-video-method="recentList.method" />
+		:push-video-method="recentList.method"
+		:expand-id="recentList.expandId" />
 
 	<!--  찜한 작품  -->
 	<q-separator color="blue" inset />
 	<user-videos
 		:title="dibList.title"
 		:video-list="getDibList"
-		:push-video-method="dibList.method" />
+		:push-video-method="dibList.method"
+		:expand-id="dibList.expandId" />
 
 	<!-- 별점 준 작품 -->
 	<user-videos
 		:title="starList.title"
 		:video-list="getStarList"
-		:push-video-method="starList.method" />
+		:push-video-method="starList.method"
+		:expand-id="starList.expandId" />
 
 	<!-- 본 작품 -->
 	<user-videos
 		:title="watchList.title"
 		:video-list="getWatchList"
-		:push-video-method="watchList.method" />
+		:push-video-method="watchList.method"
+		:expand-id="watchList.expandId" />
 </template>
 
 <script>
@@ -145,18 +149,22 @@ export default {
 			recentList: {
 				title: '최근 조회 작품',
 				method: 'user/pushRecentList',
+				expandId: 'recent',
 			},
 			dibList: {
 				title: '찜한 작품',
 				method: 'user/pushDibList',
+				expandId: 'dib',
 			},
 			starList: {
 				title: '별점 준 작품',
 				method: 'user/pushStarList',
+				expandId: 'star',
 			},
 			watchList: {
 				title: '본 작품',
 				method: 'user/pushWatchList',
+				expandId: 'watched',
 			},
 		};
 	},

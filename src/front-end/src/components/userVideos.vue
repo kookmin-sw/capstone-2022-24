@@ -2,7 +2,7 @@
 	<div class="q-ma-xl">
 		<div class="row q-mb-md">
 			<div class="text-h6 text-weight-bold">{{ title }}</div>
-			<q-btn flat class="text-grey">전체보기</q-btn>
+			<q-btn flat class="text-grey" @click="clickAllBtn">전체보기</q-btn>
 		</div>
 		<q-carousel
 			v-model="currentPage"
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	name: 'userVideos',
 	props: {
@@ -51,6 +52,10 @@ export default {
 			type: String,
 			require: true,
 		},
+		expandId: {
+			type: String,
+			require: true,
+		},
 	},
 	data() {
 		return {
@@ -62,6 +67,16 @@ export default {
 			if (newVal >= this.videoList.results.length) {
 				this.$store.dispatch('user/pushRecentList', { page: newVal, size: 6 });
 			}
+		},
+	},
+	computed: {
+		...mapState('user', ['userProfile']),
+	},
+	methods: {
+		clickAllBtn() {
+			this.$router.push(
+				`/${this.userProfile.nickname}/expand/${this.expandId}`,
+			);
 		},
 	},
 };
