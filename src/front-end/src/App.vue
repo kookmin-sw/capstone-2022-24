@@ -23,7 +23,7 @@ export default {
 	},
 	beforeCreate() {
 		this.$store.dispatch('auth/keepLoginToken');
-		this.$store.dispatch('user/getUserProfile');
+		this.$store.dispatch('user/setUserProfile');
 	},
 };
 </script>
