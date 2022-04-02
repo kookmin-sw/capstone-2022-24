@@ -93,38 +93,45 @@
 		<!--			</q-btn>-->
 		<!--			<q-btn outline color="blue">OTT 바로가기</q-btn>-->
 	</div>
-	<!-- 최근 조회 작품 영역 -->
-	<!--	<q-separator color="blue" inset />-->
-	<!--	<div class="q-ma-xl">-->
-	<!--		<div class="row q-mb-md">-->
-	<!--			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>-->
-	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
-	<!--		</div>-->
-	<!--		<div>-->
-	<!--			<q-carousel-->
-	<!--				v-model="recents"-->
-	<!--				transition-prev="slide-right"-->
-	<!--				transition-next="slide-left"-->
-	<!--				swipeable-->
-	<!--				animated-->
-	<!--				control-color="primary"-->
-	<!--				padding-->
-	<!--				arrows-->
-	<!--				height="230px"-->
-	<!--				class="bg-blue-1">-->
-	<!--				&lt;!&ndash;				<q-carousel-slide :name="1" v-for="i in recentViews.totalPage" :key="i">&ndash;&gt;-->
-	<!--				&lt;!&ndash;					<div class="row fit justify-center items-center video-list-frame">&ndash;&gt;-->
-	<!--				&lt;!&ndash;						<div&ndash;&gt;-->
-	<!--				&lt;!&ndash;							class="video-poster"&ndash;&gt;-->
-	<!--				&lt;!&ndash;							v-for="video in recentViews.results"&ndash;&gt;-->
-	<!--				&lt;!&ndash;							:key="video.id">&ndash;&gt;-->
-	<!--				&lt;!&ndash;							{{ video }}&ndash;&gt;-->
-	<!--				&lt;!&ndash;						</div>&ndash;&gt;-->
-	<!--				&lt;!&ndash;					</div>&ndash;&gt;-->
-	<!--				&lt;!&ndash;				</q-carousel-slide>&ndash;&gt;-->
-	<!--			</q-carousel>-->
-	<!--		</div>-->
-	<!--	</div>-->
+	<!--	 최근 조회 작품 영역-->
+	<q-separator color="blue" inset />
+	<div class="q-ma-xl">
+		<div class="row q-mb-md">
+			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>
+			<q-btn flat class="text-grey">전체보기</q-btn>
+		</div>
+		<div>
+			<!--      <div v-for="page in getRecentViews.totalPage" :key="page"> {{ page }}</div>-->
+			<q-carousel
+				v-model="recents"
+				transition-prev="slide-right"
+				transition-next="slide-left"
+				swipeable
+				animated
+				padding
+				arrows
+				control-color="primary"
+				height="230px"
+				class="bg-blue-1">
+				<q-carousel-slide
+					:name="page"
+					v-for="page in getRecentViews.totalPage"
+					:key="page">
+					{{ page }}
+					<div
+						class="row fit justify-center items-center video-list-frame"
+						v-if="getRecentViews.results[page - 1]">
+						<div
+							class="video-poster"
+							v-for="video in getRecentViews.results[page - 1].videos"
+							:key="video.id">
+							{{ video }}
+						</div>
+					</div>
+				</q-carousel-slide>
+			</q-carousel>
+		</div>
+	</div>
 	<!--	&lt;!&ndash; 본 작품 영역 &ndash;&gt;-->
 	<!--	<q-separator color="blue" inset />-->
 	<!--	<div class="q-ma-xl">-->
@@ -234,19 +241,17 @@ export default {
 			dibs: 1,
 			rated: 1,
 			selectGroup: {},
-			recentViews: {},
+			recentViews: [],
 		};
 	},
 	computed: {
-		...mapState('user', ['userProfile', 'userVideos']),
-		...mapGetters('user', ['getGroupList', 'getSelectGroup']),
+		...mapState('user', ['userProfile']),
+		...mapGetters('user', ['getGroupList', 'getSelectGroup', 'getRecentViews']),
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('user/initUserGroups');
-
-		// userVideo 1 page
-		// await this.$store.dispatch('user/getUserVideos');
-		// this.recentViews = await this.userVideos.recentViews;
+		await this.$store.dispatch('user/initUserVideos', 6);
+		console.log(this.getRecentViews.results);
 	},
 	methods: {
 		async clickGroupLogo(groupId) {

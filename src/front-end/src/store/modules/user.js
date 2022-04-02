@@ -8,8 +8,8 @@ export const user = {
 		},
 		groupList: [],
 		groupsInfo: [],
-		selectGroup: null,
-		userVideos: {},
+		selectGroup: {},
+		recentViews: {},
 	},
 	getters: {
 		getGroupList(state) {
@@ -17,6 +17,9 @@ export const user = {
 		},
 		getSelectGroup(state) {
 			return state.selectGroup;
+		},
+		getRecentViews(state) {
+			return state.recentViews;
 		},
 	},
 	mutations: {
@@ -29,11 +32,11 @@ export const user = {
 		ADD_GROUP_INFO(state, group) {
 			state.groupsInfo.push(group);
 		},
-		// SET_USER_VIDEOS(state, userVideos) {
-		// 	state.userVideos = userVideos;
-		// },
 		SET_SELECT_GROUP(state, group) {
 			state.selectGroup = group;
+		},
+		SET_RECENT_VIEWS(state, videoList) {
+			state.recentViews = videoList;
 		},
 	},
 	actions: {
@@ -116,38 +119,65 @@ export const user = {
 					alert(err);
 				});
 		},
-		// 	async getUserVideos({ commit }, videoSize) {
-		// 		const url = `/users/mypage?videoSize=${videoSize}`;
-		// 		await http
-		// 			.get(url)
-		// 			.then(res => {
-		// 				const videos = res.data.videos;
-		// 				const userVideos = {
-		// 					recentViews: {
-		// 						totalPage: videos.recentViews.page.totalPage,
-		// 						hasPage: 1,
-		// 						total: videos.recentViews.page.totalResult,
-		// 						results: videos.recentViews.results,
-		// 					},
-		// 					dibs: {
-		// 						total: videos.dibs.page.totalResult,
-		// 						results: videos.dibs.results,
-		// 					},
-		// 					stars: {
-		// 						total: videos.stars.page.totalResult,
-		// 						results: videos.stars.results,
-		// 					},
-		// 					watchMarks: {
-		// 						total: videos.watchMarks.page.totalResult,
-		// 						results: videos.watchMarks.results,
-		// 					},
-		// 				};
-		// 				commit('SET_USER_VIDEOS', userVideos);
-		// 				// console.log('vuex:', state.userVideos);
-		// 			})
-		// 			.catch(err => {
-		// 				alert(err);
-		// 			});
-		// 	},
+		async initUserVideos({ commit }, videoSize) {
+			const url = `/users/mypage?videoSize=${videoSize}`;
+			await http
+				.get(url)
+				.then(res => {
+					const videos = res.data.videos;
+					// const list = dispatch('divisionVideo', {arr: videos.recentViews.results, size: videoSize});
+					const recentViews = {
+						totalPage: videos.recentViews.page.totalPage,
+						totalResult: videos.recentViews.page.totalResult,
+						// results: videos.recentViews.results,
+						results: [
+							{
+								videos: videos.recentViews.results,
+							},
+							{
+								videos: videos.recentViews.results,
+							},
+						],
+					};
+					commit('SET_RECENT_VIEWS', recentViews);
+					// console.log(recentViews);
+
+					// 				const userVideos = {
+					// 					recentViews: {
+					// 						totalPage: videos.recentViews.page.totalPage,
+					// 						hasPage: 1,
+					// 						total: videos.recentViews.page.totalResult,
+					// 						results: videos.recentViews.results,
+					// 					},
+					// 					dibs: {
+					// 						total: videos.dibs.page.totalResult,
+					// 						results: videos.dibs.results,
+					// 					},
+					// 					stars: {
+					// 						total: videos.stars.page.totalResult,
+					// 						results: videos.stars.results,
+					// 					},
+					// 					watchMarks: {
+					// 						total: videos.watchMarks.page.totalResult,
+					// 						results: videos.watchMarks.results,
+					// 					},
+					// 				};
+					// 				commit('SET_USER_VIDEOS', userVideos);
+					// 				// console.log('vuex:', state.userVideos);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		// divisionVideo(context, {arr, size}) {
+		// 	// 비디오 리스트 페이지 단위로 나누기
+		// 	const length = arr.length;
+		// 	const divide = Math.floor(length / size) + (Math.floor( length % size ) > 0 ? 1 : 0);
+		// 	const result = [];
+		// 	for (let i = 0; i <= divide; i++) {
+		// 		result.push(arr.splice(0, size));
+		// 	}
+		// 	return result;
+		// },
 	},
 };
