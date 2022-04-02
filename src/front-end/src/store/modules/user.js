@@ -9,8 +9,10 @@ export const user = {
 		groupList: [],
 		groupsInfo: [],
 		selectGroup: {},
-		recentViews: {},
-		dibs: {},
+		recentList: {},
+		dibList: {},
+		starList: {},
+		watchList: {},
 	},
 	getters: {
 		getGroupList(state) {
@@ -19,11 +21,17 @@ export const user = {
 		getSelectGroup(state) {
 			return state.selectGroup;
 		},
-		getRecentViews(state) {
-			return state.recentViews;
+		getRecentList(state) {
+			return state.recentList;
 		},
-		getDibs(state) {
-			return state.dibs;
+		getDibList(state) {
+			return state.dibList;
+		},
+		getStarList(state) {
+			return state.starList;
+		},
+		getWatchList(state) {
+			return state.watchList;
 		},
 	},
 	mutations: {
@@ -39,17 +47,29 @@ export const user = {
 		SET_SELECT_GROUP(state, group) {
 			state.selectGroup = group;
 		},
-		SET_RECENT_VIEWS(state, videoList) {
-			state.recentViews = videoList;
+		SET_RECENT_LIST(state, videoList) {
+			state.recentList = videoList;
 		},
-		PUSH_RECENT_VIEWS(state, videoList) {
-			state.recentViews.results.push(videoList);
+		PUSH_RECENT_LIST(state, videoList) {
+			state.recentList.results.push(videoList);
 		},
-		SET_DIBS(state, videoList) {
-			state.dibs = videoList;
+		SET_DIB_LIST(state, videoList) {
+			state.dibList = videoList;
 		},
-		PUSH_DIBS(state, videoList) {
-			state.dibs.results.push(videoList);
+		PUSH_DIB_LIST(state, videoList) {
+			state.dibList.results.push(videoList);
+		},
+		SET_STAR_LIST(state, videoList) {
+			state.starList = videoList;
+		},
+		PUSH_STAR_LIST(state, videoList) {
+			state.starList.results.push(videoList);
+		},
+		SET_WATCH_LIST(state, videoList) {
+			state.watchList = videoList;
+		},
+		PUSH_WATCH_LIST(state, videoList) {
+			state.watchList.results.push(videoList);
 		},
 	},
 	actions: {
@@ -137,21 +157,21 @@ export const user = {
 			await http
 				.get(url)
 				.then(res => {
+					// 최근 조회 작
 					const videos = res.data.videos;
-					// const list = dispatch('divisionVideo', {arr: videos.recentViews.results, size: videoSize});
-					const recentViews = {
+					const recentList = {
 						totalPage: videos.recentViews.page.totalPage,
 						totalResult: videos.recentViews.page.totalResult,
-						// results: videos.recentViews.results,
 						results: [
 							{
 								videos: videos.recentViews.results,
 							},
 						],
 					};
-					commit('SET_RECENT_VIEWS', recentViews);
+					commit('SET_RECENT_LIST', recentList);
 
-					const dibs = {
+					// 찜 작
+					const dibList = {
 						totalPage: videos.dibs.page.totalPage,
 						totalResult: videos.dibs.page.totalResult,
 						results: [
@@ -160,13 +180,37 @@ export const user = {
 							},
 						],
 					};
-					commit('SET_DIBS', dibs);
+					commit('SET_DIB_LIST', dibList);
+
+					// 별점 작
+					const starList = {
+						totalPage: videos.stars.page.totalPage,
+						totalResult: videos.stars.page.totalResult,
+						results: [
+							{
+								videos: videos.stars.results,
+							},
+						],
+					};
+					commit('SET_STAR_LIST', starList);
+
+					// 본 작
+					const watchList = {
+						totalPage: videos.watchMarks.page.totalPage,
+						totalResult: videos.watchMarks.page.totalResult,
+						results: [
+							{
+								videos: videos.watchMarks.results,
+							},
+						],
+					};
+					commit('SET_WATCH_LIST', watchList);
 				})
 				.catch(err => {
 					alert(err);
 				});
 		},
-		async pushRecentViews({ commit }, { page, size }) {
+		async pushRecentList({ commit }, { page, size }) {
 			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
 			http
 				.get(url)
@@ -174,21 +218,49 @@ export const user = {
 					const videoList = {
 						videos: res.data.results,
 					};
-					commit('PUSH_RECENT_VIEWS', videoList);
+					commit('PUSH_RECENT_LIST', videoList);
 				})
 				.catch(err => {
 					alert(err);
 				});
 		},
-		async pushDibs({ commit }, { page, size }) {
-			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
+		async pushDibList({ commit }, { page, size }) {
+			const url = `/users/mypage/dibs?page=${page}&size=${size}`;
 			http
 				.get(url)
 				.then(res => {
 					const videoList = {
 						videos: res.data.results,
 					};
-					commit('PUSH_DIBS', videoList);
+					commit('PUSH_DIB_LIST', videoList);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		async pushStarList({ commit }, { page, size }) {
+			const url = `/users/mypage/stars?page=${page}&size=${size}`;
+			http
+				.get(url)
+				.then(res => {
+					const videoList = {
+						videos: res.data.results,
+					};
+					commit('PUSH_STAR_LIST', videoList);
+				})
+				.catch(err => {
+					alert(err);
+				});
+		},
+		async pushWatchList({ commit }, { page, size }) {
+			const url = `/users/mypage/watch-marks?page=${page}&size=${size}`;
+			http
+				.get(url)
+				.then(res => {
+					const videoList = {
+						videos: res.data.results,
+					};
+					commit('PUSH_WATCH_LIST', videoList);
 				})
 				.catch(err => {
 					alert(err);

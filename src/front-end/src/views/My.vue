@@ -97,81 +97,28 @@
 	<!--  최근 조회 작품  -->
 	<q-separator color="blue" inset />
 	<user-videos
-		:title="'최근 조회 작품'"
-		:video-list="getRecentViews"
-		:push-video-method="'user/pushRecentViews'" />
+		:title="recentList.title"
+		:video-list="getRecentList"
+		:push-video-method="recentList.method" />
 
-	<!--  본 작품  -->
+	<!--  찜한 작품  -->
 	<q-separator color="blue" inset />
 	<user-videos
-		:title="'본 작품'"
-		:video-list="getDibs"
-		:push-video-method="'user/pushDibs'" />
+		:title="dibList.title"
+		:video-list="getDibList"
+		:push-video-method="dibList.method" />
 
-	<!--	&lt;!&ndash; 찜한 작품 영역 &ndash;&gt;-->
-	<!--	<q-separator color="blue" inset />-->
-	<!--	<div class="q-ma-xl">-->
-	<!--		<div class="row q-mb-md">-->
-	<!--			<div class="text-h6 text-weight-bold">찜한 작품</div>-->
-	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
-	<!--		</div>-->
-	<!--		<div>-->
-	<!--			<q-carousel-->
-	<!--				v-model="dibs"-->
-	<!--				transition-prev="slide-right"-->
-	<!--				transition-next="slide-left"-->
-	<!--				swipeable-->
-	<!--				animated-->
-	<!--				control-color="primary"-->
-	<!--				padding-->
-	<!--				arrows-->
-	<!--				height="230px"-->
-	<!--				class="bg-blue-1">-->
-	<!--				<q-carousel-slide :name="1">-->
-	<!--					<div class="row fit justify-center items-center video-list-frame">-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--					</div>-->
-	<!--				</q-carousel-slide>-->
-	<!--			</q-carousel>-->
-	<!--		</div>-->
-	<!--	</div>-->
-	<!--	&lt;!&ndash; 별점 준 작품 &ndash;&gt;-->
-	<!--	<q-separator color="blue" inset />-->
-	<!--	<div class="q-ma-xl">-->
-	<!--		<div class="row q-mb-md">-->
-	<!--			<div class="text-h6 text-weight-bold">별점 준 작품</div>-->
-	<!--			<q-btn flat class="text-grey">전체보기</q-btn>-->
-	<!--		</div>-->
-	<!--		<div>-->
-	<!--			<q-carousel-->
-	<!--				v-model="rated"-->
-	<!--				transition-prev="slide-right"-->
-	<!--				transition-next="slide-left"-->
-	<!--				swipeable-->
-	<!--				animated-->
-	<!--				control-color="primary"-->
-	<!--				padding-->
-	<!--				arrows-->
-	<!--				height="230px"-->
-	<!--				class="bg-blue-1">-->
-	<!--				<q-carousel-slide :name="1">-->
-	<!--					<div class="row fit justify-center items-center video-list-frame">-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--						<div class="video-poster" />-->
-	<!--					</div>-->
-	<!--				</q-carousel-slide>-->
-	<!--			</q-carousel>-->
-	<!--		</div>-->
-	<!--	</div>-->
+	<!-- 별점 준 작품 -->
+	<user-videos
+		:title="starList.title"
+		:video-list="getStarList"
+		:push-video-method="starList.method" />
+
+	<!-- 본 작품 -->
+	<user-videos
+		:title="watchList.title"
+		:video-list="getWatchList"
+		:push-video-method="watchList.method" />
 </template>
 
 <script>
@@ -184,34 +131,33 @@ export default {
 	data() {
 		return {
 			selectGroup: {},
-			recentPage: 1,
-			recentViews: [],
-			dibPage: 1,
-			dibs: [],
-			rated: 1,
-			watched: 1,
+			recentList: {
+				title: '최근 조회 작품',
+				method: 'user/pushRecentList',
+			},
+			dibList: {
+				title: '찜한 작품',
+				method: 'user/pushDibList',
+			},
+			starList: {
+				title: '별점 준 작품',
+				method: 'user/pushStarList',
+			},
+			watchList: {
+				title: '본 작품',
+				method: 'user/pushWatchList',
+			},
 		};
-	},
-	watch: {
-		// recentPage: function (newVal) {
-		// 	if (newVal >= this.getRecentViews.results.length) {
-		// 		this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
-		// 	}
-		// },
-		dibPage: function (newVal) {
-			if (newVal >= this.getRecentViews.results.length) {
-				console.log(newVal);
-				// this.$store.dispatch('user/pushRecentViews', { page: newVal, size: 6 });
-			}
-		},
 	},
 	computed: {
 		...mapState('user', ['userProfile']),
 		...mapGetters('user', [
 			'getGroupList',
 			'getSelectGroup',
-			'getRecentViews',
-			'getDibs',
+			'getRecentList',
+			'getDibList',
+			'getStarList',
+			'getWatchList',
 		]),
 	},
 	async beforeCreate() {

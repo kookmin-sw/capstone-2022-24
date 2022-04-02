@@ -139,7 +139,10 @@ export default [
 					},
 					watchMarks: {
 						results: [],
-						page: {},
+						page: {
+							totalPage: 1,
+							totalResult: 0,
+						},
 					},
 					dibs: {
 						results: [
@@ -164,7 +167,7 @@ export default [
 					stars: {
 						results: [],
 						page: {
-							totalPage: 0,
+							totalPage: 1,
 							totalResult: 0,
 						},
 					},
@@ -218,6 +221,42 @@ export default [
 					current: 2,
 					totalPage: 6,
 					totalResult: 31,
+				},
+			}),
+		);
+	}),
+	rest.get('/users/mypage/dibs', (req, res, ctx) => {
+		return res(
+			ctx.json({
+				results: [],
+				page: {
+					current: 1,
+					totalPage: 1,
+					totalResult: 2,
+				},
+			}),
+		);
+	}),
+	rest.get('/users/mypage/stars', (req, res, ctx) => {
+		return res(
+			ctx.json({
+				results: [],
+				page: {
+					current: 1,
+					totalPage: 1,
+					totalResult: 2,
+				},
+			}),
+		);
+	}),
+	rest.get('/users/mypage/watch-marks', (req, res, ctx) => {
+		return res(
+			ctx.json({
+				results: [],
+				page: {
+					current: 1,
+					totalPage: 1,
+					totalResult: 2,
 				},
 			}),
 		);
