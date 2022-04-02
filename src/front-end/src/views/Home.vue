@@ -7,6 +7,8 @@
 				<!-- 검색 -->
 				<div class="row q-mb-xl text-left search-frame">
 					<q-input
+						clearable
+						clear-icon="close"
 						outlined
 						dense
 						type="search"
@@ -20,11 +22,14 @@
 				</div>
 				<!--  ott 로고 필터 -->
 				<div class="row q-mb-lg ott-icons-frame">
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
-					<q-avatar rounded color="blue" size="60px"></q-avatar>
+					<q-avatar
+						rounded
+						color="blue"
+						size="60px"
+						v-for="(otts, index) in ottFilters"
+						:key="index"
+						:class="{ 'ott-filter-select': otts.isSelect }"
+						@click="ottFilterClick(index)" />
 				</div>
 				<!-- 필터링 조건 -->
 				<q-list bordered>
@@ -40,9 +45,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="category in filters.categories"
-									:key="category.id">
-									{{ category }}
+									v-for="(category, index) in categoryFilters"
+									:key="index"
+									v-model:selected="category.isSelect"
+									@click="filterClick(category)">
+									{{ category.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -54,9 +61,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="rate in filters.filmRatings"
-									:key="rate.id">
-									{{ rate }}
+									v-for="(rate, index) in filmRateFilters"
+									:key="index"
+									v-model:selected="rate.isSelect"
+									@click="filterClick(rate)">
+									{{ rate.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -68,9 +77,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="genre in filters.genres"
-									:key="genre.id">
-									{{ genre }}
+									v-for="(genre, index) in genreFilters"
+									:key="index"
+									v-model:selected="genre.isSelect"
+									@click="filterClick(genre)">
+									{{ genre.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -82,9 +93,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="offer in filters.offers"
-									:key="offer.id">
-									{{ offer }}
+									v-for="(offer, index) in offerFilters"
+									:key="index"
+									v-model:selected="offer.isSelect"
+									@click="filterClick(offer)">
+									{{ offer.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -96,9 +109,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="country in filters.countries"
-									:key="country.id">
-									{{ country }}
+									v-for="(country, index) in countryFilters"
+									:key="index"
+									v-model:selected="country.isSelect"
+									@click="filterClick(country)">
+									{{ country.label }}
 								</q-chip>
 							</div>
 							<!-- 관람 여부 -->
@@ -110,9 +125,11 @@
 								<q-chip
 									outline
 									color="blue"
-									v-for="work in filters.watched"
-									:key="work.id">
-									{{ work }}
+									v-for="(work, index) in watchedFilters"
+									:key="index"
+									v-model:selected="work.isSelect"
+									@click="filterClick(work)">
+									{{ work.label }}
 								</q-chip>
 							</div>
 						</div>
@@ -168,7 +185,12 @@
 									:right-label-value="`${filters.runtime.max}분`" />
 							</div>
 						</div>
-						<q-btn unelevated outline color="blue" class="q-ma-lg">
+						<q-btn
+							unelevated
+							outline
+							color="blue"
+							class="q-ma-lg initButton"
+							@click="initButtonClick">
 							필터 초기화
 						</q-btn>
 					</q-expansion-item>
@@ -212,33 +234,92 @@ export default {
 	name: 'Home',
 	data() {
 		return {
-			isRegisterModal: false,
+			ottFilters: {
+				netflix: { label: '넷플릭스', isSelect: false },
+				watcha: { label: '왓챠', isSelect: false },
+				disneyPlus: { label: '디즈니플러스', isSelect: false },
+				tving: { label: '티빙', isSelect: false },
+				wavve: { label: '웨이브', isSelect: false },
+			},
+			categoryFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'category' },
+				movies: { label: '영화', isSelect: false, filterName: 'category' },
+				tvSeries: {
+					label: 'TV 시리즈',
+					isSelect: false,
+					filterName: 'category',
+				},
+			},
+			filmRateFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'filmRate' },
+				gRated: {
+					label: '전체관람가',
+					isSelect: false,
+					filterName: 'filmRate',
+				},
+				pg12: {
+					label: '12세 이상 관람가',
+					isSelect: false,
+					filterName: 'filmRate',
+				},
+				pg15: {
+					label: '15세 이상 관람가',
+					isSelect: false,
+					filterName: 'filmRate',
+				},
+				pg18: {
+					label: '청소년 관람불가',
+					isSelect: false,
+					filterName: 'filmRate',
+				},
+			},
+			genreFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'genre' },
+				fantasy: { label: 'SF/판타지', isSelect: false, filterName: 'genre' },
+				horror: { label: '공포', isSelect: false, filterName: 'genre' },
+				drama: { label: '드라마', isSelect: false, filterName: 'genre' },
+				romance: { label: '로맨스', isSelect: false, filterName: 'genre' },
+				thriller: { label: '스릴러', isSelect: false, filterName: 'genre' },
+				historicalDrama: {
+					label: '시대극',
+					isSelect: false,
+					filterName: 'genre',
+				},
+				martialArts: { label: '무협', isSelect: false, filterName: 'genre' },
+				mystery: { label: '범죄/추리', isSelect: false, filterName: 'genre' },
+				animation: {
+					label: '애니메이션',
+					isSelect: false,
+					filterName: 'genre',
+				},
+				action: { label: '액션', isSelect: false, filterName: 'genre' },
+				comedy: { label: '코미디', isSelect: false, filterName: 'genre' },
+			},
+			offerFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'offer' },
+				purchase: { label: '구매', isSelect: false, filterName: 'offer' },
+				rental: { label: '대여', isSelect: false, filterName: 'offer' },
+				flatRate: { label: '정액제', isSelect: false, filterName: 'offer' },
+			},
+			countryFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'country' },
+				domestic: { label: '국내', isSelect: false, filterName: 'country' },
+				international: {
+					label: '해외',
+					isSelect: false,
+					filterName: 'country',
+				},
+			},
+			watchedFilters: {
+				all: { label: '전체', isSelect: false, filterName: 'watched' },
+				watched: { label: '본 작품', isSelect: false, filterName: 'watched' },
+				unwathced: {
+					label: '안 본 작품',
+					isSelect: false,
+					filterName: 'watched',
+				},
+			},
 			filters: {
-				categories: ['전체', '영화', 'TV 시리즈'],
-				filmRatings: [
-					'전체',
-					'전체관람가',
-					'12세 이상 관람가',
-					'15세 이상 관람가',
-					'청소년 관람불가',
-				],
-				genres: [
-					'전체',
-					'SF/판타지',
-					'공포',
-					'드라마',
-					'로맨스',
-					'스릴러',
-					'시대극',
-					'무협',
-					'범죄/추리',
-					'애니메이션',
-					'액션',
-					'코미디',
-				],
-				offers: ['전체', '구매', '대여', '정액제'],
-				countries: ['전체', '국내', '해외'],
-				watched: ['전체', '본 작품', '안 본 작품'],
 				year: {
 					min: 1970,
 					max: 2022,
@@ -273,6 +354,31 @@ export default {
 				{},
 				{},
 			],
+			selected: {
+				ott: [],
+				category: [],
+				filmRate: [],
+				genre: [],
+				offer: [],
+				country: [],
+				watched: [],
+			},
+			beforeAll: {
+				category: [],
+				filmRate: [],
+				genre: [],
+				offer: [],
+				country: [],
+				watched: [],
+			},
+			afterAll: {
+				category: [],
+				filmRate: [],
+				genre: [],
+				offer: [],
+				country: [],
+				watched: [],
+			},
 		};
 	},
 	methods: {
@@ -281,6 +387,325 @@ export default {
 				this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
 				done();
 			}, 2000);
+		},
+		ottFilterClick(idx) {
+			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
+			if (this.ottFilters[idx].isSelect === true) {
+				this.selected.ott.push(this.ottFilters[idx].label);
+			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+		},
+		filterClick(idx) {
+			if (idx.label === '전체' && idx.isSelect === true) {
+				switch (idx.filterName) {
+					case 'category':
+						this.beforeAll.category.splice(0);
+						this.beforeAll.category = this.selected.category;
+						this.beforeAll.category = this.selected.category.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.categoryFilters) {
+							if (
+								!this.selected.category.includes(
+									this.categoryFilters[key].label,
+								)
+							) {
+								this.selected.category.push(this.categoryFilters[key].label);
+							}
+							this.selected.category = this.selected.category.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+					case 'filmRate':
+						this.beforeAll.filmRate.splice(0);
+						this.beforeAll.filmRate = this.selected.filmRate;
+						this.beforeAll.filmRate = this.selected.filmRate.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.filmRateFilters) {
+							if (
+								!this.selected.filmRate.includes(
+									this.filmRateFilters[key].label,
+								)
+							) {
+								this.selected.filmRate.push(this.filmRateFilters[key].label);
+							}
+							this.selected.filmRate = this.selected.filmRate.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+					case 'genre':
+						this.beforeAll.genre.splice(0);
+						this.beforeAll.genre = this.selected.genre;
+						this.beforeAll.genre = this.selected.genre.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.genreFilters) {
+							if (!this.selected.genre.includes(this.genreFilters[key].label)) {
+								this.selected.genre.push(this.genreFilters[key].label);
+							}
+							this.selected.genre = this.selected.genre.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+					case 'offer':
+						this.beforeAll.offer.splice(0);
+						this.beforeAll.offer = this.selected.offer;
+						this.beforeAll.offer = this.selected.offer.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.offerFilters) {
+							if (!this.selected.offer.includes(this.offerFilters[key].label)) {
+								this.selected.offer.push(this.offerFilters[key].label);
+							}
+							this.selected.offer = this.selected.offer.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+					case 'country':
+						this.beforeAll.country.splice(0);
+						this.beforeAll.country = this.selected.country;
+						this.beforeAll.country = this.selected.country.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.countryFilters) {
+							if (
+								!this.selected.country.includes(this.countryFilters[key].label)
+							) {
+								this.selected.country.push(this.countryFilters[key].label);
+							}
+							this.selected.country = this.selected.country.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+					case 'watched':
+						this.beforeAll.watched.splice(0);
+						this.beforeAll.watched = this.selected.watched;
+						this.beforeAll.watched = this.selected.watched.filter(
+							element => element !== idx.label,
+						);
+						for (let key in this.watchedFilters) {
+							if (
+								!this.selected.watched.includes(this.watchedFilters[key].label)
+							) {
+								this.selected.watched.push(this.watchedFilters[key].label);
+							}
+							this.selected.watched = this.selected.watched.filter(
+								element => element !== idx.label,
+							);
+						}
+						break;
+				}
+			} else if (idx.label === '전체' && idx.isSelect === false) {
+				switch (idx.filterName) {
+					case 'category':
+						this.beforeAll.category.splice(0);
+						this.afterAll.category.splice(0);
+						this.selected.category = this.selected.category.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.category) {
+							this.selected.category.push(this.beforeAll.category[key]);
+						}
+						for (let key in this.categoryFilters) {
+							if (this.categoryFilters[key].isSelect) {
+								this.afterAll.category.push(this.categoryFilters[key].label);
+								this.selected.category = this.afterAll.category;
+							}
+						}
+						break;
+					case 'filmRate':
+						this.beforeAll.filmRate.splice(0);
+						this.afterAll.filmRate.splice(0);
+						this.selected.filmRate = this.selected.filmRate.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.filmRate) {
+							this.selected.filmRate.push(this.beforeAll.filmRate[key]);
+						}
+						for (let key in this.filmRateFilters) {
+							if (this.filmRateFilters[key].isSelect) {
+								this.afterAll.filmRate.push(this.filmRateFilters[key].label);
+								this.selected.filmRate = this.afterAll.filmRate;
+							}
+						}
+						break;
+					case 'genre':
+						this.beforeAll.genre.splice(0);
+						this.afterAll.genre.splice(0);
+						this.selected.genre = this.selected.genre.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.genre) {
+							this.selected.genre.push(this.beforeAll.genre[key]);
+						}
+						for (let key in this.genreFilters) {
+							if (this.genreFilters[key].isSelect) {
+								this.afterAll.genre.push(this.genreFilters[key].label);
+								this.selected.genre = this.afterAll.genre;
+							}
+						}
+						break;
+					case 'offer':
+						this.beforeAll.offer.splice(0);
+						this.afterAll.offer.splice(0);
+						this.selected.offer = this.selected.offer.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.offer) {
+							this.selected.offer.push(this.beforeAll.offer[key]);
+						}
+						for (let key in this.offerFilters) {
+							if (this.offerFilters[key].isSelect) {
+								this.afterAll.offer.push(this.offerFilters[key].label);
+								this.selected.offer = this.afterAll.offer;
+							}
+						}
+						break;
+					case 'country':
+						this.beforeAll.country.splice(0);
+						this.afterAll.country.splice(0);
+						this.selected.country = this.selected.country.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.country) {
+							this.selected.country.push(this.beforeAll.country[key]);
+						}
+						for (let key in this.countryFilters) {
+							if (this.countryFilters[key].isSelect) {
+								this.afterAll.country.push(this.countryFilters[key].label);
+								this.selected.country = this.afterAll.country;
+							}
+						}
+						break;
+					case 'watched':
+						this.beforeAll.watched.splice(0);
+						this.afterAll.watched.splice(0);
+						this.selected.watched = this.selected.watched.filter(
+							element => element === idx.label,
+						);
+						for (let key in this.beforeAll.watched) {
+							this.selected.watched.push(this.beforeAll.watched[key]);
+						}
+						for (let key in this.watchedFilters) {
+							if (this.watchedFilters[key].isSelect) {
+								this.afterAll.watched.push(this.watchedFilters[key].label);
+								this.selected.watched = this.afterAll.watched;
+							}
+						}
+						break;
+				}
+			} else if (idx.label !== '전체' && idx.isSelect === true) {
+				switch (idx.filterName) {
+					case 'category':
+						if (!this.selected.category.includes(idx.label)) {
+							this.selected.category.push(idx.label);
+						}
+						break;
+					case 'filmRate':
+						if (!this.selected.filmRate.includes(idx.label)) {
+							this.selected.filmRate.push(idx.label);
+						}
+						break;
+					case 'genre':
+						if (!this.selected.genre.includes(idx.label)) {
+							this.selected.genre.push(idx.label);
+						}
+						break;
+					case 'offer':
+						if (!this.selected.offer.includes(idx.label)) {
+							this.selected.offer.push(idx.label);
+						}
+						break;
+					case 'country':
+						if (!this.selected.country.includes(idx.label)) {
+							this.selected.country.push(idx.label);
+						}
+						break;
+					case 'watched':
+						if (!this.selected.watched.includes(idx.label)) {
+							this.selected.watched.push(idx.label);
+						}
+						break;
+				}
+			} else if (idx.label !== '전체' && idx.isSelect === false) {
+				switch (idx.filterName) {
+					case 'category':
+						if (this.categoryFilters.all.isSelect === false) {
+							this.selected.category.splice(idx.label, 1);
+						}
+						break;
+					case 'filmRate':
+						if (this.filmRateFilters.all.isSelect === false) {
+							this.selected.filmRate.splice(idx.label, 1);
+						}
+						break;
+					case 'genre':
+						if (this.genreFilters.all.isSelect === false) {
+							this.selected.genre.splice(idx.label, 1);
+						}
+						break;
+					case 'offer':
+						if (this.offerFilters.all.isSelect === false) {
+							this.selected.offer.splice(idx.label, 1);
+						}
+						break;
+					case 'country':
+						if (this.countryFilters.all.isSelect === false) {
+							this.selected.country.splice(idx.label, 1);
+						}
+						break;
+					case 'watched':
+						if (this.watchedFilters.all.isSelect === false) {
+							this.selected.watched.splice(idx.label, 1);
+						}
+						break;
+				}
+			}
+		},
+		initButtonClick() {
+			for (let key in this.selected) {
+				this.selected[key].splice(0);
+			}
+			for (let key in this.ottFilters) {
+				if (this.ottFilters[key].isSelect === true) {
+					this.ottFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.categoryFilters) {
+				if (this.categoryFilters[key].isSelect === true) {
+					this.categoryFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.filmRateFilters) {
+				if (this.filmRateFilters[key].isSelect === true) {
+					this.filmRateFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.genreFilters) {
+				if (this.genreFilters[key].isSelect === true) {
+					this.genreFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.offerFilters) {
+				if (this.offerFilters[key].isSelect === true) {
+					this.offerFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.countryFilters) {
+				if (this.countryFilters[key].isSelect === true) {
+					this.countryFilters[key].isSelect = false;
+				}
+			}
+			for (let key in this.watchedFilters) {
+				if (this.watchedFilters[key].isSelect === true) {
+					this.watchedFilters[key].isSelect = false;
+				}
+			}
 		},
 	},
 };
@@ -295,7 +720,10 @@ export default {
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-
+.ott-filter-select {
+	border: 3px solid darkblue;
+	border-radius: 7px;
+}
 .video-poster {
 	width: 15%;
 	height: 0;
