@@ -96,6 +96,8 @@ export const user = {
 					const videos = res.data.videos;
 					const userVideos = {
 						recentViews: {
+							totalPage: videos.recentViews.page.totalPage,
+							hasPage: 1,
 							total: videos.recentViews.page.totalResult,
 							results: videos.recentViews.results,
 						},

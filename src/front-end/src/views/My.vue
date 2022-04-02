@@ -92,7 +92,9 @@
 	<q-separator color="blue" inset />
 	<div class="q-ma-xl">
 		<div class="row q-mb-md">
-			<div class="text-h6 text-weight-bold">최근 조회한 작품</div>
+			<div class="text-h6 text-weight-bold">
+				최근 조회한 작품
+			</div>
 			<q-btn flat class="text-grey">전체보기</q-btn>
 		</div>
 		<div>
@@ -109,8 +111,7 @@
 				class="bg-blue-1">
 				<q-carousel-slide :name="1">
 					<div class="row fit justify-center items-center video-list-frame">
-						<!--						            <div class="video-poster" v-for="video in this.recentViews" :key="video.id">{{video}}</div>-->
-						<!--						            <div class="video-poster" v-for="video in this.userVideos.recentViews.results" :key="video.id">{{video}}</div>-->
+            <div class="video-poster" v-for="video in recentViews" :key="video.id">{{ video }}</div>
 					</div>
 				</q-carousel-slide>
 			</q-carousel>
@@ -225,6 +226,7 @@ export default {
 			dibs: 1,
 			rated: 1,
 			selectGroup: {},
+			recentViews: {},
 		};
 	},
 	computed: {
@@ -238,6 +240,7 @@ export default {
 	async beforeCreate() {
 		await this.$store.dispatch('user/getGroupList');
 		await this.$store.dispatch('user/getUserVideos');
+    this.recentViews = await this.userVideos.recentViews.results;
 	},
 	methods: {
 		findGroup(ottId) {
