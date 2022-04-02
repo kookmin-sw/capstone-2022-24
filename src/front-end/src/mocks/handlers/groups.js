@@ -7,7 +7,7 @@ export default [
 			ctx.json({
 				provider: {
 					id: 'ott0002',
-					name: 'watcha',
+					name: '왓챠',
 					link: 'https://watcha.com/',
 					logoUrl: 'watcha logo img',
 				},
