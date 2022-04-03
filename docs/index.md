@@ -1,4 +1,12 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7010679&assignment_repo_type=AssignmentRepo)  
+<p align="left">
+  <img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+  <br>
+  <img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
+  <img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
+</p>
+
 # 온갖  
 ## 프로젝트 소개  
 ![logo image](service_icon.png)
@@ -40,7 +48,7 @@
 >student ID: ****1575  
 github: [@dadahee](https://github.com/dadahee)  
 e-mail: heeouo@kookmin.ac.kr    
-role: 팀장, back-end, 배포 환경 구성, 서버 개발, DB 구축  
+role: 팀장, back-end, 배포 환경 구성, 서버 개발  
 
 ✨**김아성** ✨
 >student ID: ****1591  
@@ -52,7 +60,7 @@ role: front-end, UI/UX 설계, 라우팅, API 통신
 >student ID: ****1594  
 github: [@KimKimJungyeon](https://github.com/KimKimJungyeon)  
 e-mail: kjy20177@kookmin.ac.kr  
-role: back-end, 서버 개발, DB 구축, 크롤러 개발  
+role: back-end, 서버 개발, 크롤러 개발  
 
 ✨**이예슬** ✨
 >student ID: ****1667  
@@ -62,10 +70,6 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 ### 기술 스택
 #### front-end
-- **language**   
-  <img src="https://img.shields.io/badge/HTML5-e34f26?style=flat-square&logo=html5&logoColor=white"/>
-  <img src="https://img.shields.io/badge/CSS3-1572b6?style=flat-square&logo=css3&logoColor=white"/>
-  <img src="https://img.shields.io/badge/JavaScript-f7df1e?style=flat-square&logo=javascript&logoColor=white"/>
 - **framework**  
   <img src="https://img.shields.io/badge/Vue.js-4fc08d?style=flat-square&logo=vue.js&logoColor=white"/>
   <img src="https://img.shields.io/badge/Quasar-1976d2?style=flat-square&logo=quasar&logoColor=white"/>
@@ -75,6 +79,7 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
   <img src="https://img.shields.io/badge/python3-3776ab?style=flat-square&logo=python&logoColor=white"/>
 - **framework**  
   <img src="https://img.shields.io/badge/Django-092e20?style=flat-square&logo=django&logoColor=white"/>
+- **database**  
   <img src="https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white"/>
 
 #### Infra
@@ -88,18 +93,8 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 ### 🖥 [front-end 사용법 문서](https://github.com/kookmin-sw/capstone-2022-24/wiki/front-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
 ### 🗄 [back-end 사용법 문서](https://github.com/kookmin-sw/capstone-2022-24/wiki/back-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
 
-## 기타
-**프로젝트 현황**
-<p align="left">
-  <img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
-  <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
-  <br>
-  <img src="https://img.shields.io/github/issues-pr-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
-  <img src="https://img.shields.io/github/issues-pr-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
-</p>
-
+## 기타  
 **관련 문서**
-- ["온갖" GitHub Wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
 - 중간발표 자료
 - 와이어프레임: Figma  
   Click! ➡️ [<img src="https://img.shields.io/badge/Figma-f24e1e?style=flat-square&logo=figma&logoColor=white"/>]() 
