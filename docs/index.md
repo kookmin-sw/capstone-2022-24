@@ -48,7 +48,7 @@ determiner
 🔍 'Gathering' OTT Videos - Video Integration Inquiry  
 "Ongot" provides list of videos by each OTT and integrated video search function.
 
-📑 'Gathering' Information about My Viewing Experience
+📑 'Gathering' Information about My Viewing Experience - Management of Viewing Records  
 "Ongot" provides a function of managing the viewing record of videos, such as Inqury / MyList / StarRating / WatchingMark, etc by videos.
 
 💸 'Gathering" OTT - OTT Joint Subscription  
