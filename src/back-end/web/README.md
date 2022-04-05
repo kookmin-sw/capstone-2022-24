@@ -1,4 +1,4 @@
-# Get started
+# Getting started
 in local environment
 
 ## Prerequisite
