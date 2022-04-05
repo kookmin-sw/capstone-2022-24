@@ -41,23 +41,23 @@
 determiner  
 1.various kinds of things
 
-✔ **Ongot** is a **"OTT Gathering"** web service that integrates OTT supplementary functions.
+✔ **Ongot** is a **"OTT Gathering"** web service that integrates OTT supplementary features.
 
 ✔ **OTT Gathering**  
 
-🔍 'Gathering' OTT Videos - Video Integration Inquiry  
-"Ongot" provides list of videos by each OTT and integrated video search function.
+🔍 'Gathering' OTT Videos - Integrated Video Information  
+"Ongot" provides a list of videos by OTT and integrated search feature  
 
-📑 'Gathering' Information about My Viewing Experience - Management of Viewing Records  
-"Ongot" provides a function of managing the viewing record of videos, such as Inqury / MyList / StarRating / WatchingMark, etc by videos.
+📑 'Gathering' Information about My Video History - Management of Watching Records  
+"Ongot" provides a feature of managing the watching record of videos, such as Recent Views / WishList / StarRating / WatchingMark by video  
 
-💸 'Gathering" OTT - OTT Joint Subscription  
-"Ongot" provides a function of managing integrated management of joint subscription, such as OTT Joint Subscription / Payment / Viewing / Cancellation of Joint Subscription / Automatic Extension, etc.  
+💸 'Gathering" OTT - OTT Group Subscription  
+"Ongot" provides a feature of managing integrated management of group subscription, such as OTT Group Subscription / Payment / Cancellation / Automatic Extension  
 
 **The purpose of Project**  
-The OTT platform, which has become diverse, make difficult to search and view videos.  
-Base on actual experience, we felt need of integrated service as the number of OTT accounts subscribed increased and management became difficult.  
-So we planned this project that integrates OTT supplementary functions to improve user convenience.  
+The OTT platforms, which have become diverse, make difficult to search and watch videos.    
+In addition, as the number of OTT accounts subscribed increases, consumers have difficulty managing their accounts.  
+So we planned this project that integrates OTT supplementary features to improve user convenience.  
 
 ## 소개 영상
 추후 업로드 예정
