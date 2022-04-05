@@ -1,10 +1,10 @@
-from .models import banks, accounts
+from .models import Bank, Account
 from rest_framework import serializers
 
 
 class BankSerializer(serializers.ModelSerializer):
     class Meta:
-        model = banks
+        model = Bank
         fields = '__all__'
         extra_kwargs = {
             'code': {
@@ -17,13 +17,11 @@ class BankSerializer(serializers.ModelSerializer):
 
 
 class AccountSerializer(serializers.ModelSerializer):
-    bank = BankSerializer(
-        many=False,
-        read_only=True
-    )
+    bank = serializers.SerializerMethodField()
+
     class Meta:
-        model = accounts
-        fields = (
-            '_id',
-            'name'
-        )
+        model = Account
+        fields = '__all__'
+
+    def get_bank(self, obj):
+        return BankSerializer(obj.bank).data
