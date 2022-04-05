@@ -3,53 +3,64 @@
 	<q-dialog v-model="isLoginModal">
 		<login-modal :isActive="isLoginModal"></login-modal>
 	</q-dialog>
-	<!--  GNB -->
+	<!-- gnb -->
 	<div class="gnb container">
 		<div class="row items-center">
-			<div class="col-2 q-pl-lg">
-				<div class="q-pt-sm q-pl-md q-pb-md">
+			<!-- logo wrapper -->
+			<div class="logo-wrapper col-2 q-pl-lg">
+				<div class="q-pt-sm q-pb-md">
 					<img
-						src="@/assets/logo.png"
+						src="@/assets/service_logo.svg"
 						alt=""
 						style="display: block; width: 100%; height: 76px"
+						class="logo-img"
 						@click="$router.push({ name: 'Home' })" />
 				</div>
 			</div>
-			<div class="text-menu-frame col-6 row">
-				<router-link to="/" class="col-4">
-					{{ $t('gnb.home') }}
-				</router-link>
-				<router-link to="/discontinue" class="col-4">
-					{{ $t('gnb.discontinued') }}
-				</router-link>
+			<!-- text menu wrapper -->
+			<div class="text-menu-wrapper col-6 row">
+				<router-link to="/" class="col-4"> 홈 </router-link>
+				<router-link to="/discontinue" class="col-4"> 종료예정작 </router-link>
 				<router-link :to="`/join/${userId}`" class="col-4">
-					{{ $t('gnb.groupJoin') }}
+					모임 신청
 				</router-link>
 			</div>
-			<div class="icon-menu-frame col-2">
+			<!-- icon menu wrapper -->
+			<div class="icon-menu-wrapper col-2">
 				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
-					<q-btn flat class="col-4">
+					<q-btn flat class="my-menu col-4">
 						<router-link :to="`/my/${userId}`">
 							<q-icon name="person" size="md" color="blue" />
 						</router-link>
 					</q-btn>
-					<q-btn flat class="col-4">
-						<q-icon name="notifications_none" size="md" color="blue" />
+					<q-btn flat class="alarm-menu col-4">
+						<q-icon
+							name="notifications_none"
+							size="md"
+							color="blue"
+							class="alarm-icon" />
 					</q-btn>
 					<q-space class="col-1" />
 				</div>
 			</div>
-			<div class="col-2">
+			<!-- login/register/logout button -->
+			<div class="btn-wrapper col-2">
 				<q-btn
 					unelevated
 					color="blue"
+					id="login-btn"
 					v-if="isLogin === false"
 					@click="loginBtnClick">
-					{{ $t('gnb.login') }}
+					로그인/회원가입
 				</q-btn>
-				<q-btn unelevated color="blue" v-else @click="logoutBtnClick">
-					{{ $t('gnb.logout') }}
+				<q-btn
+					unelevated
+					color="blue"
+					id="logout-btn"
+					v-else
+					@click="logoutBtnClick">
+					로그아웃
 				</q-btn>
 			</div>
 		</div>
