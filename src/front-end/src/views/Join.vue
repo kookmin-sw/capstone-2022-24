@@ -15,7 +15,7 @@
 					v-for="(otts, index) in ottFilters"
 					:key="index"
 					:class="{ 'ott-select': otts.isSelect }"
-					@click="ottFilterClick(index)" />
+					@click="ottFilterClick(index), stepCompletionCheck(index)" />
 				확인: {{ selected.ott }}
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 						{ label: '모임장', value: 'leader' },
 						{ label: '모임원', value: 'member' },
 					]"
-          @click="roleButtonClick()"/>
+          @click="roleButtonClick(), stepCompletionCheck()"/>
 <!--			<div class="btn-frame row">-->
 <!--				<q-btn-->
 <!--					outline-->
@@ -88,7 +88,7 @@
 			<div class="explanation col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
-			<q-btn unelevated color="grey" class="full-width" disabled="true">
+			<q-btn unelevated color="blue" class="full-width" :disabled="state">
 				신청하기
 			</q-btn>
 		</div>
@@ -116,6 +116,7 @@ export default {
         leader: true,
         member: false,
       },
+      state: true,
 		};
 	},
 	methods: {
@@ -141,6 +142,12 @@ export default {
         this.roleSelect.member = false;
       }
 		},
+    stepCompletionCheck(idx) {
+      if ((this.ottFilters[idx].isSelect) && ((this.roleSelect.leader) || (this.roleSelect.member))) {
+        this.state = false;
+      } else this.state = true;
+      return this.state
+    },
 	},
 };
 </script>
