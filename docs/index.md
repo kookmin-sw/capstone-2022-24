@@ -16,7 +16,7 @@
 관형사  
 1.이런저런 여러 가지의.
 
-✔️ **온갖** 은 OTT 서비스 부가기능을 통합 제공하는 **"OTT 모아보기"** 웹 서비스입니다.  
+✔️ **온갖** 은 OTT 부가기능을 통합 제공하는 **"OTT 모아보기"** 웹 서비스입니다.  
 
 ✔️ **OTT 모아보기**  
 
@@ -29,7 +29,6 @@
 💸 OTT '모아보기' - OTT 공동구독  
 "온갖"은 OTT 공동구독 신청 / 결제 / 관람 / 공동구독 취소 / 자동연장 등 공동구독 통합 관리 기능을 제공합니다.  
 
-
 **기획 목적**  
 너무나 다양해진 OTT 플랫폼으로 인해 작품 검색과 관람이 불편해지고,  
 구독하는 OTT 계정의 증가에 따라 관리 역시 어려워지는 등 실제 경험에서 통합 서비스의 필요성을 느껴  
@@ -37,7 +36,28 @@
 
 
 ### Project Abstract
-영어로 소개 작성...악!
+>**온-갖(On-got)**  
+**Standard Korean Dictionary**  
+determiner  
+1.various kinds of things
+
+✔ **Ongot** is a **"OTT Gathering"** web service that integrates OTT supplementary functions.
+
+✔ **OTT Gathering**  
+
+🔍 'Gathering' OTT Videos - Video Integration Inquiry  
+"Ongot" provides list of videos by each OTT and integrated video search function.
+
+📑 'Gathering' Information about My Viewing Experience
+"Ongot" provides a function of managing the viewing record of videos, such as Inqury / MyList / StarRating / WatchingMark, etc by videos.
+
+💸 'Gathering" OTT - OTT Joint Subscription  
+"Ongot" provides a function of managing integrated management of joint subscription, such as OTT Joint Subscription / Payment / Viewing / Cancellation of Joint Subscription / Automatic Extension, etc.  
+
+**The purpose of Project**  
+The OTT platform, which has become diverse, make difficult to search and view videos.  
+Base on actual experience, we felt need of integrated service as the number of OTT accounts subscribed increased and management became difficult.  
+So we planned this project that integrates OTT supplementary functions to improve user convenience.  
 
 ## 소개 영상
 추후 업로드 예정
