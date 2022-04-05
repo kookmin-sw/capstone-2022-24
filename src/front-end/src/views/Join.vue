@@ -33,45 +33,53 @@
 			</div>
 			<div class="explanation col text-left q-mb-lg">
 				<div class="leader-expl col q-mb-md">
-					<div class="text-weight-bold leader-title" :class="{ 'role-select-text': roleSelect.leader }">{{ $t('join.leaderGuideTitle') }}</div>
+					<div
+						class="text-weight-bold leader-title"
+						:class="{ 'role-select-text': roleSelect.leader }">
+						{{ $t('join.leaderGuideTitle') }}
+					</div>
 					<div>{{ $t('join.leaderGuide') }}</div>
 					<div>{{ $t('join.leaderPaymentGuide') }}</div>
 				</div>
 				<div class="member-expl col">
-					<div class="text-weight-bold member-title" :class="{ 'role-select-text': roleSelect.member }">{{ $t('join.memberGuideTitle') }}</div>
+					<div
+						class="text-weight-bold member-title"
+						:class="{ 'role-select-text': roleSelect.member }">
+						{{ $t('join.memberGuideTitle') }}
+					</div>
 					<div>{{ $t('join.memberGuide') }}</div>
 					<div>{{ $t('join.memberPaymentGuide') }}</div>
 				</div>
 			</div>
-      <q-btn-toggle
-          v-model="role"
-          spread
-          class="role-toggle-button"
-          unelevated
-          toggle-color="blue"
-          text-color="blue"
-          :options="[
-						{ label: '모임장', value: 'leader' },
-						{ label: '모임원', value: 'member' },
-					]"
-          @click="roleButtonClick(), stepCompletionCheck()"/>
-<!--			<div class="btn-frame row">-->
-<!--				<q-btn-->
-<!--					outline-->
-<!--					color="blue"-->
-<!--					class="col leader-button"-->
-<!--					@click="roleButtonClick"-->
-<!--					>{{ $t('leader') }}</q-btn-->
-<!--				>-->
-<!--				<q-btn-->
-<!--					outline-->
-<!--					color="blue"-->
-<!--					class="col member-button"-->
-<!--					@click="roleButtonClick"-->
-<!--					>{{ $t('member') }}</q-btn-->
-<!--				>-->
-<!--				&lt;!&ndash;        <q-space class="col-2" />&ndash;&gt;-->
-<!--			</div>-->
+			<q-btn-toggle
+				v-model="role"
+				spread
+				class="role-toggle-button"
+				unelevated
+				toggle-color="blue"
+				text-color="blue"
+				:options="[
+					{ label: '모임장', value: 'leader' },
+					{ label: '모임원', value: 'member' },
+				]"
+				@click="roleButtonClick(), stepCompletionCheck()" />
+			<!--			<div class="btn-frame row">-->
+			<!--				<q-btn-->
+			<!--					outline-->
+			<!--					color="blue"-->
+			<!--					class="col leader-button"-->
+			<!--					@click="roleButtonClick"-->
+			<!--					>{{ $t('leader') }}</q-btn-->
+			<!--				>-->
+			<!--				<q-btn-->
+			<!--					outline-->
+			<!--					color="blue"-->
+			<!--					class="col member-button"-->
+			<!--					@click="roleButtonClick"-->
+			<!--					>{{ $t('member') }}</q-btn-->
+			<!--				>-->
+			<!--				&lt;!&ndash;        <q-space class="col-2" />&ndash;&gt;-->
+			<!--			</div>-->
 		</div>
 		<q-space class="col-2" />
 	</div>
@@ -111,43 +119,50 @@ export default {
 			selected: {
 				ott: [],
 			},
-      role: 'leader',
-      roleSelect: {
-        leader: true,
-        member: false,
-      },
-      state: true,
+			role: 'leader',
+			roleSelect: {
+				leader: true,
+				member: false,
+			},
+			state: true,
 		};
 	},
 	methods: {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 			if (this.ottFilters[idx].isSelect === true) {
-        this.selected.ott.push(this.ottFilters[idx].label);
-        for (let i = 0; i < Object.keys(this.ottFilters).length; i++) {
-          if (this.ottFilters[idx].label !== Object.values(this.ottFilters)[i].label) {
-            Object.values(this.ottFilters)[i].isSelect = false;
-            this.selected.ott = this.selected.ott.filter(element => element === this.ottFilters[idx].label)
-          }
-        }
+				this.selected.ott.push(this.ottFilters[idx].label);
+				for (let i = 0; i < Object.keys(this.ottFilters).length; i++) {
+					if (
+						this.ottFilters[idx].label !==
+						Object.values(this.ottFilters)[i].label
+					) {
+						Object.values(this.ottFilters)[i].isSelect = false;
+						this.selected.ott = this.selected.ott.filter(
+							element => element === this.ottFilters[idx].label,
+						);
+					}
+				}
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
 		roleButtonClick() {
-      if (this.role === 'member') {
-        this.roleSelect.leader = false;
-        this.roleSelect.member = true;
-      }
-      else {
-        this.roleSelect.leader = true;
-        this.roleSelect.member = false;
-      }
+			if (this.role === 'member') {
+				this.roleSelect.leader = false;
+				this.roleSelect.member = true;
+			} else {
+				this.roleSelect.leader = true;
+				this.roleSelect.member = false;
+			}
 		},
-    stepCompletionCheck(idx) {
-      if ((this.ottFilters[idx].isSelect) && ((this.roleSelect.leader) || (this.roleSelect.member))) {
-        this.state = false;
-      } else this.state = true;
-      return this.state
-    },
+		stepCompletionCheck(idx) {
+			if (
+				this.ottFilters[idx].isSelect &&
+				(this.roleSelect.leader || this.roleSelect.member)
+			) {
+				this.state = false;
+			} else this.state = true;
+			return this.state;
+		},
 	},
 };
 </script>
@@ -171,9 +186,9 @@ export default {
 	border-radius: 7px;
 }
 .role-toggle-button {
-  border: 1px solid #2196f3
+	border: 1px solid #2196f3;
 }
 .role-select-text {
-  color: #2196f3;
+	color: #2196f3;
 }
 </style>
