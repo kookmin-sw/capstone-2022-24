@@ -33,12 +33,12 @@
 			</div>
 			<div class="explanation col text-left q-mb-lg">
 				<div class="leader-expl col q-mb-md">
-					<div class="text-weight-bold">{{ $t('join.leaderGuideTitle') }}</div>
+					<div class="text-weight-bold leader-title" :class="{ 'role-select-text': roleSelect.leader }">{{ $t('join.leaderGuideTitle') }}</div>
 					<div>{{ $t('join.leaderGuide') }}</div>
 					<div>{{ $t('join.leaderPaymentGuide') }}</div>
 				</div>
 				<div class="member-expl col">
-					<div class="text-weight-bold">{{ $t('join.memberGuideTitle') }}</div>
+					<div class="text-weight-bold member-title" :class="{ 'role-select-text': roleSelect.member }">{{ $t('join.memberGuideTitle') }}</div>
 					<div>{{ $t('join.memberGuide') }}</div>
 					<div>{{ $t('join.memberPaymentGuide') }}</div>
 				</div>
@@ -53,7 +53,8 @@
           :options="[
 						{ label: '모임장', value: 'leader' },
 						{ label: '모임원', value: 'member' },
-					]" />
+					]"
+          @click="roleButtonClick()"/>
 <!--			<div class="btn-frame row">-->
 <!--				<q-btn-->
 <!--					outline-->
@@ -111,6 +112,10 @@ export default {
 				ott: [],
 			},
       role: 'leader',
+      roleSelect: {
+        leader: true,
+        member: false,
+      },
 		};
 	},
 	methods: {
@@ -126,9 +131,16 @@ export default {
         }
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
-		// roleButtonClick() {
-		// 	console.log();
-		// },
+		roleButtonClick() {
+      if (this.role === 'member') {
+        this.roleSelect.leader = false;
+        this.roleSelect.member = true;
+      }
+      else {
+        this.roleSelect.leader = true;
+        this.roleSelect.member = false;
+      }
+		},
 	},
 };
 </script>
@@ -153,5 +165,8 @@ export default {
 }
 .role-toggle-button {
   border: 1px solid #2196f3
+}
+.role-select-text {
+  color: #2196f3;
 }
 </style>
