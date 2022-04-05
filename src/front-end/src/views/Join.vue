@@ -117,7 +117,13 @@ export default {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 			if (this.ottFilters[idx].isSelect === true) {
-				this.selected.ott.push(this.ottFilters[idx].label);
+        this.selected.ott.push(this.ottFilters[idx].label);
+        for (let i = 0; i < Object.keys(this.ottFilters).length; i++) {
+          if (this.ottFilters[idx].label !== Object.values(this.ottFilters)[i].label) {
+            Object.values(this.ottFilters)[i].isSelect = false;
+            this.selected.ott = this.selected.ott.filter(element => element === this.ottFilters[idx].label)
+          }
+        }
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
 		// roleButtonClick() {
