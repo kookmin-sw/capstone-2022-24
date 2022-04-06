@@ -1,4 +1,3 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7010679&assignment_repo_type=AssignmentRepo)  
 <p align="left">
   <img src="https://img.shields.io/github/issues-raw/kookmin-sw/capstone-2022-24?color=lightgreen&style=flat-square">
   <img src="https://img.shields.io/github/issues-closed-raw/kookmin-sw/capstone-2022-24?color=mediumpurple&style=flat-square">
@@ -110,12 +109,13 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
 
 ## 사용법
-### 🖥 [front-end 사용법 문서](https://github.com/kookmin-sw/capstone-2022-24/wiki/front-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
-### 🗄 [back-end 사용법 문서](https://github.com/kookmin-sw/capstone-2022-24/wiki/back-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
+### 🖥 [Front-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/front-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
+### 🗄 [Back-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/back-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
 
 ## 기타  
-**관련 문서**
-- 중간발표 자료
-- 와이어프레임: Figma  
-  Click! ➡️ [<img src="https://img.shields.io/badge/Figma-f24e1e?style=flat-square&logo=figma&logoColor=white"/>]() 
-  - 링크 추가 예정
+### 발표 자료
+- [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/midterm/%ED%8C%8024-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)  
+- 최종 발표 - 추후 추가 예정  
+
+### 프로젝트 문서  
+- [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
