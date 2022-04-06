@@ -7,4 +7,4 @@
 ### 📌 최종 발표 - 추후 추가 예정  
 
 ## 프로젝트 문서  
-### 📚 [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)  
+### 📚 [GitHub Wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)  
