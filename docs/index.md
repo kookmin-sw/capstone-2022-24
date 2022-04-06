@@ -109,8 +109,8 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
 
 ## 사용법
-### 🖥 [Front-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/front-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
-### 🗄 [Back-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/back-end-%EC%82%AC%EC%9A%A9%EB%B2%95)
+### 🖥 [Front-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89%EB%B0%A9%EB%B2%95)
+### 🗄 [Back-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/%EB%B0%B1%EC%97%94%EB%93%9C-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89%EB%B0%A9%EB%B2%95)
 
 ## 기타  
 ### 발표 자료
