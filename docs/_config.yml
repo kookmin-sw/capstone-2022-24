@@ -1,1 +1,16 @@
-theme: jekyll-theme-cayman
+title: 온갖(OnGot)
+description: 다학제간캡스톤디자인I 24조
+show_downloads: true
+darkmode: false
+remote_theme: tuur29/pages-themes-cayman
+color:
+  header: "#ffffff"
+  gradient_left: "#83bbfb"
+  gradient_right: "#ffffff"
+syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
+buttons:
+  zip_url: https://github.com/kookmin-sw/capstone-2022-24
+  zip_title: View on GitHub
+  zip_hide: false
+  tar_hide: true
+  github_hide: true
