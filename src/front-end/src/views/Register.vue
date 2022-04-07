@@ -1,46 +1,61 @@
 <template>
-	<div class="Register q-ma-lg">
-		<!-- 회원가입 타이틀 -->
-		<div class="q-mb-lg">
-			<div class="text-h6 text-weight-bold">회원가입</div>
-			<div>사용할 프로필 사진과 닉네임을 입력해주세요.</div>
-		</div>
+	<div class="row q-ma-lg">
+		<q-space class="col-2" />
+		<!-- 회원가입 영역 -->
+		<div class="col-8">
+			<!-- 회원가입 타이틀 -->
+			<div class="q-mb-md text-left text-h5 text-weight-bold">회원가입</div>
 
-		<!-- 프로필 사진 입력 -->
-		<q-avatar
-			rounded
-			size="120px"
-			style="border: dotted 2px cornflowerblue"
-			:style="`background-image : url(${selectImg})`">
-			<div @click="clickInputField()">
-				<input
-					ref="image"
-					id="in"
-					type="file"
-					name="image"
-					accept="image/png, image/jpeg, image/jpg"
-					class="hidden"
-					@change="uploadImg()" />
-				<q-icon name="add_circle_outline" />
+			<!-- 프로필 사진 입력 -->
+			<div class="text-left q-mb-lg">
+				<div class="text-h6 text-weight-bold">프로필 사진</div>
+				<div class="q-mb-md">사용할 프로필 사진을 업로드해주세요.</div>
+				<q-avatar
+					rounded
+					size="120px"
+					style="border: dotted 2px cornflowerblue"
+					:style="`background-image : url(${selectImg})`"
+					class="q-mb-lg">
+					<div @click="clickInputField()">
+						<input
+							ref="image"
+							id="in"
+							type="file"
+							name="image"
+							accept="image/png, image/jpeg, image/jpg"
+							class="hidden"
+							@change="uploadImg()" />
+						<q-icon size="44px" name="add_circle_outline" />
+					</div>
+				</q-avatar>
 			</div>
-		</q-avatar>
-
-		<!-- 닉네임 입력 -->
-		<div class="row q-mb-lg">
-			<q-input dense label="닉네임" class="col-8 q-pr-lg" v-model="nickname" />
-			<q-btn
-				outline
-				color="blue"
-				class="col-4"
-				@click="duplicationCheckBtnClick">
-				중복 확인
-			</q-btn>
+			<!-- 닉네임 입력 -->
+			<div class="text-left q-mb-lg">
+				<div class="q-mb-xs text-h6 text-weight-bold">닉네임</div>
+				<div>
+					사용할 닉네임을 입력해주세요. 닉네임은 회원가입 후 변경이
+					불가능합니다.
+				</div>
+				<div class="row items-center">
+					<q-input
+						dense
+						hint="닉네임은 8글자 이하로 입력해주세요."
+						class="column col-9 q-pr-lg q-mb-lg"
+						v-model="nickname" />
+					<q-btn
+						outline
+						color="blue"
+						@click="duplicationCheckBtnClick"
+						class="col-3">
+						중복 확인
+					</q-btn>
+				</div>
+			</div>
+			<!-- 회원가입 버튼 -->
+			<q-btn unelevated color="blue" class="full-width q-mb-lg">회원가입</q-btn>
 		</div>
-
-		<!-- 회원가입 버튼 -->
-		<div>
-			<q-btn unelevated color="blue" class="full-width">회원가입</q-btn>
-		</div>
+		<!-- 회원가입 영역 종료 -->
+		<q-space class="col-2" />
 	</div>
 </template>
 
