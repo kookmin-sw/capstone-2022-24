@@ -39,7 +39,7 @@
 				<div class="row items-center">
 					<q-input
 						dense
-						hint="닉네임은 8글자 이하로 입력해주세요."
+						hint="닉네임은 공백없이 한글, 알파벳, 숫자만 8글자 이하로 입력해주세요."
 						class="column col-9 q-pr-lg q-mb-lg"
 						v-model="nickname" />
 					<q-btn
@@ -74,10 +74,23 @@ export default {
 	methods: {
 		...mapActions('auth', ['nicknameDuplication']),
 		duplicationCheckBtnClick() {
-			if (!this.nickname) {
-				alert('닉네임 형식을 맞추어 입력해주세요.');
+			// 특수문자 정규식
+			const specialCheck = /[!?@#$%^&*():;+\-=~{}<>\\[\]_|"',.`]/g;
+			const blankCheck = /[\s]/;
+
+			// 닉네임 공백, 글자수, 특문 체크
+			if (
+				!this.nickname ||
+				this.nickname.length < 1 ||
+				this.nickname.length > 8 ||
+				specialCheck.test(this.nickname) ||
+				blankCheck.test(this.nickname)
+			) {
+				alert('형식에 맞지 않는 닉네임입니다.');
 				return;
 			}
+
+			// 닉네임 중복 체크
 			this.nicknameDuplication(this.nickname)
 				.then(() => {
 					alert('사용 가능한 닉네임입니다.');
