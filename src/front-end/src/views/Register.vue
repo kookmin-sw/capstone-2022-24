@@ -97,7 +97,7 @@ export default {
 					this.canNickname = true;
 				})
 				.catch(() => {
-					alert('사용 불가능한 닉네임입니다.');
+					alert('이미 사용중인 닉네임입니다.');
 					this.canNickname = false;
 				});
 		},
