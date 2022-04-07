@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
-
 import store from '@/store/index.js';
+import Home from '@/views/Home.vue';
 
 const onlyAuthUser = (to, from, next) => {
 	if (store.getters['auth/isLogin'] === false) {
@@ -22,6 +21,9 @@ const routes = [
 		path: '/login/:social',
 		name: 'LoginCallback',
 		async beforeEnter(to, from, next) {
+			// TODO: 회원가입 페이지 또는 로그인 직후 뒤로가기 시 소셜 로그인 창 안나오도록
+			// TODO: 네이버 로그인 필수 제공 항목 동의 미체크 시 로그인 취소
+			// TODO: 네이버 정보 제공 동의 항목이 로그인 할 때 마다 나온다면...? 해결하기
 			const url = new URL(window.location.href);
 			let social = null;
 			if (url.pathname === '/login/naver') {
@@ -29,6 +31,10 @@ const routes = [
 				social = 'naver';
 				const code = url.searchParams.get('code');
 				const state = url.searchParams.get('state');
+				if (code === null) {
+					alert('필수 정보 제공에 동의하지 않아 로그인을 취소합니다.');
+					next('/');
+				}
 				const response = {
 					code: code,
 					resState: state,
@@ -42,9 +48,22 @@ const routes = [
 				const token = hash.split('=')[1];
 				await store.dispatch('auth/setGoogleAuth', token);
 			}
-			await store.dispatch('auth/loginWithSocial', social);
-			next('/');
+			await store
+				.dispatch('auth/loginWithSocial', social)
+				.then(() => {
+					next('/');
+				})
+				.catch(() => {
+					next('/register');
+				});
 		},
+	},
+	{
+		// TODO: beforeEnter: url 입력으로 인한 접근 막기
+		path: '/register',
+		name: 'Register',
+		component: () =>
+			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
 	},
 	{
 		path: '/join/:userId',
@@ -71,7 +90,7 @@ const routes = [
 		beforeEnter: onlyAuthUser,
 	},
 	{
-		path: '/expand',
+		path: '/:userId/expand/:listType',
 		name: 'Expand',
 		component: () =>
 			import(/* webpackChunkName: "Expand" */ '@/views/Expand.vue'),
@@ -127,6 +146,9 @@ const routes = [
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
+	scrollBehavior() {
+		return { top: 0, left: 0 };
+	},
 });
 
 export default router;
