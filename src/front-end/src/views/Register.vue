@@ -13,9 +13,8 @@
 				<q-avatar
 					rounded
 					size="120px"
-					style="border: dotted 2px cornflowerblue"
 					:style="`background-image : url(${selectImg})`"
-					class="q-mb-lg">
+					class="q-mb-lg profile-img">
 					<div @click="clickInputField()">
 						<input
 							ref="image"
@@ -116,4 +115,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.profile-img {
+	border: dotted 2px cornflowerblue;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+</style>
