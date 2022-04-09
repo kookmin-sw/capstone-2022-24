@@ -60,9 +60,10 @@ repos:
         files: ^src/back-end/
       - id: detect-aws-credentials
         files: ^src/back-end/
+        args: ["--allow-missing-credentials"]
       - id: detect-private-key
         files: ^src/back-end/
       - id: end-of-file-fixer
         files: ^src/back-end/
       - id: name-tests-test
-        args: [ "--django" ]
+        args: ["--django"]
