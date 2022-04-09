@@ -10,24 +10,25 @@ repos:
         name: Remove unused import statements
         language: python
         language_version: python3
-        types: [ python ]
         files: ^src/back-end/
+        types: [python]
         exclude: ^.*\b(migrations)\b.*$
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
         name: Sort import statements
-        files: ^src/back-end/.py$
+        files: ^src/back-end/
+        types: [python]
         exclude: ^.*\b(migrations)\b.*$
         args: [ "--filter-files" ]
   - repo: https://github.com/psf/black
     rev: 22.1.0
     hooks:
       -  id: black
-         types: [python]
          language: python
-         files: ^src/back-end/.py$
+         files: ^src/back-end/
+         types: [python]
          exclude: ^.*\b(migrations)\b.*$
          args: ["--line-length=120"]
   - repo: https://github.com/pycqa/pylint
@@ -36,8 +37,8 @@ repos:
       - id: pylint
         name: pylint
         entry: pylint
+        files: ^src/back-end/
         types: [python]
-        files: ^src/back-end/.py$
         exclude: ^.*\b(migrations)\b.*$
         args: ["--disable=R0903,C0103,W0703,E1101,W0613,W0511,R0201", "--max-line-length=120"]
   - repo: https://github.com/ecugol/pre-commit-hooks-django
@@ -45,13 +46,16 @@ repos:
     hooks:
       - id: check-untracked-migrations
         files: ^src/back-end/
+        types: [python]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
       - id: check-json
-        files: ^src/back-end/.json$
+        files: ^src/back-end/
+        types: [json]
       - id: pretty-format-json
-        files: ^src/back-end/.json$
+        files: ^src/back-end/
+        types: [json]
       - id: trailing-whitespace
         files: ^src/back-end/
       - id: debug-statements
