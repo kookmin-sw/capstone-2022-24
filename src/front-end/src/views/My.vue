@@ -1,374 +1,207 @@
 <template>
 	<!-- 프로필 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg profile-area">
-		<div class="row">
-			<q-avatar rounded color="blue" size="73px" class="q-mr-lg" />
-			<div class="col text-left row-gap-12">
-				<div class="q-mb-sm">사용자 닉네임</div>
-				<div>010-1234-5678</div>
-				<div class="row col-gap-12">
-					<!-- 가입시 이용한 카카오/네이버 API 아이콘 -->
-					<div class="api-icon" />
-					<div>naver_email@naver.com</div>
+	<div class="column q-ma-xl">
+		<div class="q-mb-md text-left text-h6 text-weight-bold">
+			{{ userProfile.nickname }}
+		</div>
+		<!--    TODO: profile img 태그 추가-->
+		<q-avatar rounded color="grey" size="73px" class="q-mb-md" />
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">전화번호</div>
+			<div>{{ userProfile.phone }}</div>
+		</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">이메일</div>
+			<div>{{ userProfile.email }}</div>
+		</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">정직 비용</div>
+			<div>1,000 원</div>
+		</div>
+		<div class="row q-mb-sm text-left">
+			<div class="text-weight-bold info-item">계좌</div>
+			<div>(은행) 356-xxxx-xxxx-xx</div>
+			<div class="q-ml-lg text-grey">등록/수정</div>
+		</div>
+	</div>
+	<!-- 모임 영역 -->
+	<q-separator color="blue" inset />
+	<div class="column q-ma-xl">
+		<!-- 참여 중인 모임 목록 (로고) -->
+		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
+		<div class="row q-mb-md">
+			<q-avatar
+				rounded
+				color="grey"
+				size="40px"
+				class="q-mr-sm"
+				v-for="group in getGroupList"
+				:key="group.id"
+				@click="clickGroupLogo(group.id)">
+				<div>{{ group.logoUrl }}</div>
+			</q-avatar>
+			<q-btn outline color="blue">+</q-btn>
+		</div>
+		<!-- 모임 탈퇴 -->
+		<div class="text-left align-right">
+			<q-btn flat dense>모임 탈퇴 하기 ></q-btn>
+		</div>
+		<!-- 모임 상세 정보 -->
+		<div class="q-mb-lg bg-blue-1">
+			<!-- 모임 상태 뱃지 -->
+			<div class="align-right">
+				<q-badge color="blue" text-color="white" align="top" class="q-pa-sm">
+					모임 상태 & D-day
+				</q-badge>
+			</div>
+			<!-- 모임 모집 완료 이전 -->
+			<div
+				class="row q-pa-md q-pb-xl"
+				v-if="!getSelectGroup.fellows"
+				style="height: 343px">
+				<q-space class="col-2" />
+				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">
+					모임 구성원을 기다리는 중입니다.
+				</div>
+				<q-space class="col-2" />
+			</div>
+			<!-- 모임 모집 완료 이후 -->
+			<div v-else>
+				<!-- 구성원 -->
+				<div class="row q-pa-md q-pb-xl">
+					<q-space class="col-2" />
+					<div
+						class="col"
+						v-for="fellow in getSelectGroup.fellows"
+						:key="fellow.nickname">
+						<q-avatar rounded color="grey" size="73px" />
+						<div>{{ fellow.nickname }}</div>
+					</div>
+					<q-space class="col-2" />
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
-	<!-- 모임 관련 영역 -->
-	<div class="row q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="col">
-			<div class="guide-text text-left q-mb-lg">참여 중인 모임</div>
-			<div class="row q-mb-md ott-icons-frame">
-				<q-avatar rounded color="blue" size="40px"></q-avatar>
-				<q-avatar rounded color="blue" size="40px"></q-avatar>
-				<q-avatar rounded color="blue" size="40px"></q-avatar>
-				<q-avatar rounded color="blue" size="40px"></q-avatar>
-				<q-avatar rounded color="blue" size="40px"></q-avatar>
-			</div>
-			<div class="col text-left row-gap-12">
-				<div>모집중 > 모집 완료 > 검토 기간 > 관람중</div>
-				<div>모집 상태 설명</div>
-				<div>추가 설명들</div>
-				<div class="align-right">
-					<q-btn dense unelevated>모임 탈퇴 하기 ></q-btn>
-				</div>
-			</div>
-			<!-- 모임 구성원 관련 영역 -->
-			<div class="col group-members">
-				<div class="align-right">
-					<q-badge
-						color="blue"
-						text-color="white"
-						align="top"
-						class="state-badge"
-						>모임 상태 설명</q-badge
-					>
-				</div>
-				<div class="row q-pt-lg q-pb-xl group-profile-frame">
-					<q-space class="col-2" />
-					<div class="col group-nicknames">
-						<q-avatar rounded color="blue" size="73px" />
-						<div>사용자닉네임</div>
-					</div>
-					<div class="col group-nicknames">
-						<q-avatar rounded color="blue" size="73px" />
-						<div>
-							<q-icon name="military_tech" size="16px" />
-							닉네임
-						</div>
-					</div>
-					<div class="col group-nicknames">
-						<q-avatar rounded color="blue" size="73px" />
-						<div>닉네임</div>
-					</div>
-					<div class="col group-nicknames">
-						<q-avatar rounded color="blue" size="73px" />
-						<div>닉네임</div>
-					</div>
-					<q-space class="col-2" />
-				</div>
-			</div>
-			<!-- 모임장: OTT 계정 ID/PW 입력 및 수정 가능 -->
-			<div class="col q-mt-md q-mb-md">
-				<q-input label="아이디" color="blue" class="ott-id" v-model="ottId">
-					<q-btn dense unelevated>
-						<q-icon name="edit" color="blue" />
-					</q-btn>
-				</q-input>
-				<q-input label="비밀번호" color="blue" class="ott-pw" v-model="ottPw">
-					<q-btn dense unelevated>
-						<q-icon name="edit" color="blue" />
-					</q-btn>
-				</q-input>
-			</div>
-			<!-- 모임원: 모임장이 공유해 준 OTT 계정 ID/PW read only(드래그 & 복사 가능) -->
-			<div class="col q-mt-md q-mb-md">
-				<q-input
-					readonly
-					label="아이디"
-					color="blue"
-					class="ott-id"
-					v-model="ottId">
-				</q-input>
+		<!-- ott 계정 정보 -->
+		<div v-if="getSelectGroup.account">
+			<div class="q-mb-md">
+				<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />
 				<q-input
 					readonly
 					label="비밀번호"
-					color="blue"
-					class="ott-pw"
-					v-model="ottPw">
-				</q-input>
+					v-model="getSelectGroup.account.password" />
 			</div>
-			<div class="row col-gap-12">
+			<div class="row">
 				<q-space class="col-8" />
-				<q-btn dense outline color="blue">
-					<q-icon name="report" />
-					신고
+				<q-btn outline color="blue" class="q-mr-sm">
+					신고<q-icon name="no_accounts" />
 				</q-btn>
-				<q-btn dense outline color="blue">OTT 바로가기</q-btn>
+				<q-btn outline color="blue">
+					<a :href="getSelectGroup.provider.link" target="_blank">
+						{{ getSelectGroup.provider.name }} 바로가기
+					</a>
+					<q-icon name="arrow_right_alt" />
+				</q-btn>
 			</div>
 		</div>
 	</div>
-	<!-- hr -->
+
+	<!--  최근 조회 작품  -->
 	<q-separator color="blue" inset />
-	<!-- 최근 조회 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">최근 조회한 작품</div>
-			<q-btn>전체보기</q-btn>
-		</div>
-		<div class="q-mt-lg">
-			<q-carousel
-				v-model="recent"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- hr -->
+	<user-videos
+		:title="recentList.title"
+		:video-list="getRecentList"
+		:push-video-method="recentList.method"
+		:expand-id="recentList.expandId" />
+
+	<!--  찜한 작품  -->
 	<q-separator color="blue" inset />
-	<!-- 본 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">본 작품</div>
-			<q-btn>전체보기</q-btn>
-		</div>
-		<div class="q-mt-lg">
-			<q-carousel
-				v-model="watched"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
-	<!-- 찜한 작품 영역 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">찜한 작품</div>
-			<q-btn>전체보기</q-btn>
-		</div>
-		<div class="q-mt-lg">
-			<q-carousel
-				v-model="scrap"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
-	<!-- hr -->
-	<q-separator color="blue" inset />
+	<user-videos
+		:title="dibList.title"
+		:video-list="getDibList"
+		:push-video-method="dibList.method"
+		:expand-id="dibList.expandId" />
+
 	<!-- 별점 준 작품 -->
-	<div class="col q-mt-xl q-mb-xl q-ml-lg q-mr-lg">
-		<div class="row">
-			<div class="q-mr-md">별점 준 작품</div>
-			<q-btn>전체보기</q-btn>
-		</div>
-		<div class="q-mt-lg">
-			<q-carousel
-				v-model="rated"
-				transition-prev="slide-right"
-				transition-next="slide-left"
-				swipeable
-				animated
-				control-color="primary"
-				padding
-				arrows
-				height="230px"
-				class="bg-blue-1">
-				<q-carousel-slide :name="1" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="2" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-				<q-carousel-slide :name="3" class="column no-wrap">
-					<div class="row fit justify-center items-center col-gap-16 no-wrap">
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-						<div class="col-2 full-height video-poster" />
-					</div>
-				</q-carousel-slide>
-			</q-carousel>
-		</div>
-	</div>
+	<user-videos
+		:title="starList.title"
+		:video-list="getStarList"
+		:push-video-method="starList.method"
+		:expand-id="starList.expandId" />
+
+	<!-- 본 작품 -->
+	<user-videos
+		:title="watchList.title"
+		:video-list="getWatchList"
+		:push-video-method="watchList.method"
+		:expand-id="watchList.expandId" />
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex';
+import UserVideos from '@/components/userVideos';
+
 export default {
 	name: 'My',
+	components: { UserVideos },
 	data() {
 		return {
-			ottId: 'netfilxID@gmail.com',
-			ottPw: 'netflix*Password',
-			recent: 1,
-			watched: 1,
-			scrap: 1,
-			rated: 1,
+			selectGroup: {},
+			recentList: {
+				title: '최근 조회 작품',
+				method: 'user/pushRecentList',
+				expandId: 'recent',
+			},
+			dibList: {
+				title: '찜한 작품',
+				method: 'user/pushDibList',
+				expandId: 'dib',
+			},
+			starList: {
+				title: '별점 준 작품',
+				method: 'user/pushStarList',
+				expandId: 'star',
+			},
+			watchList: {
+				title: '본 작품',
+				method: 'user/pushWatchList',
+				expandId: 'watched',
+			},
 		};
+	},
+	computed: {
+		...mapState('user', ['userProfile']),
+		...mapGetters('user', [
+			'getGroupList',
+			'getSelectGroup',
+			'getRecentList',
+			'getDibList',
+			'getStarList',
+			'getWatchList',
+		]),
+	},
+	async beforeCreate() {
+		await this.$store.dispatch('user/initUserGroups');
+		await this.$store.dispatch('user/initUserVideos', 6);
+	},
+	methods: {
+		async clickGroupLogo(groupId) {
+			await this.$store.dispatch('user/setSelectGroup', groupId);
+		},
 	},
 };
 </script>
 
 <style scoped>
-.api-icon {
-	width: 20px;
-	height: 20px;
-	background-color: #828282;
+.info-item {
+	width: 100px;
 }
-.ott-icons-frame {
-	column-gap: 16px;
-}
+
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
 }
-.state-badge {
-	width: auto;
-	height: 30px;
-}
-.group-members {
-	background-color: #e3f0ff;
-}
-.group-profile-frame {
-	column-gap: 24px;
-}
-.group-nicknames {
-	text-align: center;
-}
-.video-poster {
-	width: 15%;
-	height: auto;
-	background: #83bbfb;
+
+a {
+	color: #0074d9;
 }
 </style>

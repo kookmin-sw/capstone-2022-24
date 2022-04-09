@@ -43,9 +43,18 @@ DATABASES = {
     }
 }
 
+# static / media storage
+DEFAULT_FILE_STORAGE = 'config.storages.development.MediaStorage'
+STATICFILES_STORAGE = 'config.storages.development.StaticStorage'
+
+# static / media location in s3
+STATIC_LOCATION = env("STATIC_LOCATION")
+MEDIA_LOCATION = env("MEDIA_LOCATION")
+
 # aws s3
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_SECURE_URLS = env('AWS_S3_SECURE_URLS')
 AWS_QUERY_STRING_AUTH = env('AWS_QUERY_STRING_AUTH')
+AWS_DEFAULT_ACL = env('AWS_DEFAULT_ACL')
