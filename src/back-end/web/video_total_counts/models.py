@@ -1,10 +1,33 @@
-from pickle import NONE
 from djongo import models
-from videos.models import videos
+from videos.models import Videos
 
-# Create your models here.
-class video_total_counts(models.Model):
-    videoId= models.ForeignKey(videos, on_delete= None) #얘는... 지우면 안돼지
-    dibsCount = models.IntegerField(null=True, default=0)
-    watchCount = models.IntegerField(null=True, default=0)
-    viewCount = models.IntegerField(null=True, default=0)
+class VideoTotalCounts(models.Model):
+    id = models.BigAutoField(
+        primary_key=True
+    )
+    video_id= models.ForeignKey(
+        Videos,
+        on_delete= None,
+        db_column="videoId"
+    )
+    dibs_count = models.IntegerField(
+        null=True,
+        default=0,
+        db_column="dibsCount"
+    )
+    watch_count = models.IntegerField(
+        null=True,
+        default=0,
+        db_column="watchCount"
+    )
+    view_count = models.IntegerField(
+        null=True,
+        default=0,
+        db_column="viewCount",
+    )
+
+    class Meta:
+        db_table = "video_total_counts"
+
+    def __str__(self):
+        return f"{self.name}"

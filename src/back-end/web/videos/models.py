@@ -1,25 +1,88 @@
 from djongo import models
 
-# Create your models here.
-class videos(models.Model):
-    _id= models.ObjectIdField()
-    categories = (
-        ("Tv", "TvSeries"), # 앞= DB에 표시되는값 뒤= admin이나 form에 연결되는 값
-        ("Movie", "Movie"), # 위와 동일
+class Videos(models.Model):
+    CATEGORY_CHOICE = (
+        ("TV", "TVSeries"), # 앞= DB에 표시되는값 뒤= admin이나 form에 연결되는 값
+        ("MV", "Movie"), # 위와 동일
     )
-    tmdbid = models.IntegerField(null=True)
-    title = models.CharField(max_length=200,null=True)
-    releaseDate = models.DateField(null=False)
-    filmRating = models.CharField(max_length=10, null=False) 
-    category = models.CharField(max_length=5, null=True, choices=categories) #choices 로 categories와 연결됨.
-    posterKey = models.CharField(max_length=100,null=False)
-    titleEnglish = models.CharField(max_length=200,null=False)
-    
 
-class video_details(models.Model):
-    _id= models.ObjectIdField()
-    videoId= models.ForeignKey(videos, on_delete=models.CASCADE) #연결된 video객체 삭제시 같이 삭제
-    runtime = models.IntegerField(null=False)
-    rating = models.ArrayField(null=False) #이걸 확장가능성 있게 코딩해야할까? => array 분리
-    productionCountry= models.CharField(max_length=100, null=False)
-    gernes= models.ArrayField(max_length=50, null=True) #빈 리스트일순 있어도 Null일순 없는 구조로 생각함.
+
+    id= models.BigAutoField(
+        primary_key=True,
+    )
+    tmdb_id = models.IntegerField(
+        null=True,
+        db_column="tmdbId",
+    )
+    title = models.CharField(
+        max_length=200,
+        null=True,
+    )
+    release_date = models.DateField(
+        null=False,
+        db_column="releaseDate",
+    )
+    film_rating = models.CharField(
+        max_length=10,
+        null=False,
+        db_column="filmRating",
+    )
+    category = models.CharField(
+        max_length = 2,
+        null = True,
+        choices=CATEGORY_CHOICE,
+    )
+    poster_key = models.ImageField(
+        db_column="posterKey",
+    )
+    title_english = models.CharField(
+        max_length=200,
+        null=False,
+        db_column="baseDate",
+    )
+
+    class Meta:
+        db_table = "videos"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+
+class VideoDetails(models.Model):
+    COUNTRY_CHOICE=(
+        ('KR','국내'),
+        ('Other','국외'),
+        (), #하 예시 존나 많아....서 일단 이 버전으로 만들어둠
+    )
+
+    id= models.BigAutoField(
+        primary_key=True,
+    )
+    video_id= models.ForeignKey(
+        Videos,
+        on_delete=models.CASCADE, #연결된 video객체 삭제시 같이 삭제
+        db_column="videoId",
+    )
+    runtime = models.IntegerField(
+        null=False,
+    )
+    rating = models.ArrayField(
+        null=False,
+    )
+    production_country= models.CharField(
+        max_length=2,
+        null=False,
+        choices=COUNTRY_CHOICE,
+        db_column="productionCountry",
+    )
+    gernes= models.ArrayField(
+        max_length=50,
+        null=True,
+    )
+
+    class Meta:
+        db_table = "video_details"
+
+    def __str__(self):
+        return f"{self.name}"

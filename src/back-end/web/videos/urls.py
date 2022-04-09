@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from videos import views
+from videos.views import HomeView
 
 urlpatterns = [
-    path('/videos',views.videoListing(), name ='home'), #/videos?search=__title__or__cast&page=___&size=____
+    path('/videos',HomeView.as_view(), name ='home'), #/videos?search=__title__or__cast&page=___&size=____
     path('/videos/movie/<int:pk>', views.MovieDetails, name= 'movieDetail'), #/videos/movie/{video_id}
     path('/videos/tv/<int:pk>', views.TVDetails, name= 'tvDetail'), #/videos/tv/{video_id} 이거...는 리다이랙트 하는건데 어케 처리할지는 알아봐야겠삼
     path('/videos/tv/<int:pk>/season/<int:num>', views.TVDetails, name= 'tvDetail'), #/videos/tv/{video_id}/season/{season_num}
