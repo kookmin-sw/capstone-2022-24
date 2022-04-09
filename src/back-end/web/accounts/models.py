@@ -1,4 +1,4 @@
-from ..config.settings import base
+from django.conf import settings
 from djongo import models
 
 
@@ -33,7 +33,7 @@ class Account(models.Model):
         db_column="bankId",
     )
     user = models.ForeignKey(
-        base.AUTH_USER_MODEL,
+        settings.AUTH_USER_MODEL,
         null = False,
         on_delete=models.CASCADE,
         db_column="userId"
