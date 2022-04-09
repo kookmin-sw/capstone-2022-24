@@ -21,6 +21,10 @@ export default {
 		GNB,
 		ServiceFooter,
 	},
+	beforeCreate() {
+		this.$store.dispatch('auth/keepLoginToken');
+		this.$store.dispatch('user/setUserProfile');
+	},
 };
 </script>
 

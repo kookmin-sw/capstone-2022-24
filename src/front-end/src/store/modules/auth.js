@@ -1,11 +1,11 @@
 import http from '@/api/http';
+import router from '@/router';
 
 export const auth = {
 	namespaced: true,
 	state: {
 		token: null,
 		userId: 'abc',
-		isRegister: null,
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
 			redirectionUri: `${window.location.origin}/login/naver`,
@@ -26,9 +26,6 @@ export const auth = {
 	mutations: {
 		SET_TOKEN(state, token) {
 			state.token = token;
-		},
-		SET_REGISTER(state, isRegister) {
-			state.isRegister = isRegister;
 		},
 		SET_NAVER_AUTH(state, response) {
 			state.naver.code = response.code;
@@ -62,21 +59,53 @@ export const auth = {
 		},
 		async loginWithSocial({ state, commit }, social) {
 			const url = `/login/oauth/${social}`;
-			http
-				.post(url, { code: state.naver.code })
-				.then(res => {
-					// 로그인 성공
-					const token = res.data.accessToken;
-					commit('SET_REGISTER', true);
-					commit('SET_TOKEN', token);
-					// TODO: access token 저장해서 로그인 유지
-				})
-				.catch(err => {
-					// 최초 로그인 시도 (회원가입)
-					if (err.response.status === 301) {
-						commit('SET_REGISTER', false);
-					}
-				});
+			let code = null;
+
+			social === 'naver'
+				? (code = state.naver.code)
+				: (code = state.google.token);
+
+			return new Promise((resolve, reject) => {
+				http
+					.post(url, { code: code })
+					.then(res => {
+						// 로그인 성공
+						const token = res.headers.accesstoken;
+						commit('SET_TOKEN', token);
+						localStorage.setItem('ACCESS_TOKEN', token);
+						resolve();
+					})
+					.catch(err => {
+						// 최초 로그인 시도 (회원가입)
+						if (err.response.status === 301) {
+							reject();
+						}
+					});
+			});
+		},
+		keepLoginToken({ commit }) {
+			const token = localStorage.getItem('ACCESS_TOKEN');
+			commit('SET_TOKEN', token);
+		},
+		logout() {
+			localStorage.removeItem('ACCESS_TOKEN');
+			router.go(0);
+		},
+		nicknameDuplication(context, nickname) {
+			// 닉네임 중복 검사
+			const params = {
+				nickname: nickname,
+			};
+			return new Promise((resolve, reject) => {
+				http
+					.get('/users/validate-nickname', { params: params })
+					.then(() => {
+						resolve();
+					})
+					.catch(() => {
+						reject();
+					});
+			});
 		},
 	},
 };

@@ -21,7 +21,7 @@
 			<div class="text-menu-wrapper col-6 row">
 				<router-link to="/" class="col-4"> 홈 </router-link>
 				<router-link to="/discontinue" class="col-4"> 종료예정작 </router-link>
-				<router-link :to="`/join/${userId}`" class="col-4">
+				<router-link :to="`/join/${userProfile.nickname}`" class="col-4">
 					모임 신청
 				</router-link>
 			</div>
@@ -30,7 +30,7 @@
 				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
 					<q-btn flat class="my-menu col-4">
-						<router-link :to="`/my/${userId}`">
+						<router-link :to="`/my/${userProfile.nickname}`">
 							<q-icon name="person" size="md" color="blue" />
 						</router-link>
 					</q-btn>
@@ -79,10 +79,12 @@ export default {
 	data() {
 		return {
 			isLoginModal: false,
+			isRegisterModal: false,
 		};
 	},
 	computed: {
 		...mapState('auth', ['userId']),
+		...mapState('user', ['userProfile']),
 		...mapGetters('auth', ['isLogin']),
 	},
 	methods: {
@@ -90,8 +92,7 @@ export default {
 			this.isLoginModal = !this.isLoginModal;
 		},
 		logoutBtnClick() {
-			this.$store.dispatch('auth/setToken', null);
-			this.$router.push({ name: 'Home' });
+			this.$store.dispatch('auth/logout');
 		},
 	},
 };
