@@ -50,18 +50,12 @@ class Videos(models.Model):
 
 
 class VideoDetails(models.Model):
-    COUNTRY_CHOICE=(
-        ('KR','국내'),
-        ('Other','국외'),
-        (), #하 예시 존나 많아....서 일단 이 버전으로 만들어둠
-    )
-
     id= models.BigAutoField(
         primary_key=True,
     )
     video_id= models.ForeignKey(
         Videos,
-        on_delete=models.CASCADE, #연결된 video객체 삭제시 같이 삭제
+        on_delete=models.CASCADE,
         db_column="videoId",
     )
     runtime = models.IntegerField(
@@ -70,10 +64,9 @@ class VideoDetails(models.Model):
     rating = models.ArrayField(
         null=False,
     )
-    production_country= models.CharField(
+    production_country= models.ArrayField(
         max_length=2,
         null=False,
-        choices=COUNTRY_CHOICE,
         db_column="productionCountry",
     )
     gernes= models.ArrayField(
