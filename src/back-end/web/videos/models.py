@@ -2,8 +2,8 @@ from djongo import models
 
 class Videos(models.Model):
     CATEGORY_CHOICE = (
-        ("TV", "TVSeries"), # 앞= DB에 표시되는값 뒤= admin이나 form에 연결되는 값
-        ("MV", "Movie"), # 위와 동일
+        ("TV", "TVSeries"),
+        ("MV", "Movie"),
     )
 
 
