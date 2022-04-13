@@ -101,6 +101,10 @@ class User(AbstractBaseUser, models.Model):
         default=False,
         db_column="isAdmin"
     )
+    total_mileages = models.PositiveIntegerField(
+        default=0,
+        db_column="totalMileages"
+    )
     withdrawal_date_time = models.DateTimeField(
         null=True,
         blank=True,
@@ -110,14 +114,10 @@ class User(AbstractBaseUser, models.Model):
         default=timezone.now,
         db_column="registrationDateTime"
     )
-    total_mileages = models.PositiveIntegerField(
-        default=0,
-        db_column="totalMileages"
-    )
-    last_login = models.DateTimeField(
+    last_login_date_time = models.DateTimeField(
         blank=True,
         null=True,
-        db_column="lastLogin"
+        db_column="lastLoginDateTime"
     )
 
     USERNAME_FIELD = "nickname"
