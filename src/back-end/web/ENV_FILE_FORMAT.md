@@ -1,5 +1,5 @@
 # How to write dotenv file
-Fill in the values 
+Fill in the values
 
 ## Local environment
 `.env.local`
