@@ -9,23 +9,21 @@ class GroupAccount(models.Model):
     identifier = models.CharField(
         max_length=50,
         null=True,
-        blank=False
+        blank=True
     )
     password = models.CharField(
         max_length=30,
         null=True,
-        blank=False
+        blank=True
     )
     creation_date_time = models.DateTimeField(
         null=True,
-        blank=False,
-        default=timezone.now,
+        blank=True,
         db_column="creationDateTime"
     )
     last_modification_date_time = models.DateTimeField(
         null=True,
-        blank=False,
-        default=timezone.now,
+        blank=True,
         db_column="lastModificationDateTime"
     )
 
@@ -33,4 +31,4 @@ class GroupAccount(models.Model):
         db_table = "group_accounts"
 
     def __str__(self):
-        return f"[{self.id} 최종 변경일시: {self.last_modification_date_time}"
+        return f"[{self.id}] 최종 변경일시: {self.last_modification_date_time}"
