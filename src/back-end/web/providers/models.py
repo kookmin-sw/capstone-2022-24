@@ -4,11 +4,11 @@ from djongo import models
 
 class Provider(models.Model):
     NAME_CHOICES = (
-        ('NE', 'Netflix'),
-        ('WA', 'Watcha'),
-        ('DI', 'DisneyPlus'),
+        ('NF', 'Netflix'),
+        ('WC', 'Watcha'),
+        ('DP', 'DisneyPlus'),
         ('TV', 'Tving'),
-        ('WA', 'Wavve'),
+        ('WV', 'Wavve'),
     )
     id = models.BigAutoField(
         primary_key=True,
