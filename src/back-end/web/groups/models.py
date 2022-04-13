@@ -25,6 +25,7 @@ class Group(models.Model):
     )
     status = models.CharField(
         max_length=10,
+        default='Recruiting',
         choices=STATUS_CHOICES
     )
     creation_date_time = models.DateTimeField(
@@ -46,4 +47,4 @@ class Group(models.Model):
         db_table = "groups"
 
     def __str__(self):
-        return f"[{self.status}] {self.provider} 모임 #{self.id}"
+        return f"[{self.get_status_display()}] {self.provider} 모임 #{self.id}"
