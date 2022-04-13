@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.utils import timezone
 from djongo import models
-from ..payments.models import Payment
-from ..providers.models import Provider
+from payments.models import Payment
+from providers.models import Provider
 
 
 class Apply(models.Model):
@@ -23,6 +23,7 @@ class Apply(models.Model):
     )
     provider = models.ForeignKey(
         Provider,
+        null=False,
         on_delete=models.CASCADE,
         db_column="providerId"
     )
@@ -41,6 +42,7 @@ class Apply(models.Model):
 class LeaderApply(Apply):
     class Meta:
         db_table = "leader_applies"
+        verbose_name_plural = "Leader Applies"
 
     def __str__(self):
-        return f"[{self.provider.name}] {self.user.name}님의 모임장 신청"
+        return f"[{self.provider}] {self.user}님의 모임장 신청"
