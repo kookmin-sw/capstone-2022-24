@@ -46,19 +46,10 @@ class Fellow(models.Model):
         ordering = ('-creation_date_time',)
 
     def __str__(self):
-        return f"[모임 #{self.group.id}] {self.user} 구성원"
+        return f"[모임 #{self().group.id}] {self.user} 구성원"
 
 
-class Member(models.Model):
-    id = models.BigAutoField(
-        primary_key=True
-    )
-    fellow = models.OneToOneField(
-        Fellow,
-        unique=True,
-        on_delete=models.CASCADE,
-        db_column="fellowId"
-    )
+class Member(Fellow):
     has_reported_leader = models.BooleanField(
         default=False,
         db_column="hasReportedLeader"
@@ -68,22 +59,12 @@ class Member(models.Model):
         db_table = "members"
 
     def __str__(self):
-        return f"[모임 #{self.fellow.group.id}] {self.fellow.user} 모임원"
+        return f"[모임 #{super().group.id}] {super().user} 모임원"
 
 
-class Leader(models.Model):
-    id = models.BigAutoField(
-        primary_key=True
-    )
-    fellow = models.OneToOneField(
-        Fellow,
-        unique=True,
-        on_delete=models.CASCADE,
-        db_column="fellowId"
-    )
-
+class Leader(Fellow):
     class Meta:
         db_table = "leaders"
 
     def __str__(self):
-        return f"[모임 #{self.fellow.group.id}] {self.fellow.user} 모임장"
+        return f"[모임 #{super().group.id}] {super().user} 모임장"
