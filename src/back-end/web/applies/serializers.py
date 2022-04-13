@@ -1,8 +1,8 @@
 from .models import LeaderApply
 from rest_framework import serializers
-from ..users.serializers import UserSerializer
-from ..payments.serializers import PaymentSerializer
-from ..providers.serializers import ProviderSerializer
+from users.serializers import UserSerializer
+from payments.serializers import PaymentSerializer
+from providers.serializers import ProviderSerializer
 
 
 class LeaderApplySerializer(serializers.ModelSerializer):
