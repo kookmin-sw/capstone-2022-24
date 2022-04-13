@@ -29,7 +29,7 @@ class Fellow(models.Model):
         db_column="willRenew"
     )
     creation_date_time = models.DateTimeField(
-        default=timezone.new,
+        default=timezone.now,
         db_column="creationDateTime"
     )
     last_modification_date_time = models.DateTimeField(
@@ -53,8 +53,9 @@ class Member(models.Model):
     id = models.BigAutoField(
         primary_key=True
     )
-    fellow = models.ForeignKey(
+    fellow = models.OneToOneField(
         Fellow,
+        unique=True,
         on_delete=models.CASCADE,
         db_column="fellowId"
     )
@@ -74,8 +75,9 @@ class Leader(models.Model):
     id = models.BigAutoField(
         primary_key=True
     )
-    fellow = models.ForeignKey(
+    fellow = models.OneToOneField(
         Fellow,
+        unique=True,
         on_delete=models.CASCADE,
         db_column="fellowId"
     )
@@ -84,4 +86,4 @@ class Leader(models.Model):
         db_table = "leaders"
 
     def __str__(self):
-        return f"[모임 #{self.group.id}] {self.fellow.user} 모임장"
+        return f"[모임 #{self.fellow.group.id}] {self.fellow.user} 모임장"
