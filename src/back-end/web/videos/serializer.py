@@ -27,9 +27,4 @@ class VideosDetailsSerialaizer(serializers.ModelSerializer):
         """Video Serializer field setting"""
 
         model = VideoDetail
-        fields = [
-            "runtime",
-            "ratings",
-            "production_countries",
-            "gernes",
-        ]
+        fields = ["runtime", "ratings", "production_countries", "gernes"]
