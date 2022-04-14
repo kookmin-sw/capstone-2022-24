@@ -3,7 +3,7 @@ in local environment
 
 ## Prerequisite
 ### Create a environment file
-[About Format](ENV_FILE_FORMAT.md)  
+[About Format](ENV_FILE_FORMAT.md)
 File must be in `[repository path]/src/back-end/environment/.env.local`
 
 ### Install docker
@@ -13,7 +13,7 @@ File must be in `[repository path]/src/back-end/environment/.env.local`
 
 ## How to run
 
-### Change working directory 
+### Change working directory
 to back-end ROOT directory
 ```shell
 $ cd [repository path]/src/back-end
@@ -29,4 +29,3 @@ cf) Run in the background: add `-d` option
 ```shell
 $ docker-compose -f docker-compose-local.yml --env-file environment/.env.local up -d --build
 ```
-
