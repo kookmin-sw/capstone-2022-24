@@ -19,7 +19,7 @@ repos:
         name: Sort import statements
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
-        args: [ "--filter-files" ]
+        args: ["--filter-files"]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
