@@ -5,7 +5,7 @@ from payments.models import Payment
 from providers.models import Provider
 
 
-class Apply(models.Model):
+class BaseApply(models.Model):
     id = models.BigAutoField(
         primary_key=True
     )
@@ -39,10 +39,19 @@ class Apply(models.Model):
         return f"[{self.provider.name}] {self.user.name}님의 구성원 신청"
 
 
-class LeaderApply(Apply):
+class LeaderApply(BaseApply):
     class Meta:
         db_table = "leader_applies"
         verbose_name_plural = "Leader Applies"
 
     def __str__(self):
         return f"[{self.provider}] {self.user}님의 모임장 신청"
+
+
+class MemberApply(BaseApply):
+    class Meta:
+        db_table = "member_applies"
+        verbose_name_plural = "Member Applies"
+
+    def __str__(self):
+        return f"[{self.provider}] {self.user}님의 모임원 신청"
