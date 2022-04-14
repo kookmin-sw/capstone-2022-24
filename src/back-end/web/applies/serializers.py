@@ -1,17 +1,17 @@
-from .models import LeaderApply
+from .models import BaseApply
 from rest_framework import serializers
 from users.serializers import UserSerializer
 from payments.serializers import PaymentSerializer
 from providers.serializers import ProviderSerializer
 
 
-class LeaderApplySerializer(serializers.ModelSerializer):
+class BaseApplySerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
     provider = serializers.SerializerMethodField()
 
     class Meta:
-        model = LeaderApply
+        model = BaseApply
         fields = '__all__'
 
     def get_user(self, obj):
