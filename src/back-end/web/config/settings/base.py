@@ -33,6 +33,7 @@ CUSTOM_APPS = [
     "applies",
     "dibs",
     "fellows",
+    "group_accounts",
     "groups",
     "notifications",
     "payments",
