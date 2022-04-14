@@ -33,7 +33,7 @@ class Provider(models.Model):
         db_table = "providers"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.get_name_display()}"
 
 
 class SubscriptionType(models.Model):
