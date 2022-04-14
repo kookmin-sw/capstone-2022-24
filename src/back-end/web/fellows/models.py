@@ -44,6 +44,7 @@ class Fellow(models.Model):
     class Meta:
         db_table = "fellows"
         ordering = ('-creation_date_time',)
+        unique_together = ('user', 'group',)
 
     def __str__(self):
         return f"[모임 #{self.group.id}] {self.user} 구성원"
