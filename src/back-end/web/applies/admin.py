@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import LeaderApply, MemberApply
 
-# Register your models here.
+admin.site.register(LeaderApply)
+admin.site.register(MemberApply)

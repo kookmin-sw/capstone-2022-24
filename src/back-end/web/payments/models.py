@@ -4,28 +4,28 @@ from djongo import models
 
 class Payment(models.Model):
     CATEGORY_CHOICES = (
-        ('n', 'NORMAL'),
-        ('b', 'BILLING'),
-        ('c', 'CONNECTPAY')
+        ('N', 'NORMAL'),
+        ('B', 'BILLING'),
+        ('C', 'CONNECTPAY')
     )
 
     METHOD_CHOICES = (
-        ('Card', '카드'),
-        ('Virtual', '가상계좌'),
-        ('Phone', '휴대폰'),
-        ('Transfer', '계좌이체'),
-        ('Voucher', '상품권')
+        ('C', 'CARD'),
+        ('VA', 'VIRTUAL_ACCOUNT'),
+        ('CP', 'CELL_PHONE'),
+        ('AT', 'ACCOUNT_TRANSFER'),
+        ('V', 'VOUCHER')
     )
 
     STATUS_CHOICES = (
-        ('r', 'READY'),
-        ('i', 'IN_PROGRESS'),
-        ('w', 'WAITING_FOR_DEPOSIT'),
-        ('d', 'DONE'),
-        ('c', 'CANCELED'),
-        ('p', 'PARTIAL_CANCELED'),
-        ('a', 'ABORTED'),
-        ('e', 'EXPIRED')
+        ('R', 'READY'),
+        ('I', 'IN_PROGRESS'),
+        ('W', 'WAITING_FOR_DEPOSIT'),
+        ('D', 'DONE'),
+        ('C', 'CANCELED'),
+        ('P', 'PARTIAL_CANCELED'),
+        ('A', 'ABORTED'),
+        ('E', 'EXPIRED')
     )
 
     id = models.BigAutoField(
@@ -43,10 +43,10 @@ class Payment(models.Model):
     )
     method = models.CharField(
         choices=METHOD_CHOICES,
-        max_length=10
+        max_length=2
     )
     status = models.CharField(
-        default='r',
+        default='R',
         choices=STATUS_CHOICES,
         max_length=1
     )
@@ -64,4 +64,4 @@ class Payment(models.Model):
         db_table = "payments"
 
     def __str__(self):
-        return f"[{self.id}] {self.content}"
+        return f"[{self.get_status_display()}] {self.amount}원 결제 내역"
