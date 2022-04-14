@@ -35,12 +35,13 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint
+        entry: cd src/back-end/web && pylint
         language: system
-        files: ^src/back-end/web
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
         args:
+          - --max-line-length=120
+          - --disable=R0903,C0103,W0703,E1101,W0613,W0511,R0201,E5110
           - --rcfile=src/back-end/web/.pylintrc
   - repo: https://github.com/ecugol/pre-commit-hooks-django
     rev: v0.4.0
