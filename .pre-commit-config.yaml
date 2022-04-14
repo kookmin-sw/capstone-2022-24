@@ -23,7 +23,7 @@ repos:
         exclude: ^.*\b(migrations)\b.*$
         args: [ "--filter-files" ]
   - repo: https://github.com/psf/black
-    rev: 22.1.0
+    rev: 22.3.0
     hooks:
       -  id: black
          language: python
