@@ -108,7 +108,7 @@ class VideoDetail(models.Model):
     id = models.BigAutoField(
         primary_key=True,
     )
-    video_id = models.ForeignKey(
+    video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
         db_column="videoId",
