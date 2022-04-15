@@ -81,7 +81,7 @@ export default {
 	methods: {
 		...mapActions('auth', ['nicknameDuplication']),
 		vueEnvTest() {
-			console.log(process.env.VUE_APP_TEST);
+			alert(process.env.VUE_APP_TEST);
 		},
 
 		duplicationCheckBtnClick() {
