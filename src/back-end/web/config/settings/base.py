@@ -15,7 +15,7 @@ from pathlib import Path
 
 # web
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent # web
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # web
 BACKEND_DIR = BASE_DIR.parent
 ENV_DIR = os.path.join(BACKEND_DIR, "environment")
 
@@ -35,6 +35,7 @@ CUSTOM_APPS = [
     "fellows",
     "group_accounts",
     "groups",
+    "mileages",
     "notifications",
     "payments",
     "providers",
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # django-rest-framework
     "rest_framework",
-    'storages'
+    "storages",
 ] + CUSTOM_APPS
 
 MIDDLEWARE = [
@@ -128,7 +129,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BACKEND_DIR, "static/")  # caution
 
 # Media files
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BACKEND_DIR, "media/")  # caution
 
 # Default primary key field type
