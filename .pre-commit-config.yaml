@@ -10,6 +10,7 @@ repos:
         name: Remove unused import statements
         language: python
         language_version: python3
+        files: ^src/back-end/
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
   - repo: https://github.com/pycqa/isort
@@ -17,14 +18,16 @@ repos:
     hooks:
       - id: isort
         name: Sort import statements
+        files: ^src/back-end/
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
-        args: [ "--filter-files" ]
+        args: ["--filter-files"]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       -  id: black
          language: system
+         files: ^src/back-end/
          types: [python]
          exclude: ^.*\b(migrations)\b.*$
          args: ["--line-length=120"]
@@ -35,8 +38,8 @@ repos:
         entry: pylint
         language: system
         files: ^src/back-end/web/
-        exclude: ^.*\b(migrations)\b.*$
         types: [python]
+        exclude: ^.*\b(migrations)\b.*$
         args:
           - --rcfile=src/back-end/web/.pylintrc
           - --max-line-length=120
