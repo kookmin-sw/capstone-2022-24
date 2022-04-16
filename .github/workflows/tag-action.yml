@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: version-management
     steps:
     - uses: actions/checkout@v2
       with:
@@ -13,6 +14,6 @@ jobs:
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.36.0
       env:
-        GITHUB_TOKEN: ${{ secrets.TAG_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TAG_GITHUB_TOKEN }}
         WITH_V: false
         RELEASE_BRANCHES: main,release
