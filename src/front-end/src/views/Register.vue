@@ -5,9 +5,6 @@
 		<div class="col-8">
 			<!-- 회원가입 타이틀 -->
 			<div class="q-mb-md text-left text-h5 text-weight-bold">회원가입</div>
-
-			<q-btn @click="vueEnvTest">click vue env test</q-btn>
-
 			<!-- 프로필 사진 입력 -->
 			<div class="text-left q-mb-lg">
 				<div class="text-h6 text-weight-bold">프로필 사진</div>
@@ -15,7 +12,7 @@
 				<q-avatar
 					rounded
 					size="120px"
-					:style="`background-image : url(${selectImg})`"
+					:style="`background-image : url(${imageUrl})`"
 					class="q-mb-lg profile-img">
 					<div @click="clickInputField()">
 						<input
@@ -25,7 +22,7 @@
 							name="image"
 							accept="image/png, image/jpeg, image/jpg"
 							class="hidden"
-							@change="uploadImg()" />
+							@change="loadImg()" />
 						<q-icon size="44px" name="add_circle_outline" />
 					</div>
 				</q-avatar>
@@ -37,23 +34,27 @@
 					사용할 닉네임을 입력해주세요. 닉네임은 회원가입 후 변경이
 					불가능합니다.
 				</div>
+				<div></div>
 				<div class="row items-center">
 					<q-input
 						dense
-						hint="닉네임은 공백없이 한글, 알파벳, 숫자만 8글자 이하로 입력해주세요."
+						label="한글, 알파벳, 숫자를 사용하여 8글자 이하로 입력해주세요."
+						:hint="this.canNicknameText"
 						class="column col-9 q-pr-lg q-mb-lg"
 						v-model="nickname" />
-					<q-btn
-						outline
-						color="blue"
-						@click="duplicationCheckBtnClick"
-						class="col-3">
+					<q-btn outline color="blue" @click="nicknameValidation" class="col-3">
 						중복 확인
 					</q-btn>
 				</div>
 			</div>
 			<!-- 회원가입 버튼 -->
-			<q-btn unelevated color="blue" class="full-width q-mb-lg">회원가입</q-btn>
+			<q-btn
+				@click="clickSignUp"
+				unelevated
+				color="blue"
+				class="full-width q-mb-lg">
+				회원가입
+			</q-btn>
 		</div>
 		<!-- 회원가입 영역 종료 -->
 		<q-space class="col-2" />
@@ -62,8 +63,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import AWS from 'aws-sdk';
-// import fs from 'fs';
 
 export default {
 	name: 'Register',
@@ -71,25 +70,31 @@ export default {
 		return {
 			nickname: null,
 			canNickname: false,
-			selectImg: '',
-
-			albumBucketName: 'bucket name',
-			bucketRegion: 'ap-northeast-2',
-			IdentityPoolId: 'poolId',
+			imageUrl: '',
+			imageFile: '',
+			albumBucketName: process.env.VUE_APP_S3_BUCKET_NAME,
+			bucketRegion: process.env.VUE_APP_S3_BUCKET_REGION,
+			IdentityPoolId: process.env.VUE_APP_S3_IDENTITY_POOL_ID,
 		};
+	},
+	computed: {
+		canNicknameText() {
+			if (!this.canNickname) {
+				return '닉네임 입력 후 중복 확인 해주세요.';
+			} else {
+				return '사용 가능한 닉네임 입니다.';
+			}
+		},
 	},
 	methods: {
 		...mapActions('auth', ['nicknameDuplication']),
-		vueEnvTest() {
-			alert(process.env.VUE_APP_TEST);
-		},
-
-		duplicationCheckBtnClick() {
+		nicknameValidation() {
+			// 닉네임 유효성 검사
 			// 특수문자 정규식
 			const specialCheck = /[!?@#$%^&*():;+\-=~{}<>\\[\]_|"',.`]/g;
 			const blankCheck = /[\s]/;
 
-			// 닉네임 공백, 글자수, 특문 체크
+			// 닉네임 공백, 글자수, 특문 검사
 			if (
 				!this.nickname ||
 				this.nickname.length < 1 ||
@@ -98,10 +103,11 @@ export default {
 				blankCheck.test(this.nickname)
 			) {
 				alert('형식에 맞지 않는 닉네임입니다.');
+				this.canNickname = false;
 				return;
 			}
 
-			// 닉네임 중복 체크
+			// 닉네임 중복 검사
 			this.nicknameDuplication(this.nickname)
 				.then(() => {
 					alert('사용 가능한 닉네임입니다.');
@@ -112,100 +118,79 @@ export default {
 					this.canNickname = false;
 				});
 		},
-		uploadImg() {
-			const file = this.$refs['image'].files[0];
-			if (file.size > 4194304) {
+		clickInputField() {
+			this.$refs['image'].click();
+		},
+		loadImg() {
+			this.imageFile = this.$refs['image'].files[0];
+			// 업로드한 이미지 용량 확인
+			if (this.imageFile.size > 4194304) {
 				alert('크기가 4MB 이하인 이미지를 선택해주세요.');
 				return;
 			}
-
 			// '온갖' 회원가입 페이지에서 선택한 이미지 미리보기
-			this.selectImg = URL.createObjectURL(file);
-
-			// upload to s3 storage
-			AWS.config.update({
-				region: this.bucketRegion,
-				credentials: new AWS.CognitoIdentityCredentials({
-					IdentityPoolId: this.IdentityPoolId,
-				}),
-			});
-
-			const photoKey = file.name;
-
-			const upload = new AWS.S3.ManagedUpload({
-				params: {
-					Bucket: this.albumBucketName,
-					Key: photoKey,
-					Body: file,
-				},
-			});
-
-			// console.log(upload)
-			const promise = upload.promise();
-			promise.then(
-				() => {
-					alert('Successfully uploaded photo.');
-				},
-				err => {
-					return alert(
-						'There was an error uploading your photo: ',
-						err.message,
-					);
-				},
-			);
-
-			// const s3 = new AWS.S3({
-			// 	apiVersion: '2006-03-01',
-			// 	params: { Bucket: 'ongaj-s3' },
-			// });
-
-			// image resizing
-			// const reader = new FileReader();
-			// reader.readAsDataURL(file);
-			// reader.onload = () => {
-			// 	const image = new Image();
-			// 	image.src = reader.result;
-			// 	image.onload = () => {
-			// 		// console.log(image.width, image.height);
-			// 		const canvas = document.createElement('canvas');
-			// 		const maxSize = 240;
-			// 		var width = image.width;
-			// 		var height = image.height;
-			//
-			// 		if (width > height && width > maxSize) {
-			// 			height *= maxSize / width;
-			// 			width = maxSize;
-			// 		} else if (height > width && height > maxSize) {
-			// 			width *= maxSize / height;
-			// 			height = maxSize;
-			// 		}
-			//
-			// 		canvas.width = width;
-			// 		canvas.height = height;
-			//
-			// 		const ctx = canvas.getContext('2d');
-			// 		ctx.drawImage(image, 0, 0, width, height);
-			//
-			// 		const dataUrl = canvas.toDataURL('image/png');
-			// 		const ex = this.dataURItoBlob(dataUrl);
-			// 		console.log(ex);
-			// 	};
-			// };
+			this.imageUrl = URL.createObjectURL(this.imageFile);
 		},
-		// dataURItoBlob(dataURI) {
-		// 	var bytes =
-		// 		dataURI.split(',')[0].indexOf('base64') >= 0
-		// 			? atob(dataURI.split(',')[1])
-		// 			: unescape(dataURI.split(',')[1]);
-		// 	var mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
-		// 	console.log(mime);
-		// 	var max = bytes.length;
-		// 	var ia = new Uint8Array(max);
-		// 	for (var i = 0; i < max; i++) ia[i] = bytes.charCodeAt(i);
-		// 	return new Blob([ia], { type: 'image/png' });
-		// },
-		clickInputField() {
-			this.$refs['image'].click();
+		resizeImg() {
+			// resizing image
+			const reader = new FileReader();
+			reader.readAsDataURL(this.imageFile);
+			reader.onload = () => {
+				const image = new Image();
+				image.src = reader.result;
+				image.onload = () => {
+					const canvas = document.createElement('canvas');
+					const maxSize = 240;
+					var width = image.width;
+					var height = image.height;
+
+					// 가로 세로 중 작은 쪽을 max size에 맞춤
+					if (width > height && width > maxSize) {
+						width *= maxSize / height;
+						height = maxSize;
+					} else if (height > width && height > maxSize) {
+						height *= maxSize / width;
+						width = maxSize;
+					}
+
+					canvas.width = width;
+					canvas.height = height;
+
+					const ctx = canvas.getContext('2d');
+					ctx.drawImage(image, 0, 0, width, height);
+
+					const dataUrl = canvas.toDataURL('image/png');
+					this.imageFile = this.dataURItoBlob(dataUrl);
+				};
+			};
+		},
+		dataURItoBlob(dataURI) {
+			const bytes =
+				dataURI.split(',')[0].indexOf('base64') >= 0
+					? atob(dataURI.split(',')[1])
+					: unescape(dataURI.split(',')[1]);
+			const max = bytes.length;
+			const ia = new Uint8Array(max);
+			for (var i = 0; i < max; i++) ia[i] = bytes.charCodeAt(i);
+			return new Blob([ia], { type: 'image/png' });
+		},
+		clickSignUp() {
+			if (!this.canNickname) {
+				alert('닉네임 중복 확인 검사를 해주세요.');
+				return;
+			}
+			if (!this.imageFile) {
+				alert('이미지를 선택해주세요.');
+				return;
+			}
+			this.resizeImg();
+			const albumPhotosKey = 'app/front-end/users/profile/';
+			const fileInfo = {
+				nickname: this.nickname,
+				photoKey: albumPhotosKey + this.nickname + '.png',
+				file: this.imageFile,
+			};
+			this.$store.dispatch('auth/signUp', fileInfo);
 		},
 	},
 };

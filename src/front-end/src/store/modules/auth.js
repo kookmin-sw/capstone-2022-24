@@ -1,5 +1,6 @@
 import http from '@/api/http';
 import router from '@/router';
+import AWS from 'aws-sdk';
 
 export const auth = {
 	namespaced: true,
@@ -106,6 +107,58 @@ export const auth = {
 						reject();
 					});
 			});
+		},
+		uploadImage(context, fileInfo) {
+			const albumBucketName = process.env.VUE_APP_S3_BUCKET_NAME;
+			const bucketRegion = process.env.VUE_APP_S3_BUCKET_REGION;
+			const IdentityPoolId = process.env.VUE_APP_S3_IDENTITY_POOL_ID;
+
+			// upload to s3 storage
+			AWS.config.update({
+				region: bucketRegion,
+				credentials: new AWS.CognitoIdentityCredentials({
+					IdentityPoolId: IdentityPoolId,
+				}),
+			});
+
+			const upload = new AWS.S3.ManagedUpload({
+				params: {
+					Bucket: albumBucketName,
+					Key: fileInfo.photoKey,
+					Body: fileInfo.file,
+				},
+			});
+
+			const promise = upload.promise();
+			promise.then(
+				() => {},
+				() => {
+					return alert('파일 업로드에 실패했습니다. 다시 시도해주세요.');
+				},
+			);
+		},
+		signUp({ commit, dispatch }, user) {
+			// upload image
+			const fileInfo = {
+				photoKey: user.photoKey,
+				file: user.file,
+			};
+			dispatch('uploadImage', fileInfo);
+			// back-end api
+			const url = '/users';
+			http
+				.post(url)
+				.then(res => {
+					// 로그인 성공
+					const token = res.headers.accesstoken;
+					commit('SET_TOKEN', token);
+					localStorage.setItem('ACCESS_TOKEN', token);
+					alert('회원가입에 성공했습니다.');
+					router.replace('/');
+				})
+				.catch(err => {
+					alert('회원가입에 실패했습니다. 다시 시도해주세요.', err);
+				});
 		},
 	},
 };
