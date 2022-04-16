@@ -51,7 +51,7 @@ class Video(models.Model):
         db_table = "videos"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.title}"
 
 
 class Rating(models.Model):
@@ -119,7 +119,7 @@ class VideoDetail(models.Model):
     ratings = models.ArrayField(
         model_container=Rating,
         model_form_class=RatingForm,
-        null=False,  # model_container부분을 빼먹었다고 나옴 수정하겠슴.
+        null=False,
     )
     production_countries = models.ArrayField(
         model_container=ProductionCountry,
@@ -138,4 +138,4 @@ class VideoDetail(models.Model):
         db_table = "video_details"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.video}의 세부정보"

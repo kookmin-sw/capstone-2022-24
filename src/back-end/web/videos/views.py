@@ -1,8 +1,8 @@
-from typing_extensions import runtime
+"""from typing_extensions import runtime
 from rest_framework.pagination import PageNumberPagination #API랑 같이 페이징 할땐 이걸 쓰나봄...? 맞음?
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from .models import Videos, VideoDetails
+from .models import Video, VideoDetail
 from videos.serializer import VideosSerialaizer
 from djongo.models import Q
 from django.core.paginator import Paginator #페이징 용도
@@ -81,7 +81,8 @@ class HomeView(ListAPIView):
 
         #정렬조건 { random | new | release | dib | star | rating }
         sort = self.request.query_params.get('sort', default='random')
-        sort_dict= {'random':None, 'new':'offer_date', 'release':'release_date', 'dib': 'dibs_count', 'star': 'star_count', 'rating': 'rating'}
+        sort_dict= {'random':None, 'new':'offer_date', 'release':'release_date',
+            'dib': 'dibs_count', 'star': 'star_count', 'rating': 'rating'}
         try:
             if sort_dict[sort] == '': #new일때
                 queryset= queryset.object.order_by(sort_dict[sort]) #이 친구는 video-> provider까지 가야해서 일단 따로 빼둠
@@ -116,3 +117,4 @@ class DetailsView(DetailView): #각자 상세정보를 전달해줄 클래스 �
 
     def castsDetails(): #casts 정보 따오기 (TV나 MOVIE나 동일하게 가도 될듯?)
         return 0
+"""
