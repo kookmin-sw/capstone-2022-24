@@ -21,9 +21,9 @@ jobs:
         node-version: [14.x, 16.x]
     steps:
     - uses: actions/checkout@v2
-    - name: Create .env.dev File for Develop environments
+    - name: Create .env.local File for Develop environments
       run: |
-        echo ${{ secrets.S3_ENV }} >> .env.local
+        echo "${{ secrets.S3_ENV }}" > .env.local
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
