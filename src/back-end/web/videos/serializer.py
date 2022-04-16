@@ -5,7 +5,7 @@ from .models import Video, VideoDetail
 
 
 class VideosSerialaizer(serializers.ModelSerializer):
-    """Video information Serializing to data create, update"""
+    """Video information Serializing to get data"""
 
     class Meta:
         """Video Serializer field setting"""
@@ -15,7 +15,7 @@ class VideosSerialaizer(serializers.ModelSerializer):
 
 
 class VideosDetailsSerialaizer(serializers.ModelSerializer):
-    """Video detail information Serializing to data create, update"""
+    """Video detail information Serializing to get data"""
 
     video = serializers.SerializerMethodField()
 

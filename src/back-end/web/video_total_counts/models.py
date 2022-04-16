@@ -1,10 +1,10 @@
-"""Videos App Model Definitions: VideoTotalCount"""
+"""Video Total Counts App Model Definitions: VideoTotalCount"""
 
 from djongo import models
 from videos.models import Video
 
 
-class VideoTotalCounts(models.Model):
+class VideoTotalCount(models.Model):
     """Video Total Counts information about interacting with Users"""
 
     id = models.BigAutoField(primary_key=True)
