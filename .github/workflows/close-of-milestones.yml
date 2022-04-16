@@ -21,4 +21,4 @@ jobs:
     - name: Close milestones that are past-due and have zero open issues.
       uses: MrGossett/github-action-milestone-closer@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.TAG_GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
