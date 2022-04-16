@@ -41,7 +41,8 @@
 						label="한글, 알파벳, 숫자를 사용하여 8글자 이하로 입력해주세요."
 						:hint="this.canNicknameText"
 						class="column col-9 q-pr-lg q-mb-lg"
-						v-model="nickname" />
+						v-model="nickname"
+						@keyup="this.canNickname = false" />
 					<q-btn outline color="blue" @click="nicknameValidation" class="col-3">
 						중복 확인
 					</q-btn>
