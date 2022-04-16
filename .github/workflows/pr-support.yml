@@ -2,7 +2,7 @@ name: Pull request support
 
 on:
   pull_request:
-    types: ['closed', 'opened']
+    types: ['closed', 'labeled', 'opened']
 
 jobs:
   repo-gardening:
