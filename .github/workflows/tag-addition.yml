@@ -6,7 +6,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: version-management
     steps:
     - uses: actions/checkout@v2
       with:

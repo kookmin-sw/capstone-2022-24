@@ -15,7 +15,6 @@ on:
 jobs:
   milestones:
     runs-on: ubuntu-latest
-    environment: version-management
     name: Milestone Closer
     steps:
     - name: Close milestones that are past-due and have zero open issues.
