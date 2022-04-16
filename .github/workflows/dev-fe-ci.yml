@@ -12,14 +12,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: fe-dev-ci
     defaults:
       run:
-        working-directory: src/front-end
+        working-directory: src/front-end/
     strategy:
       matrix:
         node-version: [14.x, 16.x]
     steps:
     - uses: actions/checkout@v2
+    - name: Create .env.local File for Develop environments
+      run: |
+        echo "${{ secrets.ENV }}" > .env.local
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:

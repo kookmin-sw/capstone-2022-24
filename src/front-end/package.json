@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "aws-sdk": "^2.1116.0",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "lint-staged": "^12.3.7",
@@ -38,8 +39,8 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
-    "jest": "^24.9.0",
     "husky": "^7.0.4",
+    "jest": "^24.9.0",
     "msw": "^0.39.2",
     "prettier": "^2.2.1",
     "typescript": "~3.9.3",
