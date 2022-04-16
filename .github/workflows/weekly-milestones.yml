@@ -10,14 +10,26 @@ on:
     #        │ │ │ │ │
     #        │ │ │ │ │
     #        * * * * *
-    - cron:  '0 0 * * SAT' # midnight of every Saturday
+    - cron:  '5 0 * * SAT' # midnight of every Saturday
 
 jobs:
-  milestones:
+  close-milestones:
     runs-on: ubuntu-latest
-    name: Milestone Closer
+    name: Close milestones
     steps:
     - name: Close milestones that are past-due and have zero open issues.
       uses: MrGossett/github-action-milestone-closer@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  create-milestones:
+    runs-on: ubuntu-latest
+    name: Create Milestones
+    steps:
+      - name: Create Milestone due on next Friday
+        uses: MrGossett/github-action-milestone-schedule@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          recurrence: 'FREQ=WEEKLY;BYDAY=FR;DTSTART=20220527T000500Z'
+          format: '~ 2022-01-01'
+          count: 6
