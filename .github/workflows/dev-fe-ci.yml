@@ -15,7 +15,7 @@ jobs:
     environment: fe-dev-ci
     defaults:
       run:
-        working-directory: src/front-end
+        working-directory: .env.local
     strategy:
       matrix:
         node-version: [14.x, 16.x]
