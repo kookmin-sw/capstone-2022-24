@@ -410,7 +410,7 @@ __pycache__/
 */back-end/*/media/*
 
 # django settings file
-src/back-end/environment/.env.*
+src/back-end/environment/
 
 # Flask stuff:
 instance/
