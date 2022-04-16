@@ -1,3 +1,4 @@
+from django.conf import settings
 from djongo import models
 
 
@@ -30,6 +31,12 @@ class Account(models.Model):
         on_delete=models.CASCADE,
         null=False,
         db_column="bankId",
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null = False,
+        on_delete=models.CASCADE,
+        db_column="userId"
     )
     name = models.CharField(
         max_length=10,
