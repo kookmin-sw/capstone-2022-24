@@ -1,6 +1,9 @@
+"""Configuration of fellow application"""
 from django.apps import AppConfig
 
 
 class FellowsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'fellows'
+    """Configuration details about fellow application"""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "fellows"
