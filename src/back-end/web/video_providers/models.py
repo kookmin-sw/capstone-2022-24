@@ -18,12 +18,12 @@ class VideoProvider(models.Model):
     id = models.BigAutoField(
         primary_key=True,
     )
-    video_id = models.ForeignKey(
+    video = models.ForeignKey(
         Video,
-        on_delete=models.CASCADE,  # videos 삭제시 같이 삭제
+        on_delete=models.CASCADE,
         db_column="videoId",
     )
-    provider_id = models.ForeignKey(
+    provider = models.ForeignKey(
         Provider,
         on_delete=models.CASCADE,
         db_column="providerId",
@@ -53,4 +53,4 @@ class VideoProvider(models.Model):
         db_table = "video_providers"
 
     def __str__(self):
-        return f"{self.video_id}를 제공하는 {self.provider_id}"
+        return f"{self.video}를 제공하는 {self.provider}"

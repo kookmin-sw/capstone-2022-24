@@ -7,8 +7,10 @@ from videos.models import Video
 class VideoTotalCount(models.Model):
     """Video Total Counts information about interacting with Users"""
 
-    id = models.BigAutoField(primary_key=True)
-    video_id = models.ForeignKey(
+    id = models.BigAutoField(
+        primary_key=True,
+    )
+    video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
         db_column="videoId",
@@ -35,4 +37,4 @@ class VideoTotalCount(models.Model):
         db_table = "video_total_counts"
 
     def __str__(self):
-        return f"{self.video_id}의 total Counts"
+        return f"{self.video}의 total Counts"

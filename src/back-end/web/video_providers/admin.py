@@ -1,5 +1,7 @@
-from django.contrib import admin
-from .models import video_providers
+"""Admin : VideoProvider"""
 
-# Register your models here.
-admin.site.register(video_providers)
+from django.contrib import admin
+
+from .models import VideoProvider
+
+admin.site.register(VideoProvider)
