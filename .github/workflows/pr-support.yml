@@ -6,7 +6,7 @@ on:
 
 jobs:
   repo-gardening:
-    name: 'Clean up labels, and notify Design when necessary'
+    name: 'Pull request editor'
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
     timeout-minutes: 15
@@ -26,7 +26,7 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
      - name: 'Add a pull request details: assignee, current milestone'
-       uses: automattic/action-repo-gardening@v3
+       uses: automattic/action-repo-gardening@v2.0.2
        with:
          github_token: ${{ secrets.GITHUB_TOKEN }}
          tasks: 'assignIssues,addMilestone'
