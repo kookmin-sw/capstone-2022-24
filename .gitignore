@@ -112,6 +112,7 @@ web_modules/
 .env.test.local
 .env.production.local
 src/front-end/.env.local
+.env.local
 .env.dev
 .env.prod
 
