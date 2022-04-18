@@ -53,22 +53,6 @@
 								</q-chip>
 							</div>
 						</div>
-						<!-- 상영 등급 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">상영 등급</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(rate, index) in filmRateFilters"
-									:key="index"
-									v-model:selected="rate.isSelect"
-									@click="filterClick(rate)">
-									{{ rate.label }}
-								</q-chip>
-							</div>
-						</div>
 						<!-- 장르 -->
 						<div class="row q-mt-md filter-frame">
 							<div class="col-2 q-mt-auto q-mb-auto">장르</div>
@@ -168,23 +152,6 @@
 									:right-label-value="`${filters.rate.max}점`" />
 							</div>
 						</div>
-						<!-- 상영 시간 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">상영 시간</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-pa-md q-pb-lg">
-								<q-range
-									label-always
-									switch-label-side
-									color="blue"
-									v-model="filters.runtime"
-									:min="0"
-									:max="240"
-									:step="10"
-									:left-label-value="`${filters.runtime.min}분`"
-									:right-label-value="`${filters.runtime.max}분`" />
-							</div>
-						</div>
 						<q-btn
 							unelevated
 							outline
@@ -248,29 +215,6 @@ export default {
 					label: 'TV 시리즈',
 					isSelect: false,
 					filterName: 'category',
-				},
-			},
-			filmRateFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'filmRate' },
-				gRated: {
-					label: '전체관람가',
-					isSelect: false,
-					filterName: 'filmRate',
-				},
-				pg12: {
-					label: '12세 이상 관람가',
-					isSelect: false,
-					filterName: 'filmRate',
-				},
-				pg15: {
-					label: '15세 이상 관람가',
-					isSelect: false,
-					filterName: 'filmRate',
-				},
-				pg18: {
-					label: '청소년 관람불가',
-					isSelect: false,
-					filterName: 'filmRate',
 				},
 			},
 			genreFilters: {
@@ -416,25 +360,6 @@ export default {
 							);
 						}
 						break;
-					case 'filmRate':
-						this.beforeAll.filmRate.splice(0);
-						this.beforeAll.filmRate = this.selected.filmRate;
-						this.beforeAll.filmRate = this.selected.filmRate.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.filmRateFilters) {
-							if (
-								!this.selected.filmRate.includes(
-									this.filmRateFilters[key].label,
-								)
-							) {
-								this.selected.filmRate.push(this.filmRateFilters[key].label);
-							}
-							this.selected.filmRate = this.selected.filmRate.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
 					case 'genre':
 						this.beforeAll.genre.splice(0);
 						this.beforeAll.genre = this.selected.genre;
@@ -518,22 +443,6 @@ export default {
 							}
 						}
 						break;
-					case 'filmRate':
-						this.beforeAll.filmRate.splice(0);
-						this.afterAll.filmRate.splice(0);
-						this.selected.filmRate = this.selected.filmRate.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.filmRate) {
-							this.selected.filmRate.push(this.beforeAll.filmRate[key]);
-						}
-						for (let key in this.filmRateFilters) {
-							if (this.filmRateFilters[key].isSelect) {
-								this.afterAll.filmRate.push(this.filmRateFilters[key].label);
-								this.selected.filmRate = this.afterAll.filmRate;
-							}
-						}
-						break;
 					case 'genre':
 						this.beforeAll.genre.splice(0);
 						this.afterAll.genre.splice(0);
@@ -606,11 +515,6 @@ export default {
 							this.selected.category.push(idx.label);
 						}
 						break;
-					case 'filmRate':
-						if (!this.selected.filmRate.includes(idx.label)) {
-							this.selected.filmRate.push(idx.label);
-						}
-						break;
 					case 'genre':
 						if (!this.selected.genre.includes(idx.label)) {
 							this.selected.genre.push(idx.label);
@@ -637,11 +541,6 @@ export default {
 					case 'category':
 						if (this.categoryFilters.all.isSelect === false) {
 							this.selected.category.splice(idx.label, 1);
-						}
-						break;
-					case 'filmRate':
-						if (this.filmRateFilters.all.isSelect === false) {
-							this.selected.filmRate.splice(idx.label, 1);
 						}
 						break;
 					case 'genre':
@@ -679,11 +578,6 @@ export default {
 			for (let key in this.categoryFilters) {
 				if (this.categoryFilters[key].isSelect === true) {
 					this.categoryFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.filmRateFilters) {
-				if (this.filmRateFilters[key].isSelect === true) {
-					this.filmRateFilters[key].isSelect = false;
 				}
 			}
 			for (let key in this.genreFilters) {
