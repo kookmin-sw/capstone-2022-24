@@ -38,21 +38,22 @@
 						header-class="bg-blue text-white"
 						expand-icon-class="text-white">
 						<!-- 작품 종류 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(category, index) in categoryFilters"
-									:key="index"
-									v-model:selected="category.isSelect"
-									@click="filterClick(category)">
-									{{ category.label }}
-								</q-chip>
-							</div>
-						</div>
+						<!--						<div class="row q-mt-md filter-frame">-->
+						<!--							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>-->
+						<!--							<q-separator vertical inset color="blue" />-->
+						<!--							<div class="col-9 q-ml-sm text-left chips-frame">-->
+						<!--								<q-chip-->
+						<!--									outline-->
+						<!--									color="blue"-->
+						<!--									v-for="(category, index) in categoryFilters"-->
+						<!--									:key="index"-->
+						<!--									v-model:selected="category.isSelect"-->
+						<!--									@click="filterClick(category)">-->
+						<!--									{{ category.label }}-->
+						<!--								</q-chip>-->
+						<!--							</div>-->
+						<!--						</div>-->
+						<Filter :filter-name="'작품 종류'" :conditions="categoryFilters" />
 						<!-- 장르 -->
 						<div class="row q-mt-md filter-frame">
 							<div class="col-2 q-mt-auto q-mb-auto">장르</div>
@@ -197,8 +198,10 @@
 </template>
 
 <script>
+import Filter from '@/components/Filter';
 export default {
 	name: 'Home',
+	components: { Filter },
 	data() {
 		return {
 			ottFilters: {
@@ -208,15 +211,11 @@ export default {
 				tving: { label: '티빙', isSelect: false },
 				wavve: { label: '웨이브', isSelect: false },
 			},
-			categoryFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'category' },
-				movies: { label: '영화', isSelect: false, filterName: 'category' },
-				tvSeries: {
-					label: 'TV 시리즈',
-					isSelect: false,
-					filterName: 'category',
-				},
-			},
+			categoryFilters: [
+				{ label: '전체', isSelect: false, filterName: 'category' },
+				{ label: '영화', isSelect: false, filterName: 'category' },
+				{ label: 'TV 시리즈', isSelect: false, filterName: 'category' },
+			],
 			genreFilters: {
 				all: { label: '전체', isSelect: false, filterName: 'genre' },
 				fantasy: { label: 'SF/판타지', isSelect: false, filterName: 'genre' },
@@ -341,25 +340,25 @@ export default {
 		filterClick(idx) {
 			if (idx.label === '전체' && idx.isSelect === true) {
 				switch (idx.filterName) {
-					case 'category':
-						this.beforeAll.category.splice(0);
-						this.beforeAll.category = this.selected.category;
-						this.beforeAll.category = this.selected.category.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.categoryFilters) {
-							if (
-								!this.selected.category.includes(
-									this.categoryFilters[key].label,
-								)
-							) {
-								this.selected.category.push(this.categoryFilters[key].label);
-							}
-							this.selected.category = this.selected.category.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
+					// case 'category':
+					// 	this.beforeAll.category.splice(0);
+					// 	this.beforeAll.category = this.selected.category;
+					// 	this.beforeAll.category = this.selected.category.filter(
+					// 		element => element !== idx.label,
+					// 	);
+					// for (let key in this.categoryFilters) {
+					// 	if (
+					// 		!this.selected.category.includes(
+					// 			this.categoryFilters[key].label,
+					// 		)
+					// 	) {
+					// 		this.selected.category.push(this.categoryFilters[key].label);
+					// 	}
+					// 	this.selected.category = this.selected.category.filter(
+					// 		element => element !== idx.label,
+					// 	);
+					// }
+					// break;
 					case 'genre':
 						this.beforeAll.genre.splice(0);
 						this.beforeAll.genre = this.selected.genre;
@@ -427,22 +426,22 @@ export default {
 				}
 			} else if (idx.label === '전체' && idx.isSelect === false) {
 				switch (idx.filterName) {
-					case 'category':
-						this.beforeAll.category.splice(0);
-						this.afterAll.category.splice(0);
-						this.selected.category = this.selected.category.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.category) {
-							this.selected.category.push(this.beforeAll.category[key]);
-						}
-						for (let key in this.categoryFilters) {
-							if (this.categoryFilters[key].isSelect) {
-								this.afterAll.category.push(this.categoryFilters[key].label);
-								this.selected.category = this.afterAll.category;
-							}
-						}
-						break;
+					// case 'category':
+					// 	this.beforeAll.category.splice(0);
+					// 	this.afterAll.category.splice(0);
+					// 	this.selected.category = this.selected.category.filter(
+					// 		element => element === idx.label,
+					// 	);
+					// 	for (let key in this.beforeAll.category) {
+					// 		this.selected.category.push(this.beforeAll.category[key]);
+					// 	}
+					// 	for (let key in this.categoryFilters) {
+					// 		if (this.categoryFilters[key].isSelect) {
+					// 			this.afterAll.category.push(this.categoryFilters[key].label);
+					// 			this.selected.category = this.afterAll.category;
+					// 		}
+					// 	}
+					// 	break;
 					case 'genre':
 						this.beforeAll.genre.splice(0);
 						this.afterAll.genre.splice(0);
@@ -538,11 +537,11 @@ export default {
 				}
 			} else if (idx.label !== '전체' && idx.isSelect === false) {
 				switch (idx.filterName) {
-					case 'category':
-						if (this.categoryFilters.all.isSelect === false) {
-							this.selected.category.splice(idx.label, 1);
-						}
-						break;
+					// case 'category':
+					// 	if (this.categoryFilters.all.isSelect === false) {
+					// 		this.selected.category.splice(idx.label, 1);
+					// 	}
+					// 	break;
 					case 'genre':
 						if (this.genreFilters.all.isSelect === false) {
 							this.selected.genre.splice(idx.label, 1);
@@ -575,11 +574,11 @@ export default {
 					this.ottFilters[key].isSelect = false;
 				}
 			}
-			for (let key in this.categoryFilters) {
-				if (this.categoryFilters[key].isSelect === true) {
-					this.categoryFilters[key].isSelect = false;
-				}
-			}
+			// for (let key in this.categoryFilters) {
+			// 	if (this.categoryFilters[key].isSelect === true) {
+			// 		this.categoryFilters[key].isSelect = false;
+			// 	}
+			// }
 			for (let key in this.genreFilters) {
 				if (this.genreFilters[key].isSelect === true) {
 					this.genreFilters[key].isSelect = false;
