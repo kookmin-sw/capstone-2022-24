@@ -38,22 +38,23 @@
 						header-class="bg-blue text-white"
 						expand-icon-class="text-white">
 						<!-- 작품 종류 -->
-						<Filter
+						<select-filter
 							:filter-label="'작품 종류'"
 							:filter-name="'CATEGORIES'"
-							:conditions="selectFilters.categories" />
+							:conditions="selectFilters.categories"></select-filter>
+
 						<!-- 장르 -->
-						<Filter
+						<select-filter
 							:filter-label="'장르'"
 							:filter-name="'GENRES'"
 							:conditions="selectFilters.genres" />
 						<!-- 국가 -->
-						<Filter
+						<select-filter
 							:filter-label="'국가'"
 							:filter-name="'COUNTRY'"
 							:conditions="selectFilters.countries" />
 						<!-- 관람 여부 -->
-						<Filter
+						<select-filter
 							:filter-label="'관람여부'"
 							:filter-name="'WATCHED'"
 							:conditions="selectFilters.watched" />
@@ -137,10 +138,12 @@
 </template>
 
 <script>
-import Filter from '@/components/Filter';
+import selectFilter from '@/components/SelectFilter';
 export default {
 	name: 'Home',
-	components: { Filter },
+	components: {
+		selectFilter,
+	},
 	data() {
 		return {
 			ottFilters: {
