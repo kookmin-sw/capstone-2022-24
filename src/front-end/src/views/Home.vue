@@ -38,89 +38,25 @@
 						header-class="bg-blue text-white"
 						expand-icon-class="text-white">
 						<!-- 작품 종류 -->
-						<!--						<div class="row q-mt-md filter-frame">-->
-						<!--							<div class="col-2 q-mt-auto q-mb-auto">작품 종류</div>-->
-						<!--							<q-separator vertical inset color="blue" />-->
-						<!--							<div class="col-9 q-ml-sm text-left chips-frame">-->
-						<!--								<q-chip-->
-						<!--									outline-->
-						<!--									color="blue"-->
-						<!--									v-for="(category, index) in categoryFilters"-->
-						<!--									:key="index"-->
-						<!--									v-model:selected="category.isSelect"-->
-						<!--									@click="filterClick(category)">-->
-						<!--									{{ category.label }}-->
-						<!--								</q-chip>-->
-						<!--							</div>-->
-						<!--						</div>-->
 						<Filter
 							:filter-label="'작품 종류'"
-							:filter-name="'categories'"
+							:filter-name="'CATEGORIES'"
 							:conditions="categoryFilters" />
 						<!-- 장르 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">장르</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(genre, index) in genreFilters"
-									:key="index"
-									v-model:selected="genre.isSelect"
-									@click="filterClick(genre)">
-									{{ genre.label }}
-								</q-chip>
-							</div>
-						</div>
-						<!-- 결제 종류 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">결제 종류</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(offer, index) in offerFilters"
-									:key="index"
-									v-model:selected="offer.isSelect"
-									@click="filterClick(offer)">
-									{{ offer.label }}
-								</q-chip>
-							</div>
-						</div>
+						<Filter
+							:filter-label="'장르'"
+							:filter-name="'GENRES'"
+							:conditions="genreFilters" />
 						<!-- 국가 -->
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">국가</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(country, index) in countryFilters"
-									:key="index"
-									v-model:selected="country.isSelect"
-									@click="filterClick(country)">
-									{{ country.label }}
-								</q-chip>
-							</div>
-							<!-- 관람 여부 -->
-						</div>
-						<div class="row q-mt-md filter-frame">
-							<div class="col-2 q-mt-auto q-mb-auto">관람 여부</div>
-							<q-separator vertical inset color="blue" />
-							<div class="col-9 q-ml-sm text-left chips-frame">
-								<q-chip
-									outline
-									color="blue"
-									v-for="(work, index) in watchedFilters"
-									:key="index"
-									v-model:selected="work.isSelect"
-									@click="filterClick(work)">
-									{{ work.label }}
-								</q-chip>
-							</div>
-						</div>
+						<Filter
+							:filter-label="'국가'"
+							:filter-name="'COUNTRY'"
+							:conditions="countryFilters" />
+						<!-- 관람 여부 -->
+						<Filter
+							:filter-label="'관람여부'"
+							:filter-name="'WATCHED'"
+							:conditions="watchedFilters" />
 						<!-- 슬라이더 형태 필터링 -->
 						<!-- 연도 -->
 						<div class="row filter-frame q-mt-md">
@@ -215,56 +151,34 @@ export default {
 				wavve: { label: '웨이브', isSelect: false },
 			},
 			categoryFilters: [
-				{ label: '전체', isSelect: false, filterName: 'category' },
-				{ label: '영화', isSelect: false, filterName: 'category' },
-				{ label: 'TV 시리즈', isSelect: false, filterName: 'category' },
+				{ label: '전체', isSelect: false, name: 'all' },
+				{ label: '영화', isSelect: false, name: 'movie' },
+				{ label: 'TV 시리즈', isSelect: false, name: 'tv' },
 			],
-			genreFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'genre' },
-				fantasy: { label: 'SF/판타지', isSelect: false, filterName: 'genre' },
-				horror: { label: '공포', isSelect: false, filterName: 'genre' },
-				drama: { label: '드라마', isSelect: false, filterName: 'genre' },
-				romance: { label: '로맨스', isSelect: false, filterName: 'genre' },
-				thriller: { label: '스릴러', isSelect: false, filterName: 'genre' },
-				historicalDrama: {
-					label: '시대극',
-					isSelect: false,
-					filterName: 'genre',
-				},
-				martialArts: { label: '무협', isSelect: false, filterName: 'genre' },
-				mystery: { label: '범죄/추리', isSelect: false, filterName: 'genre' },
-				animation: {
-					label: '애니메이션',
-					isSelect: false,
-					filterName: 'genre',
-				},
-				action: { label: '액션', isSelect: false, filterName: 'genre' },
-				comedy: { label: '코미디', isSelect: false, filterName: 'genre' },
-			},
-			offerFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'offer' },
-				purchase: { label: '구매', isSelect: false, filterName: 'offer' },
-				rental: { label: '대여', isSelect: false, filterName: 'offer' },
-				flatRate: { label: '정액제', isSelect: false, filterName: 'offer' },
-			},
-			countryFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'country' },
-				domestic: { label: '국내', isSelect: false, filterName: 'country' },
-				international: {
-					label: '해외',
-					isSelect: false,
-					filterName: 'country',
-				},
-			},
-			watchedFilters: {
-				all: { label: '전체', isSelect: false, filterName: 'watched' },
-				watched: { label: '본 작품', isSelect: false, filterName: 'watched' },
-				unwathced: {
-					label: '안 본 작품',
-					isSelect: false,
-					filterName: 'watched',
-				},
-			},
+			genreFilters: [
+				{ label: '전체', isSelect: false, name: 'all' },
+				{ label: 'SF/판타지', isSelect: false, name: 'sf' },
+				{ label: '공포', isSelect: false, name: 'horror' },
+				{ label: '드라마', isSelect: false, name: 'drama' },
+				{ label: '로맨스', isSelect: false, name: 'romance' },
+				{ label: '스릴러', isSelect: false, name: 'thriller' },
+				{ label: '시대극', isSelect: false, name: 'historicalDrama' },
+				{ label: '무협', isSelect: false, name: 'martialArts' },
+				{ label: '범죄/추리', isSelect: false, name: 'mystery' },
+				{ label: '애니메이션', isSelect: false, name: 'animation' },
+				{ label: '액션', isSelect: false, name: 'action' },
+				{ label: '코미디', isSelect: false, name: 'comedy' },
+			],
+			countryFilters: [
+				{ label: '전체', isSelect: false, name: 'all' },
+				{ label: '국내', isSelect: false, name: 'KR' },
+				{ label: '해외', isSelect: false, name: 'OTHERS' },
+			],
+			watchedFilters: [
+				{ label: '전체', isSelect: false, name: 'all' },
+				{ label: '본 작품', isSelect: false, name: 'watched' },
+				{ label: '안 본 작품', isSelect: false, name: 'unwathced' },
+			],
 			filters: {
 				year: {
 					min: 1970,
@@ -302,28 +216,6 @@ export default {
 			],
 			selected: {
 				ott: [],
-				category: [],
-				filmRate: [],
-				genre: [],
-				offer: [],
-				country: [],
-				watched: [],
-			},
-			beforeAll: {
-				category: [],
-				filmRate: [],
-				genre: [],
-				offer: [],
-				country: [],
-				watched: [],
-			},
-			afterAll: {
-				category: [],
-				filmRate: [],
-				genre: [],
-				offer: [],
-				country: [],
-				watched: [],
 			},
 		};
 	},
@@ -340,234 +232,6 @@ export default {
 				this.selected.ott.push(this.ottFilters[idx].label);
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
-		filterClick(idx) {
-			if (idx.label === '전체' && idx.isSelect === true) {
-				switch (idx.filterName) {
-					// case 'category':
-					// 	this.beforeAll.category.splice(0);
-					// 	this.beforeAll.category = this.selected.category;
-					// 	this.beforeAll.category = this.selected.category.filter(
-					// 		element => element !== idx.label,
-					// 	);
-					// for (let key in this.categoryFilters) {
-					// 	if (
-					// 		!this.selected.category.includes(
-					// 			this.categoryFilters[key].label,
-					// 		)
-					// 	) {
-					// 		this.selected.category.push(this.categoryFilters[key].label);
-					// 	}
-					// 	this.selected.category = this.selected.category.filter(
-					// 		element => element !== idx.label,
-					// 	);
-					// }
-					// break;
-					case 'genre':
-						this.beforeAll.genre.splice(0);
-						this.beforeAll.genre = this.selected.genre;
-						this.beforeAll.genre = this.selected.genre.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.genreFilters) {
-							if (!this.selected.genre.includes(this.genreFilters[key].label)) {
-								this.selected.genre.push(this.genreFilters[key].label);
-							}
-							this.selected.genre = this.selected.genre.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
-					case 'offer':
-						this.beforeAll.offer.splice(0);
-						this.beforeAll.offer = this.selected.offer;
-						this.beforeAll.offer = this.selected.offer.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.offerFilters) {
-							if (!this.selected.offer.includes(this.offerFilters[key].label)) {
-								this.selected.offer.push(this.offerFilters[key].label);
-							}
-							this.selected.offer = this.selected.offer.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
-					case 'country':
-						this.beforeAll.country.splice(0);
-						this.beforeAll.country = this.selected.country;
-						this.beforeAll.country = this.selected.country.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.countryFilters) {
-							if (
-								!this.selected.country.includes(this.countryFilters[key].label)
-							) {
-								this.selected.country.push(this.countryFilters[key].label);
-							}
-							this.selected.country = this.selected.country.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
-					case 'watched':
-						this.beforeAll.watched.splice(0);
-						this.beforeAll.watched = this.selected.watched;
-						this.beforeAll.watched = this.selected.watched.filter(
-							element => element !== idx.label,
-						);
-						for (let key in this.watchedFilters) {
-							if (
-								!this.selected.watched.includes(this.watchedFilters[key].label)
-							) {
-								this.selected.watched.push(this.watchedFilters[key].label);
-							}
-							this.selected.watched = this.selected.watched.filter(
-								element => element !== idx.label,
-							);
-						}
-						break;
-				}
-			} else if (idx.label === '전체' && idx.isSelect === false) {
-				switch (idx.filterName) {
-					// case 'category':
-					// 	this.beforeAll.category.splice(0);
-					// 	this.afterAll.category.splice(0);
-					// 	this.selected.category = this.selected.category.filter(
-					// 		element => element === idx.label,
-					// 	);
-					// 	for (let key in this.beforeAll.category) {
-					// 		this.selected.category.push(this.beforeAll.category[key]);
-					// 	}
-					// 	for (let key in this.categoryFilters) {
-					// 		if (this.categoryFilters[key].isSelect) {
-					// 			this.afterAll.category.push(this.categoryFilters[key].label);
-					// 			this.selected.category = this.afterAll.category;
-					// 		}
-					// 	}
-					// 	break;
-					case 'genre':
-						this.beforeAll.genre.splice(0);
-						this.afterAll.genre.splice(0);
-						this.selected.genre = this.selected.genre.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.genre) {
-							this.selected.genre.push(this.beforeAll.genre[key]);
-						}
-						for (let key in this.genreFilters) {
-							if (this.genreFilters[key].isSelect) {
-								this.afterAll.genre.push(this.genreFilters[key].label);
-								this.selected.genre = this.afterAll.genre;
-							}
-						}
-						break;
-					case 'offer':
-						this.beforeAll.offer.splice(0);
-						this.afterAll.offer.splice(0);
-						this.selected.offer = this.selected.offer.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.offer) {
-							this.selected.offer.push(this.beforeAll.offer[key]);
-						}
-						for (let key in this.offerFilters) {
-							if (this.offerFilters[key].isSelect) {
-								this.afterAll.offer.push(this.offerFilters[key].label);
-								this.selected.offer = this.afterAll.offer;
-							}
-						}
-						break;
-					case 'country':
-						this.beforeAll.country.splice(0);
-						this.afterAll.country.splice(0);
-						this.selected.country = this.selected.country.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.country) {
-							this.selected.country.push(this.beforeAll.country[key]);
-						}
-						for (let key in this.countryFilters) {
-							if (this.countryFilters[key].isSelect) {
-								this.afterAll.country.push(this.countryFilters[key].label);
-								this.selected.country = this.afterAll.country;
-							}
-						}
-						break;
-					case 'watched':
-						this.beforeAll.watched.splice(0);
-						this.afterAll.watched.splice(0);
-						this.selected.watched = this.selected.watched.filter(
-							element => element === idx.label,
-						);
-						for (let key in this.beforeAll.watched) {
-							this.selected.watched.push(this.beforeAll.watched[key]);
-						}
-						for (let key in this.watchedFilters) {
-							if (this.watchedFilters[key].isSelect) {
-								this.afterAll.watched.push(this.watchedFilters[key].label);
-								this.selected.watched = this.afterAll.watched;
-							}
-						}
-						break;
-				}
-			} else if (idx.label !== '전체' && idx.isSelect === true) {
-				switch (idx.filterName) {
-					case 'category':
-						if (!this.selected.category.includes(idx.label)) {
-							this.selected.category.push(idx.label);
-						}
-						break;
-					case 'genre':
-						if (!this.selected.genre.includes(idx.label)) {
-							this.selected.genre.push(idx.label);
-						}
-						break;
-					case 'offer':
-						if (!this.selected.offer.includes(idx.label)) {
-							this.selected.offer.push(idx.label);
-						}
-						break;
-					case 'country':
-						if (!this.selected.country.includes(idx.label)) {
-							this.selected.country.push(idx.label);
-						}
-						break;
-					case 'watched':
-						if (!this.selected.watched.includes(idx.label)) {
-							this.selected.watched.push(idx.label);
-						}
-						break;
-				}
-			} else if (idx.label !== '전체' && idx.isSelect === false) {
-				switch (idx.filterName) {
-					// case 'category':
-					// 	if (this.categoryFilters.all.isSelect === false) {
-					// 		this.selected.category.splice(idx.label, 1);
-					// 	}
-					// 	break;
-					case 'genre':
-						if (this.genreFilters.all.isSelect === false) {
-							this.selected.genre.splice(idx.label, 1);
-						}
-						break;
-					case 'offer':
-						if (this.offerFilters.all.isSelect === false) {
-							this.selected.offer.splice(idx.label, 1);
-						}
-						break;
-					case 'country':
-						if (this.countryFilters.all.isSelect === false) {
-							this.selected.country.splice(idx.label, 1);
-						}
-						break;
-					case 'watched':
-						if (this.watchedFilters.all.isSelect === false) {
-							this.selected.watched.splice(idx.label, 1);
-						}
-						break;
-				}
-			}
-		},
 		initButtonClick() {
 			for (let key in this.selected) {
 				this.selected[key].splice(0);
@@ -577,19 +241,14 @@ export default {
 					this.ottFilters[key].isSelect = false;
 				}
 			}
-			// for (let key in this.categoryFilters) {
-			// 	if (this.categoryFilters[key].isSelect === true) {
-			// 		this.categoryFilters[key].isSelect = false;
-			// 	}
-			// }
+			for (let key in this.categoryFilters) {
+				if (this.categoryFilters[key].isSelect === true) {
+					this.categoryFilters[key].isSelect = false;
+				}
+			}
 			for (let key in this.genreFilters) {
 				if (this.genreFilters[key].isSelect === true) {
 					this.genreFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.offerFilters) {
-				if (this.offerFilters[key].isSelect === true) {
-					this.offerFilters[key].isSelect = false;
 				}
 			}
 			for (let key in this.countryFilters) {
