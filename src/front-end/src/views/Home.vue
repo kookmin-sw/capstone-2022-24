@@ -41,22 +41,22 @@
 						<Filter
 							:filter-label="'작품 종류'"
 							:filter-name="'CATEGORIES'"
-							:conditions="categoryFilters" />
+							:conditions="selectFilters.categories" />
 						<!-- 장르 -->
 						<Filter
 							:filter-label="'장르'"
 							:filter-name="'GENRES'"
-							:conditions="genreFilters" />
+							:conditions="selectFilters.genres" />
 						<!-- 국가 -->
 						<Filter
 							:filter-label="'국가'"
 							:filter-name="'COUNTRY'"
-							:conditions="countryFilters" />
+							:conditions="selectFilters.countries" />
 						<!-- 관람 여부 -->
 						<Filter
 							:filter-label="'관람여부'"
 							:filter-name="'WATCHED'"
-							:conditions="watchedFilters" />
+							:conditions="selectFilters.watched" />
 						<!-- 슬라이더 형태 필터링 -->
 						<!-- 연도 -->
 						<div class="row filter-frame q-mt-md">
@@ -67,12 +67,12 @@
 									label-always
 									switch-label-side
 									color="blue"
-									v-model="filters.year"
-									:min="1970"
+									v-model="slideFilters.year"
+									:min="1800"
 									:max="2022"
 									:step="1"
-									:left-label-value="`${filters.year.min}년`"
-									:right-label-value="`${filters.year.max}년`" />
+									:left-label-value="`${slideFilters.year.min}년`"
+									:right-label-value="`${slideFilters.year.max}년`" />
 							</div>
 						</div>
 						<!-- 평점 -->
@@ -84,12 +84,12 @@
 									label-always
 									switch-label-side
 									color="blue"
-									v-model="filters.rate"
+									v-model="slideFilters.rate"
 									:min="0.5"
 									:max="5"
 									:step="0.5"
-									:left-label-value="`${filters.rate.min}점`"
-									:right-label-value="`${filters.rate.max}점`" />
+									:left-label-value="`${slideFilters.rate.min}점`"
+									:right-label-value="`${slideFilters.rate.max}점`" />
 							</div>
 						</div>
 						<q-btn
@@ -150,47 +150,45 @@ export default {
 				tving: { label: '티빙', isSelect: false },
 				wavve: { label: '웨이브', isSelect: false },
 			},
-			categoryFilters: [
-				{ label: '전체', isSelect: false, name: 'all' },
-				{ label: '영화', isSelect: false, name: 'movie' },
-				{ label: 'TV 시리즈', isSelect: false, name: 'tv' },
-			],
-			genreFilters: [
-				{ label: '전체', isSelect: false, name: 'all' },
-				{ label: 'SF/판타지', isSelect: false, name: 'sf' },
-				{ label: '공포', isSelect: false, name: 'horror' },
-				{ label: '드라마', isSelect: false, name: 'drama' },
-				{ label: '로맨스', isSelect: false, name: 'romance' },
-				{ label: '스릴러', isSelect: false, name: 'thriller' },
-				{ label: '시대극', isSelect: false, name: 'historicalDrama' },
-				{ label: '무협', isSelect: false, name: 'martialArts' },
-				{ label: '범죄/추리', isSelect: false, name: 'mystery' },
-				{ label: '애니메이션', isSelect: false, name: 'animation' },
-				{ label: '액션', isSelect: false, name: 'action' },
-				{ label: '코미디', isSelect: false, name: 'comedy' },
-			],
-			countryFilters: [
-				{ label: '전체', isSelect: false, name: 'all' },
-				{ label: '국내', isSelect: false, name: 'KR' },
-				{ label: '해외', isSelect: false, name: 'OTHERS' },
-			],
-			watchedFilters: [
-				{ label: '전체', isSelect: false, name: 'all' },
-				{ label: '본 작품', isSelect: false, name: 'watched' },
-				{ label: '안 본 작품', isSelect: false, name: 'unwathced' },
-			],
-			filters: {
+			selectFilters: {
+				categories: [
+					{ label: '전체', isSelect: false, name: 'all' },
+					{ label: '영화', isSelect: false, name: 'movie' },
+					{ label: 'TV 시리즈', isSelect: false, name: 'tv' },
+				],
+				genres: [
+					{ label: '전체', isSelect: false, name: 'all' },
+					{ label: 'SF/판타지', isSelect: false, name: 'sf' },
+					{ label: '공포', isSelect: false, name: 'horror' },
+					{ label: '드라마', isSelect: false, name: 'drama' },
+					{ label: '로맨스', isSelect: false, name: 'romance' },
+					{ label: '스릴러', isSelect: false, name: 'thriller' },
+					{ label: '시대극', isSelect: false, name: 'historicalDrama' },
+					{ label: '무협', isSelect: false, name: 'martialArts' },
+					{ label: '범죄/추리', isSelect: false, name: 'mystery' },
+					{ label: '애니메이션', isSelect: false, name: 'animation' },
+					{ label: '액션', isSelect: false, name: 'action' },
+					{ label: '코미디', isSelect: false, name: 'comedy' },
+				],
+				countries: [
+					{ label: '전체', isSelect: false, name: 'all' },
+					{ label: '국내', isSelect: false, name: 'KR' },
+					{ label: '해외', isSelect: false, name: 'OTHERS' },
+				],
+				watched: [
+					{ label: '전체', isSelect: false, name: 'all' },
+					{ label: '본 작품', isSelect: false, name: 'watched' },
+					{ label: '안 본 작품', isSelect: false, name: 'unwathced' },
+				],
+			},
+			slideFilters: {
 				year: {
-					min: 1970,
+					min: 1800,
 					max: 2022,
 				},
 				rate: {
 					min: 0.5,
 					max: 5.0,
-				},
-				runtime: {
-					min: 0,
-					max: 240,
 				},
 			},
 			search: null,
@@ -233,34 +231,18 @@ export default {
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
 		},
 		initButtonClick() {
-			for (let key in this.selected) {
-				this.selected[key].splice(0);
+			// 선택형 필터 초기화
+			for (let key in this.selectFilters) {
+				this.selectFilters[key].forEach(cond => {
+					cond.isSelect = false;
+				});
 			}
-			for (let key in this.ottFilters) {
-				if (this.ottFilters[key].isSelect === true) {
-					this.ottFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.categoryFilters) {
-				if (this.categoryFilters[key].isSelect === true) {
-					this.categoryFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.genreFilters) {
-				if (this.genreFilters[key].isSelect === true) {
-					this.genreFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.countryFilters) {
-				if (this.countryFilters[key].isSelect === true) {
-					this.countryFilters[key].isSelect = false;
-				}
-			}
-			for (let key in this.watchedFilters) {
-				if (this.watchedFilters[key].isSelect === true) {
-					this.watchedFilters[key].isSelect = false;
-				}
-			}
+			// 슬라이드형 필터 초기화
+			this.slideFilters.year.min = 1800;
+			this.slideFilters.year.max = 2022;
+			this.slideFilters.rate.min = 0.5;
+			this.slideFilters.rate.max = 5;
+			this.$store.dispatch('videoList/initSelectCondition');
 		},
 	},
 };

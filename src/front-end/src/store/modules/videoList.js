@@ -15,6 +15,19 @@ export const videoList = {
 	},
 	getters: {},
 	mutations: {
+		INIT_FILTERS(state) {
+			state.filters.categories.splice(0, state.filters.categories.length);
+			state.filters.genres.splice(0, state.filters.genres.length);
+			state.filters.productionCountry.splice(
+				0,
+				state.filters.productionCountry.length,
+			);
+			state.filters.watched.splice(0, state.filters.watched.length);
+			state.filters.ratingMin = 0.5;
+			state.filters.releaseDateMax = 5;
+			state.filters.releaseDateMin = 1800;
+			state.filters.releaseDateMax = 2022;
+		},
 		SET_CATEGORIES(state, selected) {
 			state.filters.categories.splice(0, state.filters.categories.length);
 			selected.forEach(cond => {
@@ -44,9 +57,11 @@ export const videoList = {
 		},
 	},
 	actions: {
-		selectCondition(context, condition) {
-			context.commit(`SET_${condition.name}`, condition.selected);
-			console.log(context.state.filters);
+		selectCondition({ commit }, condition) {
+			commit(`SET_${condition.name}`, condition.selected);
+		},
+		initSelectCondition({ commit }) {
+			commit('INIT_FILTERS');
 		},
 	},
 };
