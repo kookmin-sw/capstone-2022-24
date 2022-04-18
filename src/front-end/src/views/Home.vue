@@ -42,7 +42,6 @@
 							:filter-label="'작품 종류'"
 							:filter-name="'CATEGORIES'"
 							:conditions="selectFilters.categories"></select-filter>
-
 						<!-- 장르 -->
 						<select-filter
 							:filter-label="'장르'"
@@ -58,7 +57,6 @@
 							:filter-label="'관람여부'"
 							:filter-name="'WATCHED'"
 							:conditions="selectFilters.watched" />
-						<!-- 슬라이더 형태 필터링 -->
 						<!-- 연도 -->
 						<div class="row filter-frame q-mt-md">
 							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
