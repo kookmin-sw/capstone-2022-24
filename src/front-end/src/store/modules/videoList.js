@@ -1,3 +1,5 @@
+import http from '@/api/http';
+
 export const videoList = {
 	namespaced: true,
 	state: {
@@ -12,6 +14,10 @@ export const videoList = {
 			productionCountry: [],
 			watched: [],
 		},
+		videos: [],
+		hasPage: 0,
+		totalPage: 0,
+		totalResult: 0,
 	},
 	getters: {},
 	mutations: {
@@ -55,6 +61,17 @@ export const videoList = {
 				state.filters.watched.push(cond);
 			});
 		},
+		SET_TOTAL_PAGE(state, page) {
+			state.totalPage = page;
+		},
+		SET_TOTAL_RESULT(state, cnt) {
+			state.totalResult = cnt;
+		},
+		INIT_VIDEOS(state, videos) {
+			videos.forEach(video => {
+				state.videos.push(video);
+			});
+		},
 	},
 	actions: {
 		selectCondition({ commit }, condition) {
@@ -62,6 +79,19 @@ export const videoList = {
 		},
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
+		},
+		initVideoList({ commit }, size) {
+			const url = `/videos?page=${1}&size=${size}`;
+			// todo: url에 검색, 필터링, 정렬 조건 붙이기
+			http
+				.get(url)
+				.then(res => {
+					const data = res.data.results;
+					commit('SET_TOTAL_PAGE', data.page.totalPage);
+					commit('SET_TOTAL_RESULT', data.page.totalResult);
+					commit('INIT_VIDEOS', data.videos);
+				})
+				.catch(err => alert(err));
 		},
 	},
 };

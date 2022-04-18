@@ -122,9 +122,9 @@
 		<!-- 작품 포스터 단락 -->
 		<q-infinite-scroll :offset="250" @load="videoOnLoad">
 			<div class="row q-ma-lg video-list-frame">
-				<div class="video-poster" v-for="(video, index) in videos" :key="index">
-					{{ video.value }}
-				</div>
+				<!--								<div class="video-poster" v-for="(video, index) in videos" :key="index">-->
+				<!--									{{ video }}-->
+				<!--								</div>-->
 			</div>
 			<template v-slot:loading>
 				<div class="row q-mb-lg justify-center">
@@ -136,7 +136,9 @@
 </template>
 
 <script>
+import mapState from 'vuex';
 import selectFilter from '@/components/SelectFilter';
+
 export default {
 	name: 'Home',
 	components: {
@@ -193,37 +195,23 @@ export default {
 				},
 			},
 			search: null,
-			videos: [
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-			],
 			selected: {
 				ott: [],
 			},
 		};
 	},
+	computed: {
+		...mapState('videoList', ['videos']),
+	},
+	async beforeCreate() {
+		await this.$store.dispatch('videoList/initVideoList');
+	},
 	methods: {
-		videoOnLoad(index, done) {
-			setTimeout(() => {
-				this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
-				done();
-			}, 2000);
+		videoOnLoad() {
+			// setTimeout(() => {
+			// 	this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
+			// 	done();
+			// }, 2000);
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
