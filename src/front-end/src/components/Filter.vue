@@ -22,6 +22,10 @@
 export default {
 	name: 'Filter',
 	props: {
+		filterLabel: {
+			type: String,
+			require: true,
+		},
 		filterName: {
 			type: String,
 			require: true,
@@ -33,6 +37,7 @@ export default {
 	data() {
 		return {
 			selected: new Set(),
+			isAllSelect: false,
 		};
 	},
 	methods: {
@@ -44,11 +49,13 @@ export default {
 					this.conditions.forEach(cond => {
 						this.selected.add(cond.label);
 					});
+					this.selected.delete('전체');
+					this.isAllSelect = true;
 					// console.log(this.selected);
-					return;
+				} else {
+					this.selected.add(cond.label);
+					// console.log(this.selected);
 				}
-				this.selected.add(cond.label);
-				// console.log(this.selected);
 			}
 			// 선택 취소
 			else {
@@ -58,12 +65,20 @@ export default {
 							this.selected.delete(cond.label);
 						}
 					});
+					this.isAllSelect = false;
 					// console.log(this.selected);
-					return;
+				} else if (this.isAllSelect) {
+					// console.log(this.selected);
+				} else {
+					this.selected.delete(cond.label);
+					// console.log(this.selected);
 				}
-				this.selected.delete(cond.label);
-				// console.log(this.selected);
 			}
+			const conditions = {
+				name: this.filterName,
+				selected: this.selected,
+			};
+			this.$store.dispatch('videoList/selectCondition', conditions);
 		},
 	},
 };

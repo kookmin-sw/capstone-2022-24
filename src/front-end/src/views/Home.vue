@@ -53,7 +53,10 @@
 						<!--								</q-chip>-->
 						<!--							</div>-->
 						<!--						</div>-->
-						<Filter :filter-name="'작품 종류'" :conditions="categoryFilters" />
+						<Filter
+							:filter-label="'작품 종류'"
+							:filter-name="'categories'"
+							:conditions="categoryFilters" />
 						<!-- 장르 -->
 						<div class="row q-mt-md filter-frame">
 							<div class="col-2 q-mt-auto q-mb-auto">장르</div>
