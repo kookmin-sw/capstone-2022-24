@@ -1,17 +1,27 @@
 <template>
-	<div class="row q-mt-md filter-frame">
+	<div class="row q-mt-md">
 		<div class="col-2 q-mt-auto q-mb-auto">{{ this.filterLabel }}</div>
-		<q-separator vertical inset color="blue" />
-		<div class="col-9 q-ml-sm text-left chips-frame">
-			<q-chip
-				outline
-				color="blue"
-				v-for="condition in conditions"
-				:key="condition.key"
-				v-model:selected="condition.isSelect"
-				@click="clickCondition(condition)">
-				{{ condition.label }}
-			</q-chip>
+		<q-separator vertical inset color="blue-4" />
+		<div class="col-9 q-ml-sm text-left">
+			<span v-for="condition in conditions" :key="condition.key">
+				<!--  select -->
+				<q-chip
+					v-if="condition.isSelect"
+					v-model:selected="condition.isSelect"
+					class="bg-blue-80 text-weight-bold text-grey-100">
+					{{ condition.label }}
+				</q-chip>
+				<!-- not select -->
+				<q-chip
+					v-else
+					outline
+					class="radius-50 border-blue-200 text-grey-100"
+					id="chip"
+					v-model:selected="condition.isSelect"
+					@click="clickCondition(condition)">
+					{{ condition.label }}
+				</q-chip>
+			</span>
 		</div>
 	</div>
 </template>

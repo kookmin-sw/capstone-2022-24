@@ -1,71 +1,82 @@
 <template>
-	<div class="home">
-		<!-- 검색창~필터링 단락 -->
-		<div class="row q-mt-xl q-mb-xl search-filter-frame">
+	<div class="home-frame">
+		<!-- 검색 -->
+		<div class="row q-ma-lg" id="search-container ">
 			<q-space class="col-2" />
-			<div class="col-8">
-				<!-- 검색 -->
-				<div class="row q-mb-xl text-left search-frame">
-					<q-input
-						clearable
-						clear-icon="close"
-						outlined
-						dense
-						type="search"
-						color="blue"
-						class="col-9 search-bar"
-						v-model="search">
-					</q-input>
-					<q-btn unelevated outline color="blue" class="col-2">
-						<q-icon name="search" color="blue" />
-					</q-btn>
-				</div>
-				<!--  ott 로고 필터 -->
-				<div class="row q-mb-lg ott-icons-frame">
+			<div class="col-8 row q-mt-lg q-mb-lg" id="search-bar">
+				<q-input
+					clearable
+					dense
+					borderless
+					clear-icon="close"
+					v-model="search"
+					class="border-blue-100 left-radius-2 col-9 q-pl-md q-pr-md"
+					id="search-input" />
+				<q-btn
+					flat
+					color="blue"
+					class="border-blue-100 right-radius-2 col-2"
+					id="search-btn">
+					<q-icon name="search" />
+				</q-btn>
+			</div>
+			<q-space class="col-2" />
+		</div>
+		<!-- 필터링 -->
+		<div class="row q-ma-lg" id="filters-container">
+			<q-space class="col-2" />
+			<div class="col-8" id="filters-wrapper">
+				<!--  ott 필터 -->
+				<div class="row q-mb-lg" id="ott-filters-wrapper">
 					<q-avatar
 						rounded
-						color="blue"
+						color="grey-4"
 						size="60px"
-						v-for="(otts, index) in ottFilters"
+						v-for="(ott, index) in ottFilters"
 						:key="index"
-						:class="{ 'ott-filter-select': otts.isSelect }"
+						:class="{ 'ott-filter-select': ott.isSelect }"
+						class="q-mr-sm"
 						@click="ottFilterClick(index)" />
 				</div>
-				<!-- 필터링 조건 -->
-				<q-list bordered>
+				<!-- 세부 필터 -->
+				<q-list bordered class="q-mb-lg radius-4">
 					<q-expansion-item
 						label="필터링 항목"
-						header-class="bg-blue text-white"
+						header-class="bg-blue-100 text-white text-weight-bold radius-4"
 						expand-icon-class="text-white">
 						<!-- 작품 종류 -->
 						<select-filter
 							:filter-label="'작품 종류'"
 							:filter-name="'CATEGORIES'"
-							:conditions="selectFilters.categories"></select-filter>
+							:conditions="selectFilters.categories"
+							id="categories-filter" />
 						<!-- 장르 -->
 						<select-filter
 							:filter-label="'장르'"
 							:filter-name="'GENRES'"
-							:conditions="selectFilters.genres" />
+							:conditions="selectFilters.genres"
+							id="genres-filter" />
 						<!-- 국가 -->
 						<select-filter
 							:filter-label="'국가'"
 							:filter-name="'COUNTRY'"
-							:conditions="selectFilters.countries" />
+							:conditions="selectFilters.countries"
+							id="countries-filter" />
 						<!-- 관람 여부 -->
 						<select-filter
 							:filter-label="'관람여부'"
 							:filter-name="'WATCHED'"
-							:conditions="selectFilters.watched" />
+							:conditions="selectFilters.watched"
+							id="watched-filter" />
 						<!-- 연도 -->
-						<div class="row filter-frame q-mt-md">
+						<div class="row q-mt-md" id="years-filter">
 							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
-							<q-separator vertical inset color="blue" />
+							<q-separator vertical inset dense color="blue-4" />
 							<div class="col-9 q-pa-md q-pb-lg">
 								<q-range
 									label-always
 									switch-label-side
-									color="blue"
+									color="blue-4"
 									v-model="slideFilters.year"
 									:min="1800"
 									:max="2022"
@@ -75,14 +86,14 @@
 							</div>
 						</div>
 						<!-- 평점 -->
-						<div class="row q-mt-md filter-frame">
+						<div class="row q-mt-md" id="rating-filter">
 							<div class="col-2 q-mt-auto q-mb-auto">평점</div>
-							<q-separator vertical inset color="blue" />
+							<q-separator vertical inset color="blue-4" />
 							<div class="col-9 q-pa-md q-pb-lg">
 								<q-range
 									label-always
 									switch-label-side
-									color="blue"
+									color="blue-4"
 									v-model="slideFilters.rate"
 									:min="0.5"
 									:max="5"
@@ -91,13 +102,16 @@
 									:right-label-value="`${slideFilters.rate.max}점`" />
 							</div>
 						</div>
+						<!-- 필터 초기화 버튼 -->
 						<q-btn
-							unelevated
-							outline
+							flat
 							color="blue"
-							class="q-ma-lg initButton"
+							class="q-ma-lg border-blue-100 radius-4"
+							text-color="grey-10"
+							style="width: 180px"
+							id="filters-init-btn"
 							@click="initButtonClick">
-							필터 초기화
+							필터링 초기화
 						</q-btn>
 					</q-expansion-item>
 				</q-list>
@@ -105,9 +119,10 @@
 			<q-space class="col-2" />
 		</div>
 		<!-- hr -->
-		<q-separator inset color="blue" />
+		<q-separator inset color="blue-1" size="2px" />
+		<q-separator inset color="blue-4" />
 		<!-- 정렬 -->
-		<div class="row q-ma-md q-mt-xl q-pl-md q-pr-md text-left">
+		<div class="row q-ma-lg text-left" id="sort-container">
 			<div class="q-mt-auto q-mb-auto text-center">정렬</div>
 			<q-icon
 				color="blue"
@@ -119,15 +134,15 @@
 			<q-btn flat>최신순</q-btn>
 			<q-btn flat>인기순</q-btn>
 		</div>
-		<!-- 작품 포스터 단락 -->
-		<q-infinite-scroll :offset="250" @load="videoOnLoad">
-			<div class="row q-ma-lg video-list-frame">
-				<!--								<div class="video-poster" v-for="(video, index) in videos" :key="index">-->
+		<!-- 작품 목록 -->
+		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
+			<div class="row" id="videos-wrapper">
+				<!--								<div class="videos" v-for="(video, index) in videos" :key="index">-->
 				<!--									{{ video }}-->
 				<!--								</div>-->
 			</div>
 			<template v-slot:loading>
-				<div class="row q-mb-lg justify-center">
+				<div class="row justify-center">
 					<q-spinner-dots color="primary" size="40px" />
 				</div>
 			</template>
@@ -136,7 +151,7 @@
 </template>
 
 <script>
-import mapState from 'vuex';
+// import mapState from 'vuex';
 import selectFilter from '@/components/SelectFilter';
 
 export default {
@@ -201,7 +216,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('videoList', ['videos']),
+		// ...mapState('videoList', ['videos']),
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('videoList/initVideoList');
@@ -238,19 +253,16 @@ export default {
 </script>
 
 <style scoped>
-.ott-icons-frame {
-	column-gap: 16px;
-}
-.video-list-frame {
+#videos-wrapper {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
 .ott-filter-select {
-	border: 3px solid darkblue;
-	border-radius: 7px;
+	border: 3px solid #449bfe;
+	border-radius: 6px;
 }
-.video-poster {
+.videos {
 	width: 15%;
 	height: 0;
 	padding-bottom: 20%;
