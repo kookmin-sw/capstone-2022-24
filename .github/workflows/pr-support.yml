@@ -16,7 +16,7 @@ jobs:
           branch-prefix: '/'
           position: 'bottom'
           resolve: true
-          link-style: "comment"
+          link-style: "body"
   link-milestone:
     runs-on: ubuntu-latest
     steps:

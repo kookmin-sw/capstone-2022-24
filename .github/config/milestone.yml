@@ -1,11 +1,11 @@
 base-branch:
-  - "main"
-  - "release"
-  - "develop"
+  - "(main)"
+  - "(release)"
+  - "(develop)"
 
 head-branch:
-  - "^feature\\/(\\d)+-be-.+"
-  - "^feature\\/(\\d)+-fe-.+"
-  - "^feature\\/(\\d)+-.+"
-  - "develop"
-  - "release"
+  - "feature\\/(\\d)+-(be)-(.)+"
+  - "feature\\/(\\d)+-(fe)-(.)+"
+  - "feature\\/(\\d)+-(.)+"
+  - "(release)"
+  - "(develop)"
