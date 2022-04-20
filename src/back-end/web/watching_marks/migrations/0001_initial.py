@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Wish',
+            name='WatchingMark',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
                 ('date_time', models.DateTimeField(db_column='dateTime', default=django.utils.timezone.now)),
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('video', models.ForeignKey(db_column='videoId', on_delete=django.db.models.deletion.CASCADE, to='videos.video')),
             ],
             options={
-                'db_table': 'wishes',
+                'db_table': 'watching_marks',
             },
         ),
     ]
