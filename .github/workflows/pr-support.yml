@@ -10,15 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: tkt-actions/add-issue-links@v1.7.0
+        name: Link the related issue to pull request
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
           branch-prefix: '/'
           position: 'bottom'
+          resolve: true
+          link-style: "comment"
   link-milestone:
-    name: Add current milestone to pull request
     runs-on: ubuntu-latest
     steps:
-      - uses: iyu/actions-milestone@v1.1
+      - uses: iyu/actions-milestone@v1.1.0
+        name: Add current milestone to pull request
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           configuration-path: .github/config/milestone.yml
