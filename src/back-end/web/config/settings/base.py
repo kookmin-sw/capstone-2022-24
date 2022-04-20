@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 # pylint: disable=R0801,W0401,W0614
-import os
+import os.path
 from pathlib import Path
 
 # web
@@ -31,7 +31,7 @@ CUSTOM_APPS = [
     "users",
     "accounts",
     "applies",
-    "dibs",
+    "wishes",
     "fellows",
     "group_accounts",
     "groups",
