@@ -2,7 +2,8 @@ name: pull-request-support
 
 on:
   pull_request:
-    types: ['closed', 'labeled', 'opened']
+    branches:
+      - develop
 
 jobs:
   repo-gardening:
