@@ -4,8 +4,8 @@ base-branch:
   - "develop"
 
 head-branch:
-  - "^feature\/(\d)+-be-.+"
-  - "^feature\/(\d)+-fe-.+"
-  - "^feature\/(\d)+-.+"
+  - "^feature\\/(\\d)+-be-.+"
+  - "^feature\\/(\\d)+-fe-.+"
+  - "^feature\\/(\\d)+-.+"
   - "develop"
   - "release"
