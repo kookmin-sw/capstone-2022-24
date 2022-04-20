@@ -6,7 +6,7 @@ on:
 
 jobs:
   repo-gardening:
-    name: 'Pull request editor'
+    name: 'Pull request support'
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
     timeout-minutes: 15
@@ -18,7 +18,7 @@ jobs:
      - name: Setup Node
        uses: actions/setup-node@v3
        with:
-        node-version: lts
+        node-version: [16.x]
 
      - name: Wait for prior instances of the workflow to finish
        uses: softprops/turnstyle@v1
