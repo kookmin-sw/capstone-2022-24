@@ -1,4 +1,4 @@
-name: close-of-milestones
+name: weekly-milestones
 on:
   schedule:
     #        ┌───────────── minute (0 - 59)
