@@ -1,3 +1,5 @@
-from djongo import models
+"""Definitions of watching mark models: WatchingMark"""
 
-# Create your models here.
+
+class WatchingMark:
+    """Definition of whether to watch check model"""
