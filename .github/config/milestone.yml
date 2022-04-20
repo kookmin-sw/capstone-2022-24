@@ -1,5 +1,0 @@
-base-branch:
-  - "~ 2022-(\\d\\d)-(\\d\\d)"
-
-head-branch:
-  - "feature\\/(\\d)+-.+"
