@@ -1,3 +1,6 @@
+"""Definitions of model about video score evaluated by the user: StarRating"""
 from djongo import models
 
-# Create your models here.
+
+class StarRating(models.Model):
+    """Definition of Star Rating Model"""

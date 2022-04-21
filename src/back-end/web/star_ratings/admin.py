@@ -1,3 +1,6 @@
+"""Admin settings of star_ratings application"""
 from django.contrib import admin
 
-# Register your models here.
+from .models import StarRating
+
+admin.site.register(StarRating)
