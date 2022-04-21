@@ -189,7 +189,11 @@ AUTH_USER_MODEL = "users.User"
 SPECTACULAR_SETTINGS = {
     "TITLE": "온갖(Ongot) API",
     "DESCRIPTION": "[다학제간캡스톤디자인I] 24조",
-    "CONTACT": {"name": "팀 뫄뫄", "url": "https://github.com/kookmin-sw/capstone-2022-24"},
+    "CONTACT": {
+        "name": "팀 뫄뫄",
+        "url": "https://github.com/kookmin-sw/capstone-2022-24",
+        "email": "kmu.sw.cap.2022@gmail.com",
+    },
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
     # list of authentication/permission classes for spectacular's views.
