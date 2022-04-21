@@ -222,9 +222,10 @@ SPECTACULAR_SETTINGS = {
     "ENABLE_DJANGO_DEPLOY_CHECK": True,
     # TODO
     # Optional list of servers.
-    # Each entry MUST contain "url", MAY contain "description", "variables"
-    # e.g. [{'url': 'https://example.com/v1', 'description': 'Text'}, ...]
-    "SERVERS": [],
+    "SERVERS": [
+        {"url": "https://development.server.link.todo/", "description": "Development server"},
+        {"url": "https://main.server.link.todo/", "description": "Main server"},
+    ],
     # Tags defined in the global scope
     "TAGS": [],
     # TODO
@@ -235,4 +236,12 @@ SPECTACULAR_SETTINGS = {
     "OAUTH2_TOKEN_URL": None,
     "OAUTH2_REFRESH_URL": None,
     "OAUTH2_SCOPES": None,
+    "SWAGGER_UI_SETTINGS": {
+        "dom_id": "#swagger-ui",  # required(default)
+        "layout": "BaseLayout",  # required(default)
+        "filter": True,
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayOperationId": True,
+    },
 }
