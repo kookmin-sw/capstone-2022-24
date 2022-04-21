@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 # pylint: disable=R0801,W0401,W0614
-import os
+import os.path
 from pathlib import Path
 
 # web
@@ -56,7 +56,13 @@ INSTALLED_APPS = [
     # django-rest-framework
     "rest_framework",
     "storages",
+    "drf_spectacular",
 ] + CUSTOM_APPS
+
+REST_FRAMEWORK = {
+    # API document automation: drf-spectacular
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -178,3 +184,11 @@ SESSION_COOKIE_SECURE = True
 
 # user model
 AUTH_USER_MODEL = "users.User"
+
+# API document automation (drf-spectacular)
+SPECTACULAR_SETTINGS = {
+    "TITLE": "온갖(Ongot) API",
+    "DESCRIPTION": "[다학제간캡스톤디자인I] 24조",
+    "VERSION": "0.0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
