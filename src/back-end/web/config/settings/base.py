@@ -190,12 +190,49 @@ AUTH_USER_MODEL = "users.User"
 SPECTACULAR_SETTINGS = {
     "TITLE": "온갖(Ongot) API",
     "DESCRIPTION": "[다학제간캡스톤디자인I] 24조",
+    "CONTACT": {"name": "팀 뫄뫄", "url": "https://github.com/kookmin-sw/capstone-2022-24"},
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
-}
-
-SPECTACULAR_SETTINGS = {
-    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
+    # shorthand to use the sidecar instead
+    "SWAGGER_UI_DIST": "SIDECAR",
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+    # list of authentication/permission classes for spectacular's views.
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
+    # None will default to DRF's AUTHENTICATION_CLASSES
+    "SERVE_AUTHENTICATION": None,
+    # Initialize SwaggerUI with additional OAuth2 configuration.
+    # https://swagger.io/docs/open-source-tools/swagger-ui/usage/oauth2/
+    "SWAGGER_UI_OAUTH2_CONFIG": {},
+    # Postprocessing functions that run at the end of schema generation.
+    # must satisfy interface result = hook(generator, request, public, result)
+    "POSTPROCESSING_HOOKS": ["drf_spectacular.hooks.postprocess_schema_enums"],
+    # Preprocessing functions that run before schema generation.
+    # must satisfy interface result = hook(endpoints=result) where result
+    # is a list of Tuples (path, path_regex, method, callback).
+    "PREPROCESSING_HOOKS": [],
+    # Determines how operations should be sorted. If you intend to do sorting with a
+    # PREPROCESSING_HOOKS, be sure to disable this setting. If configured, the sorting
+    # is applied after the PREPROCESSING_HOOKS. Accepts either
+    # True (drf-spectacular's alpha-sorter), False, or a callable for sort's key arg.
+    "SORT_OPERATIONS": True,
+    # Camelize names like operationId and path parameter names
+    "CAMELIZE_NAMES": False,
+    # Runs exemplary schema generation and emits warnings as part of "./manage.py check --deploy"
+    "ENABLE_DJANGO_DEPLOY_CHECK": True,
+    # TODO
+    # Optional list of servers.
+    # Each entry MUST contain "url", MAY contain "description", "variables"
+    # e.g. [{'url': 'https://example.com/v1', 'description': 'Text'}, ...]
+    "SERVERS": [],
+    # Tags defined in the global scope
+    "TAGS": [],
+    # TODO
+    # Oauth2 related settings. used for example by django-oauth2-toolkit.
+    # https://spec.openapis.org/oas/v3.0.3#oauthFlowsObject
+    "OAUTH2_FLOWS": [],
+    "OAUTH2_AUTHORIZATION_URL": None,
+    "OAUTH2_TOKEN_URL": None,
+    "OAUTH2_REFRESH_URL": None,
+    "OAUTH2_SCOPES": None,
 }
