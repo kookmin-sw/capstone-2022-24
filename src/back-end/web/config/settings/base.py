@@ -228,10 +228,13 @@ SPECTACULAR_SETTINGS = {
     ],
     # Tags defined in the global scope
     "TAGS": [
-        {"name": "priority-1", "description": "1순위 API"},
-        {"name": "priority-2", "description": "2순위 API"},
-        {"name": "priority-3", "description": "3순위 API"},
-        {"name": "priority-4", "description": "4순위 API"},
+        {"name": "User", "description": "사용자 API"},
+        {"name": "Video", "description": "작품 API"},
+        {"name": "Group", "description": "모임 API"},
+        {"name": "Priority-1", "description": "1순위 API"},
+        {"name": "Priority-2", "description": "2순위 API"},
+        {"name": "Priority-3", "description": "3순위 API"},
+        {"name": "Priority-4", "description": "4순위 API"},
     ],
     # TODO
     # Oauth2 related settings. used for example by django-oauth2-toolkit.
