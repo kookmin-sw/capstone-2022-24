@@ -1,3 +1,6 @@
+"""Admin settings of remittances application"""
 from django.contrib import admin
+from remittances.models import Remittance, RemittanceReason
 
-# Register your models here.
+admin.site.register(Remittance)
+admin.site.register(RemittanceReason)
