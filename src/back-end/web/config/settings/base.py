@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "storages",
     "drf_spectacular",
-    "drf_spectacular_sidecar",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
@@ -193,10 +192,6 @@ SPECTACULAR_SETTINGS = {
     "CONTACT": {"name": "팀 뫄뫄", "url": "https://github.com/kookmin-sw/capstone-2022-24"},
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
-    # shorthand to use the sidecar instead
-    "SWAGGER_UI_DIST": "SIDECAR",
-    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
-    "REDOC_DIST": "SIDECAR",
     # list of authentication/permission classes for spectacular's views.
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     # None will default to DRF's AUTHENTICATION_CLASSES
@@ -223,6 +218,7 @@ SPECTACULAR_SETTINGS = {
     # TODO
     # Optional list of servers.
     "SERVERS": [
+        {"url": "http://localhost:80/", "description": "Local server"},
         {"url": "https://development.server.link.todo/", "description": "Development server"},
         {"url": "https://main.server.link.todo/", "description": "Main server"},
     ],
