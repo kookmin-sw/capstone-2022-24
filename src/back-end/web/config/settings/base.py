@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "storages",
     "drf_spectacular",
+    "drf_spectacular_sidecar",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
@@ -191,4 +192,10 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "[다학제간캡스톤디자인I] 24조",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
+}
+
+SPECTACULAR_SETTINGS = {
+    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
 }
