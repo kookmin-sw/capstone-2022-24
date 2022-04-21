@@ -227,7 +227,12 @@ SPECTACULAR_SETTINGS = {
         {"url": "https://main.server.link.todo/", "description": "Main server"},
     ],
     # Tags defined in the global scope
-    "TAGS": [],
+    "TAGS": [
+        {"name": "priority-1", "description": "1순위 API"},
+        {"name": "priority-2", "description": "2순위 API"},
+        {"name": "priority-3", "description": "3순위 API"},
+        {"name": "priority-4", "description": "4순위 API"},
+    ],
     # TODO
     # Oauth2 related settings. used for example by django-oauth2-toolkit.
     # https://spec.openapis.org/oas/v3.0.3#oauthFlowsObject
