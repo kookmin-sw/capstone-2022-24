@@ -63,6 +63,7 @@ services:
       - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
       - db
+      - cache
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
       interval: 1m
@@ -89,3 +90,7 @@ services:
       - "443:443" # https
     depends_on:
       - web
+
+  # TODO
+  # celery
+  # rabbitMQ
