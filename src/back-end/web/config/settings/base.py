@@ -127,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -144,10 +144,6 @@ MEDIA_ROOT = os.path.join(BACKEND_DIR, "media/")  # caution
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = "ko-kr"
-
-TIME_ZONE = "Asia/Seoul"
-
-USE_TZ = False
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
