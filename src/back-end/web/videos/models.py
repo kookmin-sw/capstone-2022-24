@@ -139,3 +139,4 @@ class VideoDetail(models.Model):
 
     def __str__(self):
         return f"{self.video}의 세부정보"
+

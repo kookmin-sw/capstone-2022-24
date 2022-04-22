@@ -21,7 +21,7 @@ repos:
         files: ^src/back-end/
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
-        args: ["--filter-files"]
+        args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:

@@ -407,8 +407,8 @@ db.sqlite3-journal
 *.pot
 *.pyc
 __pycache__/
-*/back-end/*/static/*
-*/back-end/*/media/*
+src/back-end/static/
+src/back-end/media/
 
 # django settings file
 src/back-end/environment/

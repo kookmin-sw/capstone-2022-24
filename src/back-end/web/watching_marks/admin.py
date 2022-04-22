@@ -1,3 +1,6 @@
+"""Admin settings of watching_marks application"""
 from django.contrib import admin
 
-# Register your models here.
+from .models import WatchingMark
+
+admin.site.register(WatchingMark)
