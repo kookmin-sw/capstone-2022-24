@@ -1,29 +1,39 @@
 version : '3'
 services:
-  mongo:
-    container_name: mongo_local
-    image: mongo:5.0.6
+  db:
+    container_name: mariadb_local
+    image: mariadb:latest
     restart: on-failure
     ports:
       - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/conf.d:/etc/mysql/conf.d
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_USER=${DB_ROOT_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - TZ=${TZ}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
       interval: 1m
       timeout: 10s
       retries: 5
-
-#  mongo-seed:
-#    build:
-#      context: ./mongo
-#      dockerfile : Dockerfile-local
-#      args:
-#        DB_NAME: ${DB_NAME}
-#    depends_on:
-#      - mongo
-
+  cache:
+    container_name: redis_local
+    image: redis:latest
+    command: redis-server --requirepass samplepassword
+    ports:
+      - "${CACHE_PORT}:${CACHE_PORT}"
+    volumes:
+      - ./cache/data:/data
+    healthcheck:
+      test: "redis-cli -h ${CACHE_HOST} ping"
+      interval: 3s
+      timeout: 1s
+      retries: 5
   web:
     container_name: web_local
     build:
@@ -36,6 +46,7 @@ services:
         WEB_PORT: ${WEB_PORT}
     command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
+                    python manage.py loaddata data.json &&
                     python manage.py collectstatic --no-input &&
                     bash ./config/start.sh"
     restart: on-failure
@@ -51,7 +62,7 @@ services:
       - GUNICORN_CONFIG=${GUNICORN_CONFIG}
       - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
-      - mongo
+      - db
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
       interval: 1m
