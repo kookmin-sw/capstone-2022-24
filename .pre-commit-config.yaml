@@ -30,7 +30,7 @@ repos:
          files: ^src/back-end/
          types: [python]
          exclude: ^.*\b(migrations)\b.*$
-         args: ["--line-length=120"]
+         args: ["--line-length=120", "--target-version=py39"]
   - repo: local
     hooks:
       - id: pylint
