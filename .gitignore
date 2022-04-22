@@ -609,4 +609,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# backup data of mariadb
+src/back-end/db/data/
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,python,pycharm,pycharm+all,node,visualstudiocode,webstorm+all,vue,vuejs
