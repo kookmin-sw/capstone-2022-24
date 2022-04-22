@@ -30,9 +30,25 @@ DATABASES = {
     }
 }
 
+# Cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{env('CACHE_HOST')}@{env('CACHE_PASSWORD')}:{env('CACHE_PORT')}/1",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient", "PASSWORD": env("CACHE_PASSWORD")},
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+CACHE_TTL = 60 * 1  # example: @method_decorator(cache_page(CACHE_TTL))
+
 # static / media location in WAS(not s3 on local environment)
 STATIC_LOCATION = env("STATIC_LOCATION")
 MEDIA_LOCATION = env("MEDIA_LOCATION")
 
 # TZ
 TIME_ZONE = env("TZ")
+
+# celery: async task queue
+# CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"
