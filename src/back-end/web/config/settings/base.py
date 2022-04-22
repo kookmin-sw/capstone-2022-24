@@ -31,7 +31,7 @@ CUSTOM_APPS = [
     "users",
     "accounts",
     "applies",
-    "dibs",
+    "wishes",
     "fellows",
     "group_accounts",
     "groups",
