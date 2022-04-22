@@ -24,11 +24,11 @@ services:
   cache:
     container_name: redis_local
     image: redis:latest
-    command: redis-server --requirepass samplepassword
-    ports:
-      - "${CACHE_PORT}:${CACHE_PORT}"
+    command: redis-server --requirepass ${CACHE_PASSWORD} --port ${CACHE_PORT}
     volumes:
       - ./cache/data:/data
+    ports:
+      - "${CACHE_PORT}:${CACHE_PORT}"
     healthcheck:
       test: "redis-cli -h ${CACHE_HOST} ping"
       interval: 3s
