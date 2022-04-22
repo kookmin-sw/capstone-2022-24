@@ -2,6 +2,7 @@ anyio==3.5.0
 appdirs==1.4.4
 asgiref==3.5.0
 astroid==2.11.2
+async-timeout==4.0.2
 attrs==21.4.0
 autobahn==22.2.2
 Automat==20.2.0
@@ -55,6 +56,7 @@ Markdown==3.3.6
 MarkupSafe==2.1.0
 mccabe==0.6.1
 mypy-extensions==0.4.3
+mysqlclient==2.1.0
 nodeenv==1.5.0
 packaging==21.3
 pathlib==1.0.1
@@ -84,6 +86,7 @@ python-dateutil==2.8.2
 python-dotenv==0.19.2
 pytz==2021.3
 PyYAML==5.4.1
+redis==4.2.2
 requests==2.27.1
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6
