@@ -38,7 +38,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{env('CACHE_HOST')}@{env('CACHE_PASSWORD')}:{env('CACHE_PORT')}/1",
+        "LOCATION": f"redis://:{env('CACHE_PASSWORD')}@{env('CACHE_HOST')}:{env('CACHE_PORT')}/1",
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient", "PASSWORD": env("CACHE_PASSWORD")},
     }
 }
