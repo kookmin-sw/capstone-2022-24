@@ -1,38 +1,23 @@
+"""Model definition of applies application: BaseApply(Abstract), LeaderApply, MemberApply"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from payments.models import Payment
 from providers.models import Provider
 
 
 class BaseApply(models.Model):
-    id = models.BigAutoField(
-        primary_key=True
-    )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null=False,
-        on_delete=models.CASCADE,
-        db_column="userId"
-    )
-    payment = models.ForeignKey(
-        Payment,
-        null=False,
-        on_delete=models.CASCADE,
-        db_column="paymentId"
-    )
-    provider = models.ForeignKey(
-        Provider,
-        null=False,
-        on_delete=models.CASCADE,
-        db_column="providerId"
-    )
-    apply_date_time = models.DateTimeField(
-        default=timezone.now,
-        db_column="applyDateTime"
-    )
+    """Abstract model definition about Common part of apply"""
+
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE, db_column="userId")
+    payment = models.ForeignKey(Payment, null=False, on_delete=models.CASCADE, db_column="paymentId")
+    provider = models.ForeignKey(Provider, null=False, on_delete=models.CASCADE, db_column="providerId")
+    apply_date_time = models.DateTimeField(default=timezone.now, db_column="applyDateTime")
 
     class Meta:
+        """Abstract setting obout BaseApply model"""
+
         abstract = True
 
     def __str__(self):
@@ -40,7 +25,11 @@ class BaseApply(models.Model):
 
 
 class LeaderApply(BaseApply):
+    """Model definition of applying group to Leader"""
+
     class Meta:
+        """Metadata of LeaderApply model"""
+
         db_table = "leader_applies"
         verbose_name_plural = "Leader Applies"
 
@@ -49,7 +38,11 @@ class LeaderApply(BaseApply):
 
 
 class MemberApply(BaseApply):
+    """Model definition of applying group to member"""
+
     class Meta:
+        """Metadata of MemberApply model"""
+
         db_table = "member_applies"
         verbose_name_plural = "Member Applies"
 
