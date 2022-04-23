@@ -23,7 +23,7 @@ cryptography==36.0.1
 daphne==3.0.2
 dill==0.3.4
 distlib==0.3.1
-Django==4.0.3
+Django==4.0.4
 django-debug-toolbar==3.2.4
 django-environ==0.8.1
 django-filter==21.1
