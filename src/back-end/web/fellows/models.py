@@ -1,7 +1,7 @@
 """Models of fellow application: Fellow, Member, Leader"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from groups.models import Group
 from payments.models import Payment
 
