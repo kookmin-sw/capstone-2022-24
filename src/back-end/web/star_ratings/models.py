@@ -1,7 +1,7 @@
 """Definitions of model about video score evaluated by the user: StarRating"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from videos.models import Video
 
 
@@ -37,11 +37,6 @@ class StarRating(models.Model):
         default=5,
     )
     date_time = models.DateTimeField(default=timezone.now, db_column="dateTime")
-
-    class Meta:
-        """Metadata for StarRating model"""
-
-        db_table = "star_ratings"
 
     def __str__(self):
         return f"{self.user}님이 {self.video} 작품에 {self.value} 별점을 주었습니다."
