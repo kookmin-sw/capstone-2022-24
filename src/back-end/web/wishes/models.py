@@ -1,7 +1,7 @@
 """Wishes App Model Definitions: Wish"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from videos.models import Video
 
 
@@ -24,11 +24,6 @@ class Wish(models.Model):
         db_column="videoId",
     )
     date_time = models.DateTimeField(default=timezone.now, db_column="dateTime")
-
-    class Meta:
-        """Meta data for Wish model"""
-
-        db_table = "wishes"
 
     def __str__(self):
         return f"{self.user}님이 {self.video} 작품을 찜하였습니다."
