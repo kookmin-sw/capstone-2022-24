@@ -1,7 +1,7 @@
 """Definitions of notification models: NotificationContent, Notification"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from providers.models import Provider
 
 
@@ -55,11 +55,6 @@ class Notification(models.Model):
     content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE, db_column="contentId")
     has_read = models.BooleanField(default=False, db_column="hasRead")
     creation_date_time = models.DateTimeField(default=timezone.now, db_column="creationDateTime")
-
-    class Meta:
-        """Metadata of notification model"""
-
-        db_table = "notifications"
 
     def __str__(self):
         return f"[{self.user}] {self.content}"
