@@ -10,7 +10,12 @@ class SocialType(models.Model):
     SOCIAL_PLATFORM_CHOICES = (("N", "Naver"), ("G", "Google"), ("O", "Others"))
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=1, choices=SOCIAL_PLATFORM_CHOICES)
-    logo_key = models.CharField(max_length=100, db_column="logoKey")
+    logo_key = models.CharField(max_length=100)
+
+    class Meta:
+        """Metadata for social_type model"""
+
+        db_table = "social_type"
 
     def __str__(self):
         return f"{self.name}"
@@ -73,16 +78,16 @@ class User(AbstractBaseUser, models.Model):
     email = models.EmailField(
         max_length=50,
     )
-    cell_phone_number = models.CharField(max_length=14, db_column="cellPhoneNumber")
-    social_type = models.ForeignKey(SocialType, default=None, db_column="socialTypeId", on_delete=models.SET_DEFAULT)
-    profile_image_url = models.ImageField(blank=True, null=True, db_column="profileImageUrl")
+    cell_phone_number = models.CharField(max_length=14)
+    social_type = models.ForeignKey(SocialType, default=None, on_delete=models.SET_DEFAULT)
+    profile_image_url = models.ImageField(blank=True, null=True)
     birthday = models.DateField()
-    is_active = models.BooleanField(default=True, db_column="isActive")
-    is_admin = models.BooleanField(default=False, db_column="isAdmin")
-    total_mileages = models.PositiveIntegerField(default=0, db_column="totalMileages")
-    withdrawal_date_time = models.DateTimeField(null=True, blank=True, db_column="withdrawalDateTime")
-    registration_date_time = models.DateTimeField(default=timezone.now, db_column="registrationDateTime")
-    last_login_date_time = models.DateTimeField(blank=True, null=True, db_column="lastLoginDateTime")
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    total_mileages = models.PositiveIntegerField(default=0)
+    withdrawal_date_time = models.DateTimeField(null=True, blank=True)
+    registration_date_time = models.DateTimeField(default=timezone.now)
+    last_login_date_time = models.DateTimeField(blank=True, null=True)
 
     USERNAME_FIELD = "nickname"
     EMAIL_FIELD = "email"
@@ -93,6 +98,7 @@ class User(AbstractBaseUser, models.Model):
     class Meta:
         """Metadata of User model"""
 
+        db_table = "user"
         ordering = ("-registration_date_time",)
 
     def __str__(self):

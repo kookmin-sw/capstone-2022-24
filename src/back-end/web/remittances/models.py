@@ -11,6 +11,11 @@ class RemittanceReason(models.Model):
     keyword = models.CharField(max_length=10)
     description = models.CharField(null=True, blank=True, max_length=100)
 
+    class Meta:
+        """Metadata for remittance_reason model"""
+
+        db_table = "remittance_reason"
+
     def __str__(self):
         return f"{self.keyword}"
 
@@ -21,15 +26,20 @@ class Remittance(models.Model):
     STATUS_CHOICES = (("PE", "PENDING"), ("CA", "CANCELED"), ("CO", "COMPLETED"))
 
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column="userId")
-    reason = models.ForeignKey(RemittanceReason, default=1, on_delete=models.SET_DEFAULT, db_column="reasonId")
-    payment = models.ForeignKey(Payment, null=True, blank=True, on_delete=models.SET_NULL, db_column="paymentId")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    reason = models.ForeignKey(RemittanceReason, default=1, on_delete=models.SET_DEFAULT)
+    payment = models.ForeignKey(Payment, null=True, blank=True, on_delete=models.SET_NULL)
     amount = models.PositiveIntegerField(default=0)
     status = models.CharField(choices=STATUS_CHOICES, max_length=2)
     transfer_date_time = models.DateTimeField(
         null=True,
         blank=True,
     )
+
+    class Meta:
+        """Metadata for remittance model"""
+
+        db_table = "remittance"
 
     def __str__(self):
         return f"[{self.get_status_display()}] {self.user}님에게 {self.amount}원 송금"

@@ -33,9 +33,9 @@ class NotificationContent(models.Model):
     message = models.CharField(max_length=50)
 
     class Meta:
-        """Metadata of notification details model"""
+        """Metadata for notification_content model"""
 
-        db_table = "notification_contents"
+        db_table = "notification_content"
 
     def __str__(self):
         return f"{self.keyword}: {self.message}"
@@ -50,11 +50,16 @@ class Notification(models.Model):
     """Definition of notification relationship model"""
 
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column="userId")
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, db_column="providerId")
-    content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE, db_column="contentId")
-    has_read = models.BooleanField(default=False, db_column="hasRead")
-    creation_date_time = models.DateTimeField(default=timezone.now, db_column="creationDateTime")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE)
+    has_read = models.BooleanField(default=False)
+    creation_date_time = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        """Metadata for notification model"""
+
+        db_table = "notification"
 
     def __str__(self):
         return f"[{self.user}] {self.content}"

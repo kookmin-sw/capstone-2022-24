@@ -10,18 +10,18 @@ class Fellow(models.Model):
     """User included in a specific group"""
 
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column="userId")
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, db_column="groupId")
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, db_column="paymentId")
-    will_renew = models.BooleanField(default=True, db_column="willRenew")
-    creation_date_time = models.DateTimeField(default=timezone.now, db_column="creationDateTime")
-    last_modification_date_time = models.DateTimeField(default=timezone.now, db_column="lastModificationDateTime")
-    has_reported = models.BooleanField(default=False, db_column="hasReported")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    will_renew = models.BooleanField(default=True)
+    creation_date_time = models.DateTimeField(default=timezone.now)
+    last_modification_date_time = models.DateTimeField(default=timezone.now)
+    has_reported = models.BooleanField(default=False)
 
     class Meta:
         """Metadata of fellow model"""
 
-        db_table = "fellows"
+        db_table = "fellow"
         ordering = ("-creation_date_time",)
         unique_together = (
             "user",
@@ -36,13 +36,13 @@ class Member(models.Model):
     """User that waits for leader to pay OTT among fellows"""
 
     id = models.BigAutoField(primary_key=True)
-    fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="member", db_column="fellowId")
-    has_reported_leader = models.BooleanField(default=False, db_column="hasReportedLeader")
+    fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="member")
+    has_reported_leader = models.BooleanField(default=False)
 
     class Meta:
-        """Metadata of member model"""
+        """Metadata for member model"""
 
-        db_table = "members"
+        db_table = "member"
 
     def __str__(self):
         return f"{self.fellow} 모임원"
@@ -52,12 +52,12 @@ class Leader(models.Model):
     """User that has to pay OTT among fellows"""
 
     id = models.BigAutoField(primary_key=True)
-    fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="leader", db_column="fellowId")
+    fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="leader")
 
     class Meta:
-        """Metadata of leader model"""
+        """Metadata for leader model"""
 
-        db_table = "leaders"
+        db_table = "leader"
 
     def __str__(self):
         return f"{self.fellow} 모임장"

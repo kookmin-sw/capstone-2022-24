@@ -13,9 +13,9 @@ class Bank(models.Model):
     name = models.CharField(max_length=10, null=False)
 
     class Meta:
-        """Metadata for Bank model"""
+        """Metadata of table"""
 
-        db_table = "banks"
+        db_table = "bank"
 
     def __str__(self):
         return f"{self.name}"
@@ -31,15 +31,14 @@ class Account(models.Model):
         Bank,
         on_delete=models.CASCADE,
         null=False,
-        db_column="bankId",
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE, db_column="userId")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=10, null=False)
 
     class Meta:
-        """Metadata for Account model"""
+        """Metadata of table"""
 
-        db_table = "accounts"
+        db_table = "account"
 
     def __str__(self):
         return f"[{self.bank.name}] {self.name}"

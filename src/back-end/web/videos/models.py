@@ -8,3 +8,8 @@ class Video(models.Model):
     id = models.BigAutoField(
         primary_key=True,
     )
+
+    class Meta:
+        """Metadata for video model"""
+
+        db_table = "video"

@@ -15,12 +15,17 @@ class Group(models.Model):
         ("Watching", "관람중"),
     )
     id = models.BigAutoField(primary_key=True)
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, db_column="providerId")
-    group_account = models.ForeignKey(GroupAccount, on_delete=models.CASCADE, db_column="groupAccountId")
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    group_account = models.ForeignKey(GroupAccount, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, default="Recruiting", choices=STATUS_CHOICES)
-    creation_date_time = models.DateTimeField(default=timezone.now, db_column="creationDateTime")
-    start_watching_date_time = models.DateTimeField(null=True, blank=True, db_column="startWatchingDateTime")
-    end_watching_date_time = models.DateTimeField(null=True, blank=True, db_column="endWatchingDateTime")
+    creation_date_time = models.DateTimeField(default=timezone.now)
+    start_watching_date_time = models.DateTimeField(null=True, blank=True)
+    end_watching_date_time = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        """Metadata for group model"""
+
+        db_table = "group"
 
     def __str__(self):
         return f"[{self.get_status_display()}] {self.provider} 모임 #{self.id}"

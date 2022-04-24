@@ -25,18 +25,21 @@ class StarRating(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        db_column="userId",
     )
     video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
-        db_column="videoId",
     )
     value = models.FloatField(
         choices=VALUE_CHOICES,
         default=5,
     )
-    date_time = models.DateTimeField(default=timezone.now, db_column="dateTime")
+    date_time = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        """Metadata for star_rating model"""
+
+        db_table = "star_rating"
 
     def __str__(self):
         return f"{self.user}님이 {self.video} 작품에 {self.value} 별점을 주었습니다."

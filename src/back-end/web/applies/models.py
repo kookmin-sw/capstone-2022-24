@@ -10,10 +10,10 @@ class BaseApply(models.Model):
     """Abstract model definition about Common part of apply"""
 
     id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE, db_column="userId")
-    payment = models.ForeignKey(Payment, null=False, on_delete=models.CASCADE, db_column="paymentId")
-    provider = models.ForeignKey(Provider, null=False, on_delete=models.CASCADE, db_column="providerId")
-    apply_date_time = models.DateTimeField(default=timezone.now, db_column="applyDateTime")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, null=False, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, null=False, on_delete=models.CASCADE)
+    apply_date_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         """Abstract setting obout BaseApply model"""
@@ -30,8 +30,9 @@ class LeaderApply(BaseApply):
     class Meta:
         """Metadata of LeaderApply model"""
 
-        db_table = "leader_applies"
-        verbose_name_plural = "Leader Applies"
+        db_table = "leader_apply"
+        verbose_name_plural = "Leader applies"
+        ordering = ("-apply_date_time",)
 
     def __str__(self):
         return f"[{self.provider}] {self.user}님의 모임장 신청"
@@ -43,8 +44,9 @@ class MemberApply(BaseApply):
     class Meta:
         """Metadata of MemberApply model"""
 
-        db_table = "member_applies"
-        verbose_name_plural = "Member Applies"
+        db_table = "member_apply"
+        verbose_name_plural = "Member applies"
+        ordering = ("-apply_date_time",)
 
     def __str__(self):
         return f"[{self.provider}] {self.user}님의 모임원 신청"
