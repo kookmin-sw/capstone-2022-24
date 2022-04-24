@@ -1,6 +1,6 @@
 """Definition of remittances application models: Remittance"""
 from django.conf import settings
-from djongo import models
+from django.db import models
 from payments.models import Payment
 
 
@@ -30,11 +30,6 @@ class Remittance(models.Model):
         null=True,
         blank=True,
     )
-
-    class Meta:
-        """Metadata for Remittance model"""
-
-        db_table = "remittances"
 
     def __str__(self):
         return f"[{self.get_status_display()}] {self.user}님에게 {self.amount}원 송금"
