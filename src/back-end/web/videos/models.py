@@ -1,5 +1,5 @@
 """Videos App Model Definitions: Video, VideoDetail"""
-from djongo import models
+from django.db import models
 
 
 class Video(models.Model):
