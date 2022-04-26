@@ -7,7 +7,6 @@ from payments.models import Payment
 class RemittanceReason(models.Model):
     """Model Definition of remittance reason model that explain service's transfer"""
 
-    id = models.BigAutoField(primary_key=True)
     keyword = models.CharField(max_length=10)
     description = models.CharField(null=True, blank=True, max_length=100)
 
@@ -25,7 +24,6 @@ class Remittance(models.Model):
 
     STATUS_CHOICES = (("PE", "PENDING"), ("CA", "CANCELED"), ("CO", "COMPLETED"))
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     reason = models.ForeignKey(RemittanceReason, default=1, on_delete=models.SET_DEFAULT)
     payment = models.ForeignKey(Payment, null=True, blank=True, on_delete=models.SET_NULL)
