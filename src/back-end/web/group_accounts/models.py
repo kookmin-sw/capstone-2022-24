@@ -16,4 +16,4 @@ class GroupAccount(models.Model):
         db_table = "group_account"
 
     def __str__(self):
-        return f"[{self.id}] 최종 변경일시: {self.last_modification_date_time}"
+        return f"모임 계정 #{self.id}"

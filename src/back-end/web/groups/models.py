@@ -27,4 +27,4 @@ class Group(models.Model):
         db_table = "group"
 
     def __str__(self):
-        return f"[{self.get_status_display()}] {self.provider} 모임 #{self.id}"
+        return f"[{self.get_status_display()}] 모임 #{self.id}"

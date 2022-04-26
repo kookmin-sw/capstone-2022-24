@@ -9,9 +9,9 @@ from providers.models import Provider
 class BaseApply(models.Model):
     """Abstract model definition about Common part of apply"""
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, null=False, on_delete=models.CASCADE)
-    provider = models.ForeignKey(Provider, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     apply_date_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -20,7 +20,7 @@ class BaseApply(models.Model):
         abstract = True
 
     def __str__(self):
-        return f"[{self.provider.name}] {self.user.name}님의 구성원 신청"
+        return f"구성원 신청 #{self.id}"
 
 
 class LeaderApply(BaseApply):
@@ -34,7 +34,7 @@ class LeaderApply(BaseApply):
         ordering = ("-apply_date_time",)
 
     def __str__(self):
-        return f"[{self.provider}] {self.user}님의 모임장 신청"
+        return f"모임장 신청 #{self.id}"
 
 
 class MemberApply(BaseApply):
@@ -48,4 +48,4 @@ class MemberApply(BaseApply):
         ordering = ("-apply_date_time",)
 
     def __str__(self):
-        return f"[{self.provider}] {self.user}님의 모임원 신청"
+        return f"모임원 신청 #{self.id}"

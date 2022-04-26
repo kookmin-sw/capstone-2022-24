@@ -40,4 +40,4 @@ class Remittance(models.Model):
         db_table = "remittance"
 
     def __str__(self):
-        return f"[{self.get_status_display()}] {self.user}님에게 {self.amount}원 송금"
+        return f"[{self.get_status_display()}] {self.amount}원 송금내역"

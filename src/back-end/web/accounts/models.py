@@ -6,8 +6,8 @@ from django.db import models
 class Bank(models.Model):
     """Model Definition of bank in Korea"""
 
-    code = models.CharField(max_length=10, null=False)
-    name = models.CharField(max_length=10, null=False)
+    code = models.CharField(max_length=10)
+    name = models.CharField(max_length=10)
 
     class Meta:
         """Metadata of table"""
@@ -24,10 +24,9 @@ class Account(models.Model):
     bank = models.ForeignKey(
         Bank,
         on_delete=models.CASCADE,
-        null=False,
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
-    name = models.CharField(max_length=10, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=10)
 
     class Meta:
         """Metadata of table"""
@@ -35,4 +34,4 @@ class Account(models.Model):
         db_table = "account"
 
     def __str__(self):
-        return f"[{self.bank.name}] {self.name}"
+        return f"예금주: {self.name}"

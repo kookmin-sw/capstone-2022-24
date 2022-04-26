@@ -28,7 +28,7 @@ class Fellow(models.Model):
         )
 
     def __str__(self):
-        return f"{self.group}: {self.user}"
+        return f"구성원 #{self.id}"
 
 
 class Member(models.Model):
@@ -43,7 +43,7 @@ class Member(models.Model):
         db_table = "member"
 
     def __str__(self):
-        return f"{self.fellow} 모임원"
+        return f"모임원 #{self.id}"
 
 
 class Leader(models.Model):
@@ -57,4 +57,4 @@ class Leader(models.Model):
         db_table = "leader"
 
     def __str__(self):
-        return f"{self.fellow} 모임장"
+        return f"모임장 #{self.id}"

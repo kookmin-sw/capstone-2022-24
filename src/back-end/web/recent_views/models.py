@@ -10,12 +10,10 @@ class RecentView(models.Model):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        null=False,
         on_delete=models.CASCADE,
     )
     video = models.ForeignKey(
         Video,
-        null=False,
         on_delete=models.CASCADE,
     )
     last_view_date_time = models.DateTimeField(default=timezone.now)
@@ -26,4 +24,4 @@ class RecentView(models.Model):
         db_table = "recent_view"
 
     def __str__(self):
-        return f"{self.user}님이 {self.video} 작품을 조회하였습니다."
+        return f"작품 조회 #{self.id}"

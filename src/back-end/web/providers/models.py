@@ -12,15 +12,14 @@ class Provider(models.Model):
         ("DP", "DisneyPlus"),
         ("TV", "Tving"),
         ("WV", "Wavve"),
+        ("AP", "AmazonPrime"),
     )
     tmdb_id = models.PositiveBigIntegerField()
     name = models.CharField(
-        null=False,
-        blank=False,
         max_length=2,
         choices=NAME_CHOICES,
     )
-    logo_key = models.CharField(null=False, blank=False, max_length=100)
+    logo_key = models.CharField(max_length=100)
 
     class Meta:
         """Metadata for provider model"""
@@ -59,9 +58,9 @@ class Charge(models.Model):
         null=True,
         on_delete=models.SET_NULL,
     )
-    service_charge_per_member = models.PositiveIntegerField(null=False, default=0)
-    subscription_charge_per_member = models.PositiveIntegerField(null=False, default=0)
-    total_subscription_charge = models.PositiveIntegerField(null=False, default=0)
+    service_charge_per_member = models.PositiveIntegerField(default=0)
+    subscription_charge_per_member = models.PositiveIntegerField(default=0)
+    total_subscription_charge = models.PositiveIntegerField(default=0)
     base_date = models.DateField(default=timezone.now)
 
     class Meta:
@@ -70,4 +69,4 @@ class Charge(models.Model):
         db_table = "charge"
 
     def __str__(self):
-        return f"[{self.provider}] {self.subscription_type} 요금제"
+        return f"이용료 {self.service_charge_per_member}원/인"

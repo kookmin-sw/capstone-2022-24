@@ -17,6 +17,6 @@ class Mileage(models.Model):
         db_table = "mileage"
 
     def __str__(self):
-        return f"{self.user}님의 마일리지 {self.amount}원 갱신"
+        return f"마일리지 {self.amount}원 갱신"
 
     # T0D0: 사용자 총 마일리지 갱신

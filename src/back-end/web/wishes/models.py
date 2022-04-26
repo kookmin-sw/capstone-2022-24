@@ -10,12 +10,10 @@ class Wish(models.Model):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        null=False,
         on_delete=models.CASCADE,
     )
     video = models.ForeignKey(
         Video,
-        null=False,
         on_delete=models.CASCADE,
     )
     date_time = models.DateTimeField(default=timezone.now)
@@ -26,4 +24,4 @@ class Wish(models.Model):
         db_table = "wish"
 
     def __str__(self):
-        return f"{self.user}님이 {self.video} 작품을 찜하였습니다."
+        return f"찜 #{self.id}"

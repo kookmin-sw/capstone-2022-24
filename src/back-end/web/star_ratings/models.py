@@ -41,4 +41,4 @@ class StarRating(models.Model):
         db_table = "star_rating"
 
     def __str__(self):
-        return f"{self.user}님이 {self.video} 작품에 {self.value} 별점을 주었습니다."
+        return f"{self.value}/5.0점 #{self.id}"
