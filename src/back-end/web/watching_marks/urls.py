@@ -1,3 +1,3 @@
-"""videos URL Configuration"""
+"""watching_marks URL Configuration"""
 
 urlpatterns = []
