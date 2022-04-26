@@ -7,7 +7,6 @@ from django.utils import timezone
 class Mileage(models.Model):
     """Record about User's mileage changes"""
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
     renewal_date_time = models.DateTimeField(default=timezone.now)
