@@ -21,7 +21,6 @@ class StarRating(models.Model):
         (5.0, "5.0"),
     )
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
