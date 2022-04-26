@@ -8,9 +8,6 @@ from videos.models import Video
 class RecentView(models.Model):
     """Definition of history user recently inquired about details"""
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=False,
