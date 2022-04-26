@@ -28,7 +28,6 @@ class NotificationContent(models.Model):
         ("M002", "마일리지 적립"),
         # T0D0
     )
-    id = models.BigAutoField(primary_key=True)
     code = models.CharField(max_length=4, choices=CODE_CHOICES)
     message = models.CharField(max_length=50)
 
@@ -49,7 +48,6 @@ class NotificationContent(models.Model):
 class Notification(models.Model):
     """Definition of notification relationship model"""
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE)
