@@ -41,5 +41,4 @@ class ChargeSerializer(serializers.ModelSerializer):
 
     def get_subscription_type(self, obj):
         """Get subscription type data using SubscriptionTypeSerializer"""
-
-        return SubscriptionTypeSerializer(obj.subscriptionType).data
+        return SubscriptionTypeSerializer(obj.subscription_type).data
