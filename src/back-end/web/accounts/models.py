@@ -6,9 +6,6 @@ from django.db import models
 class Bank(models.Model):
     """Model Definition of bank in Korea"""
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     code = models.CharField(max_length=10, null=False)
     name = models.CharField(max_length=10, null=False)
 
@@ -24,9 +21,6 @@ class Bank(models.Model):
 class Account(models.Model):
     """Model Definition of account held by user"""
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     bank = models.ForeignKey(
         Bank,
         on_delete=models.CASCADE,
