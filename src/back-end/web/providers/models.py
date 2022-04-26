@@ -13,9 +13,6 @@ class Provider(models.Model):
         ("TV", "Tving"),
         ("WV", "Wavve"),
     )
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     tmdb_id = models.PositiveBigIntegerField()
     name = models.CharField(
         null=False,
@@ -53,7 +50,6 @@ class SubscriptionType(models.Model):
 class Charge(models.Model):
     """Model definition of charge details"""
 
-    id = models.BigAutoField(primary_key=True)
     provider = models.ForeignKey(
         Provider,
         on_delete=models.CASCADE,
