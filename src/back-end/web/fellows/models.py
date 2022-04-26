@@ -9,7 +9,6 @@ from payments.models import Payment
 class Fellow(models.Model):
     """User included in a specific group"""
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
@@ -35,7 +34,6 @@ class Fellow(models.Model):
 class Member(models.Model):
     """User that waits for leader to pay OTT among fellows"""
 
-    id = models.BigAutoField(primary_key=True)
     fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="member")
     has_reported_leader = models.BooleanField(default=False)
 
@@ -51,7 +49,6 @@ class Member(models.Model):
 class Leader(models.Model):
     """User that has to pay OTT among fellows"""
 
-    id = models.BigAutoField(primary_key=True)
     fellow = models.OneToOneField(Fellow, on_delete=models.CASCADE, related_name="leader")
 
     class Meta:
