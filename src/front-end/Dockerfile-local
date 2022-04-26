@@ -46,5 +46,5 @@ COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-## Start proxy server
+## Start server
 CMD ["nginx", "-g", "daemon off;"]
