@@ -1,4 +1,5 @@
+"""Admin configurations of groups application"""
 from django.contrib import admin
-from .models import Group
+from groups.models import Group
 
 admin.site.register(Group)
