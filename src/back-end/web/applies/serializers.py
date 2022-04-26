@@ -1,10 +1,9 @@
 """Serializers of applies application for json parsing"""
+from applies.models import BaseApply
 from payments.serializers import PaymentSerializer
 from providers.serializers import ProviderSerializer
 from rest_framework import serializers
 from users.serializers import UserSerializer
-
-from .models import BaseApply
 
 
 class BaseApplySerializer(serializers.ModelSerializer):
