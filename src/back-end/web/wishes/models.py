@@ -8,9 +8,6 @@ from videos.models import Video
 class Wish(models.Model):
     """Wish information that user wants to watch"""
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=False,
