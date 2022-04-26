@@ -27,7 +27,6 @@ class Payment(models.Model):
         ("E", "EXPIRED"),
     )
 
-    id = models.BigAutoField(primary_key=True)
     amount = models.PositiveIntegerField(
         default=0,
     )
