@@ -14,7 +14,6 @@ class Group(models.Model):
         ("Reviewing", "검토중"),
         ("Watching", "관람중"),
     )
-    id = models.BigAutoField(primary_key=True)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     group_account = models.ForeignKey(GroupAccount, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, default="Recruiting", choices=STATUS_CHOICES)
