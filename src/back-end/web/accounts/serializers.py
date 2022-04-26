@@ -1,7 +1,6 @@
 """Serializers of accounts application used to parse into json type"""
+from accounts.models import Account, Bank
 from rest_framework import serializers
-
-from .models import Account, Bank
 
 
 class BankSerializer(serializers.ModelSerializer):
