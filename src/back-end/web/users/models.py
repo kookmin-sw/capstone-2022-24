@@ -8,7 +8,6 @@ class SocialType(models.Model):
     """Model of sns platform that user enters"""
 
     SOCIAL_PLATFORM_CHOICES = (("N", "Naver"), ("G", "Google"), ("O", "Others"))
-    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=1, choices=SOCIAL_PLATFORM_CHOICES)
     logo_key = models.CharField(max_length=100)
 
@@ -73,7 +72,6 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, models.Model):
     """Model of user that use ongot service"""
 
-    id = models.BigAutoField(primary_key=True)
     nickname = models.CharField(max_length=8, unique=True)
     email = models.EmailField(
         max_length=50,
