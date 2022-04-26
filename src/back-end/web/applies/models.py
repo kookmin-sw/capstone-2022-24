@@ -9,7 +9,6 @@ from providers.models import Provider
 class BaseApply(models.Model):
     """Abstract model definition about Common part of apply"""
 
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=False, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, null=False, on_delete=models.CASCADE)
     provider = models.ForeignKey(Provider, null=False, on_delete=models.CASCADE)
