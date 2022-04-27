@@ -96,7 +96,7 @@
 			<div class="explanation col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
-			<q-btn unelevated color="blue" class="full-width" :disabled="state">
+			<q-btn unelevated color="blue" class="full-width" :disabled="state" @click="payment">
 				신청하기
 			</q-btn>
 		</div>
@@ -105,8 +105,10 @@
 </template>
 
 <script>
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 export default {
-	name: 'Home',
+	name: 'Join',
 	data() {
 		return {
 			ottFilters: {
@@ -163,6 +165,14 @@ export default {
 			} else this.state = true;
 			return this.state;
 		},
+    async payment() {
+      const tossPayments = await loadTossPayments(clientKey);
+      tossPayments.requestBillingAuth('카드', {
+        customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
+        successUrl: 'http://localhost:8080/success',
+        failUrl: 'http://localhost:8080/fail',
+      })
+    },
 	},
 };
 </script>
