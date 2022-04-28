@@ -63,27 +63,18 @@ class Rating(models.Model):
     value = models.FloatField(
         max_length=10,
     )
+    objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
 
         abstract = True
 
-
-class RatingForm(forms.ModelForm):
-    """Form class to use ratings arrayfield"""
-
-    class Meta:
-        """class meta form setting"""
-
-        model = Rating
-        fields = ("name", "value")
-
-
 class ProductionCountry(models.Model):
     """Abstract class to use production_countires arrayfield"""
 
     name = models.CharField(max_length=2)
+    objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
@@ -95,6 +86,7 @@ class Gerne(models.Model):
     """Abstract class to use gernes arrayfield"""
 
     name = models.CharField(max_length=20)
+    objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
@@ -118,7 +110,6 @@ class VideoDetail(models.Model):
     )
     ratings = models.ArrayField(
         model_container=Rating,
-        model_form_class=RatingForm,
         null=False,
     )
     production_countries = models.ArrayField(
@@ -138,5 +129,5 @@ class VideoDetail(models.Model):
         db_table = "video_details"
 
     def __str__(self):
-        return f"{self.video}의 세부정보"
+        return f"{self.video.title}의 세부정보"
 
