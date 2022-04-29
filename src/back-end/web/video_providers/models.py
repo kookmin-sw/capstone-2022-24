@@ -1,6 +1,6 @@
 """Videos App Model Definitions: VideoProvider"""
 from django.utils import timezone
-from djongo import models
+from django.db import models
 from providers.models import Provider
 from videos.models import Video
 

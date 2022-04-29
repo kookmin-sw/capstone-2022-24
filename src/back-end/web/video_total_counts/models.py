@@ -1,6 +1,6 @@
 """Video Total Counts App Model Definitions: VideoTotalCount"""
 
-from djongo import models
+from django.db import models
 from videos.models import Video
 
 
