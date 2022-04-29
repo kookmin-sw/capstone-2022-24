@@ -1,6 +1,5 @@
 """Videos App Model Definitions: Video, VideoDetail"""
-from django import forms
-from djongo import models
+from django.db import models
 
 
 class Video(models.Model):
@@ -70,6 +69,7 @@ class Rating(models.Model):
 
         abstract = True
 
+
 class ProductionCountry(models.Model):
     """Abstract class to use production_countires arrayfield"""
 
@@ -130,4 +130,3 @@ class VideoDetail(models.Model):
 
     def __str__(self):
         return f"{self.video.title}의 세부정보"
-
