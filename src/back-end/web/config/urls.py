@@ -15,4 +15,7 @@ urlpatterns = [
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger
     path("docs/redoc/", SpectacularRedocView.as_view(url_name="docs"), name="redoc"),  # api docs by redoc
+    # auth
+    path("users/", include("dj_rest_auth.urls")),
+    path("users/", include("allauth.urls")),
 ]
