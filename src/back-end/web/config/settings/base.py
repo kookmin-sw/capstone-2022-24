@@ -66,6 +66,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -248,3 +249,13 @@ SPECTACULAR_SETTINGS = {
         "displayOperationId": True,
     },
 }
+
+# i18n
+LANGUAGE_CODE = "ko"
+
+LANGUAGES = [
+    ("ko", "Korean"),
+    ("en-us", "English"),
+]
+
+LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale

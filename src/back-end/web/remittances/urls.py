@@ -1,0 +1,3 @@
+"""remittances URL Configuration"""
+
+urlpatterns = []

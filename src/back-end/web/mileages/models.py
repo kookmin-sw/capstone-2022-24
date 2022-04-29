@@ -7,17 +7,16 @@ from django.utils import timezone
 class Mileage(models.Model):
     """Record about User's mileage changes"""
 
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column="userId")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
-    renewal_date_time = models.DateTimeField(default=timezone.now, db_column="renewalDateTime")
+    renewal_date_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        """Meta data about Mileage model"""
+        """Metadata for mileage model"""
 
-        db_table = "mileages"
+        db_table = "mileage"
 
     def __str__(self):
-        return f"{self.user}님의 마일리지 {self.amount}원 갱신"
+        return f"마일리지 {self.amount}원 갱신"
 
     # T0D0: 사용자 총 마일리지 갱신
