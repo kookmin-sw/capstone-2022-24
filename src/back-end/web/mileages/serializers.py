@@ -1,8 +1,7 @@
 """Definitions of serializer for mileages application"""
+from mileages.models import Mileage
 from rest_framework import serializers
 from users.serializers import UserSerializer
-
-from .models import Mileage
 
 
 class MileageSerializer(serializers.ModelSerializer):

@@ -1,5 +1,6 @@
+"""Admin configurations of providers application"""
 from django.contrib import admin
-from .models import *
+from providers.models import Charge, Provider, SubscriptionType
 
 admin.site.register(Provider)
 admin.site.register(Charge)

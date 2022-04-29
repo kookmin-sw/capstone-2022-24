@@ -1,99 +1,72 @@
+"""Model definition of providers application: Provider, SubscriptionType, Charge"""
+from django.db import models
 from django.utils import timezone
-from djongo import models
 
 
 class Provider(models.Model):
+    """Model definition about OTT Providers"""
+
     NAME_CHOICES = (
-        ('NF', 'Netflix'),
-        ('WC', 'Watcha'),
-        ('DP', 'DisneyPlus'),
-        ('TV', 'Tving'),
-        ('WV', 'Wavve'),
+        ("NF", "Netflix"),
+        ("WC", "Watcha"),
+        ("DP", "DisneyPlus"),
+        ("TV", "Tving"),
+        ("WV", "Wavve"),
+        ("AP", "AmazonPrime"),
     )
-    id = models.BigAutoField(
-        primary_key=True,
-    )
-    tmdb_id = models.PositiveBigIntegerField(
-        db_column="tmdbId"
-    )
+    tmdb_id = models.PositiveBigIntegerField()
     name = models.CharField(
-        null=False,
-        blank=False,
         max_length=2,
         choices=NAME_CHOICES,
     )
-    logo_key = models.CharField(
-        null=False,
-        blank=False,
-        max_length=100,
-        db_column="logoKey"
-    )
+    logo_key = models.CharField(max_length=100)
 
     class Meta:
-        db_table = "providers"
+        """Metadata for provider model"""
+
+        db_table = "provider"
 
     def __str__(self):
         return f"{self.get_name_display()}"
 
 
 class SubscriptionType(models.Model):
-    name = models.CharField(
-        primary_key=True,
-        max_length=20
-    )
-    number_of_subscribers = models.PositiveSmallIntegerField(
-        db_column="numberOfSubscribers"
-    )
-    detail = models.CharField(
-        null=True,
-        blank=True,
-        max_length=200
-    )
+    """Model definition of subscription details"""
+
+    name = models.CharField(primary_key=True, max_length=20)
+    number_of_subscribers = models.PositiveSmallIntegerField()
+    detail = models.CharField(null=True, blank=True, max_length=200)
 
     class Meta:
-        db_table = "subscription_types"
+        """Metadata for subscription_type model"""
+
+        db_table = "subscription_type"
 
     def __str__(self):
         return f"{self.name}"
 
 
 class Charge(models.Model):
-    id = models.BigAutoField(
-        primary_key=True
-    )
+    """Model definition of charge details"""
+
     provider = models.ForeignKey(
         Provider,
         on_delete=models.CASCADE,
-        db_column="provider",
     )
     subscription_type = models.ForeignKey(
         SubscriptionType,
         null=True,
         on_delete=models.SET_NULL,
-        db_column="subscriptionType",
     )
-    service_charge_per_member = models.PositiveIntegerField(
-        null=False,
-        default=0,
-        db_column="serviceChargePerMember"
-    )
-    subscription_charge_per_member = models.PositiveIntegerField(
-        null=False,
-        default=0,
-        db_column="subscriptionChargePerMember"
-    )
-    total_subscription_charge = models.PositiveIntegerField(
-        null=False,
-        default=0,
-        db_column="totalSubscriptionCharge"
-    )
-    base_date = models.DateField(
-        default=timezone.now,
-        db_column="baseDate"
-    )
+    service_charge_per_member = models.PositiveIntegerField(default=0)
+    subscription_charge_per_member = models.PositiveIntegerField(default=0)
+    total_subscription_charge = models.PositiveIntegerField(default=0)
+    base_date = models.DateField(default=timezone.now)
 
     class Meta:
-        db_table = "charges"
+        """Metadata for charge model"""
+
+        db_table = "charge"
 
     def __str__(self):
-        return f"[{self.provider}] {self.subscription_type} 요금제"
+        return f"이용료 {self.service_charge_per_member}원/인"
