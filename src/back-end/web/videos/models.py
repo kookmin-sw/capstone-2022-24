@@ -62,7 +62,7 @@ class Rating(models.Model):
     value = models.FloatField(
         max_length=10,
     )
-    objects = models.DjongoManager()
+    # objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
@@ -73,8 +73,10 @@ class Rating(models.Model):
 class ProductionCountry(models.Model):
     """Abstract class to use production_countires arrayfield"""
 
-    name = models.CharField(max_length=2)
-    objects = models.DjongoManager()
+    name = models.CharField(
+        max_length=2,
+    )
+    # objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
@@ -85,8 +87,10 @@ class ProductionCountry(models.Model):
 class Gerne(models.Model):
     """Abstract class to use gernes arrayfield"""
 
-    name = models.CharField(max_length=20)
-    objects = models.DjongoManager()
+    name = models.CharField(
+        max_length=20,
+    )
+    # objects = models.DjongoManager()
 
     class Meta:
         """type setting"""
@@ -108,6 +112,8 @@ class VideoDetail(models.Model):
     runtime = models.IntegerField(
         null=False,
     )
+
+    """
     ratings = models.ArrayField(
         model_container=Rating,
         null=False,
@@ -122,6 +128,7 @@ class VideoDetail(models.Model):
         max_length=50,
         null=True,
     )
+    """
 
     class Meta:
         """DB table naming"""
