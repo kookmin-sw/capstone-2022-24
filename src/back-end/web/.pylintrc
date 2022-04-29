@@ -1,2 +1,2 @@
 [MASTER]
-init-hook='import os, sys, site; sys.path = site.getsitepackages(); sys.path.append(os.getcwd()+"/src/back-end/web")'
+init-hook='import os, sys, site; sys.path = site.getsitepackages(); sys.path.append(os.getcwd()+"/src/back-end/web");'

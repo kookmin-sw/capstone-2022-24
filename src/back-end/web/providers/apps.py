@@ -1,16 +1,9 @@
+"""configurations of providers application"""
 from django.apps import AppConfig
 
 
 class ProvidersConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'providers'
+    """Configuration details of providers application"""
 
-
-class ChargeConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'charges'
-
-
-class SubscriptionTypeConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'subscription_types'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "providers"
