@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
+from datetime import timedelta
 from pathlib import Path
 
 # web
@@ -52,15 +53,33 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # static/media file storages
+    "storages",
     # django-rest-framework
     "rest_framework",
-    "storages",
+    # api documentation
     "drf_spectacular",
+    # jwt
+    "est_framework_simplejwt.token_blacklist",
+    # dj-rest-auth
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    # django-allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.naver",
+    "allauth.socialaccount.providers.google",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
     # API document automation: drf-spectacular
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+    ),
 }
 
 MIDDLEWARE = [
@@ -259,3 +278,18 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale
+
+# auth
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "nickname"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+
+# jwt
+REST_USE_JWT = True
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=6),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
