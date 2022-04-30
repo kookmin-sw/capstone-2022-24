@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     # api documentation
     "drf_spectacular",
     # jwt
-    "est_framework_simplejwt.token_blacklist",
+    "rest_framework_simplejwt.token_blacklist",
     # dj-rest-auth
     "dj_rest_auth",
     "dj_rest_auth.registration",
