@@ -200,8 +200,6 @@ export default {
         customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
         successUrl: window.location.origin + '/success',
         failUrl: window.location.origin + '/fail',
-        // customerName: this.$store.userProfile.nickname,
-        // customerEmail: this.$store.userProfile.email,
       })
       .catch(function (error) {
         if (error.code === 'USER_CANCEL')
