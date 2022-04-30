@@ -42,6 +42,8 @@ CUSTOM_APPS = [
     "remittances",
     "star_ratings",
     "videos",
+    "video_providers",
+    "video_total_counts",
     "watching_marks",
 ]
 
