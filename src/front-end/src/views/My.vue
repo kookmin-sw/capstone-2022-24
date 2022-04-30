@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <template>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
@@ -17,12 +18,16 @@
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
+      <div class="q-ml-lg" @click="payment">충전하기</div>
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
 			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
+    <div class="row">
+      <q-btn color="blue" outline @click="chargeCredit">충전하기</q-btn>
+    </div>
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue" inset />
@@ -44,14 +49,14 @@
 		</div>
 		<!-- 모임 탈퇴 -->
 		<div class="text-left align-right">
-			<q-btn flat dense>모임 탈퇴 하기 ></q-btn>
+			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>
 		</div>
 		<!-- 모임 상세 정보 -->
 		<div class="q-mb-lg bg-blue-1">
 			<!-- 모임 상태 뱃지 -->
 			<div class="align-right">
 				<q-badge color="blue" text-color="white" align="top" class="q-pa-sm">
-					모임 상태 & D-day
+					모임 상태 &amp; D-day
 				</q-badge>
 			</div>
 			<!-- 모임 모집 완료 이전 -->
@@ -139,6 +144,8 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/userVideos';
+import { loadTossPayments } from "@tosspayments/payment-sdk";
+const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
@@ -187,7 +194,21 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/setSelectGroup', groupId);
 		},
-	},
+    async chargeCredit() {
+      const tossPayments = await loadTossPayments(clientKey);
+      tossPayments.requestBillingAuth('카드', {
+        customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
+        successUrl: window.location.origin + '/success',
+        failUrl: window.location.origin + '/fail',
+        // customerName: this.$store.userProfile.nickname,
+        // customerEmail: this.$store.userProfile.email,
+      })
+      .catch(function (error) {
+        if (error.code === 'USER_CANCEL')
+          alert("충전 결제가 취소되었습니다!")
+      });
+    },
+  },
 };
 </script>
 
