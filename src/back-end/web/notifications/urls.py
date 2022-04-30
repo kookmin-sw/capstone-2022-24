@@ -1,0 +1,3 @@
+"""notifications URL Configuration"""
+
+urlpatterns = []

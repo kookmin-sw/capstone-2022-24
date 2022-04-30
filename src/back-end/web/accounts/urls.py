@@ -1,0 +1,3 @@
+"""accounts URL Configuration"""
+
+urlpatterns = []

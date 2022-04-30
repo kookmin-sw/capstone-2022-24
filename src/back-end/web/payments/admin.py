@@ -1,4 +1,5 @@
+"""Admin configuration of payments application"""
 from django.contrib import admin
-from .models import Payment
+from payments.models import Payment
 
 admin.site.register(Payment)

@@ -1,0 +1,3 @@
+"""mileages URL Configuration"""
+
+urlpatterns = []

@@ -1,3 +1,4 @@
+"""GUnicorn configurations"""
 import json
 import multiprocessing
 import os

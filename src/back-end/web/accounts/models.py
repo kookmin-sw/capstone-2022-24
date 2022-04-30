@@ -1,50 +1,37 @@
+"""Definition of user's financial details in accounts application: Account, Bank"""
 from django.conf import settings
-from djongo import models
+from django.db import models
 
 
 class Bank(models.Model):
-    id = models.BigAutoField(
-        primary_key=True,
-    )
-    code = models.CharField(
-        max_length=10,
-        null=False
-    )
-    name = models.CharField(
-        max_length=10,
-        null=False
-    )
+    """Model Definition of bank in Korea"""
+
+    code = models.CharField(max_length=10)
+    name = models.CharField(max_length=10)
 
     class Meta:
-        db_table = "banks"
+        """Metadata of table"""
+
+        db_table = "bank"
 
     def __str__(self):
         return f"{self.name}"
 
 
 class Account(models.Model):
-    id = models.BigAutoField(
-        primary_key=True,
-    )
+    """Model Definition of account held by user"""
+
     bank = models.ForeignKey(
         Bank,
         on_delete=models.CASCADE,
-        null=False,
-        db_column="bankId",
     )
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        null = False,
-        on_delete=models.CASCADE,
-        db_column="userId"
-    )
-    name = models.CharField(
-        max_length=10,
-        null=False
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=10)
 
     class Meta:
-        db_table = "accounts"
+        """Metadata of table"""
+
+        db_table = "account"
 
     def __str__(self):
-        return f"[{self.bank.name}] {self.name}"
+        return f"예금주: {self.name}"
