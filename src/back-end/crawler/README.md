@@ -1,9 +1,9 @@
 # Back-end crawler Data
 
-## crawling_sample.py
-Get a list of all OTT videos using API data
+## crawling_movie.py
+Get a list of all OTT movie Data using API data
 
-## crawling_base.py
+## crawling_TV.py
 Based on the crawling_sample.py, Insert videos data to DB using API data
 
 ## crawling_details.py
