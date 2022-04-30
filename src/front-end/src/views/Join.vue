@@ -96,7 +96,7 @@
 			<div class="explanation col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
-			<q-btn unelevated color="blue" class="full-width" :disabled="state" @click="payment">
+			<q-btn unelevated color="blue" class="full-width" :disabled="state" @click="joinBtnClick">
 				신청하기
 			</q-btn>
 		</div>
@@ -105,8 +105,6 @@
 </template>
 
 <script>
-import { loadTossPayments } from '@tosspayments/payment-sdk';
-const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 export default {
 	name: 'Join',
 	data() {
@@ -165,13 +163,8 @@ export default {
 			} else this.state = true;
 			return this.state;
 		},
-    async payment() {
-      const tossPayments = await loadTossPayments(clientKey);
-      tossPayments.requestBillingAuth('카드', {
-        customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
-        successUrl: 'http://localhost:8080/success',
-        failUrl: 'http://localhost:8080/fail',
-      })
+    joinBtnClick(){
+      alert("모임 신청이 완료되었습니다!")
     },
 	},
 };
