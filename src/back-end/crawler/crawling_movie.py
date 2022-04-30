@@ -71,7 +71,7 @@ def checkSample(id):  # 이미 Movie 데이터가 있는지 check 하는 용도
         return False
 
 
-def getMovieCrawler():
+def getMovieData():
     results = {}
     Movie_dict = {}
     Movie_dict = dictMovieUpdate(Movie_dict)
@@ -102,23 +102,22 @@ def getMovieCrawler():
         providers = {"providers": json_ob["results"]["KR"]}
         Movie.append(providers)
 
-        """
-        #casts 정보 Crawler
-        url = 'https://api.themoviedb.org/3/movie/{0}/credits?api_key={1}&language={2}'.format(key,api_key,language)
-        response= requests.get(url)
+        # casts 정보 Crawler
+        url = "https://api.themoviedb.org/3/movie/{0}/credits?api_key={1}&language={2}".format(key, api_key, language)
+        response = requests.get(url)
 
-        #데이터 값 변환
+        # 데이터 값 변환
         contents = response.text
         json_ob = json.loads(contents)
-        casts = {'casts': json_ob["cast"]}
+        casts = {"casts": json_ob["cast"]}
         Movie.append(casts)
-        """
+
         results[key] = {"data": Movie}
 
     return results
 
 
 file_path = "./MovieSample.json"
-videoData = getMovieCrawler()
+videoData = getMovieData()
 with open(file_path, "w") as outfile:
     json.dump(videoData, outfile)
