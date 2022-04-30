@@ -63,23 +63,6 @@
 					{ label: '모임원', value: 'member' },
 				]"
 				@click="roleButtonClick(), stepCompletionCheck()" />
-			<!--			<div class="btn-frame row">-->
-			<!--				<q-btn-->
-			<!--					outline-->
-			<!--					color="blue"-->
-			<!--					class="col leader-button"-->
-			<!--					@click="roleButtonClick"-->
-			<!--					>{{ $t('leader') }}</q-btn-->
-			<!--				>-->
-			<!--				<q-btn-->
-			<!--					outline-->
-			<!--					color="blue"-->
-			<!--					class="col member-button"-->
-			<!--					@click="roleButtonClick"-->
-			<!--					>{{ $t('member') }}</q-btn-->
-			<!--				>-->
-			<!--				&lt;!&ndash;        <q-space class="col-2" />&ndash;&gt;-->
-			<!--			</div>-->
 		</div>
 		<q-space class="col-2" />
 	</div>
@@ -96,7 +79,12 @@
 			<div class="explanation col text-left q-mb-lg">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
-			<q-btn unelevated color="blue" class="full-width" :disabled="state" @click="joinBtnClick">
+			<q-btn
+				unelevated
+				color="blue"
+				class="full-width"
+				:disabled="state"
+				@click="joinBtnClick">
 				신청하기
 			</q-btn>
 		</div>
@@ -163,9 +151,9 @@ export default {
 			} else this.state = true;
 			return this.state;
 		},
-    joinBtnClick(){
-      alert("모임 신청이 완료되었습니다!")
-    },
+		joinBtnClick() {
+			alert('모임 신청이 완료되었습니다!');
+		},
 	},
 };
 </script>
