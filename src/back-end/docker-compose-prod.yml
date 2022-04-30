@@ -1,29 +1,5 @@
 version : '3'
 services:
-  mongo:
-    container_name: mongo_prod
-    image: mongo:5.0.6
-    restart: on-failure
-    ports:
-      - "${DB_PORT}:${DB_PORT}"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
-      interval: 1m
-      timeout: 15s
-      retries: 5
-
-#  mongo-seed:
-#    build:
-#      context: ./mongo
-#      dockerfile : Dockerfile-prod
-#      args:
-#        DB_NAME: ${DB_NAME}
-#    depends_on:
-#      - mongo
-
   web:
     container_name: web_prod
     build:
@@ -36,6 +12,7 @@ services:
         WEB_PORT: ${WEB_PORT}
     command: sh -c "python manage.py prod makemigrations &&
                     python manage.py prod migrate &&
+                    python manage.py loaddata data.json &&
                     python manage.py prod collectstatic --no-input &&
                     bash ./config/start.sh"
     restart: on-failure
@@ -49,11 +26,9 @@ services:
       - VARIABLE_NAME=${VARIABLE_NAME}
       - GUNICORN_CONFIG=${GUNICORN_CONFIG}
       - SETTINGS_MODULE=${SETTINGS_MODULE}
-    depends_on:
-      - mongo
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
-      interval: 30s
+      interval: 1m
       timeout: 10s
       retries: 5
 
@@ -75,3 +50,6 @@ services:
       - "443:443" # https
     depends_on:
       - web
+
+  # TODO
+  # Celery

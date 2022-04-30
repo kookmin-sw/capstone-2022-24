@@ -1,10 +1,14 @@
+"""Serializers of payments application for json parsing"""
+from payments.models import Payment
 from rest_framework import serializers
-
-from .models import Payment
 
 
 class PaymentSerializer(serializers.ModelSerializer):
+    """Payment model serializer of json parsing"""
+
     class Meta:
+        """Metadata of PaymentSerializer"""
+
         model = Payment
-        fields = '__all__'
-        read_only_fields = '__all__'
+        fields = "__all__"
+        read_only_fields = "__all__"

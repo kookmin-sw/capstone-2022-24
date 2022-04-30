@@ -1,10 +1,9 @@
 """Serializers of fellows application for json parsing"""
+from fellows.models import Fellow, Leader, Member
 from groups.serializers import GroupSerializer
 from payments.serializers import PaymentSerializer
 from rest_framework import serializers
 from users.serializers import UserSerializer
-
-from .models import Fellow, Leader, Member
 
 
 class FellowSerializer(serializers.ModelSerializer):

@@ -114,6 +114,9 @@ web_modules/
 src/front-end/.env.local
 src/front-end/.env.dev.local
 src/front-end/.env.prod.local
+.env.local
+.env.dev
+.env.prod
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -608,5 +611,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# backup data of mariadb
+src/back-end/db/data/
+src/back-end/cache/data/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,python,pycharm,pycharm+all,node,visualstudiocode,webstorm+all,vue,vuejs

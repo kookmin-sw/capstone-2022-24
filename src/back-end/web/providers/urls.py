@@ -1,0 +1,3 @@
+"""providers URL Configuration"""
+
+urlpatterns = []

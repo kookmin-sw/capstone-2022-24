@@ -1,6 +1,9 @@
+"""Configurations of groups application"""
 from django.apps import AppConfig
 
 
 class GroupsConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'groups'
+    """Configuration details of groups application"""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "groups"
