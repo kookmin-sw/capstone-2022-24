@@ -1,6 +1,6 @@
-"""Videos App Model Definitions: VideoProvider"""
-from django.utils import timezone
+"""Definitions of model about video providers : VideoProvider"""
 from django.db import models
+from django.utils import timezone
 from providers.models import Provider
 from videos.models import Video
 
@@ -15,24 +15,18 @@ class VideoProvider(models.Model):
         ("buy", "buy"),
     )
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
-        db_column="videoId",
     )
-    provider = models.ForeignKey(
+    provider = models.ManyToManyField(
         Provider,
         on_delete=models.CASCADE,
-        db_column="providerId",
     )
     offer_type = models.CharField(
         max_length=8,
         null=True,
         choices=OFFER_CHOICES,
-        db_column="offerType",
     )
     link = models.URLField(
         null=False,
@@ -40,7 +34,6 @@ class VideoProvider(models.Model):
     offer_date = models.DateField(
         default=timezone.now,
         null=True,
-        db_column="offerDate",
     )
     deadline = models.DateField(
         default=timezone.now,
@@ -48,9 +41,9 @@ class VideoProvider(models.Model):
     )
 
     class Meta:
-        """DB table naming"""
+        """Metadata for video providers model"""
 
         db_table = "video_providers"
 
     def __str__(self):
-        return f"{self.video}를 제공하는 {self.provider}"
+        return f"{self.video.title}를 제공하는 {self.provider.name}"
