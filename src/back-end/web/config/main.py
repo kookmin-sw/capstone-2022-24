@@ -1,7 +1,10 @@
+"""Uvicorn main application module"""
 import sys
 
 
 class App:
+    """Uvicorn application"""
+
     def __init__(self, scope):
         assert scope["type"] == "http"
         self.scope = scope
@@ -15,9 +18,7 @@ class App:
             }
         )
         version = f"{sys.version_info.major}.{sys.version_info.minor}"
-        message = f"Hello world! From Uvicorn with Gunicorn. Using Python {version}".encode(
-            "utf-8"
-        )
+        message = f"Hello world! From Uvicorn with Gunicorn. Using Python {version}".encode("utf-8")
         await send({"type": "http.response.body", "body": message})
 
 

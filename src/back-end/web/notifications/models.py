@@ -1,7 +1,7 @@
 """Definitions of notification models: NotificationContent, Notification"""
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
-from djongo import models
 from providers.models import Provider
 
 
@@ -28,14 +28,13 @@ class NotificationContent(models.Model):
         ("M002", "마일리지 적립"),
         # T0D0
     )
-    id = models.BigAutoField(primary_key=True)
     code = models.CharField(max_length=4, choices=CODE_CHOICES)
     message = models.CharField(max_length=50)
 
     class Meta:
-        """Metadata of notification details model"""
+        """Metadata for notification_content model"""
 
-        db_table = "notification_contents"
+        db_table = "notification_content"
 
     def __str__(self):
         return f"{self.keyword}: {self.message}"
@@ -49,17 +48,16 @@ class NotificationContent(models.Model):
 class Notification(models.Model):
     """Definition of notification relationship model"""
 
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column="userId")
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, db_column="providerId")
-    content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE, db_column="contentId")
-    has_read = models.BooleanField(default=False, db_column="hasRead")
-    creation_date_time = models.DateTimeField(default=timezone.now, db_column="creationDateTime")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE)
+    has_read = models.BooleanField(default=False)
+    creation_date_time = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        """Metadata of notification model"""
+        """Metadata for notification model"""
 
-        db_table = "notifications"
+        db_table = "notification"
 
     def __str__(self):
-        return f"[{self.user}] {self.content}"
+        return f"[{'읽음' if self.has_read else '안읽음'} 알림 #{self.id}"

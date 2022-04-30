@@ -1,0 +1,3 @@
+"""wishes URL Configuration"""
+
+urlpatterns = []
