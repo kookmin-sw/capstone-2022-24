@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 
 watch_providers = ["8", "337", "356", "97", "119"]
-api_key = "12f96752972cb21d06643a3fc2a311bd"
+api_key = ""
 language = "ko-KR"
 watch_region = "KR"
 

@@ -4,7 +4,7 @@ import requests
 
 watch_providers = ["8", "337", "356", "97", "119"]  # 순서대로 넷플, 디플, 웨이브, 왓챠, 아마존 프라임 ID
 none_providers_list = ["356"]  # 검색에 문제있는 리스트 (여기서는 웨이브)
-api_key = "12f96752972cb21d06643a3fc2a311bd"
+api_key = ""
 language = "ko-KR"
 watch_region = "KR"
 

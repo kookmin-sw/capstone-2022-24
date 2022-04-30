@@ -17,20 +17,19 @@ def getMovieProviders(videoData):
 
     results = []
 
-    # offer_type_list= list(json_ob['results']['KR'].keys())
+    offer_type_list = list(json_ob["results"]["KR"].keys())
     results = {"providers": json_ob["results"]["KR"]}
 
-    """
-    offer_type_list.remove('link')
+    offer_type_list.remove("link")
 
     for item in offer_type_list:
-        for iter in json_ob['results']['KR'][item]:
+        for iter in json_ob["results"]["KR"][item]:
             if str(iter["provider_id"]) in cs.watch_providers:
-                result={
-                    'offerType': item,
-                    'providerid': iter["provider_id"],
+                result = {
+                    "offerType": item,
+                    "providerid": iter["provider_id"],
                 }
-                results.append(result)"""
+                results.append(result)
 
     return results
 

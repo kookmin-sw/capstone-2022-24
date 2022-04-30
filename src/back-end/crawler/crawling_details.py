@@ -1,5 +1,4 @@
 import json
-from unicodedata import category
 
 import crawling_base as bs
 import crawling_providers as cp
