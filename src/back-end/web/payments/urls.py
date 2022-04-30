@@ -1,0 +1,3 @@
+"""payments URL Configuration"""
+
+urlpatterns = []

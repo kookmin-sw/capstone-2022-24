@@ -1,0 +1,28 @@
+name: pull-request-support
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  link-issue:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: tkt-actions/add-issue-links@v1.7.0
+      name: Link the related issue to pull request
+      with:
+        repo-token: '${{ secrets.GITHUB_TOKEN }}'
+        branch-prefix: '/'
+        position: 'bottom'
+        resolve: true
+        link-style: "body"
+  link-milestone:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: andrefcdias/add-to-milestone@v1.2.2
+      name: Link current milestone to pull request
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        milestone: "~ *"
+        use-expression: true
