@@ -1,30 +1,29 @@
-"""Videos App Model Serializer: Video, VideoDetail"""
+"""Serializers of videos application for json parsing : VideoSerializer, VideoProviderSerialaizer"""
 from rest_framework import serializers
-
-from .models import Video, VideoDetail
+from videos.models import Video, VideoDetail
 
 
 class VideoSerializer(serializers.ModelSerializer):
-    """Video information Serializing to get data"""
+    """Video model Serializer in videos application"""
 
     class Meta:
-        """Video Serializer field setting"""
+        """Metadata for videos Serializer"""
 
         model = Video
-        fields = ["tmdb_id", "title", "release_date", "film_rating", "category", "poster_key", "title_english"]
+        fields = "__all__"
 
 
-class VideosDetailsSerialaizer(serializers.ModelSerializer):
-    """Video detail information Serializing to get data"""
+class VideoDetailSerializer(serializers.ModelSerializer):
+    """VideoDetail model Serializer in videos application"""
 
     video = serializers.SerializerMethodField()
 
     def get_video(self, obj):
-        """Method : get to Video data"""
+        """Method : get to Video data Using VideosDetailsSerialaizer"""
         return VideoSerializer(obj.video).data
 
     class Meta:
-        """Video Serializer field setting"""
+        """Metadata for videos details Serializer"""
 
         model = VideoDetail
-        fields = ["runtime", "ratings", "production_countries", "gernes"]
+        fields = "__all__"
