@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import Video, VideoDetail
 
 
-class VideosSerialaizer(serializers.ModelSerializer):
+class VideoSerializer(serializers.ModelSerializer):
     """Video information Serializing to get data"""
 
     class Meta:
@@ -21,7 +21,7 @@ class VideosDetailsSerialaizer(serializers.ModelSerializer):
 
     def get_video(self, obj):
         """Method : get to Video data"""
-        return VideosSerialaizer(obj.video).data
+        return VideoSerializer(obj.video).data
 
     class Meta:
         """Video Serializer field setting"""
