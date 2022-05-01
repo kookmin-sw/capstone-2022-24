@@ -25,9 +25,6 @@
 			<div>(은행) 356-xxxx-xxxx-xx</div>
 			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
-    <div class="row">
-      <q-btn color="blue" outline @click="chargeCredit">충전하기</q-btn>
-    </div>
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue" inset />
