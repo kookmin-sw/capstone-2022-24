@@ -3,11 +3,11 @@ from rest_framework import serializers
 from video_providers.models import VideoProvider
 
 
-class VideoProviderSerialaizer(serializers.ModelSerializer):
+class VideoProviderSerializers(serializers.ModelSerializer):
     """Video Providers information Serializing to get data"""
 
     class Meta:
         """Video Providers Serializer field setting"""
 
         model = VideoProvider
-        fields = ["videoId", "offerType", "link", "offerDate", "deadline"]
+        fields = "__all__"
