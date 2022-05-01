@@ -1,3 +1,5 @@
-# from django.contrib import admin
+"""Admin : VideoCast"""
+from django.contrib import admin
+from video_casts.models import VideoCast
 
-# Register your models here.
+admin.site.register(VideoCast)
