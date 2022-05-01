@@ -21,7 +21,6 @@ class VideoProvider(models.Model):
     )
     provider = models.ManyToManyField(
         Provider,
-        on_delete=models.CASCADE,
     )
     offer_type = models.CharField(
         max_length=8,
