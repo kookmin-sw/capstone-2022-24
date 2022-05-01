@@ -1,8 +1,6 @@
-"""Video Providers App Model Serializer Definitions : VideoProviderSerialaizer"""
-
+"""Serializers of video_providers application for json parsing : VideoProviderSerialaizer"""
 from rest_framework import serializers
-
-from .models import VideoProvider
+from video_providers.models import VideoProvider
 
 
 class VideoProviderSerialaizer(serializers.ModelSerializer):

@@ -1,4 +1,5 @@
-"""Serializers of videos application for json parsing : Video, VideoDetail, Rating, Gerne, ProductionCountry"""
+"""Serializers of videos application for json parsing : VideoSerializer, VideoProviderSerialaizer, RatingSerializer,
+                                                        GerneSerialaizer, ProductionCountrySerialaizer"""
 from rest_framework import serializers
 from videos.models import Gerne, ProductionCountry, Rating, Video, VideoDetail
 

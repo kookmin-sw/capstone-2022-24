@@ -1,4 +1,4 @@
-"""Serializers of video_total_counts application for json parsing : VideoTotalCount"""
+"""Serializers of video_total_counts application for json parsing : VideoTotalCountSerialaizer"""
 from rest_framework import serializers
 from video_total_counts.models import VideoTotalCount
 
