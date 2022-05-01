@@ -70,7 +70,7 @@ class VideoDetail(models.Model):
 class Rating(models.Model):
     """Definition about Rating of Video detail Informations"""
 
-    video_id = models.ForeignKey(
+    video = models.ForeignKey(
         VideoDetail,
         on_delete=models.CASCADE,
     )
@@ -90,7 +90,7 @@ class Rating(models.Model):
 class ProductionCountry(models.Model):
     """class to use production_countires arrayfield"""
 
-    video_id = models.ForeignKey(
+    video = models.ForeignKey(
         VideoDetail,
         on_delete=models.CASCADE,
     )
@@ -107,7 +107,7 @@ class ProductionCountry(models.Model):
 class Gerne(models.Model):
     """Abstract class to use gernes arrayfield"""
 
-    video_id = models.ForeignKey(
+    video = models.ForeignKey(
         VideoDetail,
         on_delete=models.CASCADE,
     )
