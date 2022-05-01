@@ -1,4 +1,4 @@
-"""Definitions of model about video informations : Video, VideoDetail"""
+"""Definitions of model about video informations : Video, VideoDetail, Rating, ProductionCountry, Gerne"""
 from django.db import models
 
 
