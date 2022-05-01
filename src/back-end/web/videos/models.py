@@ -68,7 +68,7 @@ class VideoDetail(models.Model):
 
 
 class Rating(models.Model):
-    """Definition about Rating of Video detail Informations"""
+    """Definition about Rating of Video detail Information"""
 
     video = models.ForeignKey(
         VideoDetail,
@@ -88,7 +88,7 @@ class Rating(models.Model):
 
 
 class ProductionCountry(models.Model):
-    """class to use production_countires arrayfield"""
+    """Definition about Production Country of Video detail Information"""
 
     video = models.ForeignKey(
         VideoDetail,
@@ -105,7 +105,7 @@ class ProductionCountry(models.Model):
 
 
 class Gerne(models.Model):
-    """Abstract class to use gernes arrayfield"""
+    """Definition about Gerne of Video detail Information"""
 
     video = models.ForeignKey(
         VideoDetail,
