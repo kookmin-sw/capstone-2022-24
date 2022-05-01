@@ -1,14 +1,13 @@
-"""Video Total Counts App Model Serializer Definitions : VideoTotalCountSerialaizer"""
+"""Serializers of video_total_counts application for json parsing : VideoTotalCount"""
 from rest_framework import serializers
+from video_total_counts.models import VideoTotalCount
 
-from .models import VideoTotalCount
 
-
-class VideoTotalCountSerialaizer(serializers.ModelSerializer):
-    """Video total Count information Serializing to get data"""
+class VideoTotalCountSerializer(serializers.ModelSerializer):
+    """Video total Count model Serializer in video_total_counts application"""
 
     class Meta:
-        """Video total Count Serializer field setting"""
+        """Metadata for video total count Serializer"""
 
         model = VideoTotalCount
-        fields = ["videoId", "dibsCount", "watchCount", "viewCount"]
+        fields = "__all__"

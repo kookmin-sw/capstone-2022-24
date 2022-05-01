@@ -1,9 +1,9 @@
-"""Videos App Model Serializer: Video, VideoDetail"""
+"""Serializers of videos application for json parsing : Video, VideoDetail, Rating, Gerne, ProductionCountry"""
 from rest_framework import serializers
 from videos.models import Gerne, ProductionCountry, Rating, Video, VideoDetail
 
 
-class VideoSerialaizer(serializers.ModelSerializer):
+class VideoSerializer(serializers.ModelSerializer):
     """Video model Serializer in videos application"""
 
     class Meta:
@@ -13,14 +13,14 @@ class VideoSerialaizer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VideoDetailSerialaizer(serializers.ModelSerializer):
+class VideoDetailSerializer(serializers.ModelSerializer):
     """VideoDetail model Serializer in videos application"""
 
     video = serializers.SerializerMethodField()
 
     def get_video(self, obj):
         """Method : get to Video data Using VideosDetailsSerialaizer"""
-        return VideoSerialaizer(obj.video).data
+        return VideoSerializer(obj.video).data
 
     class Meta:
         """Metadata for videos details Serializer"""
@@ -37,7 +37,7 @@ class RatingSerializer(serializers.ModelSerializer):
     def get_video_detail(self, obj):
         """Method : get to Video detail data Using RatingSerializer"""
 
-        return VideoDetailSerialaizer(obj.video_details).data
+        return VideoDetailSerializer(obj.video_details).data
 
     class Meta:
         """Metadata for video rating Serializer"""
@@ -54,7 +54,7 @@ class ProductionCountrySerializer(serializers.ModelSerializer):
     def get_video_detail(self, obj):
         """Method : get to Video detail data Using ProductionCountrySerializer"""
 
-        return VideoDetailSerialaizer(obj.video_details).data
+        return VideoDetailSerializer(obj.video_details).data
 
     class Meta:
         """Metadata for video Production Country Serializer"""
@@ -71,7 +71,7 @@ class GernesSerializer(serializers.ModelSerializer):
     def get_video_detail(self, obj):
         """Method : get to Video detail data Using GernesSerializer"""
 
-        return VideoDetailSerialaizer(obj.video_details).data
+        return VideoDetailSerializer(obj.video_details).data
 
     class Meta:
         """Metadata for video Gernes Serializer"""
