@@ -27,6 +27,7 @@ class VideoProvider(models.Model):
         null=True,
         choices=OFFER_CHOICES,
     )
+
     link = models.URLField(
         null=False,
     )
