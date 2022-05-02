@@ -4,27 +4,11 @@ from django.db import models
 from django.utils import timezone
 
 
-class SocialType(models.Model):
-    """Model of sns platform that user enters"""
-
-    SOCIAL_PLATFORM_CHOICES = (("N", "Naver"), ("G", "Google"), ("O", "Others"))
-    name = models.CharField(max_length=1, choices=SOCIAL_PLATFORM_CHOICES)
-    logo_key = models.CharField(max_length=100)
-
-    class Meta:
-        """Metadata for social_type model"""
-
-        db_table = "social_type"
-
-    def __str__(self):
-        return f"{self.name}"
-
-
 class UserManager(BaseUserManager):
     """Model of managing user object crud"""
 
     # pylint: disable=R0913
-    def create_user(self, nickname, email, cell_phone_number, social_type, birthday, password=None):
+    def create_user(self, nickname, email, cell_phone_number, birthday, password=None):
         """Manage to create normal user"""
 
         if not email:
@@ -40,7 +24,6 @@ class UserManager(BaseUserManager):
             nickname=nickname,
             email=self.normalize_email(email),
             cell_phone_number=cell_phone_number,
-            social_type=social_type,
             birthday=birthday,
         )
 
@@ -49,19 +32,15 @@ class UserManager(BaseUserManager):
         return user
 
     # pylint: disable=R0913
-    def create_superuser(self, nickname, email, cell_phone_number, birthday, password, social_type=None):
+    def create_superuser(self, nickname, email, cell_phone_number, birthday, password):
         """Manage to create superuser"""
 
-        if not social_type:
-            social_type = SocialType(1, "O", "Not found")
-            social_type.save(using=self._db)
         user = self.create_user(
             nickname=nickname,
             email=email,
             cell_phone_number=cell_phone_number,
             birthday=birthday,
             password=password,
-            social_type=social_type,
         )
         user.is_admin = True
         user.set_password(password)
@@ -69,7 +48,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, models.Model):
+class User(AbstractBaseUser):
     """Model of user that use ongot service"""
 
     nickname = models.CharField(max_length=8, unique=True)
@@ -77,7 +56,6 @@ class User(AbstractBaseUser, models.Model):
         max_length=50,
     )
     cell_phone_number = models.CharField(max_length=14)
-    social_type = models.ForeignKey(SocialType, default=None, on_delete=models.SET_DEFAULT)
     profile_image_url = models.ImageField(blank=True, null=True)
     birthday = models.DateField()
     is_active = models.BooleanField(default=True)
