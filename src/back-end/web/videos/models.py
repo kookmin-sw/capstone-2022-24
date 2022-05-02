@@ -17,12 +17,9 @@ class Video(models.Model):
         max_length=200,
         null=True,
     )
-    release_date = models.DateField(
-        null=False,
-    )
+    release_date = models.DateField()
     film_rating = models.CharField(
         max_length=10,
-        null=False,
     )
     category = models.CharField(
         max_length=2,
@@ -34,7 +31,6 @@ class Video(models.Model):
     )
     title_english = models.CharField(
         max_length=200,
-        null=False,
     )
 
     class Meta:
@@ -54,9 +50,7 @@ class VideoDetail(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    runtime = models.PositiveIntegerField(
-        null=False,
-    )
+    runtime = models.PositiveIntegerField()
 
     class Meta:
         """Metadata for video details model"""
@@ -104,8 +98,8 @@ class ProductionCountry(models.Model):
         db_table = "production_countries"
 
 
-class Gerne(models.Model):
-    """Definition about Gerne of Video detail Information"""
+class Genre(models.Model):
+    """Definition about Genre of Video detail Information"""
 
     video = models.ForeignKey(
         VideoDetail,
@@ -116,6 +110,6 @@ class Gerne(models.Model):
     )
 
     class Meta:
-        """Metadata for video Gerne model"""
+        """Metadata for video Genre model"""
 
-        db_table = "gernes"
+        db_table = "genres"

@@ -1,7 +1,7 @@
 """Serializers of videos application for json parsing : VideoSerializer, VideoProviderSerialaizer, RatingSerializer,
-                                                        GerneSerialaizer, ProductionCountrySerialaizer"""
+                                                        GenreSerialaizer, ProductionCountrySerialaizer"""
 from rest_framework import serializers
-from videos.models import Gerne, ProductionCountry, Rating, Video, VideoDetail
+from videos.models import Genre, ProductionCountry, Rating, Video, VideoDetail
 
 
 class VideoSerializer(serializers.ModelSerializer):
@@ -64,18 +64,18 @@ class ProductionCountrySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class GernesSerializer(serializers.ModelSerializer):
-    """VideoDetail model Serializer in videos application"""
+class GenreSerializer(serializers.ModelSerializer):
+    """Genre model Serializer in videos application"""
 
     video_details = serializers.SerializerMethodField()
 
     def get_video_detail(self, obj):
-        """Method : get to Video detail data Using GernesSerializer"""
+        """Method : get to Video detail data Using GerneSerializer"""
 
         return VideoDetailSerializer(obj.video_details).data
 
     class Meta:
         """Metadata for video Gernes Serializer"""
 
-        model = Gerne
+        model = Genre
         fields = "__all__"

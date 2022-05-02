@@ -28,16 +28,13 @@ class VideoProvider(models.Model):
         choices=OFFER_CHOICES,
     )
 
-    link = models.URLField(
-        null=False,
-    )
+    link = models.URLField()
     offer_date = models.DateField(
         default=timezone.now,
         null=True,
     )
     deadline = models.DateField(
         default=timezone.now,
-        null=False,
     )
 
     class Meta:
