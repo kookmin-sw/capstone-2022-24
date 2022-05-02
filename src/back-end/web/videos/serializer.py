@@ -33,12 +33,12 @@ class VideoDetailSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     """Rating model Serializer in videos application"""
 
-    video_details = serializers.SerializerMethodField()
+    video = serializers.SerializerMethodField()
 
-    def get_video_detail(self, obj):
-        """Method : get to Video detail data Using RatingSerializer"""
+    def get_video(self, obj):
+        """Method : get to Video data Using RatingSerializer"""
 
-        return VideoDetailSerializer(obj.video_details).data
+        return VideoSerializer(obj.video).data
 
     class Meta:
         """Metadata for video rating Serializer"""
@@ -50,12 +50,12 @@ class RatingSerializer(serializers.ModelSerializer):
 class ProductionCountrySerializer(serializers.ModelSerializer):
     """ProductionCountry model Serializer in videos application"""
 
-    video_details = serializers.SerializerMethodField()
+    video = serializers.SerializerMethodField()
 
-    def get_video_detail(self, obj):
-        """Method : get to Video detail data Using ProductionCountrySerializer"""
+    def get_video(self, obj):
+        """Method : get to Video data Using ProductionCountrySerializer"""
 
-        return VideoDetailSerializer(obj.video_details).data
+        return VideoSerializer(obj.video).data
 
     class Meta:
         """Metadata for video Production Country Serializer"""
@@ -67,12 +67,12 @@ class ProductionCountrySerializer(serializers.ModelSerializer):
 class GenreSerializer(serializers.ModelSerializer):
     """Genre model Serializer in videos application"""
 
-    video_details = serializers.SerializerMethodField()
+    video = serializers.SerializerMethodField()
 
-    def get_video_detail(self, obj):
-        """Method : get to Video detail data Using GerneSerializer"""
+    def get_video(self, obj):
+        """Method : get to Video data Using GerneSerializer"""
 
-        return VideoDetailSerializer(obj.video_details).data
+        return VideoSerializer(obj.video).data
 
     class Meta:
         """Metadata for video Gernes Serializer"""

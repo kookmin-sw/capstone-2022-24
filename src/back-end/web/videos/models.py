@@ -62,10 +62,10 @@ class VideoDetail(models.Model):
 
 
 class Rating(models.Model):
-    """Definition about Rating of Video detail Information"""
+    """Definition about Rating of Video Information"""
 
     video = models.ForeignKey(
-        VideoDetail,
+        Video,
         on_delete=models.CASCADE,
     )
     name = models.CharField(
@@ -82,10 +82,10 @@ class Rating(models.Model):
 
 
 class ProductionCountry(models.Model):
-    """Definition about Production Country of Video detail Information"""
+    """Definition about Production Country of Video Information"""
 
     video = models.ForeignKey(
-        VideoDetail,
+        Video,
         on_delete=models.CASCADE,
     )
     name = models.CharField(
@@ -99,10 +99,10 @@ class ProductionCountry(models.Model):
 
 
 class Genre(models.Model):
-    """Definition about Genre of Video detail Information"""
+    """Definition about Genre of Video Information"""
 
     video = models.ForeignKey(
-        VideoDetail,
+        Video,
         on_delete=models.CASCADE,
     )
     name = models.CharField(
