@@ -11,10 +11,19 @@ class VideoCast(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(
-        max_length=50,
+        max_length=30,
     )
-    actor = models.CharField(
+    department = models.CharField(
+        max_length=30,
+        null=True,
+    )
+    role = models.CharField(
         max_length=50,
+        null=True,
+    )
+    character = models.CharField(
+        max_length=30,
+        null=True,
     )
 
     class Meta:
