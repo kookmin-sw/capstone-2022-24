@@ -72,7 +72,7 @@ class User(AbstractBaseUser):
     EMAIL_FIELD = "email"
     objects = UserManager()
 
-    REQUIRED_FIELDS = ["email", "cell_phone_number", "birthday"]
+    REQUIRED_FIELDS = ["email", "name", "cell_phone_number", "birthday"]
 
     class Meta:
         """Metadata of User model"""
