@@ -47,7 +47,7 @@ def get_movie_data(file_path):
 
         """Record crawling time"""
         now = datetime.now()
-        time = {"craling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
+        time = {"crawling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
         Movie.append(time)
 
         """video base, details Crawler"""

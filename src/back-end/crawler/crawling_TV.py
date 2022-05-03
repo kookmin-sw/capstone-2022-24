@@ -62,7 +62,7 @@ def get_tv_data(file_path):
 
         """Record crawling time"""
         now = datetime.now()
-        time = {"craling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
+        time = {"crawling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
         TV.append(time)
 
         """video base, details Crawler"""
