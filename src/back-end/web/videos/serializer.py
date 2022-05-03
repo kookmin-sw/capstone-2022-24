@@ -1,6 +1,7 @@
-"""Serializers of videos application for json parsing : VideoSerializer, VideoProviderSerialaizer"""
+"""Serializers of videos application for json parsing : VideoSerializer, VideoProviderSerialaizer, RatingSerializer,
+                                                        GenreSerialaizer, ProductionCountrySerialaizer"""
 from rest_framework import serializers
-from videos.models import Video, VideoDetail
+from videos.models import Genre, ProductionCountry, Rating, Video, VideoDetail
 
 
 class VideoSerializer(serializers.ModelSerializer):
@@ -26,4 +27,55 @@ class VideoDetailSerializer(serializers.ModelSerializer):
         """Metadata for videos details Serializer"""
 
         model = VideoDetail
+        fields = "__all__"
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    """Rating model Serializer in videos application"""
+
+    video = serializers.SerializerMethodField()
+
+    def get_video(self, obj):
+        """Method : get to Video data Using RatingSerializer"""
+
+        return VideoSerializer(obj.video).data
+
+    class Meta:
+        """Metadata for video rating Serializer"""
+
+        model = Rating
+        fields = "__all__"
+
+
+class ProductionCountrySerializer(serializers.ModelSerializer):
+    """ProductionCountry model Serializer in videos application"""
+
+    video = serializers.SerializerMethodField()
+
+    def get_video(self, obj):
+        """Method : get to Video data Using ProductionCountrySerializer"""
+
+        return VideoSerializer(obj.video).data
+
+    class Meta:
+        """Metadata for video Production Country Serializer"""
+
+        model = ProductionCountry
+        fields = "__all__"
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    """Genre model Serializer in videos application"""
+
+    video = serializers.SerializerMethodField()
+
+    def get_video(self, obj):
+        """Method : get to Video data Using GerneSerializer"""
+
+        return VideoSerializer(obj.video).data
+
+    class Meta:
+        """Metadata for video Gernes Serializer"""
+
+        model = Genre
         fields = "__all__"
