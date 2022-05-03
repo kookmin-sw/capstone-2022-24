@@ -16,7 +16,6 @@
 					:key="index"
 					:class="{ 'ott-select': otts.isSelect }"
 					@click="ottFilterClick(index), stepCompletionCheck(index)" />
-				확인: {{ selected.ott }}
 			</div>
 		</div>
 		<q-space class="col-2" />
