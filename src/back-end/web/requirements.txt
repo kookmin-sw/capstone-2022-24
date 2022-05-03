@@ -29,6 +29,7 @@ coverage==6.3.2
 cryptography==36.0.1
 daphne==3.0.2
 defusedxml==0.7.1
+Deprecated==1.2.13
 dill==0.3.4
 distlib==0.3.1
 dj-rest-auth==2.2.4
@@ -113,7 +114,7 @@ sniffio==1.2.0
 sqlparse==0.2.4
 toml==0.10.2
 tomli==2.0.1
-Twisted==22.2.0
+Twisted==22.4.0
 txaio==22.2.1
 typing_extensions==4.1.1
 uritemplate==4.1.1
