@@ -8,7 +8,7 @@ class UserManager(BaseUserManager):
     """Model of managing user object crud"""
 
     # pylint: disable=R0913
-    def create_user(self, nickname, email, cell_phone_number, birthday, password=None):
+    def create_user(self, nickname, name, email, cell_phone_number, birthday, password=None):
         """Manage to create normal user"""
 
         if not email:
@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             nickname=nickname,
+            name=name,
             email=self.normalize_email(email),
             cell_phone_number=cell_phone_number,
             birthday=birthday,
@@ -32,11 +33,12 @@ class UserManager(BaseUserManager):
         return user
 
     # pylint: disable=R0913
-    def create_superuser(self, nickname, email, cell_phone_number, birthday, password):
+    def create_superuser(self, nickname, name, email, cell_phone_number, birthday, password):
         """Manage to create superuser"""
 
         user = self.create_user(
             nickname=nickname,
+            name=name,
             email=email,
             cell_phone_number=cell_phone_number,
             birthday=birthday,
@@ -52,6 +54,7 @@ class User(AbstractBaseUser):
     """Model of user that use ongot service"""
 
     nickname = models.CharField(max_length=8, unique=True)
+    name = models.CharField(max_length=30)
     email = models.EmailField(
         max_length=50,
     )
