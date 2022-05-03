@@ -13,7 +13,6 @@ def dict_tv_update(data_path):
 
         json_ob = get_request_to_object(check_url)
         total_pages = json_ob["total_pages"]
-        total_pages = 1
 
         for i in range(1, total_pages + 1):
             if i <= 500:
@@ -80,7 +79,7 @@ def get_tv_data(file_path):
             if item in none_providers_list:
                 obj = {
                     "offer_type": None,
-                    "providerid": item,
+                    "provider_id": item,
                 }
             else:
                 obj = {
