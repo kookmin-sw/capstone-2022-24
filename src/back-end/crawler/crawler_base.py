@@ -13,7 +13,7 @@ DEBUG = True
 
 watch_providers = ["8", "337", "356", "97", "119"]
 none_providers_list = ["356"]
-api_key = "6b46e96b54cc3783d2289a78fe8ea28c"
+api_key = ""
 # api_key = env("KEY")
 language = "ko-KR"
 watch_region = "KR"
