@@ -307,12 +307,17 @@ SOCIALACCOUNT_PROVIDERS = {
         "APP": {
             "client_id": env("OAUTH_GOOGLE_CLIENT_ID"),
             "secret": env("OAUTH_GOOGLE_SECRET"),
-            "key": "",
+            "key": env("OAUTH_GOOGLE_API_KEY"),
         },
         "SCOPE": [
-            "profile",
-            "email",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/user.birthday.read",
+            "https://www.googleapis.com/auth/user.phonenumbers.read",
         ],
+        "UTH_PARAMS": {
+            "access_type": "online",
+        },
     },
     "naver": {
         "APP": {
