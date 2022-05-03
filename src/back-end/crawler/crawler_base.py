@@ -1,19 +1,22 @@
-"""collecting frequently used method and redundantly used variables for crawling
-"""
+"""collecting frequently used method and redundantly used variables for crawling"""
 import json
+import os
+import sys
 
 import environ
 import requests
 
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from web.config.settings.base import ENV_DIR
+
 env = environ.Env(DEBUG=(bool, False))
-# environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
+environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
 
 DEBUG = True
 
 watch_providers = ["8", "337", "356", "97", "119"]
 none_providers_list = ["356"]
-api_key = ""
-# api_key = env("KEY")
+api_key = env("MOVIE_API_KEY_V3")
 language = "ko-KR"
 watch_region = "KR"
 
@@ -58,17 +61,3 @@ def check_sample(id, path):
         return True
     else:
         return False
-
-
-if __name__ == "__main__":
-    """
-    movie_data_path = "/movieSample.json"
-    movie_data = get_movie_data(movie_data_path)
-    with open(movie_data_path, "w") as outfile:
-        json.dump(movie_data, outfile)
-
-    tv_data_path = "/TvSample.json"
-    tv_data = get_tv_data(tv_data_path)
-    with open(tv_data_path, "w") as outfile:
-        json.dump(tv_data, outfile)
-    """

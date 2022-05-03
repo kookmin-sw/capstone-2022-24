@@ -17,11 +17,12 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.config.settings")
 import django
 
+"""==========start django==========="""
 django.setup()
 
 from djongo.models import Q
 
-# 여기가 models.py에서 설계한 모델을 가져오는 코드입니다
+"""==========Model for Saving data==========="""
 from web.providers.models import Provider
 from web.video_providers.models import VideoProvider
 from web.videos.models import Genre, ProductionCountry, Video, VideoDetail
