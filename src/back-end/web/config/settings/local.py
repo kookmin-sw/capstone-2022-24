@@ -1,7 +1,5 @@
 """local settings file"""
 # pylint: disable=R0801,W0401,W0614
-import environ
-
 from .base import *
 
 env = environ.Env(DEBUG=(bool, False))
@@ -52,3 +50,13 @@ TIME_ZONE = env("TZ")
 
 # celery: async task queue
 # CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"
+
+# cors
+CORS_ALLOWED_ORIGINS += [
+    f"http://localhost:{env('APP_PORT')}",
+    f"http://127.0.0.1:{env('APP_PORT')}",
+]
+
+
+# base url
+WEB_URL = env("WEB_URL")
