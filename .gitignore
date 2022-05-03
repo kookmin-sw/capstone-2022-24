@@ -108,10 +108,14 @@ web_modules/
 
 # dotenv environment variable files
 .env
+.env.local
+.env.dev
+.env.prod
 .env.development.local
 .env.test.local
 .env.production.local
 src/front-end/.env.local
+src/front-end/.env.local.local
 src/front-end/.env.dev.local
 src/front-end/.env.prod.local
 
@@ -608,5 +612,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# backup data of mariadb
+src/back-end/db/data/
+src/back-end/cache/data/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,python,pycharm,pycharm+all,node,visualstudiocode,webstorm+all,vue,vuejs

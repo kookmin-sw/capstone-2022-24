@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-# pylint: disable=R0801,W0401,W0614
 import os.path
 from pathlib import Path
 
@@ -43,6 +42,8 @@ CUSTOM_APPS = [
     "remittances",
     "star_ratings",
     "videos",
+    "video_providers",
+    "video_total_counts",
     "watching_marks",
 ]
 
@@ -67,6 +68,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -127,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -144,10 +146,6 @@ MEDIA_ROOT = os.path.join(BACKEND_DIR, "media/")  # caution
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = "ko-kr"
-
-TIME_ZONE = "Asia/Seoul"
-
-USE_TZ = False
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
@@ -253,3 +251,13 @@ SPECTACULAR_SETTINGS = {
         "displayOperationId": True,
     },
 }
+
+# i18n
+LANGUAGE_CODE = "ko"
+
+LANGUAGES = [
+    ("ko", "Korean"),
+    ("en-us", "English"),
+]
+
+LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale
