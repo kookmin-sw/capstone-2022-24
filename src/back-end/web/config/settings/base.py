@@ -13,14 +13,17 @@ import os.path
 from datetime import timedelta
 from pathlib import Path
 
+import environ
+
 # web
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent  # web
 BACKEND_DIR = BASE_DIR.parent
 ENV_DIR = os.path.join(BACKEND_DIR, "environment")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+# read environment file
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,6 +52,7 @@ CUSTOM_APPS = [
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -57,9 +61,10 @@ INSTALLED_APPS = [
     "storages",
     # django-rest-framework
     "rest_framework",
+    "rest_framework.authtoken",
     # api documentation
     "drf_spectacular",
-    # jwt
+    # jwt: json web token
     "rest_framework_simplejwt.token_blacklist",
     # dj-rest-auth
     "dj_rest_auth",
@@ -70,19 +75,24 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.naver",
     "allauth.socialaccount.providers.google",
+    # cors
+    "corsheaders",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
     # API document automation: drf-spectacular
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Permit only to authenticated user
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # cors
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # i18n
@@ -165,8 +175,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LANGUAGE_CODE = "ko-kr"
 
 # CORS
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = []
 
 CORS_ALLOW_METHODS = (
     "DELETE",
@@ -280,10 +290,37 @@ LANGUAGES = [
 LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale
 
 # auth
+SITE_ID = 1
+LOGIN_REDIRECT_URL = "/"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "nickname"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "nickname"
+STATE = env("STATE")
+
+# oauth
+SOCIALACCOUNT_ADAPTER = "users.adapter.UserAdapter"
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": env("OAUTH_GOOGLE_CLIENT_ID"),
+            "secret": env("OAUTH_GOOGLE_SECRET"),
+            "key": "",
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+    },
+    "naver": {
+        "APP": {
+            "client_id": env("OAUTH_NAVER_CLIENT_ID"),
+            "secret": env("OAUTH_NAVER_SECRET"),
+            "key": "",
+        },
+        "SCOPE": ["name", "email", "birthyear", "mobile"],
+    },
+}
 
 # jwt
 REST_USE_JWT = True
