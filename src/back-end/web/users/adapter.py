@@ -22,6 +22,7 @@ class UserAdapter(DefaultSocialAccountAdapter):
             return
 
         # 2. social account has no email/birthyear/mobile unknown, return
+        # 2-1. with naver
         if sociallogin.account.provider == "naver":
             response = sociallogin.account.extra_data
             if "name" not in response:
@@ -36,16 +37,18 @@ class UserAdapter(DefaultSocialAccountAdapter):
             if "mobile" not in response:
                 messages.error(request, "Phone number is not provided")
                 raise ImmediateHttpResponse(redirect("/"))
+        # 2-2. with google
         elif sociallogin.account.provider == "google":
-            if "email" not in sociallogin.account.extra_data:
-                messages.error(request, "email is not provided")
-                raise ImmediateHttpResponse(redirect("/"))
-            if "birthday" not in sociallogin.account.extra_data:
-                messages.error(request, "birthday is not provided")
-                raise ImmediateHttpResponse(redirect("/"))
-            if "mobile" not in sociallogin.account.extra_data:
-                messages.error(request, "Phone number is not provided")
-                raise ImmediateHttpResponse(redirect("/"))
+            print(sociallogin.account.extra_data)
+            # if "email" not in sociallogin.account.extra_data:
+            #     messages.error(request, "email is not provided")
+            #     raise ImmediateHttpResponse(redirect("/"))
+            # if "birthday" not in sociallogin.account.extra_data:
+            #     messages.error(request, "birthday is not provided")
+            #     raise ImmediateHttpResponse(redirect("/"))
+            # if "mobile" not in sociallogin.account.extra_data:
+            #     messages.error(request, "Phone number is not provided")
+            #     raise ImmediateHttpResponse(redirect("/"))
 
         # 3. link auth user account to social account
         try:
@@ -62,21 +65,28 @@ class UserAdapter(DefaultSocialAccountAdapter):
     def populate_user(self, request, sociallogin, data):
         """Set fields of the user object"""
         response = sociallogin.account.extra_data
+        print(response)
 
         # Naver: if user sign in with naver account
         if sociallogin.account.provider == "naver":
             email = data.get("email")
             temp_nickname = response.get("id")[:8]
+            name = response.get("name")
             cell_phone_number = response.get("mobile")
             birth_year = response.get("birthyear")
             birthday = birth_year + "-01-01"
         # Google: if user sign in with google account
         elif sociallogin.account.provider == "google":
-            pass
+            email = data.get("email")
+            temp_nickname = response.get("id")[:8]
+            name = response.get("name")
+            cell_phone_number = response.get("contact")
+            birthday = response.get("birthday")
 
         user = sociallogin.user
         user_field(user, "nickname", temp_nickname)
+        user_field(user, "name", name)
         user_field(user, "email", email)
-        user_field(user, "cell_phone_number", cell_phone_number)
+        user_field(user, "cell_phone_number", cell_phone_number or "000-0000-0000")
         user_field(user, "birthday", birthday)
         return user
