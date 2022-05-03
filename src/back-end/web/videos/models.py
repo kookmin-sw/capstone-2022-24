@@ -45,7 +45,7 @@ class Video(models.Model):
 class VideoDetail(models.Model):
     """Definition of video detail information that ott providers providered"""
 
-    video_id = models.OneToOneField(
+    video = models.OneToOneField(
         Video,
         on_delete=models.CASCADE,
         primary_key=True,

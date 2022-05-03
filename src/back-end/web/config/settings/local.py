@@ -33,20 +33,7 @@ DATABASES = {
         "OPTIONS": {"init_command": 'SET sql_mode="STRICT_TRANS_TABLES"'},
     }
 }
-"""
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'ongotdb',
-        "USER": 'root',
-        "PASSWORD": 'root',
-        "HOST": '127.0.0.1',
-        "PORT": 3306,
-        "TZ": 'Asia/Seoul',
-        "OPTIONS": {"init_command": 'SET sql_mode="STRICT_TRANS_TABLES"'},
-    }
-}
-"""
+
 # Cache
 CACHES = {
     "default": {
