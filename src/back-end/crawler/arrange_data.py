@@ -11,6 +11,7 @@ def arrange_movie_data(dicts):
     for key, value in dicts.items():
         tmdb_id = key
         movie_data = value[1]
+        eng_data = value[3]
 
         try:
             date_time_str = movie_data["release_date"]
@@ -23,7 +24,7 @@ def arrange_movie_data(dicts):
         if poster_path is not None:
             poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
 
-        title_english = check_vaild(movie_data, "original_title")
+        title_english = eng_data["title_english"]
 
         object_movie = {
             "tmdb_id": tmdb_id,
@@ -50,7 +51,7 @@ def arrange_movie_detail(dicts):
         tmdb_id = key
         movie_data = value[1]
 
-        """디테일 정보 정리"""
+        """Arrange detail data"""
         runtime = check_vaild(movie_data, "runtime")
 
         object_detail = {
@@ -60,7 +61,7 @@ def arrange_movie_detail(dicts):
         }
         detail_list.append(object_detail)
 
-        """장르 정보 정리"""
+        """Arrange genre data"""
         genres = []
         genre_data = check_vaild(movie_data, "genres")
         for itme in genre_data:
@@ -73,7 +74,7 @@ def arrange_movie_detail(dicts):
         }
         genre_list.append(object_genre)
 
-        """생산 국가 정리"""
+        """Arrange production country data"""
         production_countries = []
         production_country_data = check_vaild(movie_data, "production_countries")
 
@@ -117,6 +118,7 @@ def arrange_movie_provider(dicts):
         object_providers = {
             "tmdb_id": tmdb_id,
             "category": "MV",
+            "crawling_time": value[0]["crawling_time"],
             "providers": providers,
         }
         provider_list.append(object_providers)
@@ -132,6 +134,8 @@ def arrange_tv_data(dicts):
     for key, value in dicts.items():
         tmdb_id = key
         tv_data = value[1]
+        eng_data = value[3]
+        film_rating_data = value[4]["results"]
 
         try:
             date_time_str = tv_data["first_air_date"]
@@ -144,15 +148,11 @@ def arrange_tv_data(dicts):
         if poster_path is not None:
             poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
 
-        """영어 타이틀 용 수정이 필요"""
-        title_english = check_vaild(tv_data, "original_name")
+        title_english = eng_data["title_english"]
 
-        """
-        tmdb 성인등급 확인은 다시 체크할 필요가 있음
-        /tv/{tv_id}/content_ratings
-        """
-
-        film_rating = check_vaild(tv_data, "adult")
+        for item in film_rating_data:
+            if item["iso_3166_1"] == "KR":
+                film_rating = item["rating"]
 
         object_tv = {
             "tmdb_id": tmdb_id,
@@ -179,7 +179,7 @@ def arrange_tv_detail(dicts):
         tmdb_id = key
         movie_data = value[1]
 
-        """디테일 정보 정리"""
+        """Arrange detail data"""
         runtime = None
 
         object_detail = {
@@ -189,7 +189,7 @@ def arrange_tv_detail(dicts):
         }
         detail_list.append(object_detail)
 
-        """장르 정보 정리"""
+        """Arrange genre data"""
         genres = []
         genre_data = check_vaild(movie_data, "genres")
         for itme in genre_data:
@@ -202,7 +202,7 @@ def arrange_tv_detail(dicts):
         }
         genre_list.append(object_genre)
 
-        """생산 국가 정리"""
+        """Arrange production country data"""
         production_countries = []
         production_country_data = check_vaild(movie_data, "production_countries")
 

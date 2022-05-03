@@ -93,6 +93,18 @@ def get_tv_data(file_path):
         provider_obj = {"provider": provider_list}
         TV.append(provider_obj)
 
+        """video english title Crawler"""
+        url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language=en-US"
+        json_ob = get_request_to_object(url)
+        title_english = check_vaild(json_ob, "name")
+        object_en_title = {"title_english": title_english}
+        TV.append(object_en_title)
+
+        """video film rating Crawler"""
+        url = f"https://api.themoviedb.org/3/tv/{key}/content_ratings?api_key={api_key}&language=en-US"
+        json_ob = get_request_to_object(url)
+        TV.append(json_ob)
+
         """
         casts Crawling : Comment it because there're no plans to use it yet.
         url =  f"https://api.themoviedb.org/3/tv/{key}/credits?api_key={api_key}&language={language}"

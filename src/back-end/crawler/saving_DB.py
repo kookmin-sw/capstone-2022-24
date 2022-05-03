@@ -76,7 +76,12 @@ def saving_provider_data(video_provider_data):
         for obj in provider_list:
             provider_id = Provider.objects.get(Q(tmdb_id=obj["provider_id"]))
             VideoProvider(
-                video=video_id, provider=provider_id, offer_type=obj["offer_type"], link=obj["link"], deadline=obj[""]
+                video=video_id,
+                provider=provider_id,
+                offer_type=obj["offer_type"],
+                link=obj["link"],
+                offer_date=obj["crawling_time"],
+                deadline=obj[""],
             ).save()
 
 

@@ -55,19 +55,26 @@ def get_movie_data(file_path):
         Movie.append(time)
 
         """video base, details Crawler"""
-        url = "https://api.themoviedb.org/3/movie/{0}?api_key={1}&language={2}".format(key, api_key, language)
+        url = f"https://api.themoviedb.org/3/movie/{key}?api_key={api_key}&language={language}"
         json_ob = get_request_to_object(url)
         Movie.append(json_ob)
 
-        """provider Classification"""
-        url = "https://api.themoviedb.org/3/movie/{0}/watch/providers?api_key={1}".format(key, api_key)
+        """video providers Crawler"""
+        url = f"https://api.themoviedb.org/3/movie/{key}/watch/providers?api_key={api_key}"
         json_ob = get_request_to_object(url)
         providers = {"providers": json_ob["results"]["KR"]}
         Movie.append(providers)
 
+        """video english title Crawler"""
+        url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language=en-US"
+        json_ob = get_request_to_object(url)
+        title_english = check_vaild(json_ob, "title")
+        object_en_title = {"title_english": title_english}
+        Movie.append(object_en_title)
+
         """
         casts Crawling : Comment it because there're no plans to use it yet.
-        url = "https://api.themoviedb.org/3/movie/{0}/credits?api_key={1}&language={2}".format(key, api_key, language)
+        url = f"https://api.themoviedb.org/3/movie/{key}/credits?api_key={api_key}&language={language}"
         json_ob = get_request_to_object(url)
         casts = {"casts": json_ob["cast"]}
         Movie.append(casts)
