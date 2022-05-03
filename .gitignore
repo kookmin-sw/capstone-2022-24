@@ -112,6 +112,7 @@ web_modules/
 .env.test.local
 .env.production.local
 src/front-end/.env.local
+.env.local
 .env.dev
 .env.prod
 
@@ -406,8 +407,8 @@ db.sqlite3-journal
 *.pot
 *.pyc
 __pycache__/
-*/back-end/*/static/*
-*/back-end/*/media/*
+src/back-end/static/
+src/back-end/media/
 
 # django settings file
 src/back-end/environment/
@@ -608,5 +609,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# backup data of mariadb
+src/back-end/db/data/
+src/back-end/cache/data/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,python,pycharm,pycharm+all,node,visualstudiocode,webstorm+all,vue,vuejs

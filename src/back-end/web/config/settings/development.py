@@ -16,45 +16,51 @@ DEBUG = False
 
 ALLOWED_HOSTS = [env("WEB_HOST"), "localhost"]
 
-# Database
-
-DATABASES = {
-    "default": {
-        "ENGINE": "djongo",
-        "NAME": env("DB_NAME"),
-        "ENFORCE_SCHEMA": env("DB_ENFORCE_SCHEMA"),
-        'CLIENT': {
-            'host': env('DB_HOST_NAME'),
-            'port': int(env('DB_PORT')),
-            'username': env('DB_USER'),
-            'password': env('DB_PASSWORD'),
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
-        },
-        "LOGGING": {
-            "version": 1,
-            "loggers": {
-                "djongo": {
-                    "level": "DEBUG",
-                    "propagate": False,
-                }
-            },
-        },
-    }
-}
-
 # static / media storage
-DEFAULT_FILE_STORAGE = 'config.storages.development.MediaStorage'
-STATICFILES_STORAGE = 'config.storages.development.StaticStorage'
+DEFAULT_FILE_STORAGE = "config.storages.development.MediaStorage"
+STATICFILES_STORAGE = "config.storages.development.StaticStorage"
 
 # static / media location in s3
 STATIC_LOCATION = env("STATIC_LOCATION")
 MEDIA_LOCATION = env("MEDIA_LOCATION")
 
 # aws s3
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_SECURE_URLS = env('AWS_S3_SECURE_URLS')
-AWS_QUERY_STRING_AUTH = env('AWS_QUERY_STRING_AUTH')
-AWS_DEFAULT_ACL = env('AWS_DEFAULT_ACL')
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_SECURE_URLS = env("AWS_S3_SECURE_URLS")
+AWS_QUERY_STRING_AUTH = env("AWS_QUERY_STRING_AUTH")
+AWS_DEFAULT_ACL = env("AWS_DEFAULT_ACL")
+
+# Database
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST_NAME"),
+        "PORT": int(env("DB_PORT")),
+        "TZ": env("TZ"),
+        "OPTIONS": {"init_command": 'SET sql_mode="STRICT_TRANS_TABLES"'},
+    }
+}
+
+# Cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{env('CACHE_HOST')}@{env('CACHE_PASSWORD')}:{env('CACHE_PORT')}/1",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient", "PASSWORD": env("CACHE_PASSWORD")},
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+CACHE_TTL = 60 * 1  # example: @method_decorator(cache_page(CACHE_TTL))
+
+# TZ
+TIME_ZONE = env("TZ")
+
+# celery: async task queue
+# CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"

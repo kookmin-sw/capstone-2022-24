@@ -1,6 +1,29 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+      # Git
+      - id: check-merge-conflict
+      # Secrets
+      - id: detect-aws-credentials
+        args: ["--allow-missing-credentials"]
+      - id: detect-private-key
+      # Generic file state
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+      - id: trailing-whitespace
+
+  # Front-end settings
+  # htmlhint
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
+    rev: v1.1.2
+    hooks:
+      - id: htmlhint
+        files: ^src/front-end/src
+
   # Back-end settings
   # pycln -> isort -> black -> pylint -> django -> pre-commit-hooks -> django-test
   - repo: https://github.com/hadialqattan/pycln
@@ -21,7 +44,7 @@ repos:
         files: ^src/back-end/
         types: [python]
         exclude: ^.*\b(migrations)\b.*$
-        args: ["--filter-files"]
+        args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
@@ -30,7 +53,7 @@ repos:
          files: ^src/back-end/
          types: [python]
          exclude: ^.*\b(migrations)\b.*$
-         args: ["--line-length=120"]
+         args: ["--line-length=120", "--target-version=py39"]
   - repo: local
     hooks:
       - id: pylint
@@ -43,7 +66,7 @@ repos:
         args:
           - --rcfile=src/back-end/web/.pylintrc
           - --max-line-length=120
-          - --disable=R0903,C0103,W0703,E1101,W0613,W0511,R0201,E5110
+          - --disable=R0903,C0103,W0703,E1101,W0613,W0511,R0201,E5110,R0801,E0401
   - repo: https://github.com/ecugol/pre-commit-hooks-django
     rev: v0.4.0
     hooks:
@@ -73,4 +96,18 @@ repos:
       - id: end-of-file-fixer
         files: ^src/back-end/
       - id: name-tests-test
+        exclude: ^.*\b(migrations)\b.*$
         args: ["--django"]
+
+  # Deploy Settings
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.14.3
+    hooks:
+      - id: check-github-actions
+        files: ^.github/actions/
+      - id: check-github-workflows
+        files: ^.github/workflows/
+  - repo: https://github.com/IamTheFij/docker-pre-commit
+    rev: v2.1.0
+    hooks:
+      - id: docker-compose-check

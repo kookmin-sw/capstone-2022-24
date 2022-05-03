@@ -9,8 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-# pylint: disable=R0801,W0401,W0614
-import os
+import os.path
 from pathlib import Path
 
 # web
@@ -31,7 +30,7 @@ CUSTOM_APPS = [
     "users",
     "accounts",
     "applies",
-    "dibs",
+    "wishes",
     "fellows",
     "group_accounts",
     "groups",
@@ -43,6 +42,8 @@ CUSTOM_APPS = [
     "remittances",
     "star_ratings",
     "videos",
+    "video_providers",
+    "video_total_counts",
     "watching_marks",
 ]
 
@@ -56,11 +57,18 @@ INSTALLED_APPS = [
     # django-rest-framework
     "rest_framework",
     "storages",
+    "drf_spectacular",
 ] + CUSTOM_APPS
+
+REST_FRAMEWORK = {
+    # API document automation: drf-spectacular
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -121,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -138,10 +146,6 @@ MEDIA_ROOT = os.path.join(BACKEND_DIR, "media/")  # caution
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = "ko-kr"
-
-TIME_ZONE = "Asia/Seoul"
-
-USE_TZ = False
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
@@ -178,3 +182,82 @@ SESSION_COOKIE_SECURE = True
 
 # user model
 AUTH_USER_MODEL = "users.User"
+
+# API document automation (drf-spectacular)
+SPECTACULAR_SETTINGS = {
+    "TITLE": "온갖(Ongot) API",
+    "DESCRIPTION": "[다학제간캡스톤디자인I] 24조",
+    "CONTACT": {
+        "name": "팀 뫄뫄",
+        "url": "https://github.com/kookmin-sw/capstone-2022-24",
+        "email": "kmu.sw.cap.2022@gmail.com",
+    },
+    "VERSION": "0.0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # list of authentication/permission classes for spectacular's views.
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
+    # None will default to DRF's AUTHENTICATION_CLASSES
+    "SERVE_AUTHENTICATION": None,
+    # Initialize SwaggerUI with additional OAuth2 configuration.
+    # https://swagger.io/docs/open-source-tools/swagger-ui/usage/oauth2/
+    "SWAGGER_UI_OAUTH2_CONFIG": {},
+    # Postprocessing functions that run at the end of schema generation.
+    # must satisfy interface result = hook(generator, request, public, result)
+    "POSTPROCESSING_HOOKS": ["drf_spectacular.hooks.postprocess_schema_enums"],
+    # Preprocessing functions that run before schema generation.
+    # must satisfy interface result = hook(endpoints=result) where result
+    # is a list of Tuples (path, path_regex, method, callback).
+    "PREPROCESSING_HOOKS": [],
+    # Determines how operations should be sorted. If you intend to do sorting with a
+    # PREPROCESSING_HOOKS, be sure to disable this setting. If configured, the sorting
+    # is applied after the PREPROCESSING_HOOKS. Accepts either
+    # True (drf-spectacular's alpha-sorter), False, or a callable for sort's key arg.
+    "SORT_OPERATIONS": True,
+    # Camelize names like operationId and path parameter names
+    "CAMELIZE_NAMES": False,
+    # Runs exemplary schema generation and emits warnings as part of "./manage.py check --deploy"
+    "ENABLE_DJANGO_DEPLOY_CHECK": True,
+    # TODO
+    # Optional list of servers.
+    "SERVERS": [
+        {"url": "http://localhost:80/", "description": "Local server"},
+        {"url": "https://development.server.link.todo/", "description": "Development server"},
+        {"url": "https://main.server.link.todo/", "description": "Main server"},
+    ],
+    # Tags defined in the global scope
+    "TAGS": [
+        {"name": "User", "description": "사용자 API"},
+        {"name": "Video", "description": "작품 API"},
+        {"name": "Group", "description": "모임 API"},
+        {"name": "Priority-1", "description": "1순위 API"},
+        {"name": "Priority-2", "description": "2순위 API"},
+        {"name": "Priority-3", "description": "3순위 API"},
+        {"name": "Priority-4", "description": "4순위 API"},
+    ],
+    # TODO
+    # Oauth2 related settings. used for example by django-oauth2-toolkit.
+    # https://spec.openapis.org/oas/v3.0.3#oauthFlowsObject
+    "OAUTH2_FLOWS": [],
+    "OAUTH2_AUTHORIZATION_URL": None,
+    "OAUTH2_TOKEN_URL": None,
+    "OAUTH2_REFRESH_URL": None,
+    "OAUTH2_SCOPES": None,
+    "SWAGGER_UI_SETTINGS": {
+        "dom_id": "#swagger-ui",  # required(default)
+        "layout": "BaseLayout",  # required(default)
+        "filter": True,
+        "deepLinking": True,
+        "persistAuthorization": True,
+        "displayOperationId": True,
+    },
+}
+
+# i18n
+LANGUAGE_CODE = "ko"
+
+LANGUAGES = [
+    ("ko", "Korean"),
+    ("en-us", "English"),
+]
+
+LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale
