@@ -1,40 +1,30 @@
 """Craling TV Data to TMDB"""
-import json
 from datetime import datetime
 
-import requests
 from crawler_base import *
 
 
-def dictTvUpdate(data_path):
+def dict_tv_update(data_path):
+    """Method: checking the already had tv dict and updating it"""
+
     Tv_dict = {}
     for provider in watch_providers:
-        url = "https://api.themoviedb.org/3/discover/movie?api_key={0}&language={1}&sort_by=popularity.desc&certification_country=KR&page={2}&with_watch_providers={3}&watch_region={4}".format(
-            api_key, language, 1, provider, watch_region
-        )
+        check_url = f"https://api.themoviedb.org/3/discover/tv?api_key={api_key}&language={language}&sort_by=popularity.desc&page=1&with_watch_providers={provider}&watch_region={watch_region}"
 
-        # url 불러오기
-        response = requests.get(url)
-
-        # 데이터 값 변환
-        contents = response.text
-        json_ob = json.loads(contents)
+        json_ob = get_request_to_object(check_url)
         total_pages = json_ob["total_pages"]
+        total_pages = 1
 
-        # dict 제작
         for i in range(1, total_pages + 1):
             if i <= 500:
                 page_Num = i
-                Url = "https://api.themoviedb.org/3/discover/tv?api_key={0}&language={1}&sort_by=popularity.desc&page={2}&with_watch_providers={3}&watch_region={4}".format(
-                    api_key, language, page_Num, provider, watch_region
-                )
-                rsp = requests.get(Url)
-                content = rsp.text
-                json_obj = json.loads(content)
+                url = f"https://api.themoviedb.org/3/discover/tv?api_key={api_key}&language={language}&sort_by=popularity.desc&page={page_Num}&with_watch_providers={provider}&watch_region={watch_region}"
+
+                json_obj = get_request_to_object(url)
                 count = len(json_obj["results"])
                 for j in range(count):
                     id = json_obj["results"][j]["id"]
-                    if checkSample(id, data_path) == True:
+                    if check_sample(id, data_path) == True:
                         break
                     if id in Tv_dict:
                         list = Tv_dict[id]["provider_id"]
@@ -45,16 +35,14 @@ def dictTvUpdate(data_path):
                     Tv_dict[id] = {"tmdb_id": id, "title": title, "Category": "TV", "provider_id": list}
             else:
                 page_Num = i - 500
-                Url = "https://api.themoviedb.org/3/discover/movie?api_key={0}&language={1}&sort_by=popularity.asc&certification_country=KR&page={2}&with_watch_providers={3}&watch_region={4}".format(
-                    api_key, language, page_Num, provider, watch_region
-                )
-                rsp = requests.get(Url)
-                content = rsp.text
-                json_obj = json.loads(content)
+                url = f"https://api.themoviedb.org/3/discover/tv?api_key={api_key}&language={language}&sort_by=popularity.desc&page={page_Num}&with_watch_providers={provider}&watch_region={watch_region}"
+
+                json_obj = get_request_to_object(url)
                 count = len(json_obj["results"])
+
                 for j in range(count):
                     id = json_obj["results"][j]["id"]
-                    if checkSample(id, data_path) == True:
+                    if check_sample(id, data_path) == True:
                         break
                     if id in Tv_dict:
                         list = Tv_dict[id]["provider_id"]
@@ -67,52 +55,64 @@ def dictTvUpdate(data_path):
     return Tv_dict
 
 
-def getTvData(file_path):
+def get_tv_data(file_path):
     results = {}
-    Tv_dict = dictTvUpdate(file_path)
+    Tv_dict = dict_tv_update(file_path)
     for key, value in Tv_dict.items():
         TV = []
 
-        # Crawling time 기록
+        """Record crawling time"""
         now = datetime.now()
-        time = {"CralingTime": now.strftime("%Y-%m-%d %H:%M:%S")}
+        time = {"craling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
         TV.append(time)
 
-        # base, detail 정보 Crawler
-        url = "https://api.themoviedb.org/3/tv/{0}?api_key={1}&language={2}".format(key, api_key, language)
-        response = requests.get(url)
+        """video base, details Crawler"""
+        url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language={language}"
 
-        # 데이터 값 변환
-        contents = response.text
-        json_ob = json.loads(contents)
+        json_ob = get_request_to_object(url)
         TV.append(json_ob)
 
+        """provider Classification"""
         provider = value["provider_id"]
 
-        results = []
+        provider_list = []
         for item in provider:
-            if value["provider_id"] in none_providers_list:
-                result = {
-                    "offerType": None,
-                    "providerid": item["provider_id"],
+            if item in none_providers_list:
+                obj = {
+                    "offer_type": None,
+                    "providerid": item,
                 }
             else:
-                result = {
-                    "offerType": "flatrate",
-                    "providerid": item["provider_id"],
+                obj = {
+                    "offer_type": "flatrate",
+                    "provider_id": item,
                 }
-            results.append(result)
+            provider_list.append(obj)
 
-        """# casts 정보 Crawler
-        url = "https://api.themoviedb.org/3/movie/{0}/credits?api_key={1}&language={2}".format(key, api_key, language)
-        response = requests.get(url)
+        provider_obj = {"provider": provider_list}
+        TV.append(provider_obj)
 
-        # 데이터 값 변환
-        contents = response.text
-        json_ob = json.loads(contents)
-        casts = {"casts": json_ob["cast"]}
-        TV.append(casts)"""
-
+        """
+        casts Crawling : Comment it because there're no plans to use it yet.
+        url =  f"https://api.themoviedb.org/3/tv/{key}/credits?api_key={api_key}&language={language}"
+        json_ob = get_request_to_object(url)
+        casts = {"casts": json_ob["cast"], "crews": json_ob["crew"]}
+        TV.append(casts)
+        """
         results[key] = {"data": TV}
 
     return results
+
+
+if __name__ == "__main__":
+    """
+    movie_data_path = "/movieSample.json"
+    movie_data = get_movie_data(movie_data_path)
+    with open(movie_data_path, "w") as outfile:
+        json.dump(movie_data, outfile)
+    """
+
+    tv_data_path = "./TvSample.json"
+    tv_data = get_tv_data(tv_data_path)
+    with open(tv_data_path, "w") as outfile:
+        json.dump(tv_data, outfile)
