@@ -10,7 +10,7 @@ export default [
 		return res(
 			ctx.status(200),
 			ctx.set({
-				Location: 'https://localhost:8080/join',
+				Location: 'https://localhost:80/join',
 			}),
 			ctx.json({
 				accessToken: 'ongaj.access.token',
@@ -21,7 +21,7 @@ export default [
 		return res(
 			ctx.status(200),
 			ctx.set({
-				Location: 'https://localhost:8080/join',
+				Location: 'https://localhost:80/join',
 			}),
 			ctx.json({
 				accessToken: 'ongaj.access.token',
