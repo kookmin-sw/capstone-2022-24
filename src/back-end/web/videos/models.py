@@ -10,27 +10,27 @@ class Video(models.Model):
         ("MV", "Movie"),
     )
 
-    tmdb_id = models.BigIntegerField(
-        null=True,
-    )
+    tmdb_id = models.BigIntegerField()
     title = models.CharField(
         max_length=200,
+    )
+    release_date = models.DateField(
         null=True,
     )
-    release_date = models.DateField()
     film_rating = models.CharField(
         max_length=10,
+        null=True,
     )
     category = models.CharField(
         max_length=2,
-        null=True,
         choices=CATEGORY_CHOICE,
     )
-    poster_key = models.ImageField(
+    poster_key = models.URLField(
         null=True,
     )
     title_english = models.CharField(
         max_length=200,
+        null=True,
     )
 
     class Meta:
@@ -50,7 +50,9 @@ class VideoDetail(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    runtime = models.PositiveIntegerField()
+    runtime = models.PositiveIntegerField(
+        null=True,
+    )
 
     class Meta:
         """Metadata for video details model"""
