@@ -137,9 +137,9 @@
 		<!-- 작품 목록 -->
 		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
 			<div class="row" id="videos-wrapper">
-				<!--								<div class="videos" v-for="(video, index) in videos" :key="index">-->
-				<!--									{{ video }}-->
-				<!--								</div>-->
+				<div class="videos" v-for="(video, index) in videos" :key="index">
+					{{ video.posterKey }}
+				</div>
 			</div>
 			<template v-slot:loading>
 				<div class="row justify-center">
@@ -151,7 +151,7 @@
 </template>
 
 <script>
-// import mapState from 'vuex';
+import { mapState } from 'vuex';
 import selectFilter from '@/components/SelectFilter';
 
 export default {
@@ -216,7 +216,7 @@ export default {
 		};
 	},
 	computed: {
-		// ...mapState('videoList', ['videos']),
+		...mapState('videoList', ['videos']),
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('videoList/initVideoList');
