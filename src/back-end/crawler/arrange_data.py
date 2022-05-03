@@ -4,7 +4,7 @@ from crawler_base import check_vaild, provider_link_dict, watch_providers
 
 
 def arrange_movie_data(dicts):
-    """method: 영화 기본정보 분류하는 file"""
+    """method: Arrange base movie info in dicts to the format"""
 
     result = []
 
@@ -40,7 +40,7 @@ def arrange_movie_data(dicts):
 
 
 def arrange_movie_detail(dicts):
-    """method: 영화 세부정보, 장르, 제작국가 분류하는 file"""
+    """method: Arrange movie detail, genre, production_country info in dicts to the format"""
 
     detail_list = []
     genre_list = []
@@ -91,7 +91,7 @@ def arrange_movie_detail(dicts):
 
 
 def arrange_movie_provider(dicts):
-    """method: 영화 provider을 분류하는 file"""
+    """method: Arrange movie provider info in dicts to the format"""
 
     provider_list = []
     for key, value in dicts.items():
@@ -125,7 +125,7 @@ def arrange_movie_provider(dicts):
 
 
 def arrange_tv_data(dicts):
-    """method: TV 시리즈 기본정보 분류하는 file"""
+    """method: Arrange base tv info in dicts to the format"""
 
     result = []
 
@@ -169,7 +169,7 @@ def arrange_tv_data(dicts):
 
 
 def arrange_tv_detail(dicts):
-    """method: TV 세부정보, 장르, 제작국가 분류하는 file"""
+    """method: Arrange tv detail, genre, production_country info in dicts to the format"""
 
     detail_list = []
     genre_list = []
@@ -220,7 +220,7 @@ def arrange_tv_detail(dicts):
 
 
 def arrange_tv_provider(dicts):
-    """method: 영화 provider을 분류하는 file"""
+    """method: Arrange tv provider info in dicts to the format"""
 
     provider_list = []
     for key, value in dicts.items():

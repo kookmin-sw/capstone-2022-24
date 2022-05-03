@@ -1,10 +1,9 @@
+"""collecting frequently used method and redundantly used variables for crawling
+"""
 import json
 
 import environ
 import requests
-
-# from crawling_movie import get_movie_data
-# from crawling_TV import get_tv_data
 
 env = environ.Env(DEBUG=(bool, False))
 # environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
@@ -28,6 +27,7 @@ provider_link_dict = {
 
 
 def check_vaild(dict, string):
+    """Method: checking if the value exists in the dict"""
     try:
         obj = dict[string]
     except:

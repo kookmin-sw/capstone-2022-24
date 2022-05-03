@@ -1,10 +1,12 @@
-"""Craling Movie Data from TMDB"""
+"""Crawling Movie Data using API data"""
 from datetime import datetime
 
 from crawler_base import *
 
 
 def dict_movie_update(data_path):
+    """Method: checking the already had Movie dict and updating it"""
+
     Movie_dict = {}
     for provider in watch_providers:
         url = f"https://api.themoviedb.org/3/discover/movie?api_key={api_key}&language={language}&sort_by=popularity.desc&certification_country=KR&page=1&with_watch_providers={provider}&watch_region={watch_region}"
@@ -40,6 +42,8 @@ def dict_movie_update(data_path):
 
 
 def get_movie_data(file_path):
+    """Method: Creating a movie data Using movie dict"""
+
     results = {}
     Movie_dict = dict_movie_update(file_path)
     for key, value in Movie_dict.items():
@@ -72,3 +76,10 @@ def get_movie_data(file_path):
         results[key] = {"data": Movie}
 
     return results
+
+
+if __name__ == "__main__":
+    movie_data_path = "/movieSample.json"
+    movie_data = get_movie_data(movie_data_path)
+    with open(movie_data_path, "w") as outfile:
+        json.dump(movie_data, outfile)

@@ -55,6 +55,8 @@ def dict_tv_update(data_path):
 
 
 def get_tv_data(file_path):
+    """Method: Creating a tv data Using tv dict"""
+
     results = {}
     Tv_dict = dict_tv_update(file_path)
     for key, value in Tv_dict.items():
@@ -104,13 +106,6 @@ def get_tv_data(file_path):
 
 
 if __name__ == "__main__":
-    """
-    movie_data_path = "/movieSample.json"
-    movie_data = get_movie_data(movie_data_path)
-    with open(movie_data_path, "w") as outfile:
-        json.dump(movie_data, outfile)
-    """
-
     tv_data_path = "./TvSample.json"
     tv_data = get_tv_data(tv_data_path)
     with open(tv_data_path, "w") as outfile:

@@ -1,3 +1,5 @@
+"""Save the data in the actual DB"""
+
 import json
 import os
 import sys
@@ -26,6 +28,7 @@ from web.videos.models import Genre, ProductionCountry, Video, VideoDetail
 
 
 def saving_video_data(video_data):
+    """Method: Save the data in Video model"""
     for item in video_data:
         Video(
             tmdb_id=item["tmdb_id"],
@@ -39,12 +42,15 @@ def saving_video_data(video_data):
 
 
 def saving_detail_data(video_detail_data):
+    """Method: Save the data in VideoDetail model"""
     for item in video_detail_data:
         video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
         VideoDetail(video=video_id, runtime=item["runtime"]).save()
 
 
 def saving_genre_data(video_genre_data):
+    """Method: Save the data in Genre model"""
+
     for item in video_genre_data:
         video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
         genre_list = item["genres"]
@@ -53,6 +59,8 @@ def saving_genre_data(video_genre_data):
 
 
 def saving_production_country_data(video_production_country_data):
+    """Method: Save the data in ProductionCountry model"""
+
     for item in video_production_country_data:
         video_id = Video.objects.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
         for country in item["production_countries"]:
@@ -60,6 +68,8 @@ def saving_production_country_data(video_production_country_data):
 
 
 def saving_provider_data(video_provider_data):
+    """Method: Save the data in VideoProvider model"""
+
     for item in video_provider_data:
         video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
         provider_list = item["providers"]
@@ -74,7 +84,7 @@ if __name__ == "__main__":
     file_movie_path = "/Moviesample.json"
 
     with open(file_movie_path, "r", encoding="utf8") as file:
-        contents = file.read()  # string 타입
+        contents = file.read()
         json_movie_dict = json.loads(contents)
 
     """movie data saving to video model"""
@@ -91,7 +101,7 @@ if __name__ == "__main__":
     file_movie_path = "/tvsample.json"
 
     with open(file_movie_path, "r", encoding="utf8") as file:
-        contents = file.read()  # string 타입
+        contents = file.read()
         json_tv_dict = json.loads(contents)
 
     """movie data saving to video model"""
