@@ -18,6 +18,14 @@ api_key = ""
 language = "ko-KR"
 watch_region = "KR"
 
+provider_link_dict = {
+    "8": "https://www.netflix.com/kr/",
+    "356": "https://www.wavve.com/",
+    "97": "https://watcha.com/",
+    "337": "https://www.disneyplus.com/ko-kr",
+    "119": "https://www.primevideo.com/",
+}
+
 
 def check_vaild(dict, string):
     try:
@@ -45,6 +53,7 @@ def check_sample(id, path):
             Sample_data = json.dumps(Sample_data)
     except:
         return False
+
     if str(id) in Sample_data:
         return True
     else:

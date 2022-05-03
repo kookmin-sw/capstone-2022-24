@@ -1,258 +1,106 @@
+import json
 import os
-from datetime import datetime
+import sys
 
-from crawler_base import check_vaild, watch_providers
+from arrange_data import (
+    arrange_movie_data,
+    arrange_movie_detail,
+    arrange_movie_provider,
+    arrange_tv_data,
+    arrange_tv_detail,
+    arrange_tv_provider,
+)
 
-## Python이 실행될 때 DJANGO_SETTINGS_MODULE이라는 환경 변수에 현재 프로젝트의 settings.py파일 경로를 등록합니다.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "websaver.settings")
-## 이제 장고를 가져와 장고 프로젝트를 사용할 수 있도록 환경을 만듭니다.
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.config.settings")
 import django
 
 django.setup()
 
-from web.providers.models import Provider
-from web.video_providers.models import VideoProvider
+from djongo.models import Q
 
 # 여기가 models.py에서 설계한 모델을 가져오는 코드입니다
-from web.videos.models import Video, VideoDetail
+from web.providers.models import Provider
+from web.video_providers.models import VideoProvider
+from web.videos.models import Genre, ProductionCountry, Video, VideoDetail
 
 
-def arrange_movie_data(dicts):
-    """method: 영화 기본정보 분류하는 file"""
-
-    result = []
-
-    for key, value in dicts.items():
-        tmdb_id = key
-        movie_data = value[1]
-
-        try:
-            date_time_str = movie_data["release_date"]
-            date_time_obj = datetime.strptime(date_time_str, "%Y-%m-%d").date()
-        except:
-            date_time_obj = None
-
-        poster_path = check_vaild(movie_data, "poster_path")
-
-        if poster_path is not None:
-            poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
-
-        title_english = check_vaild(movie_data, "original_title")
-
-        object_movie = {
-            "tmdb_id": tmdb_id,
-            "title": movie_data["title"],
-            "release_date": date_time_obj,
-            "film_rating": None,
-            "category": "MV",
-            "poster_url": poster_url,
-            "title_english": title_english,
-        }
-        result.append(object_movie)
-
-    return result
+def saving_video_data(video_data):
+    for item in video_data:
+        Video(
+            tmdb_id=item["tmdb_id"],
+            title=item["title"],
+            release_date=item["release_date"],
+            film_rating=item["film_rating"],
+            category=item["category"],
+            poster_key=item["poster_url"],
+            title_english=item["title_english"],
+        ).save()
 
 
-def arrange_movie_detail(dicts):
-    """method: 영화 세부정보, 장르, 제작국가 분류하는 file"""
-
-    detail_list = []
-    genre_list = []
-    production_country_list = []
-
-    for key, value in dicts.items():
-        tmdb_id = key
-        movie_data = value[1]
-
-        """디테일 정보 정리"""
-        runtime = check_vaild(movie_data, "runtime")
-
-        object_detail = {
-            "tmdb_id": tmdb_id,
-            "category": "MV",
-            "runtime": runtime,
-        }
-        detail_list.append(object_detail)
-
-        """장르 정보 정리"""
-        genres = []
-        genre_data = check_vaild(movie_data, "genres")
-        for itme in genre_data:
-            genres.append(itme["name"])
-
-        object_genre = {
-            "tmdb_id": tmdb_id,
-            "category": "MV",
-            "genres": genres,
-        }
-        genre_list.append(object_genre)
-
-        """생산 국가 정리"""
-        production_countries = []
-        production_country_data = check_vaild(movie_data, "production_countries")
-
-        for item in production_country_data:
-            production_countries.append(item["iso_3166_1"])
-
-        object_production_country = {
-            "tmdb_id": tmdb_id,
-            "category": "MV",
-            "production_countries": production_countries,
-        }
-        production_country_list.append(object_production_country)
-
-    return detail_list, genre_list, production_country_list
+def saving_detail_data(video_detail_data):
+    for item in video_detail_data:
+        video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
+        VideoDetail(video=video_id, runtime=item["runtime"]).save()
 
 
-def arrange_movie_provider(dicts):
-    """method: 영화 provider을 분류하는 file"""
-
-    provider_list = []
-    for key, value in dicts.items():
-        tmdb_id = key
-        movie_data = value[2]["providers"]
-
-        offer_type_list = list(movie_data.keys())
-        offer_type_list.remove("link")
-
-        providers = []
-        for item in offer_type_list:
-            for iter in movie_data[item]:
-                if str(iter["provider_id"]) in watch_providers:
-                    provider = {
-                        "offerType": item,
-                        "providerid": iter["provider_id"],
-                    }
-                    providers.append(provider)
-
-        object_providers = {
-            "tmdb_id": tmdb_id,
-            "category": "MV",
-            "crawling_time": value[0]["crawling_time"],
-            "providers": providers,
-        }
-        provider_list.append(object_providers)
-
-    return provider_list
+def saving_genre_data(video_genre_data):
+    for item in video_genre_data:
+        video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
+        genre_list = item["genres"]
+        for gerne in genre_list:
+            Genre(video=video_id, name=gerne).save()
 
 
-def arrange_tv_data(dicts):
-    """method: TV 시리즈 기본정보 분류하는 file"""
-
-    result = []
-
-    for key, value in dicts.items():
-        tmdb_id = key
-        tv_data = value[1]
-
-        try:
-            date_time_str = tv_data["first_air_date"]
-            date_time_obj = datetime.strptime(date_time_str, "%Y-%m-%d").date()
-        except:
-            date_time_obj = None
-
-        poster_path = check_vaild(tv_data, "poster_path")
-
-        if poster_path is not None:
-            poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
-
-        """영어 타이틀 용 수정이 필요"""
-        title_english = check_vaild(tv_data, "original_name")
-
-        """
-        tmdb 성인등급 확인은 다시 체크할 필요가 있음
-        /tv/{tv_id}/content_ratings
-        """
-
-        film_rating = check_vaild(tv_data, "adult")
-
-        object_tv = {
-            "tmdb_id": tmdb_id,
-            "title": tv_data["name"],
-            "release_date": date_time_obj,
-            "film_rating": film_rating,
-            "category": "TV",
-            "poster_url": poster_url,
-            "title_english": title_english,
-        }
-        result.append(object_tv)
-
-    return result
+def saving_production_country_data(video_production_country_data):
+    for item in video_production_country_data:
+        video_id = Video.objects.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
+        for country in item["production_countries"]:
+            ProductionCountry(video=video_id, name=country).save()
 
 
-def arrange_tv_detail(dicts):
-    """method: TV 세부정보, 장르, 제작국가 분류하는 file"""
-
-    detail_list = []
-    genre_list = []
-    production_country_list = []
-
-    for key, value in dicts.items():
-        tmdb_id = key
-        movie_data = value[1]
-
-        """디테일 정보 정리"""
-        runtime = None
-
-        object_detail = {
-            "tmdb_id": tmdb_id,
-            "category": "TV",
-            "runtime": runtime,
-        }
-        detail_list.append(object_detail)
-
-        """장르 정보 정리"""
-        genres = []
-        genre_data = check_vaild(movie_data, "genres")
-        for itme in genre_data:
-            genres.append(itme["name"])
-
-        object_genre = {
-            "tmdb_id": tmdb_id,
-            "category": "TV",
-            "genres": genres,
-        }
-        genre_list.append(object_genre)
-
-        """생산 국가 정리"""
-        production_countries = []
-        production_country_data = check_vaild(movie_data, "production_countries")
-
-        for item in production_country_data:
-            production_countries.append(item["iso_3166_1"])
-
-        object_production_country = {
-            "tmdb_id": tmdb_id,
-            "category": "TV",
-            "production_countries": production_countries,
-        }
-        production_country_list.append(object_production_country)
-
-    return detail_list, genre_list, production_country_list
+def saving_provider_data(video_provider_data):
+    for item in video_provider_data:
+        video_id = Video.object.get(Q(category=item["category"]) & Q(tmdb_id=item["tmbd_id"]))
+        provider_list = item["providers"]
+        for obj in provider_list:
+            provider_id = Provider.objects.get(Q(tmdb_id=obj["provider_id"]))
+            VideoProvider(
+                video=video_id, provider=provider_id, offer_type=obj["offer_type"], link=obj["link"], deadline=obj[""]
+            ).save()
 
 
-def arrange_movie_provider(dicts):
-    """method: 영화 provider을 분류하는 file"""
+if __name__ == "__main__":
+    file_movie_path = "/Moviesample.json"
 
-    provider_list = []
-    for key, value in dicts.items():
-        tmdb_id = key
-        movie_data = value[2]["providers"]
+    with open(file_movie_path, "r", encoding="utf8") as file:
+        contents = file.read()  # string 타입
+        json_movie_dict = json.loads(contents)
 
-        providers = []
-        for item in movie_data:
-            provider = {
-                "offerType": item["offer_type"],
-                "providerid": item["provider_id"],
-            }
-            providers.append(provider)
+    """movie data saving to video model"""
+    movie_data = arrange_movie_data(json_movie_dict)
+    movie_detail_data, movie_genre_data, movie_production_country_data = arrange_movie_detail(json_movie_dict)
+    movie_provider_data = arrange_movie_provider(json_movie_dict)
 
-        object_providers = {
-            "tmdb_id": tmdb_id,
-            "category": "TV",
-            "crawling_time": value[0]["crawling_time"],
-            "providers": providers,
-        }
-        provider_list.append(object_providers)
+    saving_video_data(movie_data)
+    saving_detail_data(movie_detail_data)
+    saving_genre_data(movie_genre_data)
+    saving_production_country_data(movie_production_country_data)
+    saving_provider_data(movie_provider_data)
 
-    return provider_list
+    file_movie_path = "/tvsample.json"
+
+    with open(file_movie_path, "r", encoding="utf8") as file:
+        contents = file.read()  # string 타입
+        json_tv_dict = json.loads(contents)
+
+    """movie data saving to video model"""
+    tv_data = arrange_tv_data(json_tv_dict)
+    tv_detail_data, tv_genre_data, tv_production_country_data = arrange_tv_detail(json_tv_dict)
+    tv_provider_data = arrange_tv_provider(json_tv_dict)
+
+    saving_video_data(tv_data)
+    saving_detail_data(tv_detail_data)
+    saving_genre_data(tv_genre_data)
+    saving_production_country_data(tv_production_country_data)
+    saving_provider_data(tv_provider_data)
