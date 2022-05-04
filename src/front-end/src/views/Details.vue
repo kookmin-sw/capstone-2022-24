@@ -17,9 +17,6 @@
 				<div class="q-ma-sm">연도 국가 장르 상영시간</div>
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<div class="row q-ma-sm col-gap-12">
-					<!-- 로튼토마토 -->
-					<q-avatar rounded color="grey" size="30px" />
-					<div class="q-mt-auto q-mb-auto">로튼토마토 평점</div>
 					<!-- IMDB -->
 					<q-avatar rounded color="grey" size="30px" />
 					<div class="q-mt-auto q-mb-auto">IMDB 평점</div>
@@ -48,45 +45,9 @@
 						align="justify"
 						v-model="tab">
 						<q-tab name="all" label="전체" />
-						<q-tab name="fixed-charge" label="정액제" />
-						<q-tab name="purchase" label="구매" />
-						<q-tab name="rental" label="대여" />
-						<q-tab name="free" label="무료" />
 					</q-tabs>
 					<q-tab-panels animated v-model="tab">
 						<q-tab-panel name="all">
-							<div class="ott-icons-frame row">
-								<div v-for="ott in serviceOtts" :key="ott.id">
-									<q-avatar rounded color="blue" size="40px" />
-									<div class="text-center">금액</div>
-								</div>
-							</div>
-						</q-tab-panel>
-						<q-tab-panel name="fixed-charge">
-							<div class="ott-icons-frame row">
-								<div v-for="ott in serviceOtts" :key="ott.id">
-									<q-avatar rounded color="blue" size="40px" />
-									<div class="text-center">금액</div>
-								</div>
-							</div>
-						</q-tab-panel>
-						<q-tab-panel name="purchase">
-							<div class="ott-icons-frame row">
-								<div v-for="ott in serviceOtts" :key="ott.id">
-									<q-avatar rounded color="blue" size="40px" />
-									<div class="text-center">금액</div>
-								</div>
-							</div>
-						</q-tab-panel>
-						<q-tab-panel name="rental">
-							<div class="ott-icons-frame row">
-								<div v-for="ott in serviceOtts" :key="ott.id">
-									<q-avatar rounded color="blue" size="40px" />
-									<div class="text-center">금액</div>
-								</div>
-							</div>
-						</q-tab-panel>
-						<q-tab-panel name="free">
 							<div class="ott-icons-frame row">
 								<div v-for="ott in serviceOtts" :key="ott.id">
 									<q-avatar rounded color="blue" size="40px" />
