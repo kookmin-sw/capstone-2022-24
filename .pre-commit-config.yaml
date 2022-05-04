@@ -16,13 +16,6 @@ repos:
       - id: check-yaml
       - id: trailing-whitespace
 
-  # Front-end settings
-  # htmlhint
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-nodejs
-    rev: v1.1.2
-    hooks:
-      - id: htmlhint
-        files: ^src/front-end/src
 
   # Back-end settings
   # pycln -> isort -> black -> pylint -> django -> pre-commit-hooks -> django-test
