@@ -13,6 +13,7 @@ def dict_movie_update(data_path):
 
         json_ob = get_request_to_object(url)
         total_pages = json_ob["total_pages"]
+        total_pages = 1
 
         for i in range(1, total_pages + 1):
             if i <= 500:
@@ -66,7 +67,7 @@ def get_movie_data(file_path):
         Movie.append(providers)
 
         """video english title Crawler"""
-        url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language=en-US"
+        url = f"https://api.themoviedb.org/3/movie/{key}?api_key={api_key}&language=en-US"
         json_ob = get_request_to_object(url)
         title_english = check_vaild(json_ob, "title")
         object_en_title = {"title_english": title_english}
@@ -86,7 +87,7 @@ def get_movie_data(file_path):
 
 
 if __name__ == "__main__":
-    movie_data_path = "/movieSample.json"
+    movie_data_path = "./movieSample.json"
     movie_data = get_movie_data(movie_data_path)
     with open(movie_data_path, "w") as outfile:
         json.dump(movie_data, outfile)

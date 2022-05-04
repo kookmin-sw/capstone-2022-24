@@ -10,8 +10,8 @@ def arrange_movie_data(dicts):
 
     for key, value in dicts.items():
         tmdb_id = key
-        movie_data = value[1]
-        eng_data = value[3]
+        movie_data = value["data"][1]
+        eng_data = value["data"][3]
 
         try:
             date_time_str = movie_data["release_date"]
@@ -36,6 +36,7 @@ def arrange_movie_data(dicts):
             "title_english": title_english,
         }
         result.append(object_movie)
+        break
 
     return result
 
@@ -49,7 +50,7 @@ def arrange_movie_detail(dicts):
 
     for key, value in dicts.items():
         tmdb_id = key
-        movie_data = value[1]
+        movie_data = value["data"][1]
 
         """Arrange detail data"""
         runtime = check_vaild(movie_data, "runtime")
@@ -87,6 +88,7 @@ def arrange_movie_detail(dicts):
             "production_countries": production_countries,
         }
         production_country_list.append(object_production_country)
+        break
 
     return detail_list, genre_list, production_country_list
 
@@ -97,7 +99,7 @@ def arrange_movie_provider(dicts):
     provider_list = []
     for key, value in dicts.items():
         tmdb_id = key
-        movie_data = value[2]["providers"]
+        movie_data = value["data"][2]["providers"]
 
         offer_type_list = list(movie_data.keys())
         offer_type_list.remove("link")
@@ -115,13 +117,17 @@ def arrange_movie_provider(dicts):
                     }
                     providers.append(provider)
 
+        crawling_time_str = value["data"][0]["crawling_time"]
+        crawling_time_obj = datetime.strptime(crawling_time_str, "%Y-%m-%d %H:%M:%S")
+
         object_providers = {
             "tmdb_id": tmdb_id,
             "category": "MV",
-            "crawling_time": value[0]["crawling_time"],
+            "crawling_time": crawling_time_obj,
             "providers": providers,
         }
         provider_list.append(object_providers)
+        break
 
     return provider_list
 
@@ -133,9 +139,9 @@ def arrange_tv_data(dicts):
 
     for key, value in dicts.items():
         tmdb_id = key
-        tv_data = value[1]
-        eng_data = value[3]
-        film_rating_data = value[4]["results"]
+        tv_data = value["data"][1]
+        eng_data = value["data"][3]
+        film_rating_data = value["data"][4]["results"]
 
         try:
             date_time_str = tv_data["first_air_date"]
@@ -150,6 +156,7 @@ def arrange_tv_data(dicts):
 
         title_english = eng_data["title_english"]
 
+        film_rating = None
         for item in film_rating_data:
             if item["iso_3166_1"] == "KR":
                 film_rating = item["rating"]
@@ -164,6 +171,7 @@ def arrange_tv_data(dicts):
             "title_english": title_english,
         }
         result.append(object_tv)
+        break
 
     return result
 
@@ -177,7 +185,7 @@ def arrange_tv_detail(dicts):
 
     for key, value in dicts.items():
         tmdb_id = key
-        movie_data = value[1]
+        movie_data = value["data"][1]
 
         """Arrange detail data"""
         runtime = None
@@ -215,6 +223,7 @@ def arrange_tv_detail(dicts):
             "production_countries": production_countries,
         }
         production_country_list.append(object_production_country)
+        break
 
     return detail_list, genre_list, production_country_list
 
@@ -225,11 +234,15 @@ def arrange_tv_provider(dicts):
     provider_list = []
     for key, value in dicts.items():
         tmdb_id = key
-        movie_data = value[2]["providers"]
+        movie_data = value["data"][2]["provider"]
+
+        crawling_time_str = value["data"][0]["crawling_time"]
+        crawling_time_obj = datetime.strptime(crawling_time_str, "%Y-%m-%d %H:%M:%S")
 
         providers = []
         for item in movie_data:
-            provider_id = item["provider_id"]
+            provider_id = int(item["provider_id"])
+
             provider = {
                 "offer_type": item["offer_type"],
                 "provider_id": provider_id,
@@ -241,9 +254,10 @@ def arrange_tv_provider(dicts):
         object_providers = {
             "tmdb_id": tmdb_id,
             "category": "TV",
-            "crawling_time": value[0]["crawling_time"],
+            "crawling_time": crawling_time_obj,
             "providers": providers,
         }
         provider_list.append(object_providers)
+        break
 
     return provider_list
