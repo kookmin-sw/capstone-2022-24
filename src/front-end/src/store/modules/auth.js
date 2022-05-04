@@ -9,13 +9,13 @@ export const auth = {
 		userId: 'abc',
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
-			redirectionUri: `${window.location.origin}/users/naver/login/callback/`,
+			redirectionUri: `${window.location.origin}/users/naver/login/callback`,
 			code: null,
 			resState: null,
 		},
 		google: {
 			clientId: `111000957224-lu56fk9cgkavoika3b1b9872vv0lri8q.apps.googleusercontent.com`,
-			redirectionUri: `${window.location.origin}/users/google/login/callback/`,
+			redirectionUri: `${window.location.origin}/users/google/login/callback`,
 			token: null,
 		},
 	},
