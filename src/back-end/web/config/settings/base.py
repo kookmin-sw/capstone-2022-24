@@ -45,6 +45,7 @@ CUSTOM_APPS = [
     "video_providers",
     "video_total_counts",
     "watching_marks",
+    "tv_details",
 ]
 
 INSTALLED_APPS = [
