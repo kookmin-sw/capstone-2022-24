@@ -35,6 +35,7 @@ CUSTOM_APPS = [
     "group_accounts",
     "groups",
     "mileages",
+    "movie_details",
     "notifications",
     "payments",
     "providers",
