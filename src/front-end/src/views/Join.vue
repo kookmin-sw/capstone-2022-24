@@ -34,7 +34,7 @@
 				<div class="leader-expl col q-mb-md">
 					<div
 						class="text-weight-bold leader-title"
-						:class="{ 'role-select-text': roleSelect.leader }">
+						:class="{ 'text-blue-100': roleSelect.leader }">
 						{{ $t('join.leaderGuideTitle') }}
 					</div>
 					<div>{{ $t('join.leaderGuide') }}</div>
@@ -43,7 +43,7 @@
 				<div class="member-expl col q-mb-md">
 					<div
 						class="text-weight-bold member-title"
-						:class="{ 'role-select-text': roleSelect.member }">
+						:class="{ 'text-blue-100': roleSelect.member }">
 						{{ $t('join.memberGuideTitle') }}
 					</div>
 					<div>{{ $t('join.memberGuide') }}</div>
@@ -165,20 +165,11 @@ export default {
 	margin-top: auto;
 	margin-bottom: auto;
 }
-/*.btn-frame * {*/
-/*	margin-right: 12px;*/
-/*} 현재 페이지에서 쓰이지 않는 스타일*/
-/*.ott-icons-frame {*/
-/*	column-gap: 16px;*/
-/*} col-gap-n css 클래스 적용하기로 변경*/
 .ott-select {
 	border: 3px solid darkblue;
 	border-radius: 7px;
 }
 .role-toggle-button {
 	border: 1px solid #2196f3;
-}
-.role-select-text {
-	color: #2196f3;
 }
 </style>
