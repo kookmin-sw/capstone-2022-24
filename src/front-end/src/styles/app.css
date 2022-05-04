@@ -106,6 +106,21 @@ a.router-link-exact-active{
 .text-grey-100 {
     color: #1B1B1B;
 }
+.text-blue-200 {
+    color: #449BFE;
+}
+.text-blue-100 {
+    color: #83BBFB;
+}
+.text-blue-90 {
+    color: #ADD5FA;
+}
+.text-blue-80 {
+    color: #CAE5FF;
+}
+.text-blue-70 {
+    color: #E3F0FF;
+}
 
 /* border radius */
 .left-radius-2 {
