@@ -44,4 +44,4 @@ class VideoCast(models.Model):
         db_table = "video_casts"
 
     def __str__(self):
-        return f"출연진/제작진 {self.name}"
+        return f"{self.role}역할의 {self.name}"
