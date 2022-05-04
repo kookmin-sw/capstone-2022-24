@@ -36,7 +36,6 @@ def arrange_movie_data(dicts):
             "title_english": title_english,
         }
         result.append(object_movie)
-        break
 
     return result
 
@@ -88,7 +87,6 @@ def arrange_movie_detail(dicts):
             "production_countries": production_countries,
         }
         production_country_list.append(object_production_country)
-        break
 
     return detail_list, genre_list, production_country_list
 
@@ -127,7 +125,6 @@ def arrange_movie_provider(dicts):
             "providers": providers,
         }
         provider_list.append(object_providers)
-        break
 
     return provider_list
 
@@ -171,7 +168,6 @@ def arrange_tv_data(dicts):
             "title_english": title_english,
         }
         result.append(object_tv)
-        break
 
     return result
 
@@ -223,7 +219,6 @@ def arrange_tv_detail(dicts):
             "production_countries": production_countries,
         }
         production_country_list.append(object_production_country)
-        break
 
     return detail_list, genre_list, production_country_list
 
@@ -258,6 +253,5 @@ def arrange_tv_provider(dicts):
             "providers": providers,
         }
         provider_list.append(object_providers)
-        break
 
     return provider_list

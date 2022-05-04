@@ -56,8 +56,6 @@ def saving_detail_data(video_detail_data):
             video_id,
             item["runtime"],
         )
-        print(sql)
-        print(values)
         cursor.execute(sql, values)
         conn.commit()
 
@@ -106,6 +104,7 @@ def saving_provider_data(video_provider_data):
         for obj in provider_list:
             sql_provider = f"SELECT id FROM provider WHERE tmdb_id ={obj['provider_id']}"
             cursor.execute(sql_provider)
+            # provider_id =  list(list(cursor.fetchall())[0])[0]
             provider_id = cursor.fetchall()[0][0]
 
             sql = "INSERT INTO video_providers (video_id, provider_id,offer_type,link,offer_date,deadline) VALUES (%s,%s,%s,%s,%s,%s)"
