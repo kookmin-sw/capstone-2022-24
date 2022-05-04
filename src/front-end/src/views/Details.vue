@@ -10,21 +10,27 @@
 			<div class="col text-left">
 				<!-- 작품 제목 -->
 				<div class="q-ma-sm">
-					<div class="text-h4 text-weight-bold">작품명</div>
-					<div class="text-h6 text-grey-8">작품 영어 제목</div>
+					<div class="text-h6 text-weight-bold">작품명</div>
+					<div class="q-mb-md text-bold text-grey-8">작품 영어 제목</div>
 				</div>
 				<!-- 작품 상세 정보 -->
-				<div class="q-ma-sm">연도 국가 장르 상영시간</div>
+				<div class="row q-ma-sm">
+          <div class="q-mr-sm q-mt-auto q-mb-auto">연도</div>
+          <div class="q-mr-sm q-mt-auto q-mb-auto">국가</div>
+          <div class="q-mr-sm q-mt-auto q-mb-auto">장르</div>
+          <div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>
+        </div>
 				<!-- 작품 상세 정보: 외부 평점 -->
-				<div class="row q-ma-sm col-gap-12">
+				<div class="row q-ma-sm q-mb-md">
 					<!-- IMDB -->
-					<q-avatar rounded color="grey" size="30px" />
-					<div class="q-mt-auto q-mb-auto">IMDB 평점</div>
-					<div class="q-mt-auto q-mb-auto">자체 평점</div>
-					<div class="q-mt-auto q-mb-auto">자체 찜 수</div>
+					<q-avatar rounded color="grey" size="25px" class="q-mr-xs" />
+					<div class="q-mr-md q-mt-auto q-mb-auto">IMDB 평점</div>
+          <!-- 자체 기준 -->
+					<div class="q-mr-sm q-mt-auto q-mb-auto">자체 평점</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">자체 찜 수</div>
 					<div class="q-mt-auto q-mb-auto">자체 본 사람 수</div>
 				</div>
-				<div class="row">
+				<div class="row q-mb-md">
 					<q-select
 						dense
 						outlined
