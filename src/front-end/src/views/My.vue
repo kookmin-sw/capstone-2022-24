@@ -18,7 +18,7 @@
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
-			<div class="q-ml-lg" @click="payment">충전하기</div>
+			<div class="q-ml-lg" @click="chargeCredit">충전하기</div>
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">계좌</div>
