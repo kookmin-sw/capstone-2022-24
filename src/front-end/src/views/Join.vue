@@ -7,7 +7,7 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
 				<div>{{ $t('join.stepTitle1') }}</div>
 			</div>
-			<div class="row q-mb-lg ott-icons-frame">
+			<div class="row col-gap-12"><!--12가 나은지 16이 나은지 모르겠다... 컨테이너 마진은 48이라 두 값 다 배수이긴 한데..-->
 				<q-avatar
 					rounded
 					color="blue"
@@ -30,7 +30,7 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step2') }}</div>
 				<div>{{ $t('join.stepTitle2') }}</div>
 			</div>
-			<div class="explanation col text-left q-mb-lg">
+			<div class="explanation col text-left">
 				<div class="leader-expl col q-mb-md">
 					<div
 						class="text-weight-bold leader-title"
@@ -40,7 +40,7 @@
 					<div>{{ $t('join.leaderGuide') }}</div>
 					<div>{{ $t('join.leaderPaymentGuide') }}</div>
 				</div>
-				<div class="member-expl col">
+				<div class="member-expl col q-mb-md">
 					<div
 						class="text-weight-bold member-title"
 						:class="{ 'role-select-text': roleSelect.member }">
@@ -75,7 +75,7 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step3') }}</div>
 				<div>{{ $t('join.stepTitle3') }}</div>
 			</div>
-			<div class="explanation col text-left q-mb-lg">
+			<div class="explanation col text-left q-mb-md">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
 			<q-btn
@@ -159,18 +159,18 @@ export default {
 
 <style scoped>
 .guide-text {
-	column-gap: 4px;
+	column-gap: 8px;
 }
 .guide-text div {
 	margin-top: auto;
 	margin-bottom: auto;
 }
-.btn-frame * {
-	margin-right: 12px;
-}
-.ott-icons-frame {
-	column-gap: 16px;
-}
+/*.btn-frame * {*/
+/*	margin-right: 12px;*/
+/*} 현재 페이지에서 쓰이지 않는 스타일*/
+/*.ott-icons-frame {*/
+/*	column-gap: 16px;*/
+/*} col-gap-n css 클래스 적용하기로 변경*/
 .ott-select {
 	border: 3px solid darkblue;
 	border-radius: 7px;
