@@ -61,12 +61,9 @@ export const auth = {
 		async loginWithSocial({ state, commit }, social) {
 			const url = `/users/login/oauth/${social}/`;
 			let data = null;
-
-			if (social === 'naver') {
-				data = { code: state.naver.code };
-			} else {
-				data = { access_token: state.google.token };
-			}
+			social === 'naver'
+				? (data = { code: state.naver.code })
+				: (data = { access_token: state.google.token });
 
 			return new Promise((resolve, reject) => {
 				http
