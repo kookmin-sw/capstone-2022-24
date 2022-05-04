@@ -26,7 +26,7 @@ class TvSeriesDetail(models.Model):
 class TvSeason(models.Model):
     """Definition of list about TV seasons that compose the TV series"""
 
-    series = models.OneToOneField(
+    series = models.ForeignKey(
         TvSeriesDetail,
         on_delete=models.CASCADE,
     )
