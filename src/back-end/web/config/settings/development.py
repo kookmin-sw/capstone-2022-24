@@ -64,10 +64,10 @@ TIME_ZONE = env("TZ")
 # CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"
 
 # cors
-CORS_ALLOWED_ORIGINS += [
-    env("APP_HOST"),
+CORS_ORIGIN_WHITELIST = [
     f"http://localhost:{env('APP_PORT')}",
     f"http://127.0.0.1:{env('APP_PORT')}",
+    f"http://{env('APP_HOST')}:{env('APP_PORT')}",
 ]
 
 # base url
