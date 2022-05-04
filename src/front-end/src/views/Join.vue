@@ -21,7 +21,8 @@
 		<q-space class="col-2" />
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+	<q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<!-- 2단계 영역 -->
 	<div class="step-two-frame row q-ma-xl">
 		<q-space class="col-2" />
@@ -66,7 +67,8 @@
 		<q-space class="col-2" />
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<!-- 3단계 영역 -->
 	<div class="step-three-frame row q-ma-xl">
 		<q-space class="col-2" />
