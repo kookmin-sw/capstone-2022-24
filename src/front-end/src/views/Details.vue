@@ -64,14 +64,14 @@
 	<q-separator color="blue" inset />
 	<!-- 작품 줄거리 영역 -->
 	<div class="q-ma-xl text-left">
-		<div class="text-h6 text-weight-bold">줄거리</div>
+		<div class="q-mb-md text-h6 text-weight-bold">줄거리</div>
 		<div>줄거리 내용 텍스트</div>
 	</div>
 	<!-- hr -->
 	<q-separator color="blue" inset />
 	<!-- 감독/제작/출연 정보 영역 -->
 	<div class="col q-ma-xl text-left">
-		<div class="q-mb-md text-h6 text-weight-bold">감독/제작/출연</div>
+		<div class="q-mb-md text-h6 text-weight-bold">제작진</div>
 		<div class="row col-gap-16">
 			<div v-for="staffMember in staff" :key="staffMember.id">
 				{{ staffMember }}
@@ -89,7 +89,7 @@
 	<q-separator color="blue" inset />
 	<!-- 관련 영상물 영역 -->
 	<div class="q-ma-xl text-left">
-		<div class="text-h6 text-weight-bold">관련 영상</div>
+		<div class="q-mb-md text-h6 text-weight-bold">관련 영상</div>
 		<div>영상 임베드 영역, 링크 -> 임베드</div>
 	</div>
 </template>
