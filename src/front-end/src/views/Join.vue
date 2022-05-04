@@ -7,10 +7,10 @@
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
 				<div>{{ $t('join.stepTitle1') }}</div>
 			</div>
-			<div class="row col-gap-12"><!--12가 나은지 16이 나은지 모르겠다... 컨테이너 마진은 48이라 두 값 다 배수이긴 한데..-->
+			<div class="row col-gap-12">
 				<q-avatar
 					rounded
-					color="blue"
+					color="grey-4"
 					size="60px"
 					v-for="(otts, index) in ottFilters"
 					:key="index"
@@ -55,8 +55,8 @@
 				spread
 				class="role-toggle-button"
 				unelevated
-				toggle-color="blue"
-				text-color="blue"
+				toggle-color="blue-4"
+				text-color="blue-4"
 				:options="[
 					{ label: '모임장', value: 'leader' },
 					{ label: '모임원', value: 'member' },
@@ -80,7 +80,7 @@
 			</div>
 			<q-btn
 				unelevated
-				color="blue"
+				color="blue-4"
 				class="full-width"
 				:disabled="state"
 				@click="joinBtnClick">
@@ -166,10 +166,10 @@ export default {
 	margin-bottom: auto;
 }
 .ott-select {
-	border: 3px solid darkblue;
-	border-radius: 7px;
+	border: 3px solid #449BFE;/*blue-200*/
+	border-radius: 4px;
 }
 .role-toggle-button {
-	border: 1px solid #2196f3;
+	border: 1px solid #449BFE;/*blue-200*/
 }
 </style>
