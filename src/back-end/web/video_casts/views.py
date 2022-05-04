@@ -1,0 +1,1 @@
+"""APIs of groups application"""

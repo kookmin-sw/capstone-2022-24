@@ -1,139 +1,117 @@
-"""Videos App Model Definitions: Video, VideoDetail"""
+"""Definitions of model about video informations : Video, VideoDetail, Rating, ProductionCountry, Gerne"""
 from django.db import models
 
 
 class Video(models.Model):
-    """Video information that ott providers support"""
+    """Definition of video information that ott providers providered"""
 
     CATEGORY_CHOICE = (
         ("TV", "TVSeries"),
         ("MV", "Movie"),
     )
 
-    id = models.BigAutoField(
-        primary_key=True,
-    )
-    tmdb_id = models.BigIntegerField(
-        null=True,
-        db_column="tmdbId",
-    )
+    tmdb_id = models.BigIntegerField()
     title = models.CharField(
         max_length=200,
-        null=True,
     )
     release_date = models.DateField(
-        null=False,
-        db_column="releaseDate",
+        null=True,
     )
     film_rating = models.CharField(
         max_length=10,
-        null=False,
-        db_column="filmRating",
+        null=True,
     )
     category = models.CharField(
         max_length=2,
-        null=True,
         choices=CATEGORY_CHOICE,
     )
-    poster_key = models.ImageField(
-        db_column="posterKey",
+    poster_key = models.URLField(
+        null=True,
     )
     title_english = models.CharField(
         max_length=200,
-        null=False,
-        db_column="titleEnglish",
+        null=True,
     )
 
     class Meta:
-        """DB table naming"""
+        """Metadata for video model"""
 
         db_table = "videos"
 
     def __str__(self):
-        return f"{self.title}"
+        return f"작품 {self.title}"
+
+
+class VideoDetail(models.Model):
+    """Definition of video detail information that ott providers providered"""
+
+    video = models.OneToOneField(
+        Video,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    runtime = models.PositiveIntegerField(
+        null=True,
+    )
+
+    class Meta:
+        """Metadata for video details model"""
+
+        db_table = "video_details"
+
+    def __str__(self):
+        return f"작품 {self.video.title}의 세부정보"
 
 
 class Rating(models.Model):
-    """Abstract class to use ratings arrayfield"""
+    """Definition about Rating of Video Information"""
 
+    video = models.ForeignKey(
+        Video,
+        on_delete=models.CASCADE,
+    )
     name = models.CharField(
         max_length=50,
     )
     value = models.FloatField(
         max_length=10,
     )
-    # objects = models.DjongoManager()
 
     class Meta:
-        """type setting"""
+        """Metadata for video ratings model"""
 
-        abstract = True
+        db_table = "ratings"
 
 
 class ProductionCountry(models.Model):
-    """Abstract class to use production_countires arrayfield"""
+    """Definition about Production Country of Video Information"""
 
-    name = models.CharField(
-        max_length=2,
-    )
-    # objects = models.DjongoManager()
-
-    class Meta:
-        """type setting"""
-
-        abstract = True
-
-
-class Gerne(models.Model):
-    """Abstract class to use gernes arrayfield"""
-
-    name = models.CharField(
-        max_length=20,
-    )
-    # objects = models.DjongoManager()
-
-    class Meta:
-        """type setting"""
-
-        abstract = True
-
-
-class VideoDetail(models.Model):
-    """videoDetails models"""
-
-    id = models.BigAutoField(
-        primary_key=True,
-    )
     video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
-        db_column="videoId",
     )
-    runtime = models.IntegerField(
-        null=False,
+    name = models.CharField(
+        max_length=2,
     )
-
-    """
-    ratings = models.ArrayField(
-        model_container=Rating,
-        null=False,
-    )
-    production_countries = models.ArrayField(
-        model_container=ProductionCountry,
-        null=False,
-        db_column="productionCountries",
-    )
-    gernes = models.ArrayField(
-        model_container=Gerne,
-        max_length=50,
-        null=True,
-    )
-    """
 
     class Meta:
-        """DB table naming"""
+        """Metadata for video production country model"""
 
-        db_table = "video_details"
+        db_table = "production_countries"
 
-    def __str__(self):
-        return f"{self.video.title}의 세부정보"
+
+class Genre(models.Model):
+    """Definition about Genre of Video Information"""
+
+    video = models.ForeignKey(
+        Video,
+        on_delete=models.CASCADE,
+    )
+    name = models.CharField(
+        max_length=20,
+    )
+
+    class Meta:
+        """Metadata for video Genre model"""
+
+        db_table = "genres"
