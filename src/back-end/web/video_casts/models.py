@@ -7,19 +7,19 @@ class VideoCast(models.Model):
     """Definition of information about casts who appeared in the video"""
 
     DEPARTMENT_CHOICE = (
-        ("Cast"),
-        ("Crew"),
-        ("Sound"),
-        ("Lighting"),
-        ("Production"),
-        ("Art"),
-        ("Editing"),
-        ("Costume & Make-Up"),
-        ("Camera"),
-        ("Directing"),
-        ("Visual Effects"),
-        ("Actors"),
-        ("Writing"),
+        ("CS", "Cast"),
+        ("CR", "Crew"),
+        ("SD", "Sound"),
+        ("LG", "Lighting"),
+        ("PD", "Production"),
+        ("AT", "Art"),
+        ("ED", "Editing"),
+        ("CM", "Costume & Make-Up"),
+        ("CR", "Camera"),
+        ("DR", "Directing"),
+        ("VE", "Visual Effects"),
+        ("AC", "Actors"),
+        ("WR", "Writing"),
     )
     video = models.ForeignKey(
         Video,
@@ -29,7 +29,7 @@ class VideoCast(models.Model):
         max_length=30,
     )
     department = models.CharField(
-        max_length=20,
+        max_length=2,
         null=True,
         choices=DEPARTMENT_CHOICE,
     )
