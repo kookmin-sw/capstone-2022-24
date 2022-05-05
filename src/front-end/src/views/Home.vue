@@ -129,10 +129,14 @@
 				size="24px"
 				class="q-mt-auto q-mb-auto"
 				name="navigate_next" />
-			<q-btn flat>랜덤순</q-btn>
-			<q-btn flat>평점순</q-btn>
-			<q-btn flat>최신순</q-btn>
-			<q-btn flat>인기순</q-btn>
+			<q-btn
+				flat
+				v-for="(s, index) in sort"
+				:key="index"
+				@click="sortButtonClick(index)"
+				:class="{ 'bg-blue-100': s.isSelect }"
+				>{{ s.label }}</q-btn
+			>
 		</div>
 		<!-- 작품 목록 -->
 		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
@@ -210,6 +214,12 @@ export default {
 				},
 			},
 			search: null,
+			sort: [
+				{ label: '랜덤순', isSelect: true },
+				{ label: '평점순', isSelect: false },
+				{ label: '최신순', isSelect: false },
+				{ label: '인기순', isSelect: false },
+			],
 			selected: {
 				ott: [],
 			},
@@ -219,14 +229,20 @@ export default {
 		...mapState('videoList', ['videos']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('videoList/initVideoList');
+		await this.$store.dispatch('videoList/loadVideoList', 24);
 	},
 	methods: {
+		sortButtonClick(idx) {
+			this.sort.forEach(i => {
+				if (i !== idx) {
+					i.isSelect = false;
+				}
+			});
+			this.sort[idx].isSelect = true;
+		},
 		videoOnLoad() {
-			// setTimeout(() => {
-			// 	this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
-			// 	done();
-			// }, 2000);
+			console.log('loading!!!');
+			// await this.$store.dispatch('videoList/loadVideoList', 24);
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;

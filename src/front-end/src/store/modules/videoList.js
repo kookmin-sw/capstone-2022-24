@@ -15,11 +15,16 @@ export const videoList = {
 			watched: [],
 		},
 		videos: [],
-		hasPage: 0,
 		totalPage: 0,
 		totalResult: 0,
 	},
-	getters: {},
+	getters: {
+		hasPage(state) {
+			return !state.videos.length
+				? 0
+				: Math.floor(state.totalResult / state.videos.length);
+		},
+	},
 	mutations: {
 		INIT_FILTERS(state) {
 			state.filters.categories.splice(0, state.filters.categories.length);
@@ -80,10 +85,10 @@ export const videoList = {
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		initVideoList({ commit }, size) {
-			const url = `/videos?page=${1}&size=${size}`;
+		async loadVideoList({ getters, commit }, size) {
+			const url = `/videos?page=${getters.hasPage + 1}&size=${size}`;
 			// todo: url에 검색, 필터링, 정렬 조건 붙이기
-			http
+			await http
 				.get(url)
 				.then(res => {
 					const data = res.data.results;

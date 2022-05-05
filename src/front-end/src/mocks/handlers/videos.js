@@ -199,14 +199,6 @@ export default [
 							providers: ['netflix'],
 							category: 'tv',
 						},
-						{
-							title: '25',
-							posterKey: '25-poster',
-							filmRating: null,
-							releaseDate: 2022,
-							providers: ['netflix'],
-							category: 'movie',
-						},
 					],
 					page: {
 						current: 1,
