@@ -1,18 +1,8 @@
 """Save the data in the actual DB"""
 
 import json
-import os
-import sys
 
 import environ
-
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from web.config.settings.base import ENV_DIR
-
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
-
-DEBUG = True
 import MySQLdb
 from arrange_data import (
     arrange_movie_data,
@@ -22,6 +12,7 @@ from arrange_data import (
     arrange_tv_detail,
     arrange_tv_provider,
 )
+from env_check import setting_env
 
 """==========Model for Saving data==========="""
 
@@ -130,6 +121,12 @@ def saving_provider_data(video_provider_data):
 
 
 if __name__ == "__main__":
+
+    """==========environment value setiing==========="""
+
+    env = environ.Env(DEBUG=(bool, False))
+    setting_env()
+    DEBUG = True
 
     """==========DB Connect==========="""
 
