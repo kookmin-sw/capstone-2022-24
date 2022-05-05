@@ -1,7 +1,6 @@
-# Back-end crawler Data
+# Back-end crawler
 
 ## Outline
-this version is just working in local env.
 
 ### crawler_base.py
 collecting frequently used method and redundantly used variables for crawling
