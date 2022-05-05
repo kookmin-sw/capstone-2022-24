@@ -19,6 +19,7 @@ none_providers_list = ["356"]
 api_key = env("MOVIE_API_KEY_V3")
 language = "ko-KR"
 watch_region = "KR"
+MAX_PAGE_LIMIT = 500
 
 provider_link_dict = {
     8: "https://www.netflix.com/kr/",

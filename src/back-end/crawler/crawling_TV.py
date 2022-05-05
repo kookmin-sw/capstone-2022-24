@@ -15,7 +15,7 @@ def dict_tv_update(data_path):
         total_pages = json_ob["total_pages"]
 
         for i in range(1, total_pages + 1):
-            if i <= 500:
+            if i <= MAX_PAGE_LIMIT:
                 page_Num = i
                 url = f"https://api.themoviedb.org/3/discover/tv?api_key={api_key}&language={language}&sort_by=popularity.desc&page={page_Num}&with_watch_providers={provider}&watch_region={watch_region}"
 
@@ -33,7 +33,7 @@ def dict_tv_update(data_path):
                     title = json_obj["results"][j]["name"]
                     Tv_dict[id] = {"tmdb_id": id, "title": title, "Category": "TV", "provider_id": list}
             else:
-                page_Num = i - 500
+                page_Num = i - MAX_PAGE_LIMIT
                 url = f"https://api.themoviedb.org/3/discover/tv?api_key={api_key}&language={language}&sort_by=popularity.desc&page={page_Num}&with_watch_providers={provider}&watch_region={watch_region}"
 
                 json_obj = get_request_to_object(url)
