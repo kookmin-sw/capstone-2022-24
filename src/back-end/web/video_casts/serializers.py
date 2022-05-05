@@ -1,7 +1,7 @@
 """Serializers of video catsts application for json parsing : VideoCastSerializer"""
 from rest_framework import serializers
 from video_casts.models import VideoCast
-from videos.serializer import VideoSerializer
+from videos.serializers import VideoSerializer
 
 
 class VideoCastSerializer(serializers.ModelSerializer):
