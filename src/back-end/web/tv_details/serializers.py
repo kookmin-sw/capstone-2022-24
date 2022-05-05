@@ -2,7 +2,7 @@
                                                             TvSeasonDetailSerializer"""
 from rest_framework import serializers
 from tv_details.models import TvSeason, TvSeasonDetail, TvSeriesDetail
-from videos.serializer import VideoSerializer
+from videos.serializers import VideoSerializer
 
 
 class TvSeriesDetailSerializer(serializers.ModelSerializer):
