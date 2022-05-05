@@ -5,7 +5,7 @@ from video_providers.models import VideoProvider
 from videos.serializers import VideoSerializer
 
 
-class VideoProviderSerializers(serializers.ModelSerializer):
+class VideoProviderSerializer(serializers.ModelSerializer):
     """Video Providers information Serializing to get data"""
 
     video = serializers.SerializerMethodField()
