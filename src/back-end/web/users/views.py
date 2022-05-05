@@ -19,7 +19,7 @@ class GoogleLoginView(SocialLoginView):
 
     adapter_class = GoogleOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}/login/naver"
+    callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}/login/google"
 
 
 class SignUpView(RegisterView):

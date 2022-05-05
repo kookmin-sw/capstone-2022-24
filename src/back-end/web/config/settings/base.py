@@ -344,3 +344,12 @@ SIMPLE_JWT = {
 JWT_AUTH_COOKIE = "ongot-token"
 JWT_AUTH_REFRESH_COOKIE = "ongot-refresh-token"
 USER_ID_FIELD = "nickname"
+
+REST_AUTH_SERIALIZERS = {
+    "LOGIN_SERIALIZER": "users.serializers.UserLoginSerializer",
+}
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+}

@@ -28,7 +28,7 @@ class UserManager(BaseUserManager):
             birthday=birthday,
         )
 
-        user.set_unusable_password()
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
@@ -42,7 +42,6 @@ class UserManager(BaseUserManager):
             email=email,
             cell_phone_number=cell_phone_number,
             birthday=birthday,
-            password=password,
         )
         user.is_admin = True
         user.set_password(password)
