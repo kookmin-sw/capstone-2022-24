@@ -20,6 +20,9 @@ Based on the dict created with crawling_TV.py and crawling_movie.py Be arranged 
 ### saving_db.py
 Save the data arranged through arrange_data.py in the actual DB
 
+### check_env.py
+Check the environment and read environment variable file according to the environment.
+
 
 ## HOW TO USE?
 ### 1. select video category that you want.
