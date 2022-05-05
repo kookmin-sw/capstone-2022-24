@@ -2,7 +2,7 @@
 from dj_rest_auth.jwt_auth import get_refresh_view
 from dj_rest_auth.views import LoginView, LogoutView
 from django.urls import path
-from views import (
+from users.views import (
     GoogleLoginView,
     NaverLoginView,
     ProfileImageCreateView,
