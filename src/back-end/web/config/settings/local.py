@@ -51,12 +51,15 @@ TIME_ZONE = env("TZ")
 # celery: async task queue
 # CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"
 
-# cors
-CORS_ORIGIN_WHITELIST = [
-    f"http://localhost:{env('APP_PORT')}",
-    f"http://127.0.0.1:{env('APP_PORT')}",
-]
-
+# app
+APP_PORT = env("APP_PORT")
+APP_HOST = env("APP_HOST")
 
 # base url
 WEB_URL = env("WEB_URL")
+
+# cors
+CORS_ORIGIN_WHITELIST = [
+    f"http://localhost:{APP_PORT}",
+    f"http://127.0.0.1:{APP_PORT}",
+]
