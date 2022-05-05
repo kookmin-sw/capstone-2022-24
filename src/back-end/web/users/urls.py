@@ -66,12 +66,4 @@ urlpatterns = [
 # /users/validate-profile-images
 # /users/profile-images
 # /users/{nickname}/validate-withdrawal
-# /users/{nickname}
-# /users/mypage
-# /users/mypage/recent-views
-# /users/mypage/watch-marks
-# /users/mypage/dibs
-# /users/mypage/stars
-# /users/notifications
-# /users/notifications
-# /users/notifications/{notification_id}
+# /users
