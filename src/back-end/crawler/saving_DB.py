@@ -12,7 +12,7 @@ from arrange_data import (
     arrange_tv_detail,
     arrange_tv_provider,
 )
-from env_check import setting_env
+from check_env import setting_env
 
 """==========Model for Saving data==========="""
 
