@@ -104,11 +104,27 @@ def saving_provider_data(video_provider_data):
         for obj in provider_list:
             sql_provider = f"SELECT id FROM provider WHERE tmdb_id ={obj['provider_id']}"
             cursor.execute(sql_provider)
-            # provider_id =  list(list(cursor.fetchall())[0])[0]
             provider_id = cursor.fetchall()[0][0]
 
-            sql = "INSERT INTO video_providers (video_id, provider_id,offer_type,link,offer_date,deadline) VALUES (%s,%s,%s,%s,%s,%s)"
-            values = (video_id, provider_id, obj["offer_type"], obj["link"], item["crawling_time"], None)
+            """provider base save"""
+            sql = "INSERT INTO video_providers (video_id, offer_type,link,offer_date,deadline) VALUES (%s,%s,%s,%s,%s)"
+            values = (video_id, obj["offer_type"], obj["link"], item["crawling_time"], None)
+            cursor.execute(sql, values)
+            conn.commit()
+
+            """provider - video providers M:N relationship connect"""
+            if obj["offer_type"] == None:
+                sql = "SELECT id FROM video_providers WHERE video_id = %s AND offer_type IS NULL AND link= %s"
+                values = (video_id, obj["link"])
+            else:
+                sql = "SELECT id FROM video_providers WHERE video_id = %s AND offer_type =%s AND link= %s"
+                values = (video_id, obj["offer_type"], obj["link"])
+
+            cursor.execute(sql, values)
+
+            video_provider_id = cursor.fetchall()[0][0]
+            sql = "INSERT INTO video_providers_provider (videoprovider_id, provider_id) VALUES (%s,%s)"
+            values = (video_provider_id, provider_id)
             cursor.execute(sql, values)
             conn.commit()
 

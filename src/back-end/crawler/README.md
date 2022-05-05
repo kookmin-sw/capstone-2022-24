@@ -37,4 +37,11 @@ Save the data arranged through arrange_data.py in the actual DB
 - crawing_TV.py
 - crawling_movie.py
 
-### 4. If you want to save the data saved as a json file in the DB, Run saving_db.py
+### 4. If you want to save the data saved as a json file in the DB, first Run setting_provider.py
+
+### 5. Run saving_DB.py.
+it's done!
+
+
+## Warning
+this version can make an error to update, if the data to be updated already exists in the DB.
