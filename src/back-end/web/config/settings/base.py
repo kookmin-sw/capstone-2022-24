@@ -39,16 +39,19 @@ CUSTOM_APPS = [
     "group_accounts",
     "groups",
     "mileages",
+    "movie_details",
     "notifications",
     "payments",
     "providers",
     "recent_views",
     "remittances",
     "star_ratings",
+    "video_casts",
     "videos",
     "video_providers",
     "video_total_counts",
     "watching_marks",
+    "tv_details",
 ]
 
 INSTALLED_APPS = [

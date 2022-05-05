@@ -59,16 +59,15 @@ export const auth = {
 			window.location.href = `${apiUrl}&state=${reqState}&redirect_uri=${state.google.redirectionUri}&client_id=${state.google.clientId}`;
 		},
 		async loginWithSocial({ state, commit }, social) {
-			const url = `/login/oauth/${social}`;
-			let code = null;
-
+			const url = `/users/login/oauth/${social}/`;
+			let data = null;
 			social === 'naver'
-				? (code = state.naver.code)
-				: (code = state.google.token);
+				? (data = { code: state.naver.code })
+				: (data = { access_token: state.google.token });
 
 			return new Promise((resolve, reject) => {
 				http
-					.post(url, { code: code })
+					.post(url, data)
 					.then(res => {
 						// 로그인 성공
 						const token = res.headers.accesstoken;
