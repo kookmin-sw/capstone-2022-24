@@ -1,7 +1,7 @@
 """Serializers of movie detail application for json parsing : MovieDetailSerializer"""
 from movie_details.models import MovieDetail
 from rest_framework import serializers
-from videos.serializer import VideoSerializer
+from videos.serializers import VideoSerializer
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
