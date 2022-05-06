@@ -79,3 +79,47 @@ a.router-link-exact-active{
 .row-gap-12{
     row-gap: 12px;
 }
+
+/* color */
+.bg-blue-200 {
+    background: #449BFE;
+}
+.bg-blue-100 {
+    background: #83BBFB;
+}
+.bg-blue-90 {
+    background: #ADD5FA;
+}
+.bg-blue-80 {
+    background: #CAE5FF;
+}
+.bg-blue-70 {
+    background: #E3F0FF;
+}
+.border-blue-200 {
+    border: #449BFE 1px solid;
+}
+.border-blue-100 {
+    border: #83BBFB 1px solid;
+    border-radius: 0;
+}
+.text-grey-100 {
+    color: #1B1B1B;
+}
+
+/* border radius */
+.left-radius-2 {
+    border-radius: 2px 0 0 2px;
+}
+.right-radius-2 {
+    border-radius: 0 2px 2px 0;
+}
+.radius-4 {
+    border-radius: 4px;
+}
+.top-radius-4 {
+    border-radius: 4px 4px 0 0;
+}
+.radius-50 {
+    border-radius: 50px;
+}

@@ -2,14 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store/index.js';
 import Home from '@/views/Home.vue';
 
-const onlyAuthUser = (to, from, next) => {
-	if (store.getters['auth/isLogin'] === false) {
-		alert('로그인 후 사용하실 수 있습니다.');
-		next('/');
-	} else {
-		next();
-	}
-};
+// const onlyAuthUser = (to, from, next) => {
+// 	if (store.getters['auth/isLogin'] === false) {
+// 		alert('로그인 후 사용하실 수 있습니다.');
+// 		next('/');
+// 	} else {
+// 		next();
+// 	}
+// };
 
 const routes = [
 	{
@@ -69,7 +69,7 @@ const routes = [
 		path: '/join/:userId',
 		name: 'Join',
 		component: () => import(/* webpackChunkName: "Join" */ '@/views/Join.vue'),
-		beforeEnter: onlyAuthUser,
+		// beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/discontinue',
@@ -87,7 +87,7 @@ const routes = [
 		path: '/my/:userId',
 		name: 'My',
 		component: () => import(/* webpackChunkName: "My" */ '@/views/My.vue'),
-		beforeEnter: onlyAuthUser,
+		// beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/:userId/expand/:listType',
