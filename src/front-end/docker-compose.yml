@@ -1,17 +1,16 @@
 version : '3'
 services:
   app:
-    container_name: app_local
+    container_name: app_${NODE_ENV}
     build:
       context: .
-      dockerfile: ./Dockerfile-local
+      dockerfile: Dockerfile
     environment:
       - APP=${APP}
       - APP_BUILD=${APP_BUILD}
-      - APP_HOST=${APP_HOST}
-      - APP_PORT=${VUE_APP_PORT}
+      - MODE=${NODE_ENV}
     restart: on-failure
     volumes:
       - ./:${APP}
     ports:
-      - "${VUE_APP_PORT}:${VUE_APP_PORT}"
+      - "3000:3000"
