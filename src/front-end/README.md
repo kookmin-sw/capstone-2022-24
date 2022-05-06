@@ -4,7 +4,7 @@ in local environment
 ## How to run
 
 ### Create an environment file
-must be in `[repository path]/src/front-end/.env.local`
+must be in `[repository path]/src/front-end/.env.local.local`
 
 
 ### With docker
@@ -15,7 +15,7 @@ must be in `[repository path]/src/front-end/.env.local`
   ```
 - Run container
   ```shell
-  docker-compose -f docker-compose-local.yml --env-file .env.local up --build -d --force-recreate
+  docker-compose -f docker-compose.yml --env-file .env.local.local up --build -d --force-recreate
   ```
 
 
