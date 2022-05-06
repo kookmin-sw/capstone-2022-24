@@ -1,5 +1,9 @@
 """Serializers of users application"""
 from accounts.serializers import AccountSerializer
+from dj_rest_auth.registration.serializers import (
+    RegisterSerializer,
+    SocialLoginSerializer,
+)
 from dj_rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
 from users.models import User
@@ -39,9 +43,47 @@ class UserLoginSerializer(LoginSerializer):
     nickname = serializers.CharField(required=True, allow_blank=False)
 
     def update(self, instance, validated_data):
-        """update user"""
+        """Update user"""
         return
 
     def create(self, validated_data):
-        """create user"""
+        """Create user"""
         return
+
+
+class UserSignUpSerializer(RegisterSerializer):
+    """Needed information when user signs up"""
+
+    # TODO
+
+    def update(self, instance, validated_data):
+        """(Not used) Inherit abstract method"""
+
+    def create(self, validated_data):
+        """(Not used) Inherit abstract method"""
+
+
+class NaverLoginSerializer(SocialLoginSerializer):
+    """Needed information when user login with Naver"""
+
+    access_token = None
+    id_token = None
+
+    def update(self, instance, validated_data):
+        """(Not used) Inherit abstract method"""
+
+    def create(self, validated_data):
+        """(Not used) Inherit abstract method"""
+
+
+class GoogleLoginSerializer(SocialLoginSerializer):
+    """Needed information when user login with Google"""
+
+    id_token = None
+    code = None
+
+    def update(self, instance, validated_data):
+        """(Not used) Inherit abstract method"""
+
+    def create(self, validated_data):
+        """(Not used) Inherit abstract method"""

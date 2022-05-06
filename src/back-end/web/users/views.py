@@ -5,6 +5,11 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import RegisterView, SocialLoginView
 from django.conf import settings
 from rest_framework.generics import CreateAPIView, GenericAPIView
+from users.serializers import (
+    GoogleLoginSerializer,
+    NaverLoginSerializer,
+    UserSignUpSerializer,
+)
 
 
 class NaverLoginView(SocialLoginView):
@@ -12,6 +17,8 @@ class NaverLoginView(SocialLoginView):
 
     adapter_class = NaverOAuth2Adapter
     client_class = OAuth2Client
+    serializer_class = NaverLoginSerializer
+    callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}"
 
 
 class GoogleLoginView(SocialLoginView):
@@ -19,13 +26,14 @@ class GoogleLoginView(SocialLoginView):
 
     adapter_class = GoogleOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}/login/google"
+    serializer_class = GoogleLoginSerializer
+    callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}"
 
 
 class SignUpView(RegisterView):
     """Sign up with nickname(required) and profile image(optional)"""
 
-    # TODO
+    serializer_class = UserSignUpSerializer
 
 
 class ValidateNicknameView(GenericAPIView):
