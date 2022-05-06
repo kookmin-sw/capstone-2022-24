@@ -1,1 +1,1 @@
-"""APIs of groups application"""
+"""APIs of video casts application"""
