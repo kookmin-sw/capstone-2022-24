@@ -10,7 +10,7 @@
     "prepare": "cd ../.. && husky install ./src/front-end/.husky",
     "lint": "vue-cli-service lint --fix",
     "lint-staged": "lint-staged",
-    "local": "vue-cli-service build --mode local",
+    "local": "vue-cli-service serve --mode local",
     "dev": "vue-cli-service build --mode dev",
     "prod": "vue-cli-service build --mode prod"
   },
