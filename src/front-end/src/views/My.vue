@@ -25,6 +25,9 @@
 			<div>(은행) 356-xxxx-xxxx-xx</div>
 			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
+    <div class="row">
+      <q-btn color="blue" outline @click="chargeCredit">충전하기</q-btn>
+    </div>
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue" inset />
@@ -141,7 +144,8 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/userVideos';
-import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { loadTossPayments } from "@tosspayments/payment-sdk";
+
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
@@ -191,6 +195,7 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/setSelectGroup', groupId);
 		},
+
 		async chargeCredit() {
 			const tossPayments = await loadTossPayments(clientKey);
 			tossPayments
