@@ -5,7 +5,7 @@
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
-				<div>{{ $t('join.stepTitle1') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle1') }}</div>
 			</div>
 			<div class="row col-gap-12">
 				<q-avatar
@@ -29,7 +29,7 @@
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step2') }}</div>
-				<div>{{ $t('join.stepTitle2') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle2') }}</div>
 			</div>
 			<div class="explanation col text-left">
 				<div class="leader-expl col q-mb-md">
@@ -75,7 +75,7 @@
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step3') }}</div>
-				<div>{{ $t('join.stepTitle3') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle3') }}</div>
 			</div>
 			<div class="explanation col text-left q-mb-md">
 				<div>OTT 및 결제 비용 안내 ~</div>
