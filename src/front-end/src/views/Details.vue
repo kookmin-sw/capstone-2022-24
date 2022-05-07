@@ -46,9 +46,7 @@
 				<q-card flat bordered class="q-ma-sm">
 					<q-tabs
 						dense
-						class="text-grey"
-						active-color="blue-4"
-						indicator-color="blue-4"
+						class="text-blue-100"
 						align="justify"
 						v-model="tab">
 						<q-tab name="all" label="전체" />
