@@ -54,10 +54,10 @@
 			<q-btn-toggle
 				v-model="role"
 				spread
-				class="border-blue-200"
+				class="border-blue-100 text-blue-100"
+				style="border-radius: 4px"
 				unelevated
 				toggle-color="blue-4"
-				text-color="blue-4"
 				:options="[
 					{ label: '모임장', value: 'leader' },
 					{ label: '모임원', value: 'member' },
