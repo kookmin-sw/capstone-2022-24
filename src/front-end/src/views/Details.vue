@@ -15,17 +15,17 @@
 				</div>
 				<!-- 작품 상세 정보 -->
 				<div class="row q-ma-sm">
-          <div class="q-mr-sm q-mt-auto q-mb-auto">연도</div>
-          <div class="q-mr-sm q-mt-auto q-mb-auto">국가</div>
-          <div class="q-mr-sm q-mt-auto q-mb-auto">장르</div>
-          <div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>
-        </div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">연도</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">국가</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">장르</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>
+				</div>
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<div class="row q-ma-sm q-mb-md">
 					<!-- IMDB -->
 					<q-avatar rounded color="grey-4" size="25px" class="q-mr-xs" />
 					<div class="q-mr-md q-mt-auto q-mb-auto">IMDB 평점</div>
-          <!-- 자체 기준 -->
+					<!-- 자체 기준 -->
 					<div class="q-mr-sm q-mt-auto q-mb-auto">자체 평점</div>
 					<div class="q-mr-sm q-mt-auto q-mb-auto">자체 찜 수</div>
 					<div class="q-mt-auto q-mb-auto">자체 본 사람 수</div>
@@ -33,8 +33,8 @@
 				<div class="row q-mb-md">
 					<q-select
 						dense
-            outlined
-            color="blue-4"
+						outlined
+						color="blue-4"
 						class="col q-ma-sm"
 						v-model="seasonComboBox"
 						:options="seasons" />
@@ -68,16 +68,16 @@
 		</div>
 	</div>
 	<!-- hr -->
-  <q-separator color="blue-1" size="2px" inset />
-  <q-separator color="blue-4" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<!-- 작품 줄거리 영역 -->
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">줄거리</div>
 		<div>줄거리 내용 텍스트</div>
 	</div>
 	<!-- hr -->
-  <q-separator color="blue-1" size="2px" inset />
-  <q-separator color="blue-4" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<!-- 제작진 정보 영역 -->
 	<div class="col q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">제작진</div>
@@ -95,8 +95,8 @@
 		</div>
 	</div>
 	<!-- hr -->
-  <q-separator color="blue-1" size="2px" inset />
-  <q-separator color="blue-4" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<!-- 관련 영상물 영역 -->
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">관련 영상</div>
