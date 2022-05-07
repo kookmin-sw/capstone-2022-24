@@ -76,16 +76,16 @@
 	</div>
 	<!-- hr -->
 	<q-separator color="blue" inset />
-	<!-- 감독/제작/출연 정보 영역 -->
+	<!-- 제작진 정보 영역 -->
 	<div class="col q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">제작진</div>
-		<div class="row col-gap-16">
+		<div class="row col-gap-12">
 			<div v-for="staffMember in staff" :key="staffMember.id">
 				{{ staffMember }}
-				<q-avatar rounded color="blue" size="73px">
+				<q-avatar rounded class="bg-blue-100" size="73px">
 					<div class="text-center">
-						<div class="text-body2">역할</div>
-						<div class="text-h6 text-weight-regular">김땡땡</div>
+						<div class="text-body2 text-grey-100">역할</div>
+						<div class="text-h6 text-grey-100">김땡땡</div>
 					</div>
 				</q-avatar>
 			</div>
