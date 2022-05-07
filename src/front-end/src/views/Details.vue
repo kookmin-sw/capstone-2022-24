@@ -68,14 +68,16 @@
 		</div>
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<!-- 작품 줄거리 영역 -->
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">줄거리</div>
 		<div>줄거리 내용 텍스트</div>
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<!-- 제작진 정보 영역 -->
 	<div class="col q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">제작진</div>
@@ -93,7 +95,8 @@
 		</div>
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<!-- 관련 영상물 영역 -->
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">관련 영상</div>
