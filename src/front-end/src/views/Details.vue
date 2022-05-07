@@ -5,13 +5,13 @@
 		<div class="row col-gap-12">
 			<!-- 포스터 -->
 			<div
-				class="col-3 q-ma-sm"
-				style="width: 242px; height: 342px; background: lightgrey" />
+				class="col-3 q-ma-sm bg-grey-4"
+				style="width: 242px; height: 342px" />
 			<div class="col text-left">
 				<!-- 작품 제목 -->
 				<div class="q-ma-sm">
 					<div class="text-h6 text-weight-bold">작품명</div>
-					<div class="q-mb-md text-bold text-grey-8">작품 영어 제목</div>
+					<div class="q-mb-md text-bold text-grey">작품 영어 제목</div>
 				</div>
 				<!-- 작품 상세 정보 -->
 				<div class="row q-ma-sm">
@@ -23,7 +23,7 @@
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<div class="row q-ma-sm q-mb-md">
 					<!-- IMDB -->
-					<q-avatar rounded color="grey" size="25px" class="q-mr-xs" />
+					<q-avatar rounded color="grey-4" size="25px" class="q-mr-xs" />
 					<div class="q-mr-md q-mt-auto q-mb-auto">IMDB 평점</div>
           <!-- 자체 기준 -->
 					<div class="q-mr-sm q-mt-auto q-mb-auto">자체 평점</div>
@@ -33,30 +33,31 @@
 				<div class="row q-mb-md">
 					<q-select
 						dense
-						outlined
+            outlined
+            color="blue-4"
 						class="col q-ma-sm"
 						v-model="seasonComboBox"
 						:options="seasons" />
-					<q-btn outline color="blue" class="col q-ma-sm">찜 하기</q-btn>
-					<q-btn outline color="blue" class="col q-ma-sm">안 본 영화</q-btn>
-					<q-btn outline color="blue" class="col q-ma-sm">별점 주기</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-100">찜 하기</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-100">안 본 영화</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-100">별점 주기</q-btn>
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
 				<q-card flat bordered class="q-ma-sm">
 					<q-tabs
 						dense
 						class="text-grey"
-						active-color="blue"
-						indicator-color="blue"
+						active-color="blue-4"
+						indicator-color="blue-4"
 						align="justify"
 						v-model="tab">
 						<q-tab name="all" label="전체" />
 					</q-tabs>
-					<q-tab-panels animated v-model="tab">
+					<q-tab-panels v-model="tab">
 						<q-tab-panel name="all">
 							<div class="ott-icons-frame row">
 								<div v-for="ott in serviceOtts" :key="ott.id">
-									<q-avatar rounded color="blue" size="40px" />
+									<q-avatar rounded color="grey-4" size="40px" />
 									<div class="text-center">금액</div>
 								</div>
 							</div>
