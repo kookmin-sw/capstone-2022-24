@@ -4,7 +4,7 @@ export const user = {
 	namespaced: true,
 	state: {
 		userProfile: {
-			nickname: '',
+			nickname: 'tmp',
 		},
 		groupList: [],
 		groupsInfo: [],

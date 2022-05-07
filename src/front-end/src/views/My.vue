@@ -18,16 +18,13 @@
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
-      <div class="q-ml-lg" @click="payment">충전하기</div>
+			<div class="q-ml-lg" @click="chargeCredit">충전하기</div>
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
 			<div class="q-ml-lg text-grey">등록/수정</div>
 		</div>
-    <div class="row">
-      <q-btn color="blue" outline @click="chargeCredit">충전하기</q-btn>
-    </div>
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue" inset />
@@ -144,7 +141,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/userVideos';
-import { loadTossPayments } from "@tosspayments/payment-sdk";
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
@@ -194,19 +191,20 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/setSelectGroup', groupId);
 		},
-    async chargeCredit() {
-      const tossPayments = await loadTossPayments(clientKey);
-      tossPayments.requestBillingAuth('카드', {
-        customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
-        successUrl: window.location.origin + '/success',
-        failUrl: window.location.origin + '/fail',
-      })
-      .catch(function (error) {
-        if (error.code === 'USER_CANCEL')
-          alert("충전 결제가 취소되었습니다!")
-      });
-    },
-  },
+		async chargeCredit() {
+			const tossPayments = await loadTossPayments(clientKey);
+			tossPayments
+				.requestBillingAuth('카드', {
+					customerKey: 'zLNZjDKC1uqnMCk_ffMJL',
+					successUrl: window.location.origin + '/success',
+					failUrl: window.location.origin + '/fail',
+				})
+				.catch(function (error) {
+					if (error.code === 'USER_CANCEL')
+						alert('충전 결제가 취소되었습니다!');
+				});
+		},
+	},
 };
 </script>
 
