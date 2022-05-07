@@ -1,7 +1,6 @@
 """Admin : VideoProvider"""
 
 from django.contrib import admin
-
-from .models import VideoProvider
+from video_providers.models import VideoProvider
 
 admin.site.register(VideoProvider)

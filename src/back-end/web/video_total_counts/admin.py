@@ -1,8 +1,6 @@
 """Admin : VideoTotalCount"""
 
 from django.contrib import admin
+from video_total_counts.models import VideoTotalCount
 
-from .models import VideoTotalCount
-
-# Register your models here.
 admin.site.register(VideoTotalCount)

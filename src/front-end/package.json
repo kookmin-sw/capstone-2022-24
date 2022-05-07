@@ -9,10 +9,14 @@
     "test:e2e": "vue-cli-service test:e2e",
     "prepare": "cd ../.. && husky install ./src/front-end/.husky",
     "lint": "vue-cli-service lint --fix",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "local": "vue-cli-service build --mode local",
+    "dev": "vue-cli-service build --mode dev",
+    "prod": "vue-cli-service build --mode prod"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@tosspayments/payment-sdk": "^1.1.0",
     "aws-sdk": "^2.1116.0",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
