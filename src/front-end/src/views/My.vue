@@ -31,7 +31,7 @@
 	<div class="column q-ma-xl">
 		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
-		<div class="row q-mb-md">
+		<div class="row">
 			<q-avatar
 				rounded
 				color="grey"
