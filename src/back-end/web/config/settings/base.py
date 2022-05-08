@@ -102,7 +102,8 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "config.middleware.csrf.DisableCSRF",  # csrf disable (temporary)
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -228,7 +229,11 @@ SPECTACULAR_SETTINGS = {
     # list of authentication/permission classes for spectacular's views.
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     # None will default to DRF's AUTHENTICATION_CLASSES
-    "SERVE_AUTHENTICATION": None,
+    "SERVE_AUTHENTICATION": [
+        # "rest_framework.authentication.SessionAuthentication",
+        # "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     # Initialize SwaggerUI with additional OAuth2 configuration.
     # https://swagger.io/docs/open-source-tools/swagger-ui/usage/oauth2/
     "SWAGGER_UI_OAUTH2_CONFIG": {},
@@ -298,7 +303,7 @@ SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "nickname"
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_SIGNUP_REDIRECT_URL = "/register/"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 LOGIN_REDIRECT_URL = "/"
