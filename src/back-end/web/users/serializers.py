@@ -1,14 +1,17 @@
 """Serializers of users application"""
+# pylint: disable=W0221
 from accounts.serializers import AccountSerializer
 from allauth.account import app_settings
 from allauth.utils import get_username_max_length
-from dj_rest_auth.registration.serializers import (
-    RegisterSerializer,
-    SocialLoginSerializer,
-)
+from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
-from users.models import User
+from rest_framework.validators import UniqueValidator
+from users.adapter import UserAccountAdapter
+
+UserModel = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,17 +22,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Metadata of UserSerializer"""
 
-        model = User
+        model = UserModel
         fields = "__all__"
         read_only_fields = [
             "nickname",
             "name",
             "email",
-            "cellPhoneNumber",
+            "cell_phone_number",
             "birthday",
-            "isBlocked",
-            "registrationDateTime",
-            "withdrawalDateTime",
+            "is_verified",
+            "is_blocked",
+            "registration_date_time",
+            "withdrawal_date_time",
         ]
 
     def get_account(self, obj):
@@ -53,28 +57,47 @@ class UserLoginSerializer(LoginSerializer):
         return
 
 
-class UserSignUpSerializer(RegisterSerializer):
+class UserSignUpSerializer(serializers.Serializer):
     """Needed information when user signs up"""
 
     nickname = serializers.CharField(
         max_length=get_username_max_length(),
         min_length=app_settings.USERNAME_MIN_LENGTH,
         required=app_settings.USERNAME_REQUIRED,
+        validators=[UniqueValidator(queryset=UserModel.objects.all())],
     )
-    username = None
-    profile_image_url = serializers.URLField()
-    email = None
-    password1 = None
-    password2 = None
+    profile_image_url = serializers.URLField(required=False)
+    cleaned_data = None
 
-    def custom_signup(self, request, user):
-        """TODO"""
+    def get_cleaned_data(self):
+        """Get validated form data"""
+        return {
+            "nickname": self.validated_data.get("nickname", ""),
+            "profile_image_url": self.validated_data.get("profile_image_url", ""),
+        }
+
+    def save(self, request):
+        """Save user nickname & profile image and verify user"""
+        adapter = UserAccountAdapter()
+        self.cleaned_data = self.get_cleaned_data()
+        user = adapter.save_user(request, request.user, self, commit=False)
+        # validate nickname
+        if "nickname" in self.cleaned_data:
+            try:
+                adapter.clean_username(self.cleaned_data["nickname"])
+            except DjangoValidationError as exc:
+                raise serializers.ValidationError(detail=serializers.as_serializer_error(exc))
+        # verify user account after validation
+        user.is_verified = True
+        # save all changes
+        user.save()
+        return user
 
     def update(self, instance, validated_data):
-        """(Not used) Inherit abstract method"""
+        """Not used"""
 
     def create(self, validated_data):
-        """(Not used) Inherit abstract method"""
+        """Not used"""
 
 
 class NaverLoginSerializer(SocialLoginSerializer):
