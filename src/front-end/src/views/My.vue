@@ -109,8 +109,8 @@
 	</div>
 
 	<!--  최근 조회 작품  -->
-  <q-separator color="blue-1" size="2px" inset />
-  <q-separator color="blue-4" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<user-videos
 		:title="recentList.title"
 		:video-list="getRecentList"
@@ -219,9 +219,5 @@ export default {
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
-}
-
-a {
-	color: #0074d9;
 }
 </style>
