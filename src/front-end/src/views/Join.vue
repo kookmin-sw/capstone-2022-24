@@ -1,16 +1,16 @@
 <template>
 	<!-- 1단계 영역 -->
-	<div class="step-one-frame row q-mt-xl q-mb-xl">
+	<div class="step-one-frame row q-ma-xl">
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step1') }}</div>
-				<div>{{ $t('join.stepTitle1') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle1') }}</div>
 			</div>
-			<div class="row q-mb-lg ott-icons-frame">
+			<div class="row col-gap-12">
 				<q-avatar
 					rounded
-					color="blue"
+					color="grey-4"
 					size="60px"
 					v-for="(otts, index) in ottFilters"
 					:key="index"
@@ -21,29 +21,30 @@
 		<q-space class="col-2" />
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<!-- 2단계 영역 -->
-	<div class="step-two-frame row q-mt-xl q-mb-xl">
+	<div class="step-two-frame row q-ma-xl">
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step2') }}</div>
-				<div>{{ $t('join.stepTitle2') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle2') }}</div>
 			</div>
-			<div class="explanation col text-left q-mb-lg">
+			<div class="explanation col text-left">
 				<div class="leader-expl col q-mb-md">
 					<div
 						class="text-weight-bold leader-title"
-						:class="{ 'role-select-text': roleSelect.leader }">
+						:class="{ 'text-blue-100': roleSelect.leader }">
 						{{ $t('join.leaderGuideTitle') }}
 					</div>
 					<div>{{ $t('join.leaderGuide') }}</div>
 					<div>{{ $t('join.leaderPaymentGuide') }}</div>
 				</div>
-				<div class="member-expl col">
+				<div class="member-expl col q-mb-md">
 					<div
 						class="text-weight-bold member-title"
-						:class="{ 'role-select-text': roleSelect.member }">
+						:class="{ 'text-blue-100': roleSelect.member }">
 						{{ $t('join.memberGuideTitle') }}
 					</div>
 					<div>{{ $t('join.memberGuide') }}</div>
@@ -53,10 +54,10 @@
 			<q-btn-toggle
 				v-model="role"
 				spread
-				class="role-toggle-button"
+				class="border-blue-100 text-blue-100"
+				style="border-radius: 4px"
 				unelevated
-				toggle-color="blue"
-				text-color="blue"
+				toggle-color="blue-4"
 				:options="[
 					{ label: '모임장', value: 'leader' },
 					{ label: '모임원', value: 'member' },
@@ -66,21 +67,22 @@
 		<q-space class="col-2" />
 	</div>
 	<!-- hr -->
-	<q-separator color="blue" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<!-- 3단계 영역 -->
-	<div class="step-three-frame row q-mt-xl q-mb-xl">
+	<div class="step-three-frame row q-ma-xl">
 		<q-space class="col-2" />
 		<div class="col-8">
 			<div class="guide-text row text-left q-mb-md">
 				<div class="text-h6 text-weight-bold">{{ $t('join.step3') }}</div>
-				<div>{{ $t('join.stepTitle3') }}</div>
+				<div class="text-weight-bold">{{ $t('join.stepTitle3') }}</div>
 			</div>
-			<div class="explanation col text-left q-mb-lg">
+			<div class="explanation col text-left q-mb-md">
 				<div>OTT 및 결제 비용 안내 ~</div>
 			</div>
 			<q-btn
 				unelevated
-				color="blue"
+				color="blue-4"
 				class="full-width"
 				:disabled="state"
 				@click="joinBtnClick">
@@ -159,26 +161,14 @@ export default {
 
 <style scoped>
 .guide-text {
-	column-gap: 4px;
+	column-gap: 8px;
 }
 .guide-text div {
 	margin-top: auto;
 	margin-bottom: auto;
 }
-.btn-frame * {
-	margin-right: 12px;
-}
-.ott-icons-frame {
-	column-gap: 16px;
-}
 .ott-select {
-	border: 3px solid darkblue;
-	border-radius: 7px;
-}
-.role-toggle-button {
-	border: 1px solid #2196f3;
-}
-.role-select-text {
-	color: #2196f3;
+	border: 3px solid #449bfe; /*blue-200*/
+	border-radius: 4px;
 }
 </style>
