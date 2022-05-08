@@ -1,5 +1,7 @@
 """Serializers of users application"""
 from accounts.serializers import AccountSerializer
+from allauth.account import app_settings
+from allauth.utils import get_username_max_length
 from dj_rest_auth.registration.serializers import (
     RegisterSerializer,
     SocialLoginSerializer,
@@ -54,7 +56,19 @@ class UserLoginSerializer(LoginSerializer):
 class UserSignUpSerializer(RegisterSerializer):
     """Needed information when user signs up"""
 
-    # TODO
+    nickname = serializers.CharField(
+        max_length=get_username_max_length(),
+        min_length=app_settings.USERNAME_MIN_LENGTH,
+        required=app_settings.USERNAME_REQUIRED,
+    )
+    username = None
+    profile_image_url = serializers.URLField()
+    email = None
+    password1 = None
+    password2 = None
+
+    def custom_signup(self, request, user):
+        """TODO"""
 
     def update(self, instance, validated_data):
         """(Not used) Inherit abstract method"""

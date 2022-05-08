@@ -58,7 +58,8 @@ class User(AbstractBaseUser):
         max_length=50,
     )
     cell_phone_number = models.CharField(max_length=14)
-    profile_image_url = models.ImageField(blank=True, null=True)
+    # profile_image_url = models.ImageField(blank=True, null=True)
+    profile_image_url = models.URLField(blank=True, null=True)
     birthday = models.DateField()
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
