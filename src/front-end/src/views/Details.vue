@@ -38,9 +38,9 @@
 						class="col q-ma-sm"
 						v-model="seasonComboBox"
 						:options="seasons" />
-					<q-btn outline class="col q-ma-sm text-blue-100">찜 하기</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-100">안 본 영화</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-100">별점 주기</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-200">찜 하기</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>
+					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
 				<q-card flat bordered class="q-ma-sm">
@@ -82,7 +82,7 @@
 		<div class="row col-gap-12">
 			<div v-for="staffMember in staff" :key="staffMember.id">
 				{{ staffMember }}
-				<q-avatar rounded class="bg-blue-100" size="73px">
+				<q-avatar rounded class="border-blue-100 radius-4" size="73px">
 					<div class="text-center">
 						<div class="text-body2 text-grey-100">역할</div>
 						<div class="text-h6 text-grey-100">김땡땡</div>
