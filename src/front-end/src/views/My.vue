@@ -18,7 +18,12 @@
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
-			<div class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4" style="cursor: pointer" @click="chargeCredit">충전하기</div>
+			<div
+				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
+				style="cursor: pointer"
+				@click="chargeCredit">
+				충전하기
+			</div>
 		</div>
 		<div class="row text-left">
 			<div class="text-weight-bold info-item">계좌</div>
@@ -27,8 +32,8 @@
 		</div>
 	</div>
 	<!-- 모임 영역 -->
-  <q-separator color="blue-1" size="2px" inset />
-  <q-separator color="blue-4" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<div class="column q-ma-xl">
 		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
@@ -53,7 +58,10 @@
 		<div class="q-mb-lg bg-blue-70">
 			<!-- 모임 상태 뱃지 -->
 			<div class="align-right">
-				<q-badge text-color="white" align="top" class="q-pa-sm bg-blue-200 text-body2">
+				<q-badge
+					text-color="white"
+					align="top"
+					class="q-pa-sm bg-blue-200 text-body2">
 					모임 상태 &amp; D-day
 				</q-badge>
 			</div>
@@ -99,7 +107,10 @@
 					신고<q-icon name="no_accounts" />
 				</q-btn>
 				<q-btn outline class="text-blue-100">
-					<a :href="getSelectGroup.provider.link" target="_blank" style="color: #83BBFB">
+					<a
+						:href="getSelectGroup.provider.link"
+						target="_blank"
+						style="color: #83bbfb">
 						{{ getSelectGroup.provider.name }} 바로가기
 					</a>
 					<q-icon name="arrow_right_alt" />
