@@ -1,5 +1,6 @@
 """Adapter of Social Account model for social login"""
 import requests
+from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.utils import perform_login, user_field
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.conf import settings
@@ -117,7 +118,7 @@ class UserAdapter(DefaultSocialAccountAdapter):
             email = sociallogin.account.extra_data["email"]
             user = User.objects.get(email__iexact=email)
             sociallogin.connect(request, user)  # linking account
-            perform_login(request, user, "none")
+            perform_login(request, user, "none", settings.LOGIN_REDIRECT_URL)
         except User.DoesNotExist:  # -> create a new user
             pass
 
@@ -154,4 +155,32 @@ class UserAdapter(DefaultSocialAccountAdapter):
         user_field(user, "email", email)
         user_field(user, "cell_phone_number", cell_phone_number)
         user_field(user, "birthday", birthday)
+        return user
+
+    def save_user(self, request, sociallogin, form=None):
+        """Save user"""
+        user = sociallogin.user
+        account_adapter = UserAccountAdapter()
+        if form:
+            account_adapter.save_user(request, user, form)
+        else:
+            account_adapter.populate_username(request, user)
+        sociallogin.save(request)
+        return user
+
+
+class UserAccountAdapter(DefaultAccountAdapter):
+    """Adapter to support for Account model"""
+
+    def save_user(self, request, user, form, commit=True):
+        """Save users' nickname & profile image"""
+        data = form.cleaned_data
+        nickname = data.get("nickname")
+        profile_image_url = data.get("profile_image_url")
+        if nickname:
+            user_field(user, "nickname", nickname)
+        if profile_image_url:
+            user_field(user, "profile_image_url", profile_image_url)
+        if commit:
+            user.save()
         return user
