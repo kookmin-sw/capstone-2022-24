@@ -27,7 +27,8 @@
 		</div>
 	</div>
 	<!-- 모임 영역 -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<div class="column q-ma-xl">
 		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
@@ -108,7 +109,8 @@
 	</div>
 
 	<!--  최근 조회 작품  -->
-	<q-separator color="blue" inset />
+  <q-separator color="blue-1" size="2px" inset />
+  <q-separator color="blue-4" inset />
 	<user-videos
 		:title="recentList.title"
 		:video-list="getRecentList"
@@ -116,7 +118,6 @@
 		:expand-id="recentList.expandId" />
 
 	<!--  찜한 작품  -->
-	<q-separator color="blue" inset />
 	<user-videos
 		:title="dibList.title"
 		:video-list="getDibList"
