@@ -82,7 +82,7 @@ class HomeView(viewsets.ViewSet):
         """
 
         providers = self.request.query_params.get("providers", None)
-        categories = self.request.query_params.get("categories", None)
+        categories = self.request.query_params.get("category", None)
 
         try:
             if categories is not None:
@@ -90,15 +90,13 @@ class HomeView(viewsets.ViewSet):
         except FieldError as e:
             raise BadFormatException() from e
 
-        if (providers is not None) & ("," in providers):
-            providers = providers.split(",")
-        elif providers is not None:
-            providers = providers.split()
-        else:
-            providers = []
-
-        query_provider = self.filter_provider(providers)
-        queryset = queryset & query_provider
+        if providers is not None:
+            if "," in providers:
+                providers = providers.split(",")
+            else:
+                providers = providers.split()
+            query_provider = self.filter_provider(providers)
+            queryset = queryset & query_provider
 
         """
         =======Sorting=======
