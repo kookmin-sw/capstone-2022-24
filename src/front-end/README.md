@@ -1,15 +1,10 @@
 # Getting started
+in local environment
 
 ## How to run
-Choose **ENV_KEYWORD** by deploy type
-- `local`: local environment
-- `dev`: development environment
-- `prod`: production environment
 
 ### Create an environment file
-> in `[repository path]/src/front-end/.env.[ENV_KEYWORD].local`
-
-for example: local deploy -> .env.local.local
+must be in `[repository path]/src/front-end/.env.local.local`
 
 
 ### With docker
@@ -20,7 +15,7 @@ for example: local deploy -> .env.local.local
   ```
 - Run container
   ```shell
-  docker-compose -f docker-compose.yml --env-file .env.[ENV_KEYWORD].local up --build -d --force-recreate
+  docker-compose -f docker-compose.yml --env-file .env.local.local up --build -d --force-recreate
   ```
 
 
@@ -33,7 +28,7 @@ for example: local deploy -> .env.local.local
 
 - Compiles and hot-reloads for development
   ```shell
-  npm run [ENV_TYPE]
+  npm run serve
   ```
 
 
