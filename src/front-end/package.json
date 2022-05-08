@@ -10,9 +10,9 @@
     "prepare": "cd ../.. && husky install ./src/front-end/.husky",
     "lint": "vue-cli-service lint --fix",
     "lint-staged": "lint-staged",
-    "local": "vue-cli-service build --mode local",
-    "dev": "vue-cli-service build --mode dev",
-    "prod": "vue-cli-service build --mode prod"
+    "local": "vue-cli-service serve --mode local",
+    "dev": "vue-cli-service serve --mode dev",
+    "prod": "vue-cli-service serve --mode prod"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
