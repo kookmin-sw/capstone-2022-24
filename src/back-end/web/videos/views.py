@@ -11,7 +11,7 @@ from video_providers.models import VideoProvider
 from videos.models import Video
 
 
-class CustomHomeException(APIException):
+class BadFormatException(APIException):
     """custom Exception For HomeView"""
 
     status_code = 400
@@ -19,8 +19,8 @@ class CustomHomeException(APIException):
     default_code = "Bad Request Key"
 
 
-class CustomSearchException(APIException):
-    """custom Search Exception for homeView"""
+class NoneResultException(APIException):
+    """custom Search Exception for HomeView"""
 
     status_code = 404
     default_detail = "존재하지 않은 결과값입니다."
@@ -28,7 +28,7 @@ class CustomSearchException(APIException):
 
 
 class HomeView(viewsets.ViewSet):
-    """Home 화면에서 video 목록을 보여주는 역할"""
+    """Class that displays a list of videos on the home screen"""
 
     sort_dict = {
         "random": "id",
@@ -40,15 +40,15 @@ class HomeView(viewsets.ViewSet):
     }
 
     def search(self, key):
-        """search 기능 대행"""
+        """Method : Process the Search fuction"""
         try:
             queryset = Video.objects.filter(Q(title__icontains=key))
             return queryset
         except FieldError as e:
-            raise CustomHomeException() from e
+            raise BadFormatException() from e
 
     def filter_provider(self, key):
-        """provider의 filtering 기능 대행"""
+        """Method : Process the provider filter fuction"""
         subqueryset = VideoProvider.objects.filter(Q(provider=None))
 
         try:
@@ -56,7 +56,7 @@ class HomeView(viewsets.ViewSet):
                 provider_obj = Provider.objects.get(Q(name=item))
                 subqueryset = subqueryset | provider_obj.videoprovider_set.all()
         except Provider.DoesNotExist as e:
-            raise CustomHomeException() from e
+            raise BadFormatException() from e
 
         video_list = Video.objects.filter(Q(id=None))
         for item in subqueryset.values("video"):
@@ -65,12 +65,22 @@ class HomeView(viewsets.ViewSet):
         return video_list
 
     def list(self, request):
-        """Get method 적용시 사용"""
+        """Method: Get Command to search, filter, sort"""
 
+        """
+        =======Searching=======
+        Search : search by video title
+
+        """
         search_target = self.request.query_params.get("search", default="")
         queryset = self.search(search_target)
 
-        # 필터링 조건, 조건 안에서는 or처리, 조건 밖에서는 And 처리로 필터링한다.
+        """
+        =======filtering=======
+        Filter : OR operation within the conditions, AND operation between conditions.
+                filter video by providers, categories
+        """
+
         providers = self.request.query_params.get("providers", None)
         categories = self.request.query_params.get("categories", None)
 
@@ -78,7 +88,7 @@ class HomeView(viewsets.ViewSet):
             if categories is not None:
                 queryset = queryset.filter(Q(category=categories))
         except FieldError as e:
-            raise CustomHomeException() from e
+            raise BadFormatException() from e
 
         if (providers is not None) & ("," in providers):
             providers = providers.split(",")
@@ -90,16 +100,23 @@ class HomeView(viewsets.ViewSet):
         query_provider = self.filter_provider(providers)
         queryset = queryset & query_provider
 
+        """
+        =======Sorting=======
+        Sort : sort videos ramndomly
+        """
+
         sort = self.request.query_params.get("sort", default="random")
         try:
             queryset = queryset.order_by(self.sort_dict[sort])
         except FieldError as e:
-            raise CustomHomeException() from e
+            raise BadFormatException() from e
 
         page = self.request.GET.get("page", default=1)
         size = self.request.GET.get("size", default=25)
         paginator = Paginator(queryset, size)
         page_obj = paginator.get_page(page)
+
+        """=======Making Response======="""
 
         data_lists = []
         for model in page_obj.object_list:
@@ -122,7 +139,7 @@ class HomeView(viewsets.ViewSet):
         context = {
             "result": data_lists,
             "page": {
-                "current": page,
+                "current": int(page),
                 "total_page": paginator.num_pages,
                 "total_result": paginator.count,
             },
