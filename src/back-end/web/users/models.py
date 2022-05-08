@@ -44,6 +44,7 @@ class UserManager(BaseUserManager):
             birthday=birthday,
         )
         user.is_admin = True
+        user.is_verified = True
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -62,6 +63,7 @@ class User(AbstractBaseUser):
     profile_image_url = models.URLField(blank=True, null=True)
     birthday = models.DateField()
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     total_mileages = models.PositiveIntegerField(default=0)
     withdrawal_date_time = models.DateTimeField(null=True, blank=True)
