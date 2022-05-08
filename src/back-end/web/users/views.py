@@ -1,17 +1,47 @@
 """APIs of users application"""
+from allauth.account import app_settings
+from allauth.account.utils import complete_signup
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.naver.views import NaverOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from dj_rest_auth.registration.views import RegisterView, SocialLoginView
+from allauth.utils import get_username_max_length
+from dj_rest_auth.registration.views import SocialLoginView
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from drf_spectacular.utils import OpenApiParameter, extend_schema, inline_serializer
+from rest_framework import serializers, status
 from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
     UserSignUpSerializer,
 )
 
+UserModel = get_user_model()
 
+
+@extend_schema(
+    operation_id="네이버 로그인",
+    parameters=[
+        OpenApiParameter(
+            name="set-cookie ",
+            description="ongot-token={{Access Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=39600;",
+            type=str,
+            location=OpenApiParameter.COOKIE,
+            response=True,
+        ),
+        OpenApiParameter(
+            name="set-cookie",
+            description="ongot-refresh-token={{Refresh Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=54000;",
+            type=str,
+            location=OpenApiParameter.COOKIE,
+            response=True,
+        ),
+    ],
+)
 class NaverLoginView(SocialLoginView):
     """Login with Naver account"""
 
@@ -21,6 +51,25 @@ class NaverLoginView(SocialLoginView):
     callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}"
 
 
+@extend_schema(
+    operation_id="구글 로그인",
+    parameters=[
+        OpenApiParameter(
+            name="set-cookie",
+            description="ongot-token={{ Access Token }}",
+            type=str,
+            location="cookie",
+            response=True,
+        ),
+        OpenApiParameter(
+            name="set-cookie",
+            description="ongot-refresh-token={{ Refresh Token }}",
+            type=str,
+            location="cookie",
+            response=True,
+        ),
+    ],
+)
 class GoogleLoginView(SocialLoginView):
     """Login with Google account"""
 
@@ -30,10 +79,54 @@ class GoogleLoginView(SocialLoginView):
     callback_url = f"{settings.APP_HOST}:{settings.APP_PORT}"
 
 
-class SignUpView(RegisterView):
+@extend_schema(
+    operation_id="회원 가입",
+    responses={
+        200: inline_serializer(
+            name="회원 가입에 성공했습니다.",
+            fields={
+                "nickname": serializers.CharField(
+                    max_length=get_username_max_length(),
+                    min_length=app_settings.USERNAME_MIN_LENGTH,
+                    required=app_settings.USERNAME_REQUIRED,
+                    validators=[UniqueValidator(queryset=UserModel.objects.all())],
+                ),
+                "profile_image_url": serializers.URLField(required=False),
+                "name": serializers.CharField(),
+                "email": serializers.EmailField(),
+                "is_verified": serializers.BooleanField(),
+            },
+        )
+    },
+)
+class SignUpView(CreateAPIView):
     """Sign up with nickname(required) and profile image(optional)"""
 
     serializer_class = UserSignUpSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        """Save user's nickname & profile"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+        data = self.get_response_data(user)
+        return Response(data, status=status.HTTP_200_OK)
+
+    def perform_create(self, serializer):
+        user = serializer.save(self.request)
+        complete_signup(self.request, user, settings.ACCOUNT_EMAIL_VERIFICATION, settings.ACCOUNT_SIGNUP_REDIRECT_URL)
+        return user
+
+    def get_response_data(self, user):
+        """Get serializer + other user context data"""
+        return {
+            "name": user.name,
+            "nickname": user.nickname,
+            "profile_image_url": user.profile_image_url,
+            "email": user.email,
+            "is_verified": user.is_verified,
+        }
 
 
 class ValidateNicknameView(GenericAPIView):
