@@ -1,8 +1,9 @@
 """Users URL Configuration"""
 from dj_rest_auth.jwt_auth import get_refresh_view
-from dj_rest_auth.views import LoginView, LogoutView
 from django.urls import path
 from users.views import (
+    GeneralLoginView,
+    GeneralLogoutView,
     GoogleLoginView,
     NaverLoginView,
     ProfileImageCreateView,
@@ -22,8 +23,8 @@ urlpatterns = [
     # token refresh
     path("token/", get_refresh_view().as_view(), name="token_refresh"),
     # normal login / logout (perhaps used someday)
-    path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+    path("login/", GeneralLoginView.as_view(), name="login"),
+    path("logout/", GeneralLogoutView.as_view(), name="logout"),
     # validate user fields
     path("validate-nickname/", ValidateNicknameView.as_view(), name="users_validate_nickname"),
     path("validate-profile-image/", ValidateProfileImageView.as_view(), name="users_alidate_profile_image"),
