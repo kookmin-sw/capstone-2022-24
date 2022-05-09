@@ -7,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.utils import get_username_max_length
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.serializers import JWTSerializer
+from dj_rest_auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from drf_spectacular.utils import (
@@ -24,12 +25,14 @@ from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
     UserSignUpVerifySerializer,
+    ValidateNicknameSerializer,
 )
 
 UserModel = get_user_model()
 
 
 @extend_schema(
+    tags=["Priority-1"],
     operation_id="Naver Login",
     parameters=[
         OpenApiParameter(
@@ -64,6 +67,7 @@ class NaverLoginView(SocialLoginView):
 
 
 @extend_schema(
+    tags=["Priority-1"],
     operation_id="Google Login",
     parameters=[
         OpenApiParameter(
@@ -98,6 +102,7 @@ class GoogleLoginView(SocialLoginView):
 
 
 @extend_schema(
+    tags=["Priority-1"],
     operation_id="회원 가입",
     responses={
         200: OpenApiResponse(
@@ -150,31 +155,42 @@ class SignUpView(CreateAPIView):
         }
 
 
+@extend_schema(tags=["Priority-1"])
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
-    # TODO
+    serializer_class = ValidateNicknameSerializer
 
 
+@extend_schema(tags=["Deprecated"])
 class ValidateProfileImageView(GenericAPIView):
     """Validation about profile image to use"""
 
-    # TODO
 
-
+@extend_schema(tags=["Priority-1"])
 class ProfileImageCreateView(CreateAPIView):
     """Upload profile image of user"""
 
-    # TODO
 
-
+@extend_schema(tags=["Priority-1"])
 class ValidateWithdrawalView(GenericAPIView):
     """Validation about user's withdrawal using whether to join groups"""
 
     # TODO
 
 
+@extend_schema(tags=["Priority-1"])
 class UserWithdrawalView(GenericAPIView):
     """Withdrawal by checking whether to delete"""
 
     # TODO
+
+
+@extend_schema(tags=["Deprecated"])
+class GeneralLoginView(LoginView):
+    """Inherit class of dj_rest_auth LoginView"""
+
+
+@extend_schema(tags=["Priority-1"])
+class GeneralLogoutView(LogoutView):
+    """Inherit class of dj_rest_auth LoginView"""
