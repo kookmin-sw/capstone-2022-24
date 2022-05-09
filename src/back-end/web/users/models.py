@@ -2,6 +2,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
+from users.validators import cell_phone_number_validator, get_nickname_validators
 
 
 class UserManager(BaseUserManager):
@@ -53,12 +54,16 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     """Model of user that use ongot service"""
 
-    nickname = models.CharField(max_length=8, unique=True)
+    nickname = models.CharField(
+        max_length=8,
+        unique=True,
+        validators=get_nickname_validators(),
+    )
     name = models.CharField(max_length=30)
     email = models.EmailField(
         max_length=50,
     )
-    cell_phone_number = models.CharField(max_length=14)
+    cell_phone_number = models.CharField(max_length=14, validators=[cell_phone_number_validator])
     # profile_image_url = models.ImageField(blank=True, null=True)
     profile_image_url = models.URLField(blank=True, null=True)
     birthday = models.DateField()
