@@ -25,7 +25,6 @@ from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
     UserSignUpVerifySerializer,
-    ValidateNicknameSerializer,
 )
 
 UserModel = get_user_model()
@@ -158,8 +157,6 @@ class SignUpView(CreateAPIView):
 @extend_schema(tags=["Priority-1"])
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
-
-    serializer_class = ValidateNicknameSerializer
 
 
 @extend_schema(tags=["Deprecated"])
