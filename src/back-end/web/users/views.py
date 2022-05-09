@@ -6,9 +6,15 @@ from allauth.socialaccount.providers.naver.views import NaverOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.utils import get_username_max_length
 from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.serializers import JWTSerializer
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from drf_spectacular.utils import OpenApiParameter, extend_schema, inline_serializer
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+    inline_serializer,
+)
 from rest_framework import serializers, status
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -17,14 +23,14 @@ from rest_framework.validators import UniqueValidator
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
-    UserSignUpSerializer,
+    UserSignUpVerifySerializer,
 )
 
 UserModel = get_user_model()
 
 
 @extend_schema(
-    operation_id="네이버 로그인",
+    operation_id="Naver Login",
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
@@ -41,6 +47,12 @@ UserModel = get_user_model()
             response=True,
         ),
     ],
+    responses={
+        200: OpenApiResponse(
+            description="네이버 로그인 성공",
+            response=JWTSerializer,
+        )
+    },
 )
 class NaverLoginView(SocialLoginView):
     """Login with Naver account"""
@@ -52,10 +64,10 @@ class NaverLoginView(SocialLoginView):
 
 
 @extend_schema(
-    operation_id="구글 로그인",
+    operation_id="Google Login",
     parameters=[
         OpenApiParameter(
-            name="set-cookie",
+            name="set-cookie ",
             description="ongot-token={{ Access Token }}",
             type=str,
             location="cookie",
@@ -69,6 +81,12 @@ class NaverLoginView(SocialLoginView):
             response=True,
         ),
     ],
+    responses={
+        200: OpenApiResponse(
+            description="구글 로그인 성공",
+            response=JWTSerializer,
+        )
+    },
 )
 class GoogleLoginView(SocialLoginView):
     """Login with Google account"""
@@ -82,27 +100,30 @@ class GoogleLoginView(SocialLoginView):
 @extend_schema(
     operation_id="회원 가입",
     responses={
-        200: inline_serializer(
-            name="회원 가입에 성공했습니다.",
-            fields={
-                "nickname": serializers.CharField(
-                    max_length=get_username_max_length(),
-                    min_length=app_settings.USERNAME_MIN_LENGTH,
-                    required=app_settings.USERNAME_REQUIRED,
-                    validators=[UniqueValidator(queryset=UserModel.objects.all())],
-                ),
-                "profile_image_url": serializers.URLField(required=False),
-                "name": serializers.CharField(),
-                "email": serializers.EmailField(),
-                "is_verified": serializers.BooleanField(),
-            },
+        200: OpenApiResponse(
+            description="회원 가입 성공",
+            response=inline_serializer(
+                name="VerifyUserSerializer",
+                fields={
+                    "nickname": serializers.CharField(
+                        max_length=get_username_max_length(),
+                        min_length=app_settings.USERNAME_MIN_LENGTH,
+                        required=app_settings.USERNAME_REQUIRED,
+                        validators=[UniqueValidator(queryset=UserModel.objects.all())],
+                    ),
+                    "profile_image_url": serializers.URLField(required=False),
+                    "name": serializers.CharField(),
+                    "email": serializers.EmailField(),
+                    "is_verified": serializers.BooleanField(),
+                },
+            ),
         )
     },
 )
 class SignUpView(CreateAPIView):
     """Sign up with nickname(required) and profile image(optional)"""
 
-    serializer_class = UserSignUpSerializer
+    serializer_class = UserSignUpVerifySerializer
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
