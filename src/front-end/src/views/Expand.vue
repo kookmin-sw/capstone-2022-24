@@ -13,11 +13,13 @@
 			<q-tab name="watch" label="본 작품" />
 		</q-tabs>
 		<q-tab-panels animated v-model="currentTab">
-      <!-- 최근 조회한 작품 탭 -->
+			<!-- 최근 조회한 작품 탭 -->
 			<q-tab-panel name="recent">
 				<div>
 					<q-infinite-scroll :offset="250" @load="videoOnLoad">
-            <div class="row justify-center q-mt-lg q-mb-lg" style="column-gap: 10px">
+						<div
+							class="row justify-center q-mt-lg q-mb-lg"
+							style="column-gap: 10px">
 							<q-card
 								flat
 								bordered
@@ -26,14 +28,16 @@
 								:key="index">
 								<q-card-section class="q-pa-sm">
 									<div class="video-poster bg-grey-4">{{ video.value }}</div>
-									<div class="video-title text-left text-weight-bold q-mt-sm">영화 제목</div>
+									<div class="video-title text-left text-weight-bold q-mt-sm">
+										영화 제목
+									</div>
 									<div class="row no-wrap items-center">
 										<div class="col text-right">
 											<q-rating
 												size="18px"
 												v-model="stars"
 												:max="5"
-                        class="text-blue-100" />
+												class="text-blue-100" />
 											<div>2022.03.14</div>
 										</div>
 									</div>
@@ -48,11 +52,13 @@
 					</q-infinite-scroll>
 				</div>
 			</q-tab-panel>
-      <!-- 찜한 작품 탭 -->
+			<!-- 찜한 작품 탭 -->
 			<q-tab-panel name="wish">
 				<div>
 					<q-infinite-scroll :offset="250" @load="videoOnLoad">
-						<div class="row justify-center q-mt-lg q-mb-lg" style="column-gap: 10px">
+						<div
+							class="row justify-center q-mt-lg q-mb-lg"
+							style="column-gap: 10px">
 							<q-card
 								flat
 								bordered
@@ -61,7 +67,9 @@
 								:key="index">
 								<q-card-section class="q-pa-sm">
 									<div class="video-poster bg-grey-4">{{ video.value }}</div>
-									<div class="video-title text-left text-weight-bold q-mt-sm">영화 제목</div>
+									<div class="video-title text-left text-weight-bold q-mt-sm">
+										영화 제목
+									</div>
 									<div class="row no-wrap items-center">
 										<div class="col text-right">
 											<q-rating
@@ -83,11 +91,13 @@
 					</q-infinite-scroll>
 				</div>
 			</q-tab-panel>
-      <!-- 별점 준 작품 탭 -->
+			<!-- 별점 준 작품 탭 -->
 			<q-tab-panel name="star">
 				<div>
 					<q-infinite-scroll :offset="250" @load="videoOnLoad">
-            <div class="row justify-center q-mt-lg q-mb-lg" style="column-gap: 10px">
+						<div
+							class="row justify-center q-mt-lg q-mb-lg"
+							style="column-gap: 10px">
 							<q-card
 								flat
 								bordered
@@ -96,14 +106,16 @@
 								:key="index">
 								<q-card-section class="q-pa-sm">
 									<div class="video-poster bg-grey-4">{{ video.value }}</div>
-									<div class="video-title text-left text-weight-bold q-mt-sm">영화 제목</div>
+									<div class="video-title text-left text-weight-bold q-mt-sm">
+										영화 제목
+									</div>
 									<div class="row no-wrap items-center">
 										<div class="col text-right">
 											<q-rating
 												size="18px"
 												v-model="stars"
 												:max="5"
-                        class="text-blue-100" />
+												class="text-blue-100" />
 											<div>2022.03.14</div>
 										</div>
 									</div>
@@ -118,11 +130,13 @@
 					</q-infinite-scroll>
 				</div>
 			</q-tab-panel>
-      <!-- 본 작품 탭 -->
+			<!-- 본 작품 탭 -->
 			<q-tab-panel name="watch">
 				<div>
 					<q-infinite-scroll :offset="250" @load="videoOnLoad">
-            <div class="row justify-center q-mt-lg q-mb-lg" style="column-gap: 10px">
+						<div
+							class="row justify-center q-mt-lg q-mb-lg"
+							style="column-gap: 10px">
 							<q-card
 								flat
 								bordered
@@ -131,14 +145,16 @@
 								:key="index">
 								<q-card-section class="q-pa-sm">
 									<div class="video-poster bg-grey-4">{{ video.value }}</div>
-									<div class="video-title text-left text-weight-bold q-mt-sm">영화 제목</div>
+									<div class="video-title text-left text-weight-bold q-mt-sm">
+										영화 제목
+									</div>
 									<div class="row no-wrap items-center">
 										<div class="col text-right">
 											<q-rating
 												size="18px"
 												v-model="stars"
 												:max="5"
-                        class="text-blue-100" />
+												class="text-blue-100" />
 											<div>2022.03.14</div>
 										</div>
 									</div>
