@@ -9,7 +9,6 @@ from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.serializers import JWTSerializer
 from dj_rest_auth.views import LoginView, LogoutView
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
@@ -17,18 +16,20 @@ from drf_spectacular.utils import (
     inline_serializer,
 )
 from rest_framework import serializers, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.views import TokenRefreshView
+from users.exceptions import NicknameValidationException
+from users.models import User
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
+    NicknameSerializer,
     UserSignUpVerifySerializer,
 )
-
-UserModel = get_user_model()
 
 
 @extend_schema(
@@ -114,7 +115,7 @@ class GoogleLoginView(SocialLoginView):
                         max_length=get_username_max_length(),
                         min_length=app_settings.USERNAME_MIN_LENGTH,
                         required=app_settings.USERNAME_REQUIRED,
-                        validators=[UniqueValidator(queryset=UserModel.objects.all())],
+                        validators=[UniqueValidator(queryset=User.objects.all())],
                     ),
                     "profile_image_url": serializers.URLField(required=False),
                     "name": serializers.CharField(),
@@ -159,7 +160,36 @@ class SignUpView(CreateAPIView):
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
-    # TODO
+    queryset = User.objects.all()
+    serializer_class = NicknameSerializer
+    lookup_field = "nickname"
+
+    def get(self, request):
+        """Validate nickname"""
+        nickname = request.query_params.get("nickname", None)
+        serializer = NicknameSerializer(data={"nickname": nickname})
+        try:
+            if serializer.is_valid(raise_exception=True):
+                return Response(
+                    data=self.get_response_data(code="available_nickname", message="사용 가능한 닉네임입니다."),
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                self.get_response_data(code="invalid_nickname", message="유효하지 않은 닉네임입니다."),
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except ValidationError as error:
+            response = NicknameValidationException(error)
+            return Response(response.get_full_details(), status=response.status_code)
+
+    def get_response_data(self, code="success", message=None):
+        """Make response data with code, message parameter"""
+        response = {}
+        if code:
+            response["code"] = code
+        if message:
+            response["message"] = message
+        return response
 
 
 @extend_schema(tags=["Deprecated"], operation_id="프로필사진 사용 가능 여부 확인")
