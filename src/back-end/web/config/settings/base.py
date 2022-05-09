@@ -89,11 +89,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # Permit only to authenticated user
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
 }
 
 MIDDLEWARE = [
@@ -353,6 +349,7 @@ USER_ID_FIELD = "nickname"
 REST_AUTH_SERIALIZERS = {
     "LOGIN_SERIALIZER": "users.serializers.UserLoginSerializer",
     "REGISTER_SERIALIZER": "users.serializers.UserSignUpSerializer",
+    "USER_DETAILS_SERIALIZER": "users.serializers.UserSerializer",
 }
 
 AUTHENTICATION_BACKENDS = {
