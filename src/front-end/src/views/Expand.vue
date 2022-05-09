@@ -8,7 +8,7 @@
 			align="justify"
 			v-model="currentTab">
 			<q-tab name="recent" label="최근 조회한 작품" />
-			<q-tab name="dib" label="찜한 작품" />
+			<q-tab name="wish" label="찜한 작품" />
 			<q-tab name="star" label="별점 준 작품" />
 			<q-tab name="watch" label="본 작품" />
 		</q-tabs>
@@ -47,7 +47,7 @@
 					</q-infinite-scroll>
 				</div>
 			</q-tab-panel>
-			<q-tab-panel name="dib">
+			<q-tab-panel name="wish">
 				<div>
 					<q-infinite-scroll :offset="250" @load="videoOnLoad">
 						<div class="row justify-center col-gap-16 q-ma-lg">
