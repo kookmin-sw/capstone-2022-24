@@ -2,29 +2,14 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
-
-
-class SocialType(models.Model):
-    """Model of sns platform that user enters"""
-
-    SOCIAL_PLATFORM_CHOICES = (("N", "Naver"), ("G", "Google"), ("O", "Others"))
-    name = models.CharField(max_length=1, choices=SOCIAL_PLATFORM_CHOICES)
-    logo_key = models.CharField(max_length=100)
-
-    class Meta:
-        """Metadata for social_type model"""
-
-        db_table = "social_type"
-
-    def __str__(self):
-        return f"{self.name}"
+from users.validators import cell_phone_number_validator, get_nickname_validators
 
 
 class UserManager(BaseUserManager):
     """Model of managing user object crud"""
 
     # pylint: disable=R0913
-    def create_user(self, nickname, email, cell_phone_number, social_type, birthday, password=None):
+    def create_user(self, nickname, name, email, cell_phone_number, birthday, password=None):
         """Manage to create normal user"""
 
         if not email:
@@ -38,49 +23,52 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             nickname=nickname,
+            name=name,
             email=self.normalize_email(email),
             cell_phone_number=cell_phone_number,
-            social_type=social_type,
             birthday=birthday,
         )
 
-        user.set_unusable_password()
+        user.set_password(password)
         user.save(using=self._db)
         return user
 
     # pylint: disable=R0913
-    def create_superuser(self, nickname, email, cell_phone_number, birthday, password, social_type=None):
+    def create_superuser(self, nickname, name, email, cell_phone_number, birthday, password):
         """Manage to create superuser"""
 
-        if not social_type:
-            social_type = SocialType(1, "O", "Not found")
-            social_type.save(using=self._db)
         user = self.create_user(
             nickname=nickname,
+            name=name,
             email=email,
             cell_phone_number=cell_phone_number,
             birthday=birthday,
-            password=password,
-            social_type=social_type,
         )
         user.is_admin = True
+        user.is_verified = True
         user.set_password(password)
         user.save(using=self._db)
         return user
 
 
-class User(AbstractBaseUser, models.Model):
+class User(AbstractBaseUser):
     """Model of user that use ongot service"""
 
-    nickname = models.CharField(max_length=8, unique=True)
+    nickname = models.CharField(
+        max_length=8,
+        unique=True,
+        validators=get_nickname_validators(),
+    )
+    name = models.CharField(max_length=30)
     email = models.EmailField(
         max_length=50,
     )
-    cell_phone_number = models.CharField(max_length=14)
-    social_type = models.ForeignKey(SocialType, default=None, on_delete=models.SET_DEFAULT)
-    profile_image_url = models.ImageField(blank=True, null=True)
+    cell_phone_number = models.CharField(max_length=14, validators=[cell_phone_number_validator])
+    # profile_image_url = models.ImageField(blank=True, null=True)
+    profile_image_url = models.URLField(blank=True, null=True)
     birthday = models.DateField()
     is_active = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     total_mileages = models.PositiveIntegerField(default=0)
     withdrawal_date_time = models.DateTimeField(null=True, blank=True)
@@ -91,7 +79,7 @@ class User(AbstractBaseUser, models.Model):
     EMAIL_FIELD = "email"
     objects = UserManager()
 
-    REQUIRED_FIELDS = ["email", "cell_phone_number", "birthday"]
+    REQUIRED_FIELDS = ["email", "name", "cell_phone_number", "birthday"]
 
     class Meta:
         """Metadata of User model"""
