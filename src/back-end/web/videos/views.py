@@ -1,32 +1,35 @@
 """Video Api"""
 
+from config.exceptions.input import BadFormatException
+from config.exceptions.result import NoneResultException
 from django.core.exceptions import FieldError
-from django.core.paginator import Paginator  # 페이징 용도
-from djongo.models import Q
+from django.core.paginator import Paginator
+from django.db.models import Q
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from providers.models import Provider
-from rest_framework import viewsets
-from rest_framework.exceptions import APIException
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.models import Video
 
 
-class BadFormatException(APIException):
-    """custom Exception For HomeView"""
-
-    status_code = 400
-    default_detail = "올바르지 않은 형식입니다."
-    default_code = "Bad Request Key"
-
-
-class NoneResultException(APIException):
-    """custom Search Exception for HomeView"""
-
-    status_code = 404
-    default_detail = "존재하지 않은 결과값입니다."
-    default_code = "None Result"
-
-
+@extend_schema(
+    tags=["Priority-1", "Video"],
+    operation_id="홈화면 작품 목록",
+    parameters=[
+        OpenApiParameter(name="search", description="condtion of searching video title", type=str),
+        OpenApiParameter(
+            name="providers",
+            description="condtion of filtering video providers : WC, AP, WV, NF, DP, multiple filtering = Use ','",
+            type=str,
+        ),
+        OpenApiParameter(name="category", description="condtion of filtering video category : MV, TV", type=str),
+        OpenApiParameter(name="sort", description="video sort condition : Use only only random", type=str),
+        OpenApiParameter(name="page", description="page number", type=int),
+        OpenApiParameter(name="size", description="Number of videos to show on one page", type=int),
+    ],
+    responses={200: OpenApiResponse(description="검색 성공", response={"result"})},  # 어떻게 처리해야할지 잘 모르겠어서 임시처리
+)
 class HomeView(viewsets.ViewSet):
     """Class that displays a list of videos on the home screen"""
 
@@ -84,6 +87,20 @@ class HomeView(viewsets.ViewSet):
         providers = self.request.query_params.get("providers", None)
         categories = self.request.query_params.get("category", None)
 
+        """
+        #아직 구현예정이 없는 필터링 조건
+        genres = self.request.query_params.get('genres', None)
+        rating_min = self.request.query_params.get('ratingMin', None)
+        rating_max = self.request.query_params.get('ratingMax', None)
+        runtime_min = self.request.query_params.get('runtimeMin', None)
+        runtime_max = self.request.query_params.get('runtimeMax', None)
+        release_date_min = self.request.query_params.get('releaseDateMin', None)
+        release_date_max = self.request.query_params.get('releaseDateMax', None)
+        production_country= self.request.query_params.get('productionCountry', None)
+        offer_type = self.request.query_params.get('offerTye', None)
+        watched = self.request.query_params.get('watched', None)
+        """
+
         try:
             if categories is not None:
                 queryset = queryset.filter(Q(category=categories))
@@ -134,8 +151,11 @@ class HomeView(viewsets.ViewSet):
             }
             data_lists.append(temp)
 
+        if len(data_lists) == 0:
+            raise NoneResultException()
+
         context = {
-            "result": data_lists,
+            "results": data_lists,
             "page": {
                 "current": int(page),
                 "total_page": paginator.num_pages,
@@ -143,4 +163,4 @@ class HomeView(viewsets.ViewSet):
             },
         }
 
-        return Response(context)
+        return Response(context, status=status.HTTP_200_OK)
