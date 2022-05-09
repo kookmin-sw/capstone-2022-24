@@ -31,7 +31,7 @@ UserModel = get_user_model()
 
 
 @extend_schema(
-    tags=["Priority-1"],
+    tags=["Priority-1", "User"],
     operation_id="Naver Login",
     parameters=[
         OpenApiParameter(
@@ -66,7 +66,7 @@ class NaverLoginView(SocialLoginView):
 
 
 @extend_schema(
-    tags=["Priority-1"],
+    tags=["Priority-1", "User"],
     operation_id="Google Login",
     parameters=[
         OpenApiParameter(
@@ -101,7 +101,7 @@ class GoogleLoginView(SocialLoginView):
 
 
 @extend_schema(
-    tags=["Priority-1"],
+    tags=["Priority-1", "User"],
     operation_id="회원 가입",
     responses={
         200: OpenApiResponse(
@@ -154,7 +154,7 @@ class SignUpView(CreateAPIView):
         }
 
 
-@extend_schema(tags=["Priority-1"])
+@extend_schema(tags=["Priority-1", "User"])
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
@@ -164,19 +164,19 @@ class ValidateProfileImageView(GenericAPIView):
     """Validation about profile image to use"""
 
 
-@extend_schema(tags=["Priority-1"])
+@extend_schema(tags=["Priority-1", "User"])
 class ProfileImageCreateView(CreateAPIView):
     """Upload profile image of user"""
 
 
-@extend_schema(tags=["Priority-1"])
+@extend_schema(tags=["Priority-1", "User"])
 class ValidateWithdrawalView(GenericAPIView):
     """Validation about user's withdrawal using whether to join groups"""
 
     # TODO
 
 
-@extend_schema(tags=["Priority-1"])
+@extend_schema(tags=["Priority-1", "User"])
 class UserWithdrawalView(GenericAPIView):
     """Withdrawal by checking whether to delete"""
 
@@ -188,6 +188,6 @@ class GeneralLoginView(LoginView):
     """Inherit class of dj_rest_auth LoginView"""
 
 
-@extend_schema(tags=["Priority-1"])
+@extend_schema(tags=["Priority-1", "User"], methods=["get"])
 class GeneralLogoutView(LogoutView):
     """Inherit class of dj_rest_auth LoginView"""
