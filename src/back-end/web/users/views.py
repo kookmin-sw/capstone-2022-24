@@ -5,7 +5,6 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.naver.views import NaverOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.utils import get_username_max_length
-from dj_rest_auth.jwt_auth import get_refresh_view
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.serializers import JWTSerializer
 from dj_rest_auth.views import LoginView, LogoutView
@@ -22,6 +21,7 @@ from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
+from rest_framework_simplejwt.views import TokenRefreshView
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
@@ -159,6 +159,8 @@ class SignUpView(CreateAPIView):
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
+    # TODO
+
 
 @extend_schema(tags=["Deprecated"], operation_id="프로필사진 사용 가능 여부 확인")
 class ValidateProfileImageView(GenericAPIView):
@@ -168,6 +170,8 @@ class ValidateProfileImageView(GenericAPIView):
 @extend_schema(tags=["Priority-1", "User"], operation_id="프로필사진 업로드")
 class ProfileImageCreateView(CreateAPIView):
     """Upload profile image of user"""
+
+    # TODO
 
 
 @extend_schema(tags=["Priority-1", "User"], operation_id="회원 탈퇴 가능 여부 확인")
@@ -184,17 +188,16 @@ class UserWithdrawalView(GenericAPIView):
     # TODO
 
 
-@extend_schema(tags=["Deprecated"], operation_id="일반 로그인")
+@extend_schema(tags=["User"], operation_id="일반 로그인")
 class GeneralLoginView(LoginView):
     """Inherit class of dj_rest_auth LoginView"""
 
 
-@extend_schema(tags=["Deprecated"], operation_id="통합 로그아웃")
+@extend_schema(tags=["User"], operation_id="통합 로그아웃")
 class GeneralLogoutView(LogoutView):
     """Inherit class of dj_rest_auth LoginView"""
 
 
 @extend_schema(tags=["Priority-1", "User"], methods=["post"], operation_id="토큰 재발급")
-def get_refresh_token_view():
+class RefreshTokenView(TokenRefreshView):
     """Get refresh token using dj_rest_auth module"""
-    return get_refresh_view()
