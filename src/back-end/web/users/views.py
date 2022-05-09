@@ -156,7 +156,34 @@ class SignUpView(CreateAPIView):
         }
 
 
-@extend_schema(tags=["Priority-1", "User"], operation_id="닉네임 사용 가능 여부 확인")
+@extend_schema(
+    tags=["Priority-1", "User"],
+    operation_id="닉네임 사용 가능 여부 확인",
+    parameters=[OpenApiParameter("nickname", NicknameSerializer)],
+    responses={
+        200: OpenApiResponse(
+            description="사용 가능한 닉네임",
+            response=inline_serializer(
+                name="AvailableNickname",
+                fields={"code": serializers.CharField(), "message": serializers.CharField()},
+            ),
+        ),
+        400: OpenApiResponse(
+            description="올바르지 않은 형식",
+            response=inline_serializer(
+                name="InvalidFormatNickname",
+                fields={"code": serializers.CharField(), "message": serializers.CharField()},
+            ),
+        ),
+        409: OpenApiResponse(
+            description="이미 존재하는 닉네임",
+            response=inline_serializer(
+                name="DuplicatedNickname",
+                fields={"code": serializers.CharField(), "message": serializers.CharField()},
+            ),
+        ),
+    },
+)
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
@@ -165,17 +192,31 @@ class ValidateNicknameView(GenericAPIView):
     lookup_field = "nickname"
 
     def get(self, request):
-        """Validate nickname"""
+        """Validate nickname
+
+        code: validation keyword (English)
+
+        message: validation details (Korean)
+        """
         nickname = request.query_params.get("nickname", None)
         serializer = NicknameSerializer(data={"nickname": nickname})
         try:
+            # validate nickname
             if serializer.is_valid(raise_exception=True):
+                # not verified user
+                # if request.user.is_verified:
+                #     return Response(
+                #         data=self.get_response_data(code="already_set", message="이미 닉네임을 설정했습니다."),
+                #         status=status.HTTP_403_FORBIDDEN,
+                #     )
+                # SUCCESS: valid format + verified user
                 return Response(
                     data=self.get_response_data(code="available_nickname", message="사용 가능한 닉네임입니다."),
                     status=status.HTTP_200_OK,
                 )
+            # other cases
             return Response(
-                self.get_response_data(code="invalid_nickname", message="유효하지 않은 닉네임입니다."),
+                data=self.get_response_data(code="invalid_nickname", message="유효하지 않은 닉네임입니다."),
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except ValidationError as error:
