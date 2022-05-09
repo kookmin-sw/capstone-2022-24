@@ -1,16 +1,12 @@
 """Serializers of users application"""
 # pylint: disable=W0221
-from allauth.account import app_settings
-from allauth.utils import get_username_max_length
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 from users.adapter import UserAccountAdapter
-
-UserModel = get_user_model()
+from users.models import User
+from users.validators import get_nickname_validators, get_unique_nickname_validator
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         """Metadata of UserSerializer"""
 
-        model = UserModel
+        model = User
         fields = [
             "nickname",
             "name",
@@ -48,17 +44,23 @@ class UserLoginSerializer(LoginSerializer):
         return
 
 
-class UserSignUpVerifySerializer(serializers.Serializer):
+class UserSignUpVerifySerializer(serializers.ModelSerializer):
     """Needed information when user signs up"""
 
-    nickname = serializers.CharField(
-        max_length=get_username_max_length(),
-        min_length=app_settings.USERNAME_MIN_LENGTH,
-        required=app_settings.USERNAME_REQUIRED,
-        validators=[UniqueValidator(queryset=UserModel.objects.all())],
-    )
-    profile_image_url = serializers.URLField(required=False)
     cleaned_data = None
+
+    class Meta:
+        """Metadata for UserSignUpVerifySerializer"""
+
+        model = User
+        fields = ["nickname", "profile_image_url"]
+        extra_kwargs = {
+            "nickname": {
+                "required": True,
+                "validators": get_nickname_validators() + [get_unique_nickname_validator(User.objects.all())],
+            },
+            "profile_image_url": {"required": False},
+        }
 
     def get_cleaned_data(self):
         """Get validated form data"""
@@ -83,12 +85,6 @@ class UserSignUpVerifySerializer(serializers.Serializer):
         # save all changes
         user.save()
         return user
-
-    def update(self, instance, validated_data):
-        """Not used"""
-
-    def create(self, validated_data):
-        """Not used"""
 
 
 class NaverLoginSerializer(SocialLoginSerializer):
@@ -115,3 +111,19 @@ class GoogleLoginSerializer(SocialLoginSerializer):
 
     def create(self, validated_data):
         """(Not used) Inherit abstract method"""
+
+
+class NicknameSerializer(serializers.ModelSerializer):
+    """Validate nickname serializer"""
+
+    class Meta:
+        """Metadata of UserSerializer"""
+
+        model = User
+        fields = ["nickname"]
+        extra_kwargs = {
+            "nickname": {
+                "required": True,
+                "validators": get_nickname_validators() + [get_unique_nickname_validator(User.objects.all())],
+            },
+        }
