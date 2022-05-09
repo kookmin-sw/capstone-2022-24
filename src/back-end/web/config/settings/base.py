@@ -205,7 +205,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # SSL settings
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = True
 
 # user model
@@ -226,8 +226,6 @@ SPECTACULAR_SETTINGS = {
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     # None will default to DRF's AUTHENTICATION_CLASSES
     "SERVE_AUTHENTICATION": [
-        # "rest_framework.authentication.SessionAuthentication",
-        # "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     # Initialize SwaggerUI with additional OAuth2 configuration.
