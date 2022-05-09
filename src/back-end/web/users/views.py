@@ -5,6 +5,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.naver.views import NaverOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.utils import get_username_max_length
+from dj_rest_auth.jwt_auth import get_refresh_view
 from dj_rest_auth.registration.views import SocialLoginView
 from dj_rest_auth.serializers import JWTSerializer
 from dj_rest_auth.views import LoginView, LogoutView
@@ -32,7 +33,7 @@ UserModel = get_user_model()
 
 @extend_schema(
     tags=["Priority-1", "User"],
-    operation_id="Naver Login",
+    operation_id="네이버 로그인",
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
@@ -67,7 +68,7 @@ class NaverLoginView(SocialLoginView):
 
 @extend_schema(
     tags=["Priority-1", "User"],
-    operation_id="Google Login",
+    operation_id="구글 로그인",
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
@@ -154,40 +155,46 @@ class SignUpView(CreateAPIView):
         }
 
 
-@extend_schema(tags=["Priority-1", "User"])
+@extend_schema(tags=["Priority-1", "User"], operation_id="닉네임 사용 가능 여부 확인")
 class ValidateNicknameView(GenericAPIView):
     """Validation about nickname when user sign up"""
 
 
-@extend_schema(tags=["Deprecated"])
+@extend_schema(tags=["Deprecated"], operation_id="프로필사진 사용 가능 여부 확인")
 class ValidateProfileImageView(GenericAPIView):
     """Validation about profile image to use"""
 
 
-@extend_schema(tags=["Priority-1", "User"])
+@extend_schema(tags=["Priority-1", "User"], operation_id="프로필사진 업로드")
 class ProfileImageCreateView(CreateAPIView):
     """Upload profile image of user"""
 
 
-@extend_schema(tags=["Priority-1", "User"])
+@extend_schema(tags=["Priority-1", "User"], operation_id="회원 탈퇴 가능 여부 확인")
 class ValidateWithdrawalView(GenericAPIView):
     """Validation about user's withdrawal using whether to join groups"""
 
     # TODO
 
 
-@extend_schema(tags=["Priority-1", "User"])
+@extend_schema(tags=["Priority-1", "User"], operation_id="회원 탈퇴")
 class UserWithdrawalView(GenericAPIView):
     """Withdrawal by checking whether to delete"""
 
     # TODO
 
 
-@extend_schema(tags=["Deprecated"])
+@extend_schema(tags=["Deprecated"], operation_id="일반 로그인")
 class GeneralLoginView(LoginView):
     """Inherit class of dj_rest_auth LoginView"""
 
 
-@extend_schema(tags=["Priority-1", "User"], methods=["get"])
+@extend_schema(tags=["Deprecated"], operation_id="통합 로그아웃")
 class GeneralLogoutView(LogoutView):
     """Inherit class of dj_rest_auth LoginView"""
+
+
+@extend_schema(tags=["Priority-1", "User"], methods=["post"], operation_id="토큰 재발급")
+def get_refresh_token_view():
+    """Get refresh token using dj_rest_auth module"""
+    return get_refresh_view()

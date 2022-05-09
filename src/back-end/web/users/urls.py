@@ -1,5 +1,4 @@
 """Users URL Configuration"""
-from dj_rest_auth.jwt_auth import get_refresh_view
 from django.urls import path
 from users.views import (
     GeneralLoginView,
@@ -12,6 +11,7 @@ from users.views import (
     ValidateNicknameView,
     ValidateProfileImageView,
     ValidateWithdrawalView,
+    get_refresh_token_view,
 )
 
 urlpatterns = [
@@ -21,7 +21,7 @@ urlpatterns = [
     # sign up
     path("", SignUpView.as_view(), name="users_signup"),
     # token refresh
-    path("token/", get_refresh_view().as_view(), name="token_refresh"),
+    path("token/", get_refresh_token_view().as_view(), name="token_refresh"),
     # normal login / logout (perhaps used someday)
     path("login/", GeneralLoginView.as_view(), name="login"),
     path("logout/", GeneralLogoutView.as_view(), name="logout"),
