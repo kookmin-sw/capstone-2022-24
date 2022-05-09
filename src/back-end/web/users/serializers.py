@@ -1,6 +1,5 @@
 """Serializers of users application"""
 # pylint: disable=W0221
-from accounts.serializers import AccountSerializer
 from allauth.account import app_settings
 from allauth.utils import get_username_max_length
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
@@ -15,34 +14,26 @@ UserModel = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """User model serializer in users application"""
-
-    account = serializers.SerializerMethodField()
+    """User Detail serializer after login"""
 
     class Meta:
         """Metadata of UserSerializer"""
 
         model = UserModel
-        fields = "__all__"
-        read_only_fields = [
+        fields = [
             "nickname",
             "name",
             "email",
             "cell_phone_number",
+            "profile_image_url",
             "birthday",
+            "is_active",
             "is_verified",
-            "is_blocked",
-            "registration_date_time",
-            "withdrawal_date_time",
         ]
-
-    def get_account(self, obj):
-        """Get account data using AccountSerializer"""
-        return AccountSerializer(obj.account).data
 
 
 class UserLoginSerializer(LoginSerializer):
-    """Authenticate user with nickname and password fields"""
+    """Authenticate user with nickname/email/password fields before login"""
 
     username = None
     email = serializers.EmailField(required=True, allow_blank=False)
@@ -57,7 +48,7 @@ class UserLoginSerializer(LoginSerializer):
         return
 
 
-class UserSignUpSerializer(serializers.Serializer):
+class UserSignUpVerifySerializer(serializers.Serializer):
     """Needed information when user signs up"""
 
     nickname = serializers.CharField(
