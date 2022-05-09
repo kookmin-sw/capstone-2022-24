@@ -54,10 +54,10 @@
 			<q-btn-toggle
 				v-model="role"
 				spread
-				class="role-toggle-button"
+				class="border-blue-100 text-blue-100"
+				style="border-radius: 4px"
 				unelevated
 				toggle-color="blue-4"
-				text-color="blue-4"
 				:options="[
 					{ label: '모임장', value: 'leader' },
 					{ label: '모임원', value: 'member' },
@@ -170,8 +170,5 @@ export default {
 .ott-select {
 	border: 3px solid #449bfe; /*blue-200*/
 	border-radius: 4px;
-}
-.role-toggle-button {
-	border: 1px solid #449bfe; /*blue-200*/
 }
 </style>
