@@ -1,16 +1,21 @@
 """APIs of Video application : DetailView"""
 # pylint: disable=R0914
 
+import json
 import os
 import sys
 
 import environ
+import requests
+from config.exceptions.result import NoneVideoException
 from config.settings.base import ENV_DIR
+from django.db.models import Q
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
-
-# from videos.exceptions import WrongVideoIDException
+from video_providers.models import VideoProvider
+from videos.exceptions import WrongVideoIDException
+from videos.models import Video
 
 
 def setting_env():
@@ -45,14 +50,47 @@ class DetailView(viewsets.ViewSet):
     def tv_details(self, request, video_id, season_id):
         """Method : Get Command to give the Tv Seasons detail informations"""
 
+        tv_id = video_id
+
+        try:
+            TV = Video.objects.get(Q(id=tv_id))
+        except Video.DoesNotExist as e:
+            raise NoneVideoException() from e
+
+        if TV.category != "MV":
+            raise WrongVideoIDException()
+
+        """====Use Open API to Get detail info===="""
+
+        key = TV.tmdb_id
+        movie_url = f"https://api.themoviedb.org/3/tv/{key}?api_key={self.api_key}&language={self.language}"
+        response = requests.get(movie_url)
+        contents = response.text
+
+        json_ob = json.loads(contents)
+        overview = json_ob["overview"]
+
+        TV_provider = VideoProvider.objects.filter(Q(video=TV))
+
         """======Making Response======"""
+
+        provider_list = []
+
+        for item in TV_provider:
+            provider = {
+                "name": item.provider.get().name,
+                "logo_url": item.provider.get().logo_key,
+                "link": item.link,
+            }
+            provider_list.append(provider)
+
         context = {
-            "video_id": video_id,
-            "poster_url": 0,
-            "title": 0,
-            "title_english": 0,
-            "overview": 0,
-            "providers": 0,
+            "video_id": TV.id,
+            "poster_url": TV.poster_key,
+            "title": TV.title,
+            "title_english": TV.title_english,
+            "overview": overview,
+            "providers": provider_list,
         }
 
         return Response(context, status=status.HTTP_200_OK)

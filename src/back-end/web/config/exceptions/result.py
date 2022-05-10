@@ -8,3 +8,10 @@ class NoneResultException(APIException):
     status_code = 404
     default_detail = "존재하지 않은 결과값입니다."
     default_code = "None Result"
+
+
+class NoneVideoException(APIException):
+    """custom"""
+
+    status_code = 404
+    dafault_detail = "없는 비디오"
