@@ -24,6 +24,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.views import TokenRefreshView
 from users.exceptions import NicknameValidationException
 from users.models import User
+from users.schemas import TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
@@ -53,8 +54,7 @@ from users.serializers import (
     ],
     responses={
         200: OpenApiResponse(
-            description="네이버 로그인 성공",
-            response=JWTSerializer,
+            response=JWTSerializer, description="네이버 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
         )
     },
 )
@@ -73,14 +73,14 @@ class NaverLoginView(SocialLoginView):
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
-            description="ongot-token={{ Access Token }}",
+            description="ongot-token={{Access Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=39600;",
             type=str,
             location="cookie",
             response=True,
         ),
         OpenApiParameter(
             name="set-cookie",
-            description="ongot-refresh-token={{ Refresh Token }}",
+            description="ongot-refresh-token={{Refresh Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=54000;",
             type=str,
             location="cookie",
             response=True,
@@ -88,8 +88,7 @@ class NaverLoginView(SocialLoginView):
     ],
     responses={
         200: OpenApiResponse(
-            description="구글 로그인 성공",
-            response=JWTSerializer,
+            response=JWTSerializer, description="구글 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
         )
     },
 )
@@ -259,7 +258,15 @@ class UserWithdrawalView(GenericAPIView):
     # TODO
 
 
-@extend_schema(tags=["User"], operation_id="일반 로그인")
+@extend_schema(
+    tags=["User"],
+    operation_id="일반 로그인",
+    responses={
+        200: OpenApiResponse(
+            response=JWTSerializer, description="일반 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
+        )
+    },
+)
 class GeneralLoginView(LoginView):
     """Inherit class of dj_rest_auth LoginView"""
 
