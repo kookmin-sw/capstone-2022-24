@@ -1,0 +1,1 @@
+"""Excetpions for videos"""
