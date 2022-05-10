@@ -1,4 +1,5 @@
 """Model definition of groups application: Group"""
+import datetime
 
 from django.db import models
 from django.utils import timezone
@@ -29,3 +30,10 @@ class Group(models.Model):
 
     def __str__(self):
         return f"[{self.get_status_display()}] 모임 #{self.id}"
+
+    @property
+    def end_reporting_date_time(self):
+        """Calculate deadline datetime of reporting"""
+        if self.start_watching_date_time:
+            return self.start_watching_date_time + datetime.timedelta(days=3)
+        return None
