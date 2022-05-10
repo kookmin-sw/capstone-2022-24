@@ -1,4 +1,4 @@
-"""Video Api"""
+"""APIs of Video application : HomeView, DetailView"""
 # pylint: disable=R0914
 
 import json
