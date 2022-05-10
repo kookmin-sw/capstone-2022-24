@@ -1,0 +1,1 @@
+"""APIs of mypages application"""
