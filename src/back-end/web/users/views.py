@@ -13,6 +13,7 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
     extend_schema,
+    extend_schema_view,
     inline_serializer,
 )
 from rest_framework import serializers, status
@@ -247,6 +248,13 @@ class ValidateProfileImageView(GenericAPIView):
     serializer_class = ProfileImageSerializer
 
 
+@extend_schema_view(
+    operation_id="프로필사진 업로드",
+    post=extend_schema(tags=["Deprecated"], operation_id="프로필사진 업로드", description="Upload in Back-end and set URL"),
+    patch=extend_schema(
+        tags=["Priority-1", "User"], operation_id="프로필사진 URL 변경", description="Set url(uploaded in Front-End)"
+    ),
+)
 class ProfileImageUploadView(CreateAPIView, UpdateAPIView):
     """Upload profile image of user"""
 
