@@ -103,14 +103,14 @@
 			</div>
 			<div class="row">
 				<q-space class="col-8" />
-				<q-btn outline class="q-mr-sm text-blue-100">
+				<q-btn outline class="q-mr-sm text-blue-200">
 					신고<q-icon name="no_accounts" />
 				</q-btn>
-				<q-btn outline class="text-blue-100">
+				<q-btn outline class="text-blue-200">
 					<a
 						:href="getSelectGroup.provider.link"
 						target="_blank"
-						style="color: #83bbfb">
+						class="text-blue-200">
 						{{ getSelectGroup.provider.name }} 바로가기
 					</a>
 					<q-icon name="arrow_right_alt" />
