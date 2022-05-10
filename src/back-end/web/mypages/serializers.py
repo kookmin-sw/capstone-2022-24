@@ -17,7 +17,7 @@ class MyPageSerializer(serializers.Serializer):
     def create(self, validated_data):
         """Do nothing because mypage is read-only"""
 
-    def get_user(self, user):
+    def get_profile(self, user):
         """Get user details of mypage owner"""
         return UserSerializer(user).data
 
