@@ -127,3 +127,20 @@ class NicknameSerializer(serializers.ModelSerializer):
                 "validators": get_nickname_validators() + [get_unique_nickname_validator(User.objects.all())],
             },
         }
+
+
+class ProfileImageSerializer(serializers.ModelSerializer):
+    """User's profile image serializer"""
+
+    profile = serializers.URLField(source="profile_image_url")
+
+    class Meta:
+        """Metadata of ProfileImageSerializer"""
+
+        model = User
+        fields = ["profile"]
+        extra_kwargs = {
+            "profile": {
+                "required": True,
+            }
+        }

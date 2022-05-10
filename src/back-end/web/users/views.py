@@ -13,11 +13,17 @@ from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
     extend_schema,
+    extend_schema_view,
     inline_serializer,
 )
 from rest_framework import serializers, status
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import CreateAPIView, GenericAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    GenericAPIView,
+    UpdateAPIView,
+    get_object_or_404,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
@@ -29,6 +35,7 @@ from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
     NicknameSerializer,
+    ProfileImageSerializer,
     UserSignUpVerifySerializer,
 )
 
@@ -236,12 +243,38 @@ class ValidateNicknameView(GenericAPIView):
 class ValidateProfileImageView(GenericAPIView):
     """Validation about profile image to use"""
 
+    queryset = User.objects.all()
+    serializer_class = ProfileImageSerializer
 
-@extend_schema(tags=["Priority-1", "User"], operation_id="프로필사진 업로드")
-class ProfileImageCreateView(CreateAPIView):
+
+@extend_schema_view(
+    operation_id="프로필사진 업로드",
+    post=extend_schema(tags=["Deprecated"], operation_id="프로필사진 업로드", description="Upload in Back-end and set URL"),
+    patch=extend_schema(
+        tags=["Priority-1", "User"], operation_id="프로필사진 URL 변경", description="Set url(uploaded in Front-End)"
+    ),
+)
+class ProfileImageUploadView(CreateAPIView, UpdateAPIView):
     """Upload profile image of user"""
 
-    # TODO
+    queryset = User.objects.all()
+    serializer_class = ProfileImageSerializer
+    http_method_names = ["post", "patch"]
+
+    def get_object(self):
+        """Get request user"""
+        # Get login user
+        obj = get_object_or_404(self.get_queryset(), id=self.request.user.id)
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+    def create(self, request, *args, **kwargs):
+        """Upload profile image in BACK-END Server"""
+        # parser_classes = (MultiPartParser, FormParser)
+        # Not implemented yet
+        # Upload image file in S3 from multipart/form-data
+        return super().create(request, args, kwargs)
 
 
 @extend_schema(tags=["Priority-1", "User"], operation_id="회원 탈퇴 가능 여부 확인")
