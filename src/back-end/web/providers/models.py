@@ -6,7 +6,7 @@ from django.utils import timezone
 
 def get_logo_prefix():
     """Return prefix to make full logo url"""
-    return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{settings.STATIC_LOCATION}/"
+    return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/providers/logo_images/{settings.STATIC_LOCATION}/"
 
 
 PREFIX = get_logo_prefix()
