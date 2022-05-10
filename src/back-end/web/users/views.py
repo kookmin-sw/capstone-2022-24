@@ -270,6 +270,13 @@ class ProfileImageUploadView(CreateAPIView, UpdateAPIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
+    def create(self, request, *args, **kwargs):
+        """Upload profile image in BACK-END Server"""
+        # parser_classes = (MultiPartParser, FormParser)
+        # Not implemented yet
+        # Upload image file in S3 from multipart/form-data
+        return super().create(request, args, kwargs)
+
 
 @extend_schema(tags=["Priority-1", "User"], operation_id="회원 탈퇴 가능 여부 확인")
 class ValidateWithdrawalView(GenericAPIView):
