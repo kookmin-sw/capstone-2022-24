@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from providers.models import Provider
-from rest_framework import status, viewsets
+from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.models import Video
@@ -32,6 +32,8 @@ from videos.models import Video
 )
 class HomeView(viewsets.ViewSet):
     """Class that displays a list of videos on the home screen"""
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # permission 처리
 
     sort_dict = {
         "random": "id",
