@@ -5,5 +5,5 @@ from videos.home_view import HomeView
 
 urlpatterns = [
     path("", HomeView.as_view({"get": "list"}), name="home_video_list"),
-    path("tv/<int:video_id>/<int:season_id>", DetailView.as_view({"get": "tv_details"}), name="tv_details"),
+    path("tv/<int:video_id>/seasons/<int:season_num>", DetailView.as_view({"get": "tv_details"}), name="tv_details"),
 ]
