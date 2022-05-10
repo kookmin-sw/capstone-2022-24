@@ -1,5 +1,7 @@
 <template>
 	<!--  <q-separator color="blue" inset />-->
+	<q-separator color="blue-1" size="2px" inset />
+		<q-separator color="blue-4" inset />
 	<div class="footer">
 		<div class="footer-menu-frame row text-left">
 			<router-link to="/introduction">{{ $t('footer.company') }}</router-link>

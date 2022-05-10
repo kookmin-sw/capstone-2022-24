@@ -6,7 +6,7 @@
 			{{ userProfile.nickname }}
 		</div>
 		<!--    TODO: profile img 태그 추가-->
-		<q-avatar rounded color="grey" size="73px" class="q-mb-md" />
+		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100" />
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">전화번호</div>
 			<div>{{ userProfile.phone }}</div>
@@ -18,44 +18,50 @@
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
 			<div>1,000 원</div>
-			<div class="q-ml-lg" @click="chargeCredit">충전하기</div>
+			<div
+				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
+				style="cursor: pointer"
+				@click="chargeCredit">
+				충전하기
+			</div>
 		</div>
-		<div class="row q-mb-sm text-left">
+		<div class="row text-left">
 			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
-			<div class="q-ml-lg text-grey">등록/수정</div>
+			<div class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4" style="cursor: pointer">등록/수정</div>
 		</div>
-    <div class="row">
-      <q-btn color="blue" outline @click="chargeCredit">충전하기</q-btn>
-    </div>
 	</div>
 	<!-- 모임 영역 -->
-	<q-separator color="blue" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<div class="column q-ma-xl">
 		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
-		<div class="row q-mb-md">
+		<div class="row">
 			<q-avatar
 				rounded
-				color="grey"
+				color="grey-4"
 				size="40px"
 				class="q-mr-sm"
 				v-for="group in getGroupList"
 				:key="group.id"
 				@click="clickGroupLogo(group.id)">
-				<div>{{ group.logoUrl }}</div>
+				<div style="font-size: 12px">{{ group.logoUrl }}</div>
 			</q-avatar>
-			<q-btn outline color="blue">+</q-btn>
+			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
 		</div>
 		<!-- 모임 탈퇴 -->
 		<div class="text-left align-right">
 			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>
 		</div>
 		<!-- 모임 상세 정보 -->
-		<div class="q-mb-lg bg-blue-1">
+		<div class="q-mb-lg bg-blue-70">
 			<!-- 모임 상태 뱃지 -->
 			<div class="align-right">
-				<q-badge color="blue" text-color="white" align="top" class="q-pa-sm">
+				<q-badge
+					text-color="white"
+					align="top"
+					class="q-pa-sm bg-blue-200 text-body2">
 					모임 상태 &amp; D-day
 				</q-badge>
 			</div>
@@ -79,7 +85,7 @@
 						class="col"
 						v-for="fellow in getSelectGroup.fellows"
 						:key="fellow.nickname">
-						<q-avatar rounded color="grey" size="73px" />
+						<q-avatar rounded size="73px" class="bg-blue-100" />
 						<div>{{ fellow.nickname }}</div>
 					</div>
 					<q-space class="col-2" />
@@ -97,11 +103,14 @@
 			</div>
 			<div class="row">
 				<q-space class="col-8" />
-				<q-btn outline color="blue" class="q-mr-sm">
+				<q-btn outline class="q-mr-sm text-blue-200">
 					신고<q-icon name="no_accounts" />
 				</q-btn>
-				<q-btn outline color="blue">
-					<a :href="getSelectGroup.provider.link" target="_blank">
+				<q-btn outline class="text-blue-200">
+					<a
+						:href="getSelectGroup.provider.link"
+						target="_blank"
+						class="text-blue-200">
 						{{ getSelectGroup.provider.name }} 바로가기
 					</a>
 					<q-icon name="arrow_right_alt" />
@@ -111,7 +120,8 @@
 	</div>
 
 	<!--  최근 조회 작품  -->
-	<q-separator color="blue" inset />
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
 	<user-videos
 		:title="recentList.title"
 		:video-list="getRecentList"
@@ -119,7 +129,6 @@
 		:expand-id="recentList.expandId" />
 
 	<!--  찜한 작품  -->
-	<q-separator color="blue" inset />
 	<user-videos
 		:title="dibList.title"
 		:video-list="getDibList"
@@ -144,7 +153,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/userVideos';
-import { loadTossPayments } from "@tosspayments/payment-sdk";
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
@@ -221,9 +230,5 @@ export default {
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
-}
-
-a {
-	color: #0074d9;
 }
 </style>

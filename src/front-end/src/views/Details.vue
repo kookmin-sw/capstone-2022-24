@@ -44,11 +44,7 @@
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
 				<q-card flat bordered class="q-ma-sm">
-					<q-tabs
-						dense
-						class="text-blue-100"
-						align="justify"
-						v-model="tab">
+					<q-tabs dense class="text-blue-100" align="justify" v-model="tab">
 						<q-tab name="all" label="전체" />
 					</q-tabs>
 					<q-tab-panels v-model="tab">

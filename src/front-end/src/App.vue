@@ -7,7 +7,6 @@
 			<router-view />
 		</div>
 		<footer>
-			<q-separator color="blue" inset />
 			<service-footer />
 		</footer>
 	</div>

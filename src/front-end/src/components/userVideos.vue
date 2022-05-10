@@ -13,9 +13,9 @@
 			padding
 			arrows
 			ref="carousel"
-			control-color="primary"
+			control-color="blue-4"
 			height="230px"
-			class="bg-blue-1">
+			class="bg-blue-70">
 			<q-carousel-slide
 				:name="page"
 				v-for="page in videoList.totalPage"
@@ -25,7 +25,7 @@
 					v-if="videoList.results[page - 1]">
 					<div v-if="videoList.totalResult === 0">추가된 작품이 없습니다.</div>
 					<div
-						class="video-poster"
+						class="video-poster bg-grey-4"
 						v-for="video in videoList.results[page - 1].videos"
 						:key="video.id">
 						{{ video.posterUrl }}
@@ -93,6 +93,5 @@ export default {
 	height: 0;
 	padding-bottom: 20%;
 	margin: 0 12px 0 0;
-	background: lightgrey;
 }
 </style>
