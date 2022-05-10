@@ -117,10 +117,10 @@ class GoogleLoginView(SocialLoginView):
                         required=app_settings.USERNAME_REQUIRED,
                         validators=[UniqueValidator(queryset=User.objects.all())],
                     ),
-                    "profile_image_url": serializers.URLField(required=False),
+                    "profileImageUrl": serializers.URLField(required=False),
                     "name": serializers.CharField(),
                     "email": serializers.EmailField(),
-                    "is_verified": serializers.BooleanField(),
+                    "isVerified": serializers.BooleanField(),
                 },
             ),
         )
