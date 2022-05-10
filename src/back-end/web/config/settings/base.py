@@ -53,6 +53,7 @@ CUSTOM_APPS = [
     "watching_marks",
     "tv_details",
     "mypages",
+    "reports",
 ]
 
 INSTALLED_APPS = [
