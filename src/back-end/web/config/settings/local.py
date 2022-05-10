@@ -63,3 +63,8 @@ CORS_ORIGIN_WHITELIST = [
     f"http://localhost:{APP_PORT}",
     f"http://127.0.0.1:{APP_PORT}",
 ]
+
+# static / media storage
+DEFAULT_FILE_STORAGE = "config.storages.development.MediaStorage"
+STATICFILES_STORAGE = "config.storages.development.StaticStorage"
+AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN")
