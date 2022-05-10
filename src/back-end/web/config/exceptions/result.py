@@ -11,7 +11,8 @@ class NoneResultException(APIException):
 
 
 class NoneVideoException(APIException):
-    """custom"""
+    """Custom Exception for None Video"""
 
     status_code = 404
-    dafault_detail = "없는 비디오"
+    default_detail = "존재하지 않은 작품입니다."
+    default_code = "None Video"
