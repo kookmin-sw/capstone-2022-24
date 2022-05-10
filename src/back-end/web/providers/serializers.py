@@ -10,7 +10,8 @@ class ProviderSerializer(serializers.ModelSerializer):
         """Meatadata for ProviderSerializer"""
 
         model = Provider
-        exclude = ["logo_key"]
+        fields = ["id", "tmdb_id", "name", "link", "logo_url"]
+        read_only_fields = "__all__"
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
