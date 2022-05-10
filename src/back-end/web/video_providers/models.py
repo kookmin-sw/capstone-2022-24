@@ -42,4 +42,4 @@ class VideoProvider(models.Model):
         db_table = "video_providers"
 
     def __str__(self):
-        return f"{self.video.title}를 제공"
+        return f"{self.video}를 제공"

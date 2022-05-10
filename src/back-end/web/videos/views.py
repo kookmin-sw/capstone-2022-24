@@ -37,7 +37,7 @@ class HomeView(viewsets.ViewSet):
         "random": "id",
         "new": "offer_date",
         "release": "release_date",
-        "dib": "dibs_count",
+        "wish": "wishes_count",
         "star": "star_count",
         "rating": "rating",
     }
@@ -108,10 +108,7 @@ class HomeView(viewsets.ViewSet):
             raise BadFormatException() from e
 
         if providers is not None:
-            if "," in providers:
-                providers = providers.split(",")
-            else:
-                providers = providers.split()
+            providers = providers.split(",")
             query_provider = self.filter_provider(providers)
             queryset = queryset & query_provider
 
