@@ -10,7 +10,7 @@ class ProviderSerializer(serializers.ModelSerializer):
         """Meatadata for ProviderSerializer"""
 
         model = Provider
-        fields = "__all__"
+        exclude = ["logo_key"]
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
