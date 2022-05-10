@@ -70,6 +70,8 @@ class MyPageGroupDefaultSerializer(serializers.ModelSerializer):
     def get_report(self, group):
         """Calculate counts fellows reported"""
         # TODO
+        # 모임 -> 구성원 조회 - 모임 신고 여부 확인 x 구성원- 카운트
+        # 모임 -> 구성원 -> 모임원 조회 - 모임장 신고 여부 확인 x 모임원 - 카운트
         return
 
     def get_account(self, group):
@@ -79,6 +81,10 @@ class MyPageGroupDefaultSerializer(serializers.ModelSerializer):
     def get_fellows(self, group):
         """Get fellows related in the group"""
         # TODO
+        # 모임 -> 구성원 목록 조회
+        # 구성원 -> 사용자 조회: id, profile_image_url, nickname 필드 얻기
+        # 모임원 -> 구성원 조회: isLeader 필드
+        # 구성원.user_id == request.user.id: isMyself 필드
 
 
 class MyPageGroupOthersSerializer(serializers.ModelSerializer):
