@@ -1,10 +1,15 @@
 """Model definition of providers application: Provider, SubscriptionType, Charge"""
 from django.conf import settings
-from django.core.files.storage import get_storage_class
 from django.db import models
 from django.utils import timezone
 
-storage = get_storage_class(settings.STATICFILES_STORAGE)
+
+def get_logo_prefix():
+    """Return prefix to make full logo url"""
+    return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/{settings.STATIC_LOCATION}/"
+
+
+PREFIX = get_logo_prefix()
 
 
 class Provider(models.Model):
@@ -37,7 +42,7 @@ class Provider(models.Model):
     @property
     def logo_url(self):
         """Full logo url stored in static storage"""
-        return f"{storage.url(storage.location+'/'+self.logo_key)}"
+        return f"{PREFIX + self.logo_key}"
 
 
 class SubscriptionType(models.Model):
