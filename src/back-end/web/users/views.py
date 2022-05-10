@@ -77,6 +77,12 @@ class NaverLoginView(SocialLoginView):
 @extend_schema(
     tags=["Priority-1", "User"],
     operation_id="구글 로그인",
+    request=inline_serializer(
+        name="GoogleOAuth2LoginSerializer",
+        fields={
+            "accessToken": serializers.CharField(),
+        },
+    ),
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
@@ -111,6 +117,18 @@ class GoogleLoginView(SocialLoginView):
 @extend_schema(
     tags=["Priority-1", "User"],
     operation_id="회원 가입",
+    request=inline_serializer(
+        name="SignUpRequestSerializer",
+        fields={
+            "nickname": serializers.CharField(
+                max_length=get_username_max_length(),
+                min_length=app_settings.USERNAME_MIN_LENGTH,
+                required=app_settings.USERNAME_REQUIRED,
+                validators=[UniqueValidator(queryset=User.objects.all())],
+            ),
+            "profileImageUrl": serializers.URLField(required=False),
+        },
+    ),
     responses={
         200: OpenApiResponse(
             description="회원 가입 성공",
