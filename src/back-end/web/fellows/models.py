@@ -12,6 +12,7 @@ class Fellow(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    is_leader = models.BooleanField(default=False)
     will_renew = models.BooleanField(default=True)
     creation_date_time = models.DateTimeField(default=timezone.now)
     last_modification_date_time = models.DateTimeField(default=timezone.now)
@@ -55,6 +56,11 @@ class Leader(models.Model):
         """Metadata for leader model"""
 
         db_table = "leader"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
+        # check leader is me
+        self.fellow.is_leader = True
 
     def __str__(self):
         return f"모임장 #{self.id}"
