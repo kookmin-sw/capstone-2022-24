@@ -1,6 +1,10 @@
 """Model definition of providers application: Provider, SubscriptionType, Charge"""
+from django.conf import settings
+from django.core.files.storage import get_storage_class
 from django.db import models
 from django.utils import timezone
+
+storage = get_storage_class(settings.STATICFILES_STORAGE)
 
 
 class Provider(models.Model):
@@ -19,6 +23,7 @@ class Provider(models.Model):
         max_length=2,
         choices=NAME_CHOICES,
     )
+    link = models.URLField()
     logo_key = models.CharField(max_length=100)
 
     class Meta:
@@ -28,6 +33,11 @@ class Provider(models.Model):
 
     def __str__(self):
         return f"{self.get_name_display()}"
+
+    @property
+    def logo_url(self):
+        """Full logo url stored in static storage"""
+        return f"{storage.url(storage.location+'/'+self.logo_key)}"
 
 
 class SubscriptionType(models.Model):
