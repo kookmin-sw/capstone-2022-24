@@ -52,6 +52,7 @@ CUSTOM_APPS = [
     "video_total_counts",
     "watching_marks",
     "tv_details",
+    "mypages",
 ]
 
 INSTALLED_APPS = [
