@@ -76,10 +76,13 @@ class HomeView(viewsets.ViewSet):
         """
         =======Searching=======
         Search : search by video title
-
         """
+
         search_target = self.request.query_params.get("search", default="")
         queryset = self.search(search_target)
+
+        # Review
+        _filter = Q(title__icontains=search_target)
 
         """
         =======filtering=======
@@ -110,10 +113,24 @@ class HomeView(viewsets.ViewSet):
         except FieldError as e:
             raise BadFormatException() from e
 
+        # Review
+        if categories:
+            _filter &= Q(category=categories)
+
+        """
         if providers is not None:
             providers = providers.split(",")
             query_provider = self.filter_provider(providers)
             queryset = queryset & query_provider
+        """
+
+        # Review
+        if providers is not None:
+            _p = providers.split(",")
+            _filter &= Q(videoprovider__provider__name__in=_p)
+
+        # Review
+        queryset = Video.objects.filter(_filter)
 
         """
         =======Sorting=======

@@ -13,13 +13,18 @@ from django.db.models import Q
 from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
+from django.views.generic import RedirectView
+from django.shortcuts import redirect
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Video
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 
 
 def setting_env():
-    """Checking envrionment and Reading Env file"""
+    """Method: Checking envrionment and Reading Env file"""
 
     if "prod" in sys.argv:
         environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.prod"))
@@ -29,6 +34,17 @@ def setting_env():
         sys.argv.remove("dev")
     else:
         environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
+
+
+@extend_schema(
+    tags=["Priority-1", "Video"],
+    operation_id="TV 시즌1 기준으로 리다이렉트 조회",
+    responses={302: OpenApiResponse(description="리다이렉트 성공", response={"result"})},  # 임시처리
+)
+def tv_season_redirect_view(request,video_id):
+    """Method: redirect to TV details page"""
+
+    return HttpResponseRedirect(reverse('tv_details', kwargs={"video_id": video_id, "season_num":1}))
 
 
 @extend_schema(
@@ -126,3 +142,8 @@ class DetailView(viewsets.ViewSet):
         }
 
         return Response(context, status=status.HTTP_200_OK)
+
+    def tv_season_redirect_view(request,video_id):
+        """Method: redirect to TV details page"""
+
+        return HttpResponseRedirect(reverse('tv_details', kwargs={"video_id": video_id, "season_num":1}))
