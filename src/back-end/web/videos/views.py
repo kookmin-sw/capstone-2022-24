@@ -1,41 +1,96 @@
-"""from typing_extensions import runtime
-from rest_framework.pagination import PageNumberPagination #API랑 같이 페이징 할땐 이걸 쓰나봄...? 맞음?
-from rest_framework.generics import ListAPIView
+"""Video Api"""
+
+from config.exceptions.input import BadFormatException
+from config.exceptions.result import NoneResultException
+from django.core.exceptions import FieldError
+from django.core.paginator import Paginator
+from django.db.models import Q
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from providers.models import Provider
+from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
-from .models import Video, VideoDetail
-from videos.serializer import VideosSerialaizer
-from djongo.models import Q
-from django.core.paginator import Paginator #페이징 용도
-from django.views.generic import RedirectView, DetailView
-from rest_framework.filters import SearchFilter
-
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.config.settings")
-import django
-django.setup()
-
-from video_providers.models import VideoProviders
+from video_providers.models import VideoProvider
+from videos.models import Video
 
 
-#Home 화면에서 video 목록을 보여주는 역할
-class HomeView(ListAPIView):
-    serializer_class = Videos #시리얼라이저 등록
+@extend_schema(
+    tags=["Priority-1", "Video"],
+    operation_id="홈화면 작품 목록",
+    parameters=[
+        OpenApiParameter(name="search", description="condtion of searching video title", type=str),
+        OpenApiParameter(
+            name="providers",
+            description="condtion of filtering video providers : WC, AP, WV, NF, DP, multiple filtering = Use ','",
+            type=str,
+        ),
+        OpenApiParameter(name="category", description="condtion of filtering video category : MV, TV", type=str),
+        OpenApiParameter(name="sort", description="video sort condition : Use only only random", type=str),
+        OpenApiParameter(name="page", description="page number", type=int),
+        OpenApiParameter(name="size", description="Number of videos to show on one page", type=int),
+    ],
+    responses={200: OpenApiResponse(description="검색 성공", response={"result"})},  # 어떻게 처리해야할지 잘 모르겠어서 임시처리
+)
+class HomeView(viewsets.ViewSet):
+    """Class that displays a list of videos on the home screen"""
 
-    #모든 뷰 필터링 관련
-    def get_queryset(self): #홈 화면에서 리스트를 전달해줄 함수.. 인데 얘가 곧 필터링/검색/정렬 기능을 포함해야함.
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # permission 처리
 
-        queryset = Videos.object.all() #비디오 목록 전체
+    sort_dict = {
+        "random": "id",
+        "new": "offer_date",
+        "release": "release_date",
+        "wish": "wishes_count",
+        "star": "star_count",
+        "rating": "rating",
+    }
 
-        #검색 조건
-        search= self.request.query_params.get('search', None)
-        if search is not None:
-            queryset = Videos.object.filter(Q(title__icontains=search))
+    def search(self, key):
+        """Method : Process the Search fuction"""
+        try:
+            queryset = Video.objects.filter(Q(title__icontains=key))
+            return queryset
+        except FieldError as e:
+            raise BadFormatException() from e
 
-        #필터링 조건, 조건 안에서는 or처리, 조건 밖에서는 And 처리로 필터링한다.
-        providers = self.request.query_params.get('providers', None)
-        categories = self.request.query_params.get('categories', None)
+    def filter_provider(self, key):
+        """Method : Process the provider filter fuction"""
+        subqueryset = VideoProvider.objects.filter(Q(provider=None))
+
+        try:
+            for item in key:
+                provider_obj = Provider.objects.get(Q(name=item))
+                subqueryset = subqueryset | provider_obj.videoprovider_set.all()
+        except Provider.DoesNotExist as e:
+            raise BadFormatException() from e
+
+        video_list = Video.objects.filter(Q(id=None))
+        for item in subqueryset.values("video"):
+            video_list = video_list | Video.objects.filter(Q(id=item["video"]))
+
+        return video_list
+
+    def list(self, request):
+        """Method: Get Command to search, filter, sort"""
+
+        """
+        =======Searching=======
+        Search : search by video title
+
+        """
+        search_target = self.request.query_params.get("search", default="")
+        queryset = self.search(search_target)
+
+        """
+        =======filtering=======
+        Filter : OR operation within the conditions, AND operation between conditions.
+                filter video by providers, categories
+        """
+
+        providers = self.request.query_params.get("providers", None)
+        categories = self.request.query_params.get("category", None)
+
+        """
+        #아직 구현예정이 없는 필터링 조건
         genres = self.request.query_params.get('genres', None)
         rating_min = self.request.query_params.get('ratingMin', None)
         rating_max = self.request.query_params.get('ratingMax', None)
@@ -45,76 +100,66 @@ class HomeView(ListAPIView):
         release_date_max = self.request.query_params.get('releaseDateMax', None)
         production_country= self.request.query_params.get('productionCountry', None)
         offer_type = self.request.query_params.get('offerTye', None)
-        #watched = self.request.query_params.get('watched', None) 아직 미구현
+        watched = self.request.query_params.get('watched', None)
+        """
 
-        multiple_condition = [providers, genres, production_country, offer_type] #복수의 값이 들어올수 있는 애들 빼둠
-        for item in multiple_condition: #복수로 들어왔는지 확인
-            if item is not None:
-                item = item.split(",")
-            else:
-                item = []
-
-        if categories is not None:
-            queryset= queryset.filter(Q(category=item))
-
-        queryset = queryset.filter(Q(release_date__gt=release_date_min)&Q(release_date__It=release_date_max))
-
-        for item in genres:
-            queryset = queryset|queryset.filter(Q(gernes__icontains=[item]))
-
-        #VideoDetail 모델을 참고해야하는 filtering
-        subqueryset = VideoDetails.objects.all()
-        subqueryset = subqueryset.filter(Q(runtime__gt=runtime_min)&Q(runtime__It=runtime_max))
-        subqueryset = subqueryset.filter(Q(rating__gt=rating_min)&Q(rating__It=rating_max))
-        for item in production_country:
-            subqueryset = subqueryset|subqueryset.filter(Q(production_country=item))
-        #아무튼 1차적으로 여기서 처리해서 And 연산해주기
-
-        #video_providers 모델을 참고해야하는 filtering
-        subqueryset= VideoProviders.objects.all()
-        for item in providers:
-            subqueryset= subqueryset|subqueryset.filter(Q(providers=item))
-        for item in offer_type:
-            subqueryset= subqueryset|subqueryset.filter(Q(offer_type=item))
-        #아무튼 얘네 다 처리해준다음에 And 연산해주는것으로 filtering 종료.
-
-
-        #정렬조건 { random | new | release | dib | star | rating }
-        sort = self.request.query_params.get('sort', default='random')
-        sort_dict= {'random':None, 'new':'offer_date', 'release':'release_date',
-            'dib': 'dibs_count', 'star': 'star_count', 'rating': 'rating'}
         try:
-            if sort_dict[sort] == '': #new일때
-                queryset= queryset.object.order_by(sort_dict[sort]) #이 친구는 video-> provider까지 가야해서 일단 따로 빼둠
-            elif sort_dict[sort]=='': #random 이외.. 랜덤은 처리 아예 안할것임
-                queryset= queryset.object.order_by(sort_dict[sort]) #정렬 기준에 맞춰서 정렬
-        except: #대충 없는값을 전달 받았을 때
-            pass
+            if categories is not None:
+                queryset = queryset.filter(Q(category=categories))
+        except FieldError as e:
+            raise BadFormatException() from e
 
+        if providers is not None:
+            providers = providers.split(",")
+            query_provider = self.filter_provider(providers)
+            queryset = queryset & query_provider
 
-        #페이지네이션 정보
-        page= self.kwargs['page']
-        size = self.kwargs['size']
+        """
+        =======Sorting=======
+        Sort : sort videos ramndomly
+        """
 
-        #그다음에 페이지네이션 처리를 해서 전달한다.
+        sort = self.request.query_params.get("sort", default="random")
+        try:
+            queryset = queryset.order_by(self.sort_dict[sort])
+        except FieldError as e:
+            raise BadFormatException() from e
 
-        return queryset
+        page = self.request.GET.get("page", default=1)
+        size = self.request.GET.get("size", default=25)
+        paginator = Paginator(queryset, size)
+        page_obj = paginator.get_page(page)
 
+        """=======Making Response======="""
 
+        data_lists = []
+        for model in page_obj.object_list:
+            provider_list = []
+            query = VideoProvider.objects.filter(Q(video=model))
+            for video in query:
+                provider_name = video.provider.all().values("name")[0]["name"]
+                provider_list.append(provider_name)
+            temp = {
+                "title": model.title,
+                "title_english": model.title_english,
+                "poster_key": model.poster_key,
+                "film_rating": model.film_rating,
+                "release_date": model.release_date.year,
+                "category": model.category,
+                "providers": provider_list,
+            }
+            data_lists.append(temp)
 
-class TvSeriesDirect(RedirectView): #그냥 시리즈 클릭하면 곧장 시즌 1로 리다이렉트 해주는 클래스
-    url = '' #패턴...명을 지정해도 된다고 하네요?
-    #아무튼 이걸 통해서 재리턴-> 재호출의 흐름을 거치게 할 예정입니다.
+        if len(data_lists) == 0:
+            raise NoneResultException()
 
+        context = {
+            "results": data_lists,
+            "page": {
+                "current": int(page),
+                "total_page": paginator.num_pages,
+                "total_result": paginator.count,
+            },
+        }
 
-class DetailsView(DetailView): #각자 상세정보를 전달해줄 클래스 준비합니다.
-    model= VideoDetails
-    def MovieDetails(): # Movie 상세화면 정보를 전달해줄 클래스
-        return 0
-
-    def TVDetails(): #TV 상세화면 정보를 전달해줄 클래스
-        return 0
-
-    def castsDetails(): #casts 정보 따오기 (TV나 MOVIE나 동일하게 가도 될듯?)
-        return 0
-"""
+        return Response(context, status=status.HTTP_200_OK)

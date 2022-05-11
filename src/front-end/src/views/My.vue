@@ -28,7 +28,7 @@
 		<div class="row text-left">
 			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
-			<div class="q-ml-lg text-grey" style="cursor: pointer">등록/수정</div>
+			<div class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4" style="cursor: pointer">등록/수정</div>
 		</div>
 	</div>
 	<!-- 모임 영역 -->
@@ -103,14 +103,14 @@
 			</div>
 			<div class="row">
 				<q-space class="col-8" />
-				<q-btn outline class="q-mr-sm text-blue-100">
+				<q-btn outline class="q-mr-sm text-blue-200">
 					신고<q-icon name="no_accounts" />
 				</q-btn>
-				<q-btn outline class="text-blue-100">
+				<q-btn outline class="text-blue-200">
 					<a
 						:href="getSelectGroup.provider.link"
 						target="_blank"
-						style="color: #83bbfb">
+						class="text-blue-200">
 						{{ getSelectGroup.provider.name }} 바로가기
 					</a>
 					<q-icon name="arrow_right_alt" />

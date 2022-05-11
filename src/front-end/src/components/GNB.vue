@@ -31,14 +31,14 @@
 					<q-space class="col-3" />
 					<q-btn flat class="my-menu col-4">
 						<router-link :to="`/my/${userProfile.nickname}`">
-							<q-icon name="person" size="md" color="blue" />
+							<q-icon name="person" size="md" color="blue-4" />
 						</router-link>
 					</q-btn>
 					<q-btn flat class="alarm-menu col-4">
 						<q-icon
 							name="notifications_none"
 							size="md"
-							color="blue"
+							color="blue-4"
 							class="alarm-icon" />
 					</q-btn>
 					<q-space class="col-1" />
@@ -48,7 +48,7 @@
 			<div class="btn-wrapper col-2">
 				<q-btn
 					unelevated
-					color="blue"
+					color="blue-4"
 					id="login-btn"
 					v-if="isLogin === false"
 					@click="loginBtnClick">
@@ -64,7 +64,8 @@
 				</q-btn>
 			</div>
 		</div>
-		<q-separator color="blue" inset />
+		<q-separator color="blue-1" size="2px" inset />
+		<q-separator color="blue-4" inset />
 	</div>
 </template>
 

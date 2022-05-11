@@ -22,7 +22,8 @@ jobs:
     - name: Create .env.dev File for Develop environments
       run: |
         mkdir ../environment
-        echo "${{ secrets.ENV }}" > ../environment/.env.dev
+        echo "${{ secrets.ENV }}" > ../environment/.env
+        echo "${{ secrets.ENV_DEV }}" > ../environment/.env.dev
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
