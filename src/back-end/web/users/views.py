@@ -30,6 +30,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.views import TokenRefreshView
 from users.exceptions import NicknameValidationException
 from users.models import User
+from users.schemas import TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE
 from users.serializers import (
     GoogleLoginSerializer,
     NaverLoginSerializer,
@@ -60,8 +61,7 @@ from users.serializers import (
     ],
     responses={
         200: OpenApiResponse(
-            description="네이버 로그인 성공",
-            response=JWTSerializer,
+            response=JWTSerializer, description="네이버 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
         )
     },
 )
@@ -77,17 +77,23 @@ class NaverLoginView(SocialLoginView):
 @extend_schema(
     tags=["Priority-1", "User"],
     operation_id="구글 로그인",
+    request=inline_serializer(
+        name="GoogleOAuth2LoginSerializer",
+        fields={
+            "accessToken": serializers.CharField(),
+        },
+    ),
     parameters=[
         OpenApiParameter(
             name="set-cookie ",
-            description="ongot-token={{ Access Token }}",
+            description="ongot-token={{Access Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=39600;",
             type=str,
             location="cookie",
             response=True,
         ),
         OpenApiParameter(
             name="set-cookie",
-            description="ongot-refresh-token={{ Refresh Token }}",
+            description="ongot-refresh-token={{Refresh Token}}; expires=DAY, DD MON 2022 hh:mm:ss GMT; Max-Age=54000;",
             type=str,
             location="cookie",
             response=True,
@@ -95,8 +101,7 @@ class NaverLoginView(SocialLoginView):
     ],
     responses={
         200: OpenApiResponse(
-            description="구글 로그인 성공",
-            response=JWTSerializer,
+            response=JWTSerializer, description="구글 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
         )
     },
 )
@@ -112,6 +117,18 @@ class GoogleLoginView(SocialLoginView):
 @extend_schema(
     tags=["Priority-1", "User"],
     operation_id="회원 가입",
+    request=inline_serializer(
+        name="SignUpRequestSerializer",
+        fields={
+            "nickname": serializers.CharField(
+                max_length=get_username_max_length(),
+                min_length=app_settings.USERNAME_MIN_LENGTH,
+                required=app_settings.USERNAME_REQUIRED,
+                validators=[UniqueValidator(queryset=User.objects.all())],
+            ),
+            "profileImageUrl": serializers.URLField(required=False),
+        },
+    ),
     responses={
         200: OpenApiResponse(
             description="회원 가입 성공",
@@ -124,10 +141,10 @@ class GoogleLoginView(SocialLoginView):
                         required=app_settings.USERNAME_REQUIRED,
                         validators=[UniqueValidator(queryset=User.objects.all())],
                     ),
-                    "profile_image_url": serializers.URLField(required=False),
+                    "profileImageUrl": serializers.URLField(required=False),
                     "name": serializers.CharField(),
                     "email": serializers.EmailField(),
-                    "is_verified": serializers.BooleanField(),
+                    "isVerified": serializers.BooleanField(),
                 },
             ),
         )
@@ -292,7 +309,15 @@ class UserWithdrawalView(GenericAPIView):
     # TODO
 
 
-@extend_schema(tags=["User"], operation_id="일반 로그인")
+@extend_schema(
+    tags=["User"],
+    operation_id="일반 로그인",
+    responses={
+        200: OpenApiResponse(
+            response=JWTSerializer, description="일반 로그인 성공", examples=[TOKEN_WITH_USER_LOGIN_SUCCESS_RESPONSE_EXAMPLE]
+        )
+    },
+)
 class GeneralLoginView(LoginView):
     """Inherit class of dj_rest_auth LoginView"""
 
