@@ -5,7 +5,7 @@ from users.views import (
     GeneralLogoutView,
     GoogleLoginView,
     NaverLoginView,
-    ProfileImageCreateView,
+    ProfileImageUploadView,
     RefreshTokenView,
     SignUpView,
     UserWithdrawalView,
@@ -27,8 +27,8 @@ urlpatterns = [
     path("logout/", GeneralLogoutView.as_view(), name="logout"),
     # validate user fields
     path("validate-nickname/", ValidateNicknameView.as_view(), name="users_validate_nickname"),
-    path("validate-profile-image/", ValidateProfileImageView.as_view(), name="users_alidate_profile_image"),
-    path("profile-image/", ProfileImageCreateView.as_view(), name="users_upload_profile_image"),
+    path("validate-profile-image/", ValidateProfileImageView.as_view(), name="users_validate_profile_image"),
+    path("profile-images/", ProfileImageUploadView.as_view(), name="users_upload_profile_image"),
     # withdrawal
     path(
         "<str:nickname>/validate-withdrawal/",
