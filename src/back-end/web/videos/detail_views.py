@@ -97,9 +97,6 @@ class DetailView(viewsets.ViewSet):
         tv_provider = VideoProvider.objects.filter(Q(video=tv)).values_list(
             "link", "provider__name", "provider__logo_key"
         )
-        print(tv_provider)
-
-        print(tv_provider.query)
 
         """======Making Response======"""
 
