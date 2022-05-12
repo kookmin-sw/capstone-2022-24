@@ -1,16 +1,21 @@
-"""Video Api"""
+"""APIs of Video application : HomeView"""
+# pylint: disable=R0914
 
 from config.exceptions.input import BadFormatException
-from config.exceptions.result import NoneResultException
-from django.core.exceptions import FieldError
-from django.core.paginator import Paginator
+from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
-from providers.models import Provider
 from rest_framework import permissions, status, viewsets
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.models import Video
+
+
+class VideoListPagination(LimitOffsetPagination):
+    """Custom Pagenation Class to provide Video Home View List"""
+
+    default_limit = 24
 
 
 @extend_schema(
@@ -33,7 +38,7 @@ from videos.models import Video
 class HomeView(viewsets.ViewSet):
     """Class that displays a list of videos on the home screen"""
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  # permission 처리
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     sort_dict = {
         "random": "id",
@@ -44,41 +49,17 @@ class HomeView(viewsets.ViewSet):
         "rating": "rating",
     }
 
-    def search(self, key):
-        """Method : Process the Search fuction"""
-        try:
-            queryset = Video.objects.filter(Q(title__icontains=key))
-            return queryset
-        except FieldError as e:
-            raise BadFormatException() from e
-
-    def filter_provider(self, key):
-        """Method : Process the provider filter fuction"""
-        subqueryset = VideoProvider.objects.filter(Q(provider=None))
-
-        try:
-            for item in key:
-                provider_obj = Provider.objects.get(Q(name=item))
-                subqueryset = subqueryset | provider_obj.videoprovider_set.all()
-        except Provider.DoesNotExist as e:
-            raise BadFormatException() from e
-
-        video_list = Video.objects.filter(Q(id=None))
-        for item in subqueryset.values("video"):
-            video_list = video_list | Video.objects.filter(Q(id=item["video"]))
-
-        return video_list
-
     def list(self, request):
         """Method: Get Command to search, filter, sort"""
 
         """
         =======Searching=======
         Search : search by video title
-
         """
+
         search_target = self.request.query_params.get("search", default="")
-        queryset = self.search(search_target)
+
+        _filter = Q(title__icontains=search_target)
 
         """
         =======filtering=======
@@ -103,16 +84,14 @@ class HomeView(viewsets.ViewSet):
         watched = self.request.query_params.get('watched', None)
         """
 
-        try:
-            if categories is not None:
-                queryset = queryset.filter(Q(category=categories))
-        except FieldError as e:
-            raise BadFormatException() from e
+        if categories:
+            _filter &= Q(category=categories)
 
-        if providers is not None:
-            providers = providers.split(",")
-            query_provider = self.filter_provider(providers)
-            queryset = queryset & query_provider
+        if providers:
+            _p = providers.split(",")
+            _filter &= Q(videoprovider__provider__name__in=_p)
+
+        queryset = Video.objects.filter(_filter)
 
         """
         =======Sorting=======
@@ -121,25 +100,25 @@ class HomeView(viewsets.ViewSet):
 
         sort = self.request.query_params.get("sort", default="random")
         try:
-            queryset = queryset.order_by(self.sort_dict[sort])
-        except FieldError as e:
+            if sort:
+                queryset = queryset.order_by(self.sort_dict[sort])
+        except KeyError as e:
             raise BadFormatException() from e
 
-        page = self.request.GET.get("page", default=1)
-        size = self.request.GET.get("size", default=25)
-        paginator = Paginator(queryset, size)
-        page_obj = paginator.get_page(page)
+        paginator = VideoListPagination()
+        page_obj = paginator.paginate_queryset(queryset, request)
 
         """=======Making Response======="""
 
         data_lists = []
-        for model in page_obj.object_list:
+        for model in page_obj:
             provider_list = []
-            query = VideoProvider.objects.filter(Q(video=model))
+            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name")
             for video in query:
-                provider_name = video.provider.all().values("name")[0]["name"]
+                provider_name = video[0]
                 provider_list.append(provider_name)
             temp = {
+                "video_id": model.id,
                 "title": model.title,
                 "title_english": model.title_english,
                 "poster_key": model.poster_key,
@@ -151,14 +130,14 @@ class HomeView(viewsets.ViewSet):
             data_lists.append(temp)
 
         if len(data_lists) == 0:
-            raise NoneResultException()
+            raise ResultNotFoundException()
 
         context = {
             "results": data_lists,
             "page": {
-                "current": int(page),
-                "total_page": paginator.num_pages,
-                "total_result": paginator.count,
+                "limit": paginator.limit,
+                "offset": paginator.offset,
+                "total_count": paginator.count,
             },
         }
 
