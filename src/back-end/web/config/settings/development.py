@@ -77,4 +77,5 @@ CORS_ORIGIN_WHITELIST = [
     f"http://{env('APP_HOST')}:{env('APP_PORT')}",
 ]
 
+# video api key
 API_KEY_V3 = env("MOVIE_API_KEY_V3")

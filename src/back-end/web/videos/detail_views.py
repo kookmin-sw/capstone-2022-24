@@ -42,56 +42,6 @@ class DetailView(viewsets.ViewSet):
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    def movie_details(self, request, video_id):
-        """Method : Get Command to give the Movie detail informations"""
-
-        movie_id = video_id
-
-        try:
-            movie = Video.objects.get(Q(id=movie_id))
-        except Video.DoesNotExist as e:
-            raise NoneVideoException() from e
-
-        if movie.category != "MV":
-            raise WrongVideoIDException()
-
-        """====Use Open API to Get detail info===="""
-
-        key = movie.tmdb_id
-        movie_url = f"https://api.themoviedb.org/3/movie/{key}?api_key={self.api_key}&language={self.language}"
-        response = requests.get(movie_url)
-        contents = response.text
-
-        json_ob = json.loads(contents)
-        overview = json_ob["overview"]
-
-        movie_provider = VideoProvider.objects.filter(Q(video=movie))
-
-        """======Making Response======"""
-
-        provider_list = []
-
-        for item in movie_provider:
-            print(item.provider__provider)
-            print(item.provider.values_list())
-            provider = {
-                "name": item.provider.get().name,
-                "logo_url": item.provider.get().logo_key,
-                "link": item.link,
-            }
-            provider_list.append(provider)
-
-        context = {
-            "video_id": movie.id,
-            "poster_url": movie.poster_key,
-            "title": movie.title,
-            "title_english": movie.title_english,
-            "overview": overview,
-            "providers": provider_list,
-        }
-
-        return Response(context, status=status.HTTP_200_OK)
-
     def get_season_list(self, json_season):
         """Method: Get the Tv season lists"""
 
@@ -120,16 +70,16 @@ class DetailView(viewsets.ViewSet):
         season_number = season_num
 
         try:
-            TV = Video.objects.get(Q(id=tv_id))
+            tv = Video.objects.get(Q(id=tv_id))
         except Video.DoesNotExist as e:
             raise NoneVideoException() from e
 
-        if TV.category != "TV":
+        if tv.category != "TV":
             raise WrongVideoIDException()
 
         """====Use Open API to Get detail info===="""
 
-        key = TV.tmdb_id
+        key = tv.tmdb_id
         tv_url = f"https://api.themoviedb.org/3/tv/{key}?api_key={self.api_key}&language={self.language}"
         tv_json_ob = self.get_request_to_json(tv_url)
 
@@ -144,13 +94,13 @@ class DetailView(viewsets.ViewSet):
         if "success" in season_json_ob:
             raise NoneVideoException()
 
-        TV_provider = VideoProvider.objects.filter(Q(video=TV))
+        tv_provider = VideoProvider.objects.filter(Q(video=tv))
 
         """======Making Response======"""
 
         provider_list = []
 
-        for item in TV_provider:
+        for item in tv_provider:
             provider = {
                 "name": item.provider.get().name,
                 "logo_url": item.provider.get().logo_key,
@@ -159,15 +109,62 @@ class DetailView(viewsets.ViewSet):
             provider_list.append(provider)
 
         context = {
-            "video_id": TV.id,
-            "poster_url": TV.poster_key,
-            "title": TV.title,
-            "title_english": TV.title_english,
+            "video_id": tv.id,
+            "poster_url": tv.poster_key,
+            "title": tv.title,
+            "title_english": tv.title_english,
             "overview": season_json_ob["overview"],
             "providers": provider_list,
             "total_seasons": tv_json_ob["number_of_seasons"],
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
+        }
+
+        return Response(context, status=status.HTTP_200_OK)
+
+    def movie_details(self, request, video_id):
+        """Method : Get Command to give the Movie detail informations"""
+
+        movie_id = video_id
+
+        try:
+            movie = Video.objects.get(Q(id=movie_id))
+        except Video.DoesNotExist as e:
+            raise NoneVideoException() from e
+
+        if movie.category != "MV":
+            raise WrongVideoIDException()
+
+        """====Use Open API to Get detail info===="""
+
+        key = movie.tmdb_id
+        movie_url = f"https://api.themoviedb.org/3/movie/{key}?api_key={self.api_key}&language={self.language}"
+        json_ob = self.get_request_to_json(movie_url)
+        overview = json_ob["overview"]
+
+        movie_provider = VideoProvider.objects.filter(Q(video=movie))
+
+        """======Making Response======"""
+
+        provider_list = []
+
+        for item in movie_provider:
+            print(item.provider__provider)
+            print(item.provider.values_list())
+            provider = {
+                "name": item.provider.get().name,
+                "logo_url": item.provider.get().logo_key,
+                "link": item.link,
+            }
+            provider_list.append(provider)
+
+        context = {
+            "video_id": movie.id,
+            "poster_url": movie.poster_key,
+            "title": movie.title,
+            "title_english": movie.title_english,
+            "overview": overview,
+            "providers": provider_list,
         }
 
         return Response(context, status=status.HTTP_200_OK)
