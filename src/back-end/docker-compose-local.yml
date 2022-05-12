@@ -86,7 +86,7 @@ services:
       - MEDIA_LOCATION=${MEDIA_LOCATION}
       - AWS_S3_URL=${AWS_S3_URL}
     ports:
-      - "80:80" # http
+      - "9000:80" # http
       - "443:443" # https
     depends_on:
       - web

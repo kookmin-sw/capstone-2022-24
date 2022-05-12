@@ -49,12 +49,6 @@ class HomeView(viewsets.ViewSet):
         "rating": "rating",
     }
 
-    def search(self, key):
-        """Method : Process the Search fuction"""
-
-        queryset = Video.objects.filter(Q(title__icontains=key))
-        return queryset
-
     def list(self, request):
         """Method: Get Command to search, filter, sort"""
 
@@ -64,9 +58,7 @@ class HomeView(viewsets.ViewSet):
         """
 
         search_target = self.request.query_params.get("search", default="")
-        queryset = self.search(search_target)
 
-        # Review
         _filter = Q(title__icontains=search_target)
 
         """
