@@ -20,7 +20,6 @@ from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Video
-from videos.schemas import VIDEO_CATEGORY_NOT_MATCH_EXAMPLE, VIDEO_NOT_FOUND_EXAMPLE
 
 
 @extend_schema(tags=["Priority-1", "Video"], operation_id="TV 시즌1 기준으로 리다이렉트 조회", responses={})
@@ -107,20 +106,18 @@ class DetailView(viewsets.ViewSet):
             400: OpenApiResponse(
                 response=inline_serializer(
                     # meaningless serializer. Just Use to make the example visible
-                    name="tv2Serializer",
+                    name="movie2Serializer",
                     fields={"detail": serializers.CharField()},
                 ),
                 description="작품 종류와 다른 작품 ID 입력",
-                examples=[VIDEO_CATEGORY_NOT_MATCH_EXAMPLE],
             ),
             404: OpenApiResponse(
                 response=inline_serializer(
                     # meaningless serializer. Just Use to make the example visible
-                    name="tv3Serializer",
+                    name="movie3Serializer",
                     fields={"detail": serializers.CharField()},
                 ),
                 description="없는 작품 ID 입력",
-                examples=[VIDEO_NOT_FOUND_EXAMPLE],
             ),
         },
     )
@@ -232,7 +229,6 @@ class DetailView(viewsets.ViewSet):
                     fields={"detail": serializers.CharField()},
                 ),
                 description="작품 종류와 다른 작품 ID 입력",
-                examples=[VIDEO_CATEGORY_NOT_MATCH_EXAMPLE],
             ),
             404: OpenApiResponse(
                 response=inline_serializer(
@@ -241,7 +237,6 @@ class DetailView(viewsets.ViewSet):
                     fields={"detail": serializers.CharField()},
                 ),
                 description="없는 작품 ID 입력",
-                examples=[VIDEO_NOT_FOUND_EXAMPLE],
             ),
         },
     )
