@@ -1,4 +1,5 @@
-"""Video Api"""
+"""APIs of Video application : HomeView"""
+# pylint: disable=R0914
 
 from config.exceptions.input import BadFormatException
 from config.exceptions.result import NoneResultException
@@ -75,7 +76,6 @@ class HomeView(viewsets.ViewSet):
         """
         =======Searching=======
         Search : search by video title
-
         """
         search_target = self.request.query_params.get("search", default="")
         queryset = self.search(search_target)
@@ -137,7 +137,7 @@ class HomeView(viewsets.ViewSet):
             provider_list = []
             query = VideoProvider.objects.filter(Q(video=model))
             for video in query:
-                provider_name = video.provider.all().values("name")[0]["name"]
+                provider_name = video.provider.get().name
                 provider_list.append(provider_name)
             temp = {
                 "title": model.title,
