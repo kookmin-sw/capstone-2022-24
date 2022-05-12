@@ -4,7 +4,7 @@
 import json
 
 import requests
-from config.exceptions.result import videoNotFoundException
+from config.exceptions.result import VideoNotFoundException
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -72,7 +72,7 @@ class DetailView(viewsets.ViewSet):
         try:
             tv = Video.objects.get(Q(id=tv_id))
         except Video.DoesNotExist as e:
-            raise videoNotFoundException() from e
+            raise VideoNotFoundException() from e
 
         if tv.category != "TV":
             raise WrongVideoIDException()
@@ -92,7 +92,7 @@ class DetailView(viewsets.ViewSet):
         season_json_ob = self.get_request_to_json(tv_season_url)
 
         if "success" in season_json_ob:
-            raise videoNotFoundException()
+            raise VideoNotFoundException()
 
         tv_provider = VideoProvider.objects.filter(Q(video=tv)).values_list(
             "link", "provider__name", "provider__logo_key"
@@ -132,7 +132,7 @@ class DetailView(viewsets.ViewSet):
         try:
             movie = Video.objects.get(Q(id=movie_id))
         except Video.DoesNotExist as e:
-            raise videoNotFoundException() from e
+            raise VideoNotFoundException() from e
 
         if movie.category != "MV":
             raise WrongVideoIDException()
