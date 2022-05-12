@@ -2,7 +2,7 @@
 from rest_framework.exceptions import APIException
 
 
-class NoneResultException(APIException):
+class resultNotFoundException(APIException):
     """Custom Search Exception for None Result"""
 
     status_code = 404
@@ -10,7 +10,7 @@ class NoneResultException(APIException):
     default_code = "None Result"
 
 
-class NoneVideoException(APIException):
+class VideoNotFoundException(APIException):
     """Custom Exception for None Video"""
 
     status_code = 404

@@ -2,7 +2,7 @@
 # pylint: disable=R0914
 
 from config.exceptions.input import BadFormatException
-from config.exceptions.result import NoneResultException
+from config.exceptions.result import resultNotFoundException
 from django.core.exceptions import FieldError
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -151,9 +151,9 @@ class HomeView(viewsets.ViewSet):
             data_lists.append(temp)
 
         if len(data_lists) == 0:
-            raise NoneResultException()
+            raise resultNotFoundException()
 
-        context = {  # pagenation 쓰는식으로 수정해야함...
+        context = {
             "results": data_lists,
             "page": {
                 "current": int(page),
