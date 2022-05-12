@@ -2,7 +2,7 @@
 # pylint: disable=R0914
 
 from config.exceptions.input import BadFormatException
-from config.exceptions.result import NoneResultException
+from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
 from rest_framework import permissions, status, viewsets
@@ -138,7 +138,7 @@ class HomeView(viewsets.ViewSet):
             data_lists.append(temp)
 
         if len(data_lists) == 0:
-            raise NoneResultException()
+            raise ResultNotFoundException()
 
         context = {
             "results": data_lists,
