@@ -12509,5 +12509,68 @@
     },
     "model": "video_providers.videoprovider",
     "pk": 255
+  },
+  {
+    "fields": {
+      "birthday": "1990-01-01",
+      "cell_phone_number": "010-1234-5678",
+      "email": "ongot@123.com",
+      "is_active": true,
+      "is_admin": true,
+      "is_verified": true,
+      "last_login": "2022-05-12T14:33:59.914",
+      "last_login_date_time": null,
+      "name": "ongot",
+      "nickname": "ongot",
+      "password": "pbkdf2_sha256$320000$yyzRu9gbWhP1q51ZdCuhwb$EMRC92sfULKo4C6H4NLnwniN/zDK62A9se7AigducpI=",
+      "profile_image_url": null,
+      "registration_date_time": "2022-05-11T07:18:41",
+      "total_mileages": 0,
+      "withdrawal_date_time": null
+    },
+    "model": "users.user",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "birthday": "1900-01-01",
+      "cell_phone_number": "000-0000-0000",
+      "email": "kmu.sw.cap.2022@gmail.com",
+      "is_active": true,
+      "is_admin": false,
+      "is_verified": true,
+      "last_login": "2022-05-12T14:33:50.554",
+      "last_login_date_time": null,
+      "name": "\ucea1\uc2a4\ud1a4\ud504\ub85c\uc81d\ud2b8",
+      "nickname": "\ucea1\uc2a4\ud1a4",
+      "password": "!RYiBrzlmYGH34s7100QubYfwslAChpfhtDjRTuV6",
+      "profile_image_url": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3.daumcdn.net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
+      "registration_date_time": "2022-05-11T21:55:32.939",
+      "total_mileages": 0,
+      "withdrawal_date_time": null
+    },
+    "model": "users.user",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "birthday": "1900-01-01",
+      "cell_phone_number": "000-0000-0000",
+      "email": "heeouo@kookmin.ac.kr",
+      "is_active": true,
+      "is_admin": false,
+      "is_verified": false,
+      "last_login": "2022-05-12T14:34:27.813",
+      "last_login_date_time": null,
+      "name": "\u200d\uad6c\ub2e4\ud76c(\ud559\ubd80\uc0dd-\uc18c\ud504\ud2b8\uc6e8\uc5b4\uc804\uacf5)",
+      "nickname": "11644902",
+      "password": "!sKsndchxtumwKBIXmyet5uw2awe4etJpLVZg96of",
+      "profile_image_url": null,
+      "registration_date_time": "2022-05-12T14:34:27.789",
+      "total_mileages": 0,
+      "withdrawal_date_time": null
+    },
+    "model": "users.user",
+    "pk": 3
   }
 ]
