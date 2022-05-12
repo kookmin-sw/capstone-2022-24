@@ -7,7 +7,6 @@ from django.core.exceptions import FieldError
 from django.core.paginator import Paginator
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
-from providers.models import Provider
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
@@ -53,23 +52,6 @@ class HomeView(viewsets.ViewSet):
         except FieldError as e:
             raise BadFormatException() from e
 
-    def filter_provider(self, key):
-        """Method : Process the provider filter fuction"""
-        subqueryset = VideoProvider.objects.filter(Q(provider=None))
-
-        try:
-            for item in key:
-                provider_obj = Provider.objects.get(Q(name=item))
-                subqueryset = subqueryset | provider_obj.videoprovider_set.all()
-        except Provider.DoesNotExist as e:
-            raise BadFormatException() from e
-
-        video_list = Video.objects.filter(Q(id=None))
-        for item in subqueryset.values("video"):
-            video_list = video_list | Video.objects.filter(Q(id=item["video"]))
-
-        return video_list
-
     def list(self, request):
         """Method: Get Command to search, filter, sort"""
 
@@ -107,29 +89,13 @@ class HomeView(viewsets.ViewSet):
         watched = self.request.query_params.get('watched', None)
         """
 
-        try:
-            if categories is not None:
-                queryset = queryset.filter(Q(category=categories))
-        except FieldError as e:
-            raise BadFormatException() from e
-
-        # Review
         if categories:
             _filter &= Q(category=categories)
 
-        """
-        if providers is not None:
-            providers = providers.split(",")
-            query_provider = self.filter_provider(providers)
-            queryset = queryset & query_provider
-        """
-
-        # Review
         if providers is not None:
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        # Review
         queryset = Video.objects.filter(_filter)
 
         """
@@ -153,11 +119,12 @@ class HomeView(viewsets.ViewSet):
         data_lists = []
         for model in page_obj.object_list:
             provider_list = []
-            query = VideoProvider.objects.filter(Q(video=model))
+            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name")
             for video in query:
-                provider_name = video.provider.get().name
+                provider_name = video[0]
                 provider_list.append(provider_name)
             temp = {
+                "video_id": model.id,
                 "title": model.title,
                 "title_english": model.title_english,
                 "poster_key": model.poster_key,
