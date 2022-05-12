@@ -21,9 +21,9 @@ class MyPageSerializer(serializers.Serializer):
         """Get user details of mypage owner"""
         return UserSerializer(user).data
 
-    def get_groups(self, obj):
+    def get_groups(self, user):
         """Get groups details of mypage owner"""
-        return MyPageGroupSerializer(obj)
+        return MyPageGroupSerializer(user)
 
-    def get_videos(self, obj):
+    def get_videos(self, user):
         """Get videos list that user checked"""
