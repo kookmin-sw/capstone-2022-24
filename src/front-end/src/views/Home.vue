@@ -16,6 +16,7 @@
 					flat
 					color="blue"
 					class="border-blue-100 right-radius-2 col-2"
+					@click="searchButtonClick"
 					id="search-btn">
 					<q-icon name="search" />
 				</q-btn>
@@ -178,8 +179,8 @@ export default {
 			selectFilters: {
 				categories: [
 					{ label: '전체', isSelect: false, name: 'all' },
-					{ label: '영화', isSelect: false, name: 'movie' },
-					{ label: 'TV 시리즈', isSelect: false, name: 'tv' },
+					{ label: '영화', isSelect: false, name: 'MV' },
+					{ label: 'TV 시리즈', isSelect: false, name: 'TV' },
 				],
 				genres: [
 					{ label: '전체', isSelect: false, name: 'all' },
@@ -251,6 +252,9 @@ export default {
 			if (this.ottFilters[idx].isSelect === true) {
 				this.selected.ott.push(this.ottFilters[idx].label);
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+		},
+		searchButtonClick() {
+			this.$store.dispatch('videoList/searchVideos', this.search);
 		},
 		initButtonClick() {
 			// 선택형 필터 초기화

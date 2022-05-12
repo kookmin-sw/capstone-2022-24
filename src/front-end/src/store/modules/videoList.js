@@ -17,6 +17,7 @@ export const videoList = {
 		videos: [],
 		totalPage: 0,
 		totalResult: 0,
+		search: '',
 	},
 	getters: {
 		hasResult(state) {
@@ -75,18 +76,24 @@ export const videoList = {
 				state.videos.push(video);
 			});
 		},
+		SET_SEARCH(state, word) {
+			state.search = word;
+		},
 	},
 	actions: {
-		selectCondition({ commit }, condition) {
-			commit(`SET_${condition.name}`, condition.selected);
-		},
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ commit }, size) {
+		async loadVideoList({ state, commit }, size) {
 			// Home.vue
-			const url = `/videos?page=1&size=${size}`;
-			// todo: url에 검색, 필터링, 정렬 조건 붙이기
+			let url = `/videos?page=1&size=${size}`;
+			if (state.search) {
+				url += `&search=${state.search}`;
+			}
+			if (state.filters.categories.length !== 0) {
+				url += `&category=${state.filters.categories}`;
+			}
+
 			await http
 				.get(url)
 				.then(res => {
@@ -98,6 +105,15 @@ export const videoList = {
 				.catch(() => {
 					commit('SET_TOTAL_RESULT', 0);
 				});
+		},
+		async selectCondition({ commit, dispatch }, condition) {
+			commit(`SET_${condition.name}`, condition.selected);
+			dispatch('loadVideoList', 24);
+		},
+		async searchVideos({ commit, dispatch }, word) {
+			// Home.vue
+			commit('SET_SEARCH', word);
+			dispatch('loadVideoList', 24);
 		},
 	},
 };
