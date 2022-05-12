@@ -131,12 +131,12 @@
 				name="navigate_next" />
 			<q-btn
 				flat
-				v-for="(s, index) in sort"
+				v-for="(s, index) in this.sort"
 				:key="index"
 				@click="sortButtonClick(index)"
-				:class="{ 'bg-blue-100': s.isSelect }"
-				>{{ s.label }}</q-btn
-			>
+				:class="{ 'bg-blue-100': s.isSelect }">
+				{{ s.label }}
+			</q-btn>
 		</div>
 		<!-- 작품 목록 -->
 		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
@@ -146,7 +146,10 @@
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div class="row justify-center">
+				<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
+					작품이 존재하지 않습니다.
+				</div>
+				<div class="row justify-center" v-else>
 					<q-spinner-dots color="primary" size="40px" />
 				</div>
 			</template>
@@ -226,7 +229,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('videoList', ['videos']),
+		...mapState('videoList', ['videos', 'totalResult']),
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('videoList/loadVideoList', 24);
@@ -242,7 +245,6 @@ export default {
 		},
 		videoOnLoad() {
 			console.log('loading!!!');
-			// await this.$store.dispatch('videoList/loadVideoList', 24);
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;

@@ -19,10 +19,8 @@ export const videoList = {
 		totalResult: 0,
 	},
 	getters: {
-		hasPage(state) {
-			return !state.videos.length
-				? 0
-				: Math.floor(state.totalResult / state.videos.length);
+		hasResult(state) {
+			return state.videos.length;
 		},
 	},
 	mutations: {
@@ -85,8 +83,9 @@ export const videoList = {
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ getters, commit }, size) {
-			const url = `/videos?page=${getters.hasPage + 1}&size=${size}`;
+		async loadVideoList({ commit }, size) {
+			// Home.vue
+			const url = `/videos?page=1&size=${size}`;
 			// todo: url에 검색, 필터링, 정렬 조건 붙이기
 			await http
 				.get(url)
@@ -96,7 +95,9 @@ export const videoList = {
 					commit('SET_TOTAL_RESULT', data.page.totalResult);
 					commit('INIT_VIDEOS', data.videos);
 				})
-				.catch(err => alert(err));
+				.catch(() => {
+					commit('SET_TOTAL_RESULT', 0);
+				});
 		},
 	},
 };
