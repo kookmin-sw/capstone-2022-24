@@ -76,7 +76,6 @@ class HomeView(viewsets.ViewSet):
         """
         =======Searching=======
         Search : search by video title
-
         """
         search_target = self.request.query_params.get("search", default="")
         queryset = self.search(search_target)
@@ -154,7 +153,7 @@ class HomeView(viewsets.ViewSet):
         if len(data_lists) == 0:
             raise NoneResultException()
 
-        context = {
+        context = {  # pagenation 쓰는식으로 수정해야함...
             "results": data_lists,
             "page": {
                 "current": int(page),
