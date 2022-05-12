@@ -74,6 +74,7 @@ repos:
         types: [json]
       - id: pretty-format-json
         files: ^src/back-end/
+        args: ["--autofix"]
         types: [json]
       - id: trailing-whitespace
         files: ^src/back-end/
