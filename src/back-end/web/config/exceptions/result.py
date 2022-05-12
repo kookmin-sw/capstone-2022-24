@@ -10,7 +10,7 @@ class resultNotFoundException(APIException):
     default_code = "None Result"
 
 
-class VideoNotFoundException(APIException):
+class videoNotFoundException(APIException):
     """Custom Exception for None Video"""
 
     status_code = 404
