@@ -5,7 +5,7 @@ import AWS from 'aws-sdk';
 export const auth = {
 	namespaced: true,
 	state: {
-		token: 'tmp-token',
+		token: null,
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
 			redirectionUri: `${window.location.origin}/login/naver`,
