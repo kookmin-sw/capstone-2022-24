@@ -3,13 +3,11 @@ import GNB from '@/components/GNB.vue';
 
 describe('GNB', () => {
 	const wrapper = mount(GNB, {
-		mocks: {
-			$store: {
-				state: { userId: 'abc' },
-			},
-		},
 		computed: {
 			isLogin: () => false,
+			userProfile() {
+				return { nickname: 'example-nickname' };
+			},
 		},
 	});
 
