@@ -16,13 +16,19 @@ from drf_spectacular.utils import (
     inline_serializer,
 )
 from rest_framework import permissions, serializers, status, viewsets
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Video
 
 
-@extend_schema(tags=["Priority-1", "Video"], operation_id="TV 시즌1 기준으로 리다이렉트 조회", responses={})
+@extend_schema(
+    tags=["Priority-1", "Video"],
+    operation_id="TV 시즌1 기준으로 리다이렉트 조회",
+    responses={301: OpenApiResponse(description="첫번째 시즌으로 리다이렉트 조회")},
+)
+@api_view(["GET"])
 def tv_season_redirect_view(request, video_id):
     """Method: redirect to TV details page"""
 
