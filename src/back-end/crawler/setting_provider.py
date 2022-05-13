@@ -23,7 +23,7 @@ conn = MySQLdb.connect(
 )
 cursor = conn.cursor()
 
-watch_providers = {"8": "NF", "337": "WV", "356": "WC", "97": "DP", "119": "AP"}
+watch_providers = {"8": "NF", "356": "WV", "97": "WC", "337": "DP", "119": "AP"}
 logo_key = {
     "8": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
     "337": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
