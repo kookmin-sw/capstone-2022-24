@@ -2,6 +2,7 @@
 from groups.serializers import MyPageGroupSerializer
 from rest_framework import serializers
 from users.serializers import UserSerializer
+from videos.serializers import MyVideoTotalHistorySerializer
 
 
 class MyPageSerializer(serializers.Serializer):
@@ -23,7 +24,8 @@ class MyPageSerializer(serializers.Serializer):
 
     def get_groups(self, user):
         """Get groups details of mypage owner"""
-        return MyPageGroupSerializer(user)
+        return MyPageGroupSerializer(user).data
 
     def get_videos(self, user):
         """Get videos list that user checked"""
+        return MyVideoTotalHistorySerializer(user).data
