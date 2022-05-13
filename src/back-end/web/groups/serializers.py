@@ -25,3 +25,11 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_group_account(self, obj):
         """Get group account data using GroupAccountSerializer"""
         return GroupAccountSerializer(obj.group_account).data
+
+
+class GruopPaymentSerializer(serializers.Serializer):
+    """Group Payment Serializer"""
+    
+    payment_id = serializers.IntegerField()# 결제 ID
+    amount= serializers.IntegerField()
+    request_date_time= serializers.DateField()
