@@ -144,3 +144,24 @@ class ProfileImageSerializer(serializers.ModelSerializer):
                 "required": True,
             }
         }
+
+
+class UserGroupProfileSerializer(serializers.ModelSerializer):
+    """Users' profile in group details"""
+
+    is_leader = serializers.SerializerMethodField()
+    is_myself = serializers.SerializerMethodField()
+
+    class Meta:
+        """Metadata of UserGroupProfileSerializer"""
+
+        model = User
+        fields = ["id", "nickname", "profile_image_url"]
+
+    def get_is_leader(self, user):
+        """is user leader in the group?"""
+        return bool(user.is_leader)
+
+    def get_is_myself(self, user):
+        """is group fellow == me?"""
+        return user.is_myself
