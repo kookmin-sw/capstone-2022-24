@@ -147,12 +147,11 @@ class HomeView(viewsets.ViewSet):
         if categories:
             _filter &= Q(category=categories)
 
-        queryset = Video.objects.filter(_filter)
         if providers:
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        queryset = Video.objects.filter(_filter)
+        queryset = Video.objects.filter(_filter).distinct()
 
         """
         =======Sorting=======
@@ -174,11 +173,9 @@ class HomeView(viewsets.ViewSet):
         data_lists = []
         for model in page_obj:
             provider_list = []
-            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name")
+            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name").distinct()
             for video in query:
                 _p = video[0]
-                if _p in provider_list:
-                    continue
                 provider_list.append(_p)
             temp = {
                 "video_id": model.id,
