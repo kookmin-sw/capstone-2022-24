@@ -1,9 +1,16 @@
 <template>
 	<div class="discontinue q-ma-xl">
 		<div class="row">
-			<q-btn flat size="16px" class="q-mb-lg q-mr-md">7일 이내 종료 예정작</q-btn>
-			<q-btn flat size="16px" class="q-mb-lg q-mr-md">15일 이내 종료 예정작</q-btn>
-			<q-btn flat size="16px" class="q-mb-lg">30일 이내 종료 예정작</q-btn>
+      <q-btn
+          flat
+          size="16px"
+          class="q-mb-lg q-mr-md"
+          v-for="(d, index) in days"
+          :key="index"
+          @click="daysButtonClick(index)"
+          :class="{ 'text-weight-bold': d.isSelect, 'text-blue-200': d.isSelect }"
+      >{{ d.label }}</q-btn
+      >
 		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
@@ -35,6 +42,11 @@ export default {
 	name: 'Discontinue',
 	data() {
 		return {
+      days: [
+        { label: '7일 이내 종료 예정작', isSelect: true },
+        { label: '15일 이내 종료 예정작', isSelect: false },
+        { label: '30일 이내 종료 예정작', isSelect: false },
+      ],
 			videos: [
 				{},
 				{},
@@ -64,6 +76,14 @@ export default {
 				done();
 			}, 2000);
 		},
+    daysButtonClick(idx) {
+      this.days.forEach(i => {
+        if (i !== idx) {
+          i.isSelect = false;
+        }
+      });
+      this.days[idx].isSelect = true;
+    }
 	},
 };
 </script>
