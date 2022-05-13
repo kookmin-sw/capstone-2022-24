@@ -1,15 +1,22 @@
 <template>
-	<div class="discontinue">
-		<div class="row q-ma-lg">
-			<q-btn flat class="q-mt-lg q-mb-lg"> 7일 이내 종료 예정작</q-btn>
-			<q-btn flat class="q-mt-lg q-mb-lg"> 15일 이내 종료 예정작</q-btn>
-			<q-btn flat class="q-mt-lg q-mb-lg"> 30일 이내 종료 예정작</q-btn>
+	<div class="discontinue q-ma-xl">
+		<div class="row">
+			<q-btn
+				flat
+				size="16px"
+				class="q-mb-lg q-mr-md"
+				v-for="(d, index) in days"
+				:key="index"
+				@click="daysButtonClick(index)"
+				:class="{ 'text-weight-bold': d.isSelect, 'text-blue-200': d.isSelect }"
+				>{{ d.label }}</q-btn
+			>
 		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
-				<div class="row q-ma-lg video-list-frame">
+				<div class="row video-list-frame">
 					<div
-						class="video-poster"
+						class="video-poster bg-grey-4"
 						v-for="(video, index) in videos"
 						:key="index">
 						<q-badge
@@ -35,6 +42,11 @@ export default {
 	name: 'Discontinue',
 	data() {
 		return {
+			days: [
+				{ label: '7일 이내 종료 예정작', isSelect: true },
+				{ label: '15일 이내 종료 예정작', isSelect: false },
+				{ label: '30일 이내 종료 예정작', isSelect: false },
+			],
 			videos: [
 				{},
 				{},
@@ -64,6 +76,14 @@ export default {
 				done();
 			}, 2000);
 		},
+		daysButtonClick(idx) {
+			this.days.forEach(i => {
+				if (i !== idx) {
+					i.isSelect = false;
+				}
+			});
+			this.days[idx].isSelect = true;
+		},
 	},
 };
 </script>
@@ -80,7 +100,6 @@ export default {
 	height: 0;
 	padding-bottom: 20%;
 	margin: 0 0 24px 0;
-	background: lightgrey;
 }
 
 .badge-frame {
