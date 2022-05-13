@@ -12,6 +12,7 @@ class BaseApplySerializer(serializers.Serializer):
     def create(self, validated_data):
         """Not used"""
 
+    fellows = serializers.SerializerMethodField()
     provider = serializers.SerializerMethodField()
     apply_date_time = serializers.DateTimeField()
     status = serializers.SerializerMethodField()
@@ -23,3 +24,7 @@ class BaseApplySerializer(serializers.Serializer):
     def get_status(self, obj):
         """Get default group status - <Recruiting>"""
         return "Recruiting"
+
+    def get_fellows(self, obj):
+        """Empty fellows because group is not composed yet"""
+        return []
