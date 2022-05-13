@@ -233,7 +233,7 @@ export default {
 		...mapState('videoList', ['videos', 'totalResult']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('videoList/loadVideoList', 24);
+		await this.$store.dispatch('videoList/loadVideoList');
 	},
 	methods: {
 		sortButtonClick(idx) {

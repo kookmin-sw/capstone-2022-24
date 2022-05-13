@@ -15,15 +15,10 @@ export const videoList = {
 			watched: [],
 		},
 		videos: [],
-		totalPage: 0,
 		totalResult: 0,
 		search: '',
 	},
-	getters: {
-		hasResult(state) {
-			return state.videos.length;
-		},
-	},
+	getters: {},
 	mutations: {
 		INIT_FILTERS(state) {
 			state.filters.categories.splice(0, state.filters.categories.length);
@@ -84,9 +79,9 @@ export const videoList = {
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ state, commit }, size) {
+		async loadVideoList({ state, commit }) {
 			// Home.vue
-			let url = `/videos?page=1&size=${size}`;
+			let url = `/videos`;
 			if (state.search) {
 				url += `&search=${state.search}`;
 			}
@@ -97,10 +92,10 @@ export const videoList = {
 			await http
 				.get(url)
 				.then(res => {
-					const data = res.data.results;
-					commit('SET_TOTAL_PAGE', data.page.totalPage);
-					commit('SET_TOTAL_RESULT', data.page.totalResult);
-					commit('INIT_VIDEOS', data.videos);
+					const list = res.data.results;
+					const total = res.data.page.totalCount;
+					commit('SET_TOTAL_RESULT', total);
+					commit('INIT_VIDEOS', list);
 				})
 				.catch(() => {
 					commit('SET_TOTAL_RESULT', 0);
