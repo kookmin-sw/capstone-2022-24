@@ -17,6 +17,7 @@ export const videoList = {
 		videos: [],
 		totalResult: 0,
 		search: '',
+		beforeUrl: '',
 	},
 	getters: {},
 	mutations: {
@@ -72,12 +73,15 @@ export const videoList = {
 		SET_SEARCH(state, word) {
 			state.search = word;
 		},
+		SET_BEFOREURL(state, url) {
+			state.beforeUrl = url;
+		},
 	},
 	actions: {
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ commit }, offset) {
+		async loadVideoList({ state, commit }, offset) {
 			// Home.vue
 			let url = `/videos/?offset=${offset}`;
 			// if (state.search) {
@@ -86,17 +90,28 @@ export const videoList = {
 			// if (state.filters.categories.length !== 0) {
 			// 	url += `&category=${state.filters.categories}`;
 			// }
-			await http
-				.get(url)
-				.then(res => {
-					const list = res.data.results;
-					const total = res.data.page.totalCount;
-					commit('SET_TOTAL_RESULT', total);
-					commit('ADD_VIDEOS', list);
-				})
-				.catch(() => {
-					commit('SET_TOTAL_RESULT', 0);
-				});
+			if (url !== state.beforeUrl) {
+				await http
+					.get(url)
+					.then(res => {
+						const list = res.data.results;
+						const total = res.data.page.totalCount;
+						commit('SET_TOTAL_RESULT', total - 1);
+						commit('ADD_VIDEOS', list);
+						commit('SET_BEFOREURL', url);
+					})
+					.catch(() => {
+						commit('SET_TOTAL_RESULT', 0);
+					});
+			}
+
+			// const maxWidth = 6;
+			// const lack = maxWidth - (state.totalResult.length % maxWidth);
+			// if ((state.totalResult === state.videos.length) && (lack !== maxWidth)) {
+			// 	maxWidth.forEach(i => {
+			// 		console.log(i);
+			// 	})
+			// }
 		},
 		async selectCondition({ commit, dispatch }, condition) {
 			commit(`SET_${condition.name}`, condition.selected);

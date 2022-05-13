@@ -140,7 +140,11 @@
 			</q-btn>
 		</div>
 		<!-- 작품 목록 -->
-		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
+		<q-infinite-scroll
+			:offset="250"
+			@load="videoOnLoad"
+			id="videos-container"
+			:number="1">
 			<div class="row" id="videos-wrapper">
 				<div class="videos" v-for="video in videos" :key="video.id">
 					<img
@@ -154,11 +158,9 @@
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
-			<!--			<div-->
-			<!--				class="q-mb-xl text-h6 text-bold"-->
-			<!--				v-if="!totalResult & !this.list.length">-->
-			<!--				작품이 존재하지 않습니다.-->
-			<!--			</div>-->
+			<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
+				작품이 존재하지 않습니다.
+			</div>
 		</q-infinite-scroll>
 	</div>
 </template>
@@ -232,6 +234,8 @@ export default {
 			selected: {
 				ott: [],
 			},
+			limit: 24,
+			videoList: new Set(),
 		};
 	},
 	computed: {
@@ -239,7 +243,6 @@ export default {
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('videoList/loadVideoList', 0);
-		console.log('before create:', this.totalResult, this.videos.length);
 	},
 	methods: {
 		sortButtonClick(idx) {
@@ -251,7 +254,7 @@ export default {
 			this.sort[idx].isSelect = true;
 		},
 		async videoOnLoad(index, done) {
-			if (this.videos.length < this.totalResult) {
+			if (this.videos.length <= this.totalResult) {
 				setTimeout(() => {
 					this.$store.dispatch('videoList/loadVideoList', this.videos.length);
 					done();
