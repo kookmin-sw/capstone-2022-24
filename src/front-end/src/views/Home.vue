@@ -142,7 +142,7 @@
 		<!-- 작품 목록 -->
 		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
 			<div class="row" id="videos-wrapper">
-				<div class="videos" v-for="(video, index) in videos" :key="index">
+				<div class="videos" v-for="video in videos" :key="video.id">
 					<img
 						:src="video.posterKey"
 						:alt="video.title"
@@ -150,15 +150,15 @@
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div
-					class="q-mb-xl text-h6 text-bold"
-					v-if="!totalResult || totalResult === videos.length">
-					작품이 존재하지 않습니다.
-				</div>
-				<div class="row justify-center" v-else>
+				<div class="row justify-center" v-if="videos.length < totalResult">
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
+			<!--			<div-->
+			<!--				class="q-mb-xl text-h6 text-bold"-->
+			<!--				v-if="!totalResult & !this.list.length">-->
+			<!--				작품이 존재하지 않습니다.-->
+			<!--			</div>-->
 		</q-infinite-scroll>
 	</div>
 </template>
@@ -238,7 +238,8 @@ export default {
 		...mapState('videoList', ['videos', 'totalResult']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('videoList/loadVideoList');
+		await this.$store.dispatch('videoList/loadVideoList', 0);
+		console.log('before create:', this.totalResult, this.videos.length);
 	},
 	methods: {
 		sortButtonClick(idx) {
@@ -249,8 +250,13 @@ export default {
 			});
 			this.sort[idx].isSelect = true;
 		},
-		videoOnLoad() {
-			console.log('loading!!!');
+		async videoOnLoad(index, done) {
+			if (this.videos.length < this.totalResult) {
+				setTimeout(() => {
+					this.$store.dispatch('videoList/loadVideoList', this.videos.length);
+					done();
+				}, 1000);
+			}
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
@@ -295,7 +301,6 @@ export default {
 	padding-bottom: 21%;
 	margin: 0 0 24px 0;
 	background: lightgrey;
-	/*justify-content: center;*/
 	align-content: center;
 	overflow-y: hidden;
 }

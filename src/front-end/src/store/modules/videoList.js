@@ -66,10 +66,8 @@ export const videoList = {
 		SET_TOTAL_RESULT(state, cnt) {
 			state.totalResult = cnt;
 		},
-		INIT_VIDEOS(state, videos) {
-			videos.forEach(video => {
-				state.videos.push(video);
-			});
+		ADD_VIDEOS(state, videos) {
+			state.videos = [...state.videos, ...videos];
 		},
 		SET_SEARCH(state, word) {
 			state.search = word;
@@ -79,23 +77,22 @@ export const videoList = {
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ state, commit }) {
+		async loadVideoList({ commit }, offset) {
 			// Home.vue
-			let url = `/videos`;
-			if (state.search) {
-				url += `&search=${state.search}`;
-			}
-			if (state.filters.categories.length !== 0) {
-				url += `&category=${state.filters.categories}`;
-			}
-
+			let url = `/videos/?offset=${offset}`;
+			// if (state.search) {
+			// 	url += `&search=${state.search}`;
+			// }
+			// if (state.filters.categories.length !== 0) {
+			// 	url += `&category=${state.filters.categories}`;
+			// }
 			await http
 				.get(url)
 				.then(res => {
 					const list = res.data.results;
 					const total = res.data.page.totalCount;
 					commit('SET_TOTAL_RESULT', total);
-					commit('INIT_VIDEOS', list);
+					commit('ADD_VIDEOS', list);
 				})
 				.catch(() => {
 					commit('SET_TOTAL_RESULT', 0);
