@@ -14,7 +14,18 @@ class MyPageDetailView(APIView):
     사용자 정보 조회 (사용자/참여중인 모임/최근 조회작/관람작/찜작 - 첫페이지 작품까지 포함)
     """
 
-    queryset = User.objects.all()
+    queryset = User.objects.prefetch_related(
+        "fellow_set",
+        "fellow_set__group",
+        "fellow_set__group__provider",
+        "fellow_set__group__group_account",
+        "fellow_set__member",
+        "fellow_set__group",
+        "leaderapply_set",
+        "memberapply_set",
+        "leaderapply_set__provider",
+        "memberapply_set__provider",
+    )
     serializer_class = MyPageSerializer
 
     def get_user(self):
