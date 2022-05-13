@@ -135,7 +135,7 @@
 				v-for="(s, index) in this.sort"
 				:key="index"
 				@click="sortButtonClick(index)"
-				:class="{ 'bg-blue-100': s.isSelect }">
+				:class="{ 'text-blue-200 text-bold': s.isSelect }">
 				{{ s.label }}
 			</q-btn>
 		</div>
@@ -143,7 +143,10 @@
 		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
 			<div class="row" id="videos-wrapper">
 				<div class="videos" v-for="(video, index) in videos" :key="index">
-					{{ video.posterKey }}
+					<img
+						:src="video.posterKey"
+						:alt="video.title"
+						style="width: 100%; object-fit: cover" />
 				</div>
 			</div>
 			<template v-slot:loading>
