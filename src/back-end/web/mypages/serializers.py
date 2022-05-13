@@ -2,10 +2,10 @@
 from applies.serializers import BaseApplySerializer
 from group_accounts.serializers import GroupAccountSerializer
 from groups.models import Group
+from mypages.pagination import VideoHistoryPagination
 from providers.serializers import ProviderSerializer
 from reports.serializers import ReportSerializer
 from rest_framework import serializers
-from rest_framework.fields import CurrentUserDefault
 from users.models import User
 from users.serializers import UserSerializer
 from videos.models import Video
@@ -31,11 +31,11 @@ class MyPageSerializer(serializers.Serializer):
 
     def get_groups(self, user: User):
         """Get groups details of mypage owner"""
-        return MyPageGroupSerializer(user).data
+        return MyPageGroupSerializer(user, context={"request": self.context.get("request")}).data
 
     def get_videos(self, user):
         """Get videos list that user checked"""
-        return VideoTotalHistorySerializer(user).data
+        return VideoTotalHistorySerializer(user, context={"request": self.context.get("request")}).data
 
 
 class MyPageGroupSerializer(serializers.Serializer):
@@ -65,9 +65,9 @@ class MyPageGroupSerializer(serializers.Serializer):
             _default = BaseApplySerializer(_member_applies.first()).data
             _member_applies = _member_applies[1:]
 
-        _others = [
+        _others = (
             BaseApplySerializer(_leader_applies, many=True).data + BaseApplySerializer(_member_applies, many=True).data
-        ]
+        )
 
         # 2. get joined groups
         groups = {}
@@ -80,27 +80,27 @@ class MyPageGroupSerializer(serializers.Serializer):
                 _default_group = _joined_groups[0]  # type: Group
                 _others_start_idx = 1
                 # get report details
-                _has_reported = False
-                _reported_logs = [
-                    (
-                        _has_reported := fellow.has_reported if fellow.id == instance.id else fellow.has_reported,
-                        fellow.member.has_reported_leader,
-                    )
-                    for fellow in _default_group.fellow_set
-                ]
-                _report = list(zip(*_reported_logs))
-                _default_report = dict(
-                    has_reported=_has_reported, report_count=sum(_report[0]), report_leader_count=sum(_report[1])
-                )
                 # make _default result
+                _default_report = dict(reported=False, report_count=0, leader_report_count=0)
+                _fellows = _default_group.fellow_set.all()
+                _fellow_users = []
+                for f in _fellows:
+                    if _member := getattr(f, "member", None):
+                        _default_report["leader_report_count"] += _member.has_reported_leader
+                    if f.id == instance.id:
+                        _default_report["reported"] = f.has_reported
+                    _default_report["report_count"] += f.has_reported
+                    _fellow_users.append(
+                        UserFellowProfileSerializer(
+                            f.user, context={"is_leader": not _member, "request": self.context["request"]}
+                        ).data
+                    )
+
                 _default = dict(
                     provider=ProviderSerializer(_default_group.provider).data,
                     status=_default_group.status,
                     time_stamps=MyPageGroupTimeStampSerializer(_default_group).data,
-                    fellows=[
-                        UserFellowProfileSerializer(u).data
-                        for u in User.objects.filter(fellow__group_id=_default_group.id).all()
-                    ],
+                    fellows=_fellow_users,
                     account=GroupAccountSerializer(_default_group.group_account).data,
                     report=ReportSerializer(_default_report).data,
                 )
@@ -152,15 +152,15 @@ class UserFellowProfileSerializer(serializers.ModelSerializer):
         """Metadata of UserGroupProfileSerializer"""
 
         model = User
-        fields = ["id", "nickname", "profile_image_url"]
+        fields = ["id", "nickname", "profile_image_url", "is_leader", "is_myself"]
 
     def get_is_leader(self, user):
         """is user leader in the group?"""
-        return bool(user.is_leader)
+        return self.context.get("is_leader", False)
 
     def get_is_myself(self, user):
         """is group fellow == me?"""
-        return user == CurrentUserDefault()
+        return user == self.context.get("request").user
 
 
 class VideoTotalHistorySerializer(serializers.Serializer):
@@ -177,22 +177,28 @@ class VideoTotalHistorySerializer(serializers.Serializer):
     wishes = serializers.SerializerMethodField(read_only=True)
     stars = serializers.SerializerMethodField(read_only=True)
 
+    def get_paginated_videos(self, queryset):
+        """Get paginated video histories"""
+        paginator = VideoHistoryPagination()
+        _page = paginator.paginate_queryset(queryset, self.context.get("request"))
+        return paginator.get_paginated_result(VideoHistorySerializer(_page, many=True).data)
+
     def get_recent_views(self, user):
         """Get user's recent view histories"""
         _queryset = Video.objects.prefetch_related("recentview_set__user").filter(recentview__user=user).all()
-        return VideoHistorySerializer(_queryset, many=True).data
+        return self.get_paginated_videos(_queryset)
 
     def get_watch_marks(self, user):
         """Get user's watch mark histories"""
         _queryset = Video.objects.prefetch_related("watchingmark_set__user").filter(watchingmark__user=user).all()
-        return VideoHistorySerializer(_queryset, many=True).data
+        return self.get_paginated_videos(_queryset)
 
     def get_wishes(self, user):
         """Get user's wish histories"""
         _queryset = Video.objects.prefetch_related("wish_set__user").filter(wish__user=user).all()
-        return VideoHistorySerializer(_queryset, many=True).data
+        return self.get_paginated_videos(_queryset)
 
     def get_stars(self, user):
         """Get user's star histories"""
         _queryset = Video.objects.prefetch_related("starrating_set__user").filter(starrating__user=user).all()
-        return VideoHistorySerializer(_queryset, many=True).data
+        return self.get_paginated_videos(_queryset)
