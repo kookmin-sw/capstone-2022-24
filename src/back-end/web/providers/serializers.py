@@ -11,7 +11,7 @@ class ProviderSerializer(serializers.ModelSerializer):
 
         model = Provider
         fields = ["id", "tmdb_id", "name", "link", "logo_url"]
-        read_only_fields = "__all__"
+        read_only_fields = ["__all__"]
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
