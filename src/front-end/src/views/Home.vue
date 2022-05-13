@@ -150,11 +150,13 @@
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
+				<div
+					class="q-mb-xl text-h6 text-bold"
+					v-if="!totalResult || totalResult === videos.length">
 					작품이 존재하지 않습니다.
 				</div>
 				<div class="row justify-center" v-else>
-					<q-spinner-dots color="primary" size="40px" />
+					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
 		</q-infinite-scroll>
