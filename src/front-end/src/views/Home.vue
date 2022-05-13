@@ -290,8 +290,11 @@ export default {
 .videos {
 	width: 15%;
 	height: 0;
-	padding-bottom: 20%;
+	padding-bottom: 21%;
 	margin: 0 0 24px 0;
 	background: lightgrey;
+	/*justify-content: center;*/
+	align-content: center;
+	overflow-y: hidden;
 }
 </style>
