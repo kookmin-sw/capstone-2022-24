@@ -60,12 +60,6 @@ export const auth = {
 		async loginWithSocial({ state, commit }, social) {
 			console.log('login with social');
 			const url = `/users/login/oauth/${social}/`;
-			// const headers = {
-			// 	'Content-Type': 'application/json',
-			// 	'Accept': 'application/json',
-			// 	'X-Host-Override': 'localhost',
-			// 	'Origin': 'http://localhost:3000'
-			// };
 
 			let data = null;
 			social === 'naver'
