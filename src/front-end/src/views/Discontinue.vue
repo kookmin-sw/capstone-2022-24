@@ -1,15 +1,15 @@
 <template>
-	<div class="discontinue">
-		<div class="row q-ma-lg">
-			<q-btn flat class="q-mt-lg q-mb-lg"> 7일 이내 종료 예정작</q-btn>
-			<q-btn flat class="q-mt-lg q-mb-lg"> 15일 이내 종료 예정작</q-btn>
-			<q-btn flat class="q-mt-lg q-mb-lg"> 30일 이내 종료 예정작</q-btn>
+	<div class="discontinue q-ma-xl">
+		<div class="row">
+			<q-btn flat size="16px" class="q-mb-lg q-mr-md">7일 이내 종료 예정작</q-btn>
+			<q-btn flat size="16px" class="q-mb-lg q-mr-md">15일 이내 종료 예정작</q-btn>
+			<q-btn flat size="16px" class="q-mb-lg">30일 이내 종료 예정작</q-btn>
 		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
-				<div class="row q-ma-lg video-list-frame">
+				<div class="row video-list-frame">
 					<div
-						class="video-poster"
+						class="video-poster bg-grey-4"
 						v-for="(video, index) in videos"
 						:key="index">
 						<q-badge
@@ -80,7 +80,6 @@ export default {
 	height: 0;
 	padding-bottom: 20%;
 	margin: 0 0 24px 0;
-	background: lightgrey;
 }
 
 .badge-frame {
