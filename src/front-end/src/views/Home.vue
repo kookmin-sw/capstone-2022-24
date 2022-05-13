@@ -303,7 +303,7 @@ export default {
 	height: 0;
 	padding-bottom: 21%;
 	margin: 0 0 24px 0;
-	background: lightgrey;
+	background: transparent;
 	align-content: center;
 	overflow-y: hidden;
 }

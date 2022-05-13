@@ -99,6 +99,14 @@ export const videoList = {
 						commit('SET_TOTAL_RESULT', total - 1);
 						commit('ADD_VIDEOS', list);
 						commit('SET_BEFOREURL', url);
+
+						if (state.totalResult <= state.videos.length) {
+							const maxWidth = 6;
+							const lack = maxWidth - (state.totalResult % maxWidth) - 1;
+							for (let i = 0; i < lack; i++) {
+								commit('ADD_VIDEOS', [{}]);
+							}
+						}
 					})
 					.catch(() => {
 						commit('SET_TOTAL_RESULT', 0);
@@ -106,6 +114,7 @@ export const videoList = {
 			}
 
 			// const maxWidth = 6;
+			// console.log('max width:' maxWidth);
 			// const lack = maxWidth - (state.totalResult.length % maxWidth);
 			// if ((state.totalResult === state.videos.length) && (lack !== maxWidth)) {
 			// 	maxWidth.forEach(i => {
