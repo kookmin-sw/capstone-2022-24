@@ -36,8 +36,8 @@ class VideoListPagination(LimitOffsetPagination):
         ),
         OpenApiParameter(name="category", description="condtion of filtering video category : MV, TV", type=str),
         OpenApiParameter(name="sort", description="video sort condition : Use only only random", type=str),
-        OpenApiParameter(name="page", description="page number", type=int),
-        OpenApiParameter(name="size", description="Number of videos to show on one page", type=int),
+        OpenApiParameter(name="limit", description="number of Videos to display", type=int),
+        OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
     ],
     responses={
         200: OpenApiResponse(
@@ -147,6 +147,7 @@ class HomeView(viewsets.ViewSet):
         if categories:
             _filter &= Q(category=categories)
 
+        queryset = Video.objects.filter(_filter)
         if providers:
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
@@ -175,8 +176,10 @@ class HomeView(viewsets.ViewSet):
             provider_list = []
             query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name")
             for video in query:
-                provider_name = video[0]
-                provider_list.append(provider_name)
+                _p = video[0]
+                if _p in provider_list:
+                    continue
+                provider_list.append(_p)
             temp = {
                 "video_id": model.id,
                 "title": model.title,
