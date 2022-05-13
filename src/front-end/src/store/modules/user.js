@@ -10,7 +10,7 @@ export const user = {
 		groupsInfo: [],
 		selectGroup: {},
 		recentList: {},
-		dibList: {},
+		wishList: {},
 		starList: {},
 		watchList: {},
 	},
@@ -24,8 +24,8 @@ export const user = {
 		getRecentList(state) {
 			return state.recentList;
 		},
-		getDibList(state) {
-			return state.dibList;
+		getWishList(state) {
+			return state.wishList;
 		},
 		getStarList(state) {
 			return state.starList;
@@ -53,11 +53,11 @@ export const user = {
 		PUSH_RECENT_LIST(state, videoList) {
 			state.recentList.results.push(videoList);
 		},
-		SET_DIB_LIST(state, videoList) {
-			state.dibList = videoList;
+		SET_WISH_LIST(state, videoList) {
+			state.wishList = videoList;
 		},
-		PUSH_DIB_LIST(state, videoList) {
-			state.dibList.results.push(videoList);
+		PUSH_WISH_LIST(state, videoList) {
+			state.wishList.results.push(videoList);
 		},
 		SET_STAR_LIST(state, videoList) {
 			state.starList = videoList;
@@ -171,16 +171,16 @@ export const user = {
 					commit('SET_RECENT_LIST', recentList);
 
 					// 찜 작
-					const dibList = {
-						totalPage: videos.dibs.page.totalPage,
-						totalResult: videos.dibs.page.totalResult,
+					const wishList = {
+						totalPage: videos.wishes.page.totalPage,
+						totalResult: videos.wishes.page.totalResult,
 						results: [
 							{
-								videos: videos.dibs.results,
+								videos: videos.wishes.results,
 							},
 						],
 					};
-					commit('SET_DIB_LIST', dibList);
+					commit('SET_WISH_LIST', wishList);
 
 					// 별점 작
 					const starList = {
@@ -224,15 +224,15 @@ export const user = {
 					alert(err);
 				});
 		},
-		async pushDibList({ commit }, { page, size }) {
-			const url = `/users/mypage/dibs?page=${page}&size=${size}`;
+		async pushWishList({ commit }, { page, size }) {
+			const url = `/users/mypage/wishes?page=${page}&size=${size}`;
 			http
 				.get(url)
 				.then(res => {
 					const videoList = {
 						videos: res.data.results,
 					};
-					commit('PUSH_DIB_LIST', videoList);
+					commit('PUSH_WISH_LIST', videoList);
 				})
 				.catch(err => {
 					alert(err);
