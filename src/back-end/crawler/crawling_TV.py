@@ -60,18 +60,18 @@ def get_tv_data(file_path):
     results = {}
     Tv_dict = dict_tv_update(file_path)
     for key, value in Tv_dict.items():
-        TV = []
+        tv = []
 
         """Record crawling time"""
         now = datetime.now()
         time = {"crawling_time": now.strftime("%Y-%m-%d %H:%M:%S")}
-        TV.append(time)
+        tv.append(time)
 
         """video base, details Crawler"""
         url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language={language}"
 
         json_ob = get_request_to_object(url)
-        TV.append(json_ob)
+        tv.append(json_ob)
 
         """provider Classification"""
         provider = value["provider_id"]
@@ -91,28 +91,28 @@ def get_tv_data(file_path):
             provider_list.append(obj)
 
         provider_obj = {"provider": provider_list}
-        TV.append(provider_obj)
+        tv.append(provider_obj)
 
         """video english title Crawler"""
         url = f"https://api.themoviedb.org/3/tv/{key}?api_key={api_key}&language=en-US"
         json_ob = get_request_to_object(url)
         title_english = check_vaild(json_ob, "name")
         object_en_title = {"title_english": title_english}
-        TV.append(object_en_title)
+        tv.append(object_en_title)
 
         """video film rating Crawler"""
         url = f"https://api.themoviedb.org/3/tv/{key}/content_ratings?api_key={api_key}&language=en-US"
         json_ob = get_request_to_object(url)
-        TV.append(json_ob)
+        tv.append(json_ob)
 
         """
         casts Crawling : Comment it because there're no plans to use it yet.
         url =  f"https://api.themoviedb.org/3/tv/{key}/credits?api_key={api_key}&language={language}"
         json_ob = get_request_to_object(url)
         casts = {"casts": json_ob["cast"], "crews": json_ob["crew"]}
-        TV.append(casts)
+        tv.append(casts)
         """
-        results[key] = {"data": TV}
+        results[key] = {"data": tv}
 
     return results
 

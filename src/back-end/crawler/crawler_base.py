@@ -5,13 +5,12 @@ import sys
 
 import environ
 import requests
+from check_env import setting_env
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from web.config.settings.base import ENV_DIR
 
 env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env.local"))
-
+setting_env()
 DEBUG = True
 
 watch_providers = ["8", "337", "356", "97", "119"]
