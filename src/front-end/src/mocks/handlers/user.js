@@ -144,7 +144,7 @@ export default [
 							totalResult: 0,
 						},
 					},
-					dibs: {
+					wishes: {
 						results: [
 							{
 								id: 13,
@@ -225,7 +225,7 @@ export default [
 			}),
 		);
 	}),
-	rest.get('/users/mypage/dibs', (req, res, ctx) => {
+	rest.get('/users/mypage/wishes', (req, res, ctx) => {
 		return res(
 			ctx.json({
 				results: [],
