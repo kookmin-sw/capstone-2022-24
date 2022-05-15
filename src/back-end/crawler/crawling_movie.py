@@ -65,7 +65,6 @@ def get_movie_data(file_path):
         try:
             providers = {"providers": json_ob["results"]["KR"]}
         except:
-            print("문제있음")
             continue
         Movie.append(providers)
 
