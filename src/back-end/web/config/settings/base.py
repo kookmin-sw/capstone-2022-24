@@ -26,7 +26,7 @@ env = environ.Env(DEBUG=(bool, True))
 environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -84,6 +84,10 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     # cors
     "corsheaders",
+    # useful extentions
+    "django_extensions",
+    # for debugging
+    "debug_toolbar",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
@@ -111,6 +115,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",  # cors
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug toolbar
     "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
     "config.middleware.csrf.DisableCSRF",  # csrf disable (temporary)
