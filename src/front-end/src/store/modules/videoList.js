@@ -15,16 +15,11 @@ export const videoList = {
 			watched: [],
 		},
 		videos: [],
-		totalPage: 0,
 		totalResult: 0,
+		search: '',
+		beforeUrl: '',
 	},
-	getters: {
-		hasPage(state) {
-			return !state.videos.length
-				? 0
-				: Math.floor(state.totalResult / state.videos.length);
-		},
-	},
+	getters: {},
 	mutations: {
 		INIT_FILTERS(state) {
 			state.filters.categories.splice(0, state.filters.categories.length);
@@ -72,31 +67,69 @@ export const videoList = {
 		SET_TOTAL_RESULT(state, cnt) {
 			state.totalResult = cnt;
 		},
-		INIT_VIDEOS(state, videos) {
-			videos.forEach(video => {
-				state.videos.push(video);
-			});
+		ADD_VIDEOS(state, videos) {
+			state.videos = [...state.videos, ...videos];
+		},
+		SET_SEARCH(state, word) {
+			state.search = word;
+		},
+		SET_BEFOREURL(state, url) {
+			state.beforeUrl = url;
 		},
 	},
 	actions: {
-		selectCondition({ commit }, condition) {
-			commit(`SET_${condition.name}`, condition.selected);
-		},
 		initSelectCondition({ commit }) {
 			commit('INIT_FILTERS');
 		},
-		async loadVideoList({ getters, commit }, size) {
-			const url = `/videos?page=${getters.hasPage + 1}&size=${size}`;
-			// todo: url에 검색, 필터링, 정렬 조건 붙이기
-			await http
-				.get(url)
-				.then(res => {
-					const data = res.data.results;
-					commit('SET_TOTAL_PAGE', data.page.totalPage);
-					commit('SET_TOTAL_RESULT', data.page.totalResult);
-					commit('INIT_VIDEOS', data.videos);
-				})
-				.catch(err => alert(err));
+		async loadVideoList({ state, commit }, offset) {
+			// Home.vue
+			let url = `/videos/?offset=${offset}`;
+			// if (state.search) {
+			// 	url += `&search=${state.search}`;
+			// }
+			// if (state.filters.categories.length !== 0) {
+			// 	url += `&category=${state.filters.categories}`;
+			// }
+			if (url !== state.beforeUrl) {
+				await http
+					.get(url)
+					.then(res => {
+						const list = res.data.results;
+						const total = res.data.page.totalCount;
+						commit('SET_TOTAL_RESULT', total - 1);
+						commit('ADD_VIDEOS', list);
+						commit('SET_BEFOREURL', url);
+
+						if (state.totalResult <= state.videos.length) {
+							const maxWidth = 6;
+							const lack = maxWidth - (state.totalResult % maxWidth) - 1;
+							for (let i = 0; i < lack; i++) {
+								commit('ADD_VIDEOS', [{}]);
+							}
+						}
+					})
+					.catch(() => {
+						commit('SET_TOTAL_RESULT', 0);
+					});
+			}
+
+			// const maxWidth = 6;
+			// console.log('max width:' maxWidth);
+			// const lack = maxWidth - (state.totalResult.length % maxWidth);
+			// if ((state.totalResult === state.videos.length) && (lack !== maxWidth)) {
+			// 	maxWidth.forEach(i => {
+			// 		console.log(i);
+			// 	})
+			// }
+		},
+		async selectCondition({ commit, dispatch }, condition) {
+			commit(`SET_${condition.name}`, condition.selected);
+			dispatch('loadVideoList', 24);
+		},
+		async searchVideos({ commit, dispatch }, word) {
+			// Home.vue
+			commit('SET_SEARCH', word);
+			dispatch('loadVideoList', 24);
 		},
 	},
 };
