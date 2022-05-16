@@ -67,11 +67,15 @@
 					<q-tab-panels v-model="tab">
 						<q-tab-panel name="all">
 							<div class="ott-icons-frame row">
-								<div v-for="provider in videoDetails.providers" :key="provider">
+								<a
+									:href="provider.link"
+									target="_blank"
+									v-for="provider in videoDetails.providers"
+									:key="provider">
 									<q-avatar rounded color="grey-4" size="40px">
 										<img :src="provider.logoUrl" :alt="provider.name" />
 									</q-avatar>
-								</div>
+								</a>
 							</div>
 						</q-tab-panel>
 					</q-tab-panels>
