@@ -109,6 +109,10 @@ export default {
 			serviceOtts: ['', '', '', '', '', '', '', '', ''],
 		};
 	},
+	beforeCreate() {
+		console.log(this.$route.params.videoId);
+		console.log(this.$route.params.category);
+	},
 };
 </script>
 
