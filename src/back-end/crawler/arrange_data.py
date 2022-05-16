@@ -22,7 +22,7 @@ def arrange_movie_data(dicts):
         poster_path = check_vaild(movie_data, "poster_path")
 
         if poster_path is not None:
-            poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
+            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
 
         title_english = eng_data["title_english"]
 
@@ -149,7 +149,7 @@ def arrange_tv_data(dicts):
         poster_path = check_vaild(tv_data, "poster_path")
 
         if poster_path is not None:
-            poster_url = f"https://image.tmdb.org/t/p/original{poster_path}"
+            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
 
         title_english = eng_data["title_english"]
 
