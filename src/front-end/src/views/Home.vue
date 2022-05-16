@@ -37,7 +37,9 @@
 						:key="index"
 						:class="{ 'ott-filter-select': ott.isSelect }"
 						class="q-mr-sm"
-						@click="ottFilterClick(index)" />
+						@click="ottFilterClick(index)">
+						<img :src="ott.logoUrl" :alt="ott.name" />
+					</q-avatar>
 				</div>
 				<!-- 세부 필터 -->
 				<q-list bordered class="q-mb-lg radius-4">
@@ -177,11 +179,34 @@ export default {
 	data() {
 		return {
 			ottFilters: {
-				netflix: { label: '넷플릭스', isSelect: false },
-				watcha: { label: '왓챠', isSelect: false },
-				disneyPlus: { label: '디즈니플러스', isSelect: false },
-				tving: { label: '티빙', isSelect: false },
-				wavve: { label: '웨이브', isSelect: false },
+				netflix: {
+					label: '넷플릭스',
+					isSelect: false,
+					name: 'NF',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg',
+				},
+				watcha: {
+					label: '왓챠',
+					isSelect: false,
+					name: 'WC',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
+				},
+				disneyPlus: {
+					label: '디즈니플러스',
+					isSelect: false,
+					name: 'DP',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
+				},
+				wavve: {
+					label: '웨이브',
+					isSelect: false,
+					name: 'WV',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
+				},
 			},
 			selectFilters: {
 				categories: [
