@@ -75,7 +75,7 @@ const routes = [
 			import(/* webpackChunkName: "Join" */ '@/views/Discontinue.vue'),
 	},
 	{
-		path: '/details/:videoId',
+		path: '/details/:category/:videoId',
 		name: 'Details',
 		component: () =>
 			import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
