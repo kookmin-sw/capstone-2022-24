@@ -7,8 +7,8 @@ class VideoHistoryPagination(LimitOffsetPagination):
     """Video pagenation used in mypage"""
 
     default_limit = 5
-    limit_query_param = "video_limit"
-    offset_query_param = "video_offset"
+    limit_query_param = "videoLimit"
+    offset_query_param = "videoOffset"
 
     def get_paginated_response(self, data):
         """Make paginated response with data"""
@@ -19,7 +19,6 @@ class VideoHistoryPagination(LimitOffsetPagination):
                     "offset": self.offset,
                     "total_count": self.count,
                 },
-                "count": self.count,
                 "results": data,
             }
         )
@@ -32,6 +31,5 @@ class VideoHistoryPagination(LimitOffsetPagination):
                 "offset": self.offset,
                 "total_count": self.count,
             },
-            "count": self.count,
             "results": data,
         }
