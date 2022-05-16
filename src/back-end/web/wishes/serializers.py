@@ -1,9 +1,10 @@
 """Serializers of wish application for json parsing"""
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 from wishes.models import Wish
 
 
-class WishSerializer(serializers.ModelSerializer):
+class WishListSerializer(serializers.ModelSerializer):
     """Serializer of Wish model"""
 
     id = serializers.IntegerField(source="video.id")
@@ -21,4 +22,21 @@ class WishSerializer(serializers.ModelSerializer):
             "title",
             "poster_url",
             "date_time",
+        ]
+        read_only_fields = ["__all__"]
+
+
+class WishSerializer(serializers.ModelSerializer):
+    """WishSerializer used in create & destroy view"""
+
+    class Meta:
+        """Metadata of Wish serializer"""
+
+        model = Wish
+        fields = "__all__"
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Wish.objects.all(),
+                fields=["user", "video"],
+            )
         ]
