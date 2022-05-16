@@ -28,7 +28,7 @@ class Provider(models.Model):
         max_length=2,
         choices=NAME_CHOICES,
     )
-    link = models.URLField()
+    link = models.URLField(default="https://default_ott_link.com")
     logo_key = models.CharField(max_length=100)
 
     class Meta:
