@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
+from datetime import timedelta
 from pathlib import Path
+
+import environ
 
 # web
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,8 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent  # web
 BACKEND_DIR = BASE_DIR.parent
 ENV_DIR = os.path.join(BACKEND_DIR, "environment")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+# read environment file
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(env_file=os.path.join(ENV_DIR, ".env"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -53,27 +57,62 @@ CUSTOM_APPS = [
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "django.contrib.sites",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # static/media file storages
+    "storages",
     # django-rest-framework
     "rest_framework",
-    "storages",
+    "rest_framework.authtoken",
+    # api documentation
     "drf_spectacular",
+    # jwt: json web token
+    "rest_framework_simplejwt.token_blacklist",
+    # dj-rest-auth
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
+    # django-allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.naver",
+    "allauth.socialaccount.providers.google",
+    # cors
+    "corsheaders",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
+    # camel case converter
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+    ),
+    "JSON_UNDERSCOREIZE": {
+        "no_underscore_before_number": True,
+    },
     # API document automation: drf-spectacular
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Permit only to authenticated user
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # cors
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",  # i18n
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "config.middleware.csrf.DisableCSRF",  # csrf disable (temporary)
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -151,7 +190,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LANGUAGE_CODE = "ko-kr"
 
 # CORS
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
@@ -180,7 +218,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # SSL settings
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = True
 
 # user model
@@ -200,7 +238,9 @@ SPECTACULAR_SETTINGS = {
     # list of authentication/permission classes for spectacular's views.
     "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
     # None will default to DRF's AUTHENTICATION_CLASSES
-    "SERVE_AUTHENTICATION": None,
+    "SERVE_AUTHENTICATION": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     # Initialize SwaggerUI with additional OAuth2 configuration.
     # https://swagger.io/docs/open-source-tools/swagger-ui/usage/oauth2/
     "SWAGGER_UI_OAUTH2_CONFIG": {},
@@ -229,13 +269,14 @@ SPECTACULAR_SETTINGS = {
     ],
     # Tags defined in the global scope
     "TAGS": [
-        {"name": "User", "description": "사용자 API"},
-        {"name": "Video", "description": "작품 API"},
-        {"name": "Group", "description": "모임 API"},
         {"name": "Priority-1", "description": "1순위 API"},
         {"name": "Priority-2", "description": "2순위 API"},
         {"name": "Priority-3", "description": "3순위 API"},
         {"name": "Priority-4", "description": "4순위 API"},
+        {"name": "User", "description": "사용자 API"},
+        {"name": "Group", "description": "모임 API"},
+        {"name": "Video", "description": "작품 API"},
+        {"name": "Deprecated", "description": "설계만 반영"},
     ],
     # TODO
     # Oauth2 related settings. used for example by django-oauth2-toolkit.
@@ -264,3 +305,66 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [os.path.join(BACKEND_DIR, "locale")]  # src/back-end/locale
+
+# auth
+SITE_ID = 1
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "nickname"
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_SIGNUP_REDIRECT_URL = "/register/"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGIN_REDIRECT_URL = "/"
+STATE = env("STATE")
+
+# oauth
+SOCIALACCOUNT_ADAPTER = "users.adapter.UserAdapter"
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": env("OAUTH_GOOGLE_CLIENT_ID"),
+            "secret": env("OAUTH_GOOGLE_SECRET"),
+            "key": env("OAUTH_GOOGLE_API_KEY"),
+        },
+        "SCOPE": [
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/user.birthday.read",
+            "https://www.googleapis.com/auth/user.phonenumbers.read",
+        ],
+        "UTH_PARAMS": {
+            "access_type": "online",
+        },
+    },
+    "naver": {
+        "APP": {
+            "client_id": env("OAUTH_NAVER_CLIENT_ID"),
+            "secret": env("OAUTH_NAVER_SECRET"),
+            "key": "",
+        },
+        "SCOPE": ["name", "email", "birthyear", "mobile"],
+    },
+}
+
+# jwt
+REST_USE_JWT = True
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=6),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+JWT_AUTH_COOKIE = "ongot-token"
+JWT_AUTH_REFRESH_COOKIE = "ongot-refresh-token"
+USER_ID_FIELD = "nickname"
+
+REST_AUTH_SERIALIZERS = {
+    "LOGIN_SERIALIZER": "users.serializers.UserLoginSerializer",
+    "REGISTER_SERIALIZER": "users.serializers.UserSignUpSerializer",
+    "USER_DETAILS_SERIALIZER": "users.serializers.UserSerializer",
+}
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+}

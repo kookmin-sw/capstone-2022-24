@@ -4,14 +4,8 @@
 from config.exceptions.input import BadFormatException
 from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
-from drf_spectacular.utils import (
-    OpenApiExample,
-    OpenApiParameter,
-    OpenApiResponse,
-    extend_schema,
-    inline_serializer,
-)
-from rest_framework import permissions, serializers, status, viewsets
+from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
+from rest_framework import permissions, status, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
@@ -36,64 +30,10 @@ class VideoListPagination(LimitOffsetPagination):
         ),
         OpenApiParameter(name="category", description="condtion of filtering video category : MV, TV", type=str),
         OpenApiParameter(name="sort", description="video sort condition : Use only only random", type=str),
-        OpenApiParameter(name="limit", description="number of Videos to display", type=int),
-        OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
+        OpenApiParameter(name="page", description="page number", type=int),
+        OpenApiParameter(name="size", description="Number of videos to show on one page", type=int),
     ],
-    responses={
-        200: OpenApiResponse(
-            response=inline_serializer(
-                # meaningless serializer. Just Use to make the example visible
-                name="videoListSerializer",
-                fields={"result": serializers.CharField()},
-            ),
-            description="검색 성공",
-            examples=[
-                OpenApiExample(
-                    response_only=True,
-                    name="Success Example",
-                    value={
-                        "results": [
-                            {
-                                "videoId": 8,
-                                "title": "인 비트윈",
-                                "titleEnglish": "The In Between",
-                                "posterKey": "https://image.tmdb.org/t/p/original/qcOFxYpBvU8LwaMyKdjCoP7y7we.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2022,
-                                "category": "MV",
-                                "providers": ["NF"],
-                            },
-                            {
-                                "videoId": 9,
-                                "title": "수퍼 소닉",
-                                "titleEnglish": "Sonic the Hedgehog",
-                                "posterKey": "https://image.tmdb.org/t/p/original/pMXOlasWr1IzHGH8HWw1ZTXs6rQ.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2020,
-                                "category": "MV",
-                                "providers": ["WC", "NF", "WC"],
-                            },
-                            {
-                                "videoId": 10,
-                                "title": "벤전스",
-                                "titleEnglish": "Fistful of Vengeance",
-                                "posterKey": "https://image.tmdb.org/t/p/original/3cccEF9QZgV9bLWyupJO41HSrOV.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2022,
-                                "category": "MV",
-                                "providers": ["NF"],
-                            },
-                        ],
-                        "page": {
-                            "limit": 3,
-                            "offset": 10,
-                            "total_count": 176,
-                        },
-                    },
-                )
-            ],
-        )
-    },
+    responses={200: OpenApiResponse(description="검색 성공", response={"result"})},  # 어떻게 처리해야할지 잘 모르겠어서 임시처리
 )
 class HomeView(viewsets.ViewSet):
     """Class that displays a list of videos on the home screen"""
@@ -151,7 +91,7 @@ class HomeView(viewsets.ViewSet):
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        queryset = Video.objects.filter(_filter).distinct()
+        queryset = Video.objects.filter(_filter)
 
         """
         =======Sorting=======
@@ -173,10 +113,10 @@ class HomeView(viewsets.ViewSet):
         data_lists = []
         for model in page_obj:
             provider_list = []
-            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name").distinct()
+            query = VideoProvider.objects.filter(Q(video=model)).values_list("provider__name")
             for video in query:
-                _p = video[0]
-                provider_list.append(_p)
+                provider_name = video[0]
+                provider_list.append(provider_name)
             temp = {
                 "video_id": model.id,
                 "title": model.title,
