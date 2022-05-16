@@ -5,6 +5,7 @@ from config.exceptions.input import (
 )
 from config.exceptions.result import ResultNotFoundException, VideoNotFoundException
 from config.mixins import MultipleFieldLookupMixin
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from mypages.pagination import VideoHistoryPagination
 from rest_framework import permissions, status
 from rest_framework.exceptions import ValidationError
@@ -13,10 +14,15 @@ from rest_framework.response import Response
 from videos.models import Video
 from wishes.exceptions import WishAlreadyExistsException, WishNotFoundException
 from wishes.models import Wish
+from wishes.schemas import WISH_LIST_EXAMPLES
 from wishes.serializers import WishListSerializer, WishSerializer
 
 
 # pylint: disable=R0901
+@extend_schema(
+    tags=["Priority-2", "User"],
+    examples=WISH_LIST_EXAMPLES,
+)
 class WishListView(ListAPIView):
     """Wish apis of user's video history"""
 
@@ -40,6 +46,15 @@ class WishListView(ListAPIView):
         return super().get(self, request, *args, **kwargs)
 
 
+@extend_schema_view(
+    post=extend_schema(
+        tags=["Priority-2", "User"],
+        operation_id="찜 등록",
+        description="Add wish list",
+        request=None,
+    ),
+    delete=extend_schema(tags=["Priority-2", "User"], operation_id="찜 취소", description="Delete from wish list"),
+)
 class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyAPIView):
     """[POST & DELETE] /videos/{video_id}/wishes/"""
 
