@@ -16,3 +16,11 @@ class InvalidPaginationParameterException(APIException):
     status_code = 400
     default_detail = "페이지 요청 형식이 올바르지 않습니다."
     default_code = "invalid Pagination"
+
+
+class InvalidVideoIdException(APIException):
+    """Invalid video_id path parameter"""
+
+    status_code = 400
+    default_detail = "작품 ID가 올바르지 않습니다."
+    default_code = "invalid Video ID"
