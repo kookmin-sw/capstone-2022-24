@@ -1,7 +1,7 @@
 """wishes URL Configuration"""
 from django.urls import path
-from wishes.views import WishView
+from wishes.views import WishViewSet
 
 urlpatterns = [
-    path("", WishView.as_view({"get": "list"}), name="users_mypage_wishes"),
+    path("", WishViewSet.as_view({"get": "list"}), name="users_mypage_wishes"),
 ]

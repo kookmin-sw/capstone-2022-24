@@ -7,7 +7,7 @@ from wishes.serializers import WishSerializer
 
 
 # pylint: disable=R0901
-class WishView(viewsets.ModelViewSet):
+class WishViewSet(viewsets.ModelViewSet):
     """Wish apis of user's video history"""
 
     queryset = Wish.objects.select_related("user", "video")
