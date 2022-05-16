@@ -22,10 +22,10 @@ $ cd [repository path]/src/back-end
 ### Run containers
 Build, (re)create, start, attach, and run containers for the back-end server.
 ```shell
-$ docker-compose -f docker-compose-local.yml --env-file environment/...env.local up --build
+$ docker-compose -f docker-compose-local.yml --env-file environment/..env.local up --build
 ```
 
 cf) Run in the background: add `-d` option
 ```shell
-$ docker-compose -f docker-compose-local.yml --env-file environment/...env.local up -d --build
+$ docker-compose -f docker-compose-local.yml --env-file environment/..env.local up -d --build
 ```

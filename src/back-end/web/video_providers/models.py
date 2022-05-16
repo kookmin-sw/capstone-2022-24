@@ -19,9 +19,8 @@ class VideoProvider(models.Model):
         Video,
         on_delete=models.CASCADE,
     )
-    provider = models.ForeignKey(
+    provider = models.ManyToManyField(
         Provider,
-        on_delete=models.CASCADE,
     )
     offer_type = models.CharField(
         max_length=8,
@@ -43,4 +42,4 @@ class VideoProvider(models.Model):
         db_table = "video_providers"
 
     def __str__(self):
-        return f"{self.video}를 제공"
+        return f"{self.video.title}를 제공하는 {self.provider.name}"

@@ -38,7 +38,7 @@ services:
     container_name: web_local
     build:
       context: .
-      dockerfile : web/\Dockerfile-local
+      dockerfile : web/Dockerfile-local
       args:
         BASE: ${BASE}
         WEB: ${WEB}
