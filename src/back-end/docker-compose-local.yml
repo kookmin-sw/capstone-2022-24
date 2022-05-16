@@ -44,11 +44,12 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-    command: sh -c "python manage.py makemigrations &&
+    command: sh -c "python manage.py reset_db --noinput &&
+                    python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py loaddata data.json &&
                     python manage.py collectstatic --no-input &&
-                    bash ./config/start.sh"
+                    python manage.py runserver 0.0.0.0"
     restart: on-failure
     volumes:
       - ./web:${WEB}
