@@ -22,6 +22,10 @@ class Wish(models.Model):
         """Metadata for wish model"""
 
         db_table = "wish"
+        unique_together = (
+            "user",
+            "video",
+        )
 
     def __str__(self):
         return f"찜 #{self.id}"
