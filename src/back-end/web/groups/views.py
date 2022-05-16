@@ -57,6 +57,9 @@ class GruopPaymentView(viewsets.ViewSet):
 
     def payment(self, request):
         """method: get to payment 처리"""
+        token = request.COOKIES.get('jwt')
+
+        '''
         # request 값 확인
         # provider id로 가격 확인
         # user의 총 마일리지 확인
@@ -90,7 +93,8 @@ class GruopPaymentView(viewsets.ViewSet):
             "amount": _amount,
             "request_date_time": timezone.now,
         }
-        return Response(context, status=status.HTTP_201_CREATED)
+        '''
+        return Response(token, status=status.HTTP_201_CREATED)
 
 
 class GroupApplyView(viewsets.ViewSet):
