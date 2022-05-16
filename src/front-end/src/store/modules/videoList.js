@@ -17,7 +17,8 @@ export const videoList = {
 		videos: [],
 		totalResult: 0,
 		search: '',
-		beforeUrl: '',
+		sort: 'random',
+		providers: '',
 	},
 	getters: {},
 	mutations: {
@@ -73,27 +74,28 @@ export const videoList = {
 		SET_SEARCH(state, word) {
 			state.search = word;
 		},
-		SET_BEFOREURL(state, url) {
-			state.beforeUrl = url;
+		INIT_VIDEOS(state) {
+			state.videos = [];
+			state.totalResult = 0;
 		},
 	},
 	actions: {
-		initSelectCondition({ commit }) {
-			commit('INIT_FILTERS');
-		},
 		async loadVideoList({ state, commit }, offset) {
-			// Home.vue
-			let url = `/videos/?offset=${offset}`;
-
+			let url = `/videos/`;
+			const params = {
+				offset,
+				search: state.search,
+				sort: state.sort,
+				providers: state.providers,
+			};
 			if (url !== state.beforeUrl) {
 				await http
-					.get(url)
+					.get(url, { params })
 					.then(res => {
 						const list = res.data.results;
 						const total = res.data.page.totalCount;
 						commit('SET_TOTAL_RESULT', total - 1);
 						commit('ADD_VIDEOS', list);
-						commit('SET_BEFOREURL', url);
 
 						if (state.totalResult <= state.videos.length) {
 							const maxWidth = 6;
@@ -108,14 +110,18 @@ export const videoList = {
 					});
 			}
 		},
+		async initSelectCondition({ state, commit, dispatch }) {
+			commit('INIT_FILTERS');
+			await dispatch('loadVideoList', state.videos.length);
+		},
 		async selectCondition({ commit, dispatch }, condition) {
 			commit(`SET_${condition.name}`, condition.selected);
 			dispatch('loadVideoList', 24);
 		},
-		async searchVideos({ commit, dispatch }, word) {
-			// Home.vue
+		async searchVideos({ state, commit, dispatch }, word) {
+			commit('INIT_VIDEOS');
 			commit('SET_SEARCH', word);
-			dispatch('loadVideoList', 24);
+			await dispatch('loadVideoList', state.videos.length);
 		},
 	},
 };
