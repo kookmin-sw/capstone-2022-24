@@ -39,6 +39,12 @@ export const videoList = {
 			state.filters.releaseDateMin = 1800;
 			state.filters.releaseDateMax = 2022;
 		},
+		SET_PROVIDERS(state, selected) {
+			state.filters.providers.splice(0, state.filters.providers.length);
+			selected.forEach(cond => {
+				state.filters.providers.push(cond);
+			});
+		},
 		SET_CATEGORIES(state, selected) {
 			state.filters.categories.splice(0, state.filters.categories.length);
 			selected.forEach(cond => {
@@ -96,7 +102,7 @@ export const videoList = {
 				offset,
 				search: state.search,
 				sort: state.sort,
-				providers: state.providers,
+				providers: state.filters.providers.join(','),
 				category: state.filters.categories.join(','),
 			};
 

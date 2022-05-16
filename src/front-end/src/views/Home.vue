@@ -296,8 +296,13 @@ export default {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 			if (this.ottFilters[idx].isSelect === true) {
-				this.selected.ott.push(this.ottFilters[idx].label);
-			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+				this.selected.ott.push(this.ottFilters[idx].name);
+			} else this.selected.ott.splice(this.ottFilters[idx].name, 1);
+			const condition = {
+				name: 'PROVIDERS',
+				selected: this.selected.ott,
+			};
+			this.$store.dispatch('videoList/filterVideos', condition);
 		},
 		searchButtonClick() {
 			this.$store.dispatch('videoList/searchVideos', this.search);
