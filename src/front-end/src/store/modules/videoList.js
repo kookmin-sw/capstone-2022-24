@@ -97,37 +97,38 @@ export const videoList = {
 				search: state.search,
 				sort: state.sort,
 				providers: state.providers,
+				category: state.filters.categories.join(','),
 			};
-			if (url !== state.beforeUrl) {
-				await http
-					.get(url, { params })
-					.then(res => {
-						const list = res.data.results;
-						const total = res.data.page.totalCount;
-						commit('SET_TOTAL_RESULT', total - 1);
-						commit('ADD_VIDEOS', list);
-						commit('SET_LOAD_FAIL', false);
-						if (state.totalResult <= state.videos.length) {
-							const maxWidth = 6;
-							const lack = maxWidth - (state.totalResult % maxWidth) - 1;
-							for (let i = 0; i < lack; i++) {
-								commit('ADD_VIDEOS', [{}]);
-							}
+
+			await http
+				.get(url, { params })
+				.then(res => {
+					const list = res.data.results;
+					const total = res.data.page.totalCount;
+					commit('SET_TOTAL_RESULT', total - 1);
+					commit('ADD_VIDEOS', list);
+					commit('SET_LOAD_FAIL', false);
+					if (state.totalResult <= state.videos.length) {
+						const maxWidth = 6;
+						const lack = maxWidth - (state.totalResult % maxWidth) - 1;
+						for (let i = 0; i < lack; i++) {
+							commit('ADD_VIDEOS', [{}]);
 						}
-					})
-					.catch(() => {
-						commit('INIT_VIDEOS');
-						commit('SET_LOAD_FAIL', true);
-					});
-			}
+					}
+				})
+				.catch(() => {
+					commit('INIT_VIDEOS');
+					commit('SET_LOAD_FAIL', true);
+				});
 		},
 		async initSelectCondition({ state, commit, dispatch }) {
 			commit('INIT_FILTERS');
 			await dispatch('loadVideoList', state.videos.length);
 		},
-		async selectCondition({ commit, dispatch }, condition) {
+		async filterVideos({ commit, dispatch }, condition) {
 			commit(`SET_${condition.name}`, condition.selected);
-			dispatch('loadVideoList', 24);
+			commit('INIT_VIDEOS');
+			dispatch('loadVideoList', 0);
 		},
 		async searchVideos({ commit, dispatch }, word) {
 			commit('INIT_VIDEOS');
