@@ -41,14 +41,9 @@
 						color="blue-4"
 						class="col q-ma-sm"
 						v-model="season"
-						:options="videoDetails.seasons">
-						<template v-slot:option="scope">
-							<q-item v-bind="scope.itemProps">
-								<q-item-section>
-									<q-item-label>{{ scope.opt.name }}</q-item-label>
-								</q-item-section>
-							</q-item>
-						</template>
+						:options="videoDetails.seasons"
+						:option-value="'number'"
+						:option-label="'name'">
 					</q-select>
 
 					<q-btn outline class="col q-ma-sm text-blue-200">찜 하기</q-btn>
@@ -81,7 +76,8 @@
 	<!-- 작품 줄거리 영역 -->
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">줄거리</div>
-		<div>{{ videoDetails.overview }}</div>
+		<div v-if="!videoDetails.overview">등록된 줄거리가 없습니다.</div>
+		<div v-else>{{ videoDetails.overview }}</div>
 	</div>
 	<!-- hr -->
 	<!--	<q-separator color="blue-1" size="2px" inset />-->
@@ -119,7 +115,6 @@ export default {
 	data() {
 		return {
 			season: '시즌 1',
-			seasons: ['시즌 1', '시즌 2', '시즌 3'],
 			tab: 'all',
 			staff: ['', '', '', '', ''],
 		};
@@ -130,6 +125,16 @@ export default {
 	watch: {
 		season: function () {
 			console.log(this.season);
+			const videoId = this.$route.params.videoId;
+			let category;
+			this.$route.params.category === 'MV'
+				? (category = 'movie')
+				: (category = 'tv');
+			this.$store.dispatch('videoDetails/loadVideoSeason', {
+				videoId,
+				category,
+				season: this.season.number,
+			});
 		},
 	},
 	async beforeCreate() {

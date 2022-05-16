@@ -18,7 +18,19 @@ export const videoDetails = {
 				.get(url)
 				.then(res => {
 					const details = res.data;
-					console.log(details);
+					commit('SET_VIDEO_DETAILS', details);
+				})
+				.catch(() => {
+					console.log('');
+				});
+		},
+		async loadVideoSeason({ commit }, video) {
+			const url = `/videos/${video.category}/${video.videoId}/seasons/${video.season}`;
+			console.log(url);
+			await http
+				.get(url)
+				.then(res => {
+					const details = res.data;
 					commit('SET_VIDEO_DETAILS', details);
 				})
 				.catch(() => {
