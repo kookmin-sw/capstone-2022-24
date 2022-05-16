@@ -28,7 +28,11 @@
 		<div class="row text-left">
 			<div class="text-weight-bold info-item">계좌</div>
 			<div>(은행) 356-xxxx-xxxx-xx</div>
-			<div class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4" style="cursor: pointer">등록/수정</div>
+			<div
+				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
+				style="cursor: pointer">
+				등록/수정
+			</div>
 		</div>
 	</div>
 	<!-- 모임 영역 -->
@@ -130,10 +134,10 @@
 
 	<!--  찜한 작품  -->
 	<user-videos
-		:title="dibList.title"
-		:video-list="getDibList"
-		:push-video-method="dibList.method"
-		:expand-id="dibList.expandId" />
+		:title="wishList.title"
+		:video-list="getWishList"
+		:push-video-method="wishList.method"
+		:expand-id="wishList.expandId" />
 
 	<!-- 별점 준 작품 -->
 	<user-videos
@@ -168,10 +172,10 @@ export default {
 				method: 'user/pushRecentList',
 				expandId: 'recent',
 			},
-			dibList: {
+			wishList: {
 				title: '찜한 작품',
-				method: 'user/pushDibList',
-				expandId: 'dib',
+				method: 'user/pushWishList',
+				expandId: 'wish',
 			},
 			starList: {
 				title: '별점 준 작품',
@@ -191,7 +195,7 @@ export default {
 			'getGroupList',
 			'getSelectGroup',
 			'getRecentList',
-			'getDibList',
+			'getWishList',
 			'getStarList',
 			'getWatchList',
 		]),

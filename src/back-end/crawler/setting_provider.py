@@ -23,12 +23,12 @@ conn = MySQLdb.connect(
 )
 cursor = conn.cursor()
 
-watch_providers = {"8": "NF", "356": "WV", "97": "WC", "337": "DP", "119": "AP"}
+watch_providers = {"8": "NF", "337": "DP", "356": "WV", "97": "WC", "119": "AP"}
 logo_key = {
     "8": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
-    "337": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
-    "356": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
-    "97": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
+    "356": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
+    "97": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+    "337": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
     "119": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
 }
 
