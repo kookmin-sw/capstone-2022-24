@@ -13,7 +13,16 @@
 			<div class="col text-left">
 				<!-- 작품 제목 -->
 				<div class="q-ma-sm">
-					<div class="text-h6 text-weight-bold">{{ videoDetails.title }}</div>
+					<div>
+						<span class="text-h6 text-weight-bold">
+							{{ videoDetails.title }}
+						</span>
+						<span
+							class="text-h6 text-weight-bold"
+							v-if="this.$route.params.category === 'TV'">
+							{{ season.name }}
+						</span>
+					</div>
 					<div class="q-mb-md text-bold text-grey">
 						{{ videoDetails.titleEnglish }}
 					</div>
@@ -114,6 +123,8 @@ import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
+			videoId: null,
+			category: null,
 			season: '시즌 1',
 			tab: 'all',
 			staff: ['', '', '', '', ''],
@@ -124,15 +135,9 @@ export default {
 	},
 	watch: {
 		season: function () {
-			console.log(this.season);
-			const videoId = this.$route.params.videoId;
-			let category;
-			this.$route.params.category === 'MV'
-				? (category = 'movie')
-				: (category = 'tv');
 			this.$store.dispatch('videoDetails/loadVideoSeason', {
-				videoId,
-				category,
+				videoId: this.videoId,
+				category: this.category,
 				season: this.season.number,
 			});
 		},
@@ -147,6 +152,8 @@ export default {
 			videoId,
 			category,
 		});
+		this.videoId = videoId;
+		this.category = category;
 	},
 };
 </script>

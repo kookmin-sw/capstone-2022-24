@@ -26,7 +26,6 @@ export const videoDetails = {
 		},
 		async loadVideoSeason({ commit }, video) {
 			const url = `/videos/${video.category}/${video.videoId}/seasons/${video.season}`;
-			console.log(url);
 			await http
 				.get(url)
 				.then(res => {
