@@ -49,7 +49,6 @@ MYPAGE_DETAIL_EXAMPLES = [
                 "videos": {
                     "recentViews": {
                         "page": {"limit": 3, "offset": 0, "totalCount": 4},
-                        "count": 4,
                         "results": [
                             {
                                 "id": 9,
@@ -68,10 +67,9 @@ MYPAGE_DETAIL_EXAMPLES = [
                             },
                         ],
                     },
-                    "watchMarks": {"page": {"limit": 3, "offset": 0, "totalCount": 0}, "count": 0, "results": []},
+                    "watchMarks": {"page": {"limit": 3, "offset": 0, "totalCount": 0}, "results": []},
                     "wishes": {
                         "page": {"limit": 3, "offset": 0, "totalCount": 1},
-                        "count": 1,
                         "results": [
                             {
                                 "id": 167,
@@ -80,7 +78,7 @@ MYPAGE_DETAIL_EXAMPLES = [
                             }
                         ],
                     },
-                    "stars": {"page": {"limit": 3, "offset": 0, "totalCount": 0}, "count": 0, "results": []},
+                    "stars": {"page": {"limit": 3, "offset": 0, "totalCount": 0}, "results": []},
                 },
             }
         ],
@@ -141,7 +139,6 @@ MYPAGE_DETAIL_EXAMPLES = [
             "videos": {
                 "recentViews": {
                     "page": {"limit": 5, "offset": 0, "totalCount": 4},
-                    "count": 4,
                     "results": [
                         {
                             "id": 9,
@@ -165,10 +162,9 @@ MYPAGE_DETAIL_EXAMPLES = [
                         },
                     ],
                 },
-                "watchMarks": {"page": {"limit": 5, "offset": 0, "totalCount": 0}, "count": 0, "results": []},
+                "watchMarks": {"page": {"limit": 5, "offset": 0, "totalCount": 0}, "results": []},
                 "wishes": {
                     "page": {"limit": 5, "offset": 0, "totalCount": 1},
-                    "count": 1,
                     "results": [
                         {
                             "id": 167,
@@ -177,7 +173,7 @@ MYPAGE_DETAIL_EXAMPLES = [
                         }
                     ],
                 },
-                "stars": {"page": {"limit": 5, "offset": 0, "totalCount": 0}, "count": 0, "results": []},
+                "stars": {"page": {"limit": 5, "offset": 0, "totalCount": 0}, "results": []},
             },
         },
     ),
