@@ -21,7 +21,7 @@
 			<div class="text-menu-wrapper col-6 row">
 				<router-link to="/" class="col-4"> 홈 </router-link>
 				<router-link to="/discontinue" class="col-4"> 종료예정작 </router-link>
-				<router-link :to="`/join/${userProfile.nickname}`" class="col-4">
+				<router-link :to="`/join/${profile.nickname}`" class="col-4">
 					모임 신청
 				</router-link>
 			</div>
@@ -30,7 +30,7 @@
 				<div class="row" v-if="isLogin === true">
 					<q-space class="col-3" />
 					<q-btn flat class="my-menu col-4">
-						<router-link :to="`/my/${userProfile.nickname}`">
+						<router-link :to="`/my/${profile.nickname}`">
 							<q-icon name="person" size="md" color="blue-4" />
 						</router-link>
 					</q-btn>
@@ -84,8 +84,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('auth', ['userId']),
-		...mapState('user', ['userProfile']),
+		...mapState('auth', ['profile']),
 		...mapGetters('auth', ['isLogin']),
 	},
 	methods: {

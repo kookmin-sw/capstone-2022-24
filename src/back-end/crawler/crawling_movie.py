@@ -62,7 +62,10 @@ def get_movie_data(file_path):
         """video providers Crawler"""
         url = f"https://api.themoviedb.org/3/movie/{key}/watch/providers?api_key={api_key}"
         json_ob = get_request_to_object(url)
-        providers = {"providers": json_ob["results"]["KR"]}
+        try:
+            providers = {"providers": json_ob["results"]["KR"]}
+        except:
+            continue
         Movie.append(providers)
 
         """video english title Crawler"""

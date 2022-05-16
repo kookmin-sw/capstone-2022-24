@@ -49,7 +49,7 @@ services:
                     python manage.py migrate &&
                     python manage.py loaddata data.json &&
                     python manage.py collectstatic --no-input &&
-                    python manage.py runserver 0.0.0.0"
+                    python manage.py runserver 0.0.0.0:${WEB_PORT}"
     restart: on-failure
     volumes:
       - ./web:${WEB}
