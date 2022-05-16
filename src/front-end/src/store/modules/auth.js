@@ -65,7 +65,6 @@ export const auth = {
 			window.location.href = `${apiUrl}&state=${reqState}&redirect_uri=${state.google.redirectionUri}&client_id=${state.google.clientId}`;
 		},
 		async loginWithSocial({ state, commit }, social) {
-			console.log('login with social');
 			const url = `/users/login/oauth/${social}/`;
 
 			let data = null;
