@@ -132,6 +132,7 @@ export const videoList = {
 		},
 		async initSelectCondition({ state, commit, dispatch }) {
 			commit('INIT_FILTERS');
+			commit('INIT_VIDEOS');
 			await dispatch('loadVideoList', state.videos.length);
 		},
 		async filterVideos({ commit, dispatch }, condition) {
