@@ -1,6 +1,7 @@
 [
   {
     "fields": {
+      "link": "https://www.netflix.com/kr/",
       "logo_key": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
       "name": "NF",
       "tmdb_id": 8
@@ -10,6 +11,7 @@
   },
   {
     "fields": {
+      "link": "https://www.wavve.com/",
       "logo_key": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
       "name": "WV",
       "tmdb_id": 356
@@ -19,6 +21,7 @@
   },
   {
     "fields": {
+      "link": "https://watcha.com/",
       "logo_key": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
       "name": "WC",
       "tmdb_id": 97
@@ -28,6 +31,7 @@
   },
   {
     "fields": {
+      "link": "https://www.disneyplus.com/ko-kr",
       "logo_key": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
       "name": "DP",
       "tmdb_id": 337
@@ -37,6 +41,7 @@
   },
   {
     "fields": {
+      "link": "https://www.primevideo.com/offers/nonprimehomepage/ref=atv_nb_lcl_ko_KR",
       "logo_key": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
       "name": "AP",
       "tmdb_id": 119
@@ -46,6 +51,7 @@
   },
   {
     "fields": {
+      "link": "https://laftel.net/",
       "logo_key": "https://blog.kakaocdn.net/dn/beMRoh/btqJUNc2uBT/gLb6LDCKEemdV8IEki0St0/img.png",
       "name": "LF",
       "tmdb_id": 0
