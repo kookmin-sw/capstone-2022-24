@@ -71,7 +71,7 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
             video = Video.objects.get(id=video_id)
         except KeyError as e:
             raise InvalidVideoIdException() from e
-        except self.queryset.model.DoesNotExist as not_exist:
+        except Video.objects.model.DoesNotExist as not_exist:
             raise VideoNotFoundException() from not_exist
         return {"user": user.id, "video": video.id}
 
@@ -99,4 +99,5 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
             self.kwargs["user_id"] = request.user.id
             return super().destroy(self, request, *args, **kwargs)
         except ResultNotFoundException as not_found:
+            self.get_valid_user_and_video(self, request, *args, **kwargs)
             raise WishNotFoundException() from not_found
