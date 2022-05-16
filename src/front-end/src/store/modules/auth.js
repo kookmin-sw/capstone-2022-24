@@ -6,7 +6,6 @@ export const auth = {
 	namespaced: true,
 	state: {
 		token: null,
-		userId: 'abc',
 		naver: {
 			clientId: `HDyG0cg2DID7bPsLQ4_u`,
 			redirectionUri: `${window.location.origin}/login/naver`,
@@ -59,11 +58,13 @@ export const auth = {
 			window.location.href = `${apiUrl}&state=${reqState}&redirect_uri=${state.google.redirectionUri}&client_id=${state.google.clientId}`;
 		},
 		async loginWithSocial({ state, commit }, social) {
+			console.log('login with social');
 			const url = `/users/login/oauth/${social}/`;
+
 			let data = null;
 			social === 'naver'
 				? (data = { code: state.naver.code })
-				: (data = { access_token: state.google.token });
+				: (data = { accessToken: state.google.token });
 
 			return new Promise((resolve, reject) => {
 				http

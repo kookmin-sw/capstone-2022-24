@@ -19,9 +19,8 @@ class VideoProvider(models.Model):
         Video,
         on_delete=models.CASCADE,
     )
-    provider = models.ForeignKey(
+    provider = models.ManyToManyField(
         Provider,
-        on_delete=models.CASCADE,
     )
     offer_type = models.CharField(
         max_length=8,

@@ -1,7 +1,7 @@
 """videos URL Configuration"""
 from django.urls import path
-from videos.views.detail_views import DetailView, tv_season_redirect_view
-from videos.views.home_view import HomeView
+from videos.detail_views import DetailView, tv_season_redirect_view
+from videos.home_view import HomeView
 
 urlpatterns = [
     path("", HomeView.as_view({"get": "list"}), name="home_video_list"),
