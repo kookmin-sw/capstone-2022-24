@@ -2,14 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 import store from '@/store/index.js';
 import Home from '@/views/Home.vue';
 
-// const onlyAuthUser = (to, from, next) => {
-// 	if (store.getters['auth/isLogin'] === false) {
-// 		alert('로그인 후 사용하실 수 있습니다.');
-// 		next('/');
-// 	} else {
-// 		next();
-// 	}
-// };
+const onlyAuthUser = (to, from, next) => {
+	if (store.getters['auth/isLogin'] === false) {
+		alert('로그인 후 사용하실 수 있습니다.');
+		next('/');
+	} else {
+		next();
+	}
+};
 
 const routes = [
 	{
@@ -21,13 +21,10 @@ const routes = [
 		path: '/login/:social',
 		name: 'LoginCallback',
 		async beforeEnter(to, from, next) {
-			// TODO: 회원가입 페이지 또는 로그인 직후 뒤로가기 시 소셜 로그인 창 안나오도록
-			// TODO: 네이버 로그인 필수 제공 항목 동의 미체크 시 로그인 취소
-			// TODO: 네이버 정보 제공 동의 항목이 로그인 할 때 마다 나온다면...? 해결하기
 			const url = new URL(window.location.href);
 			let social = null;
 			if (url.pathname === '/login/naver') {
-				// 네이버가 url로 넘겨준 code, state를 vuex 변수에 저장
+				// get naver access token (state)
 				social = 'naver';
 				const code = url.searchParams.get('code');
 				const state = url.searchParams.get('state');
@@ -41,7 +38,7 @@ const routes = [
 				};
 				await store.dispatch('auth/setNaverAuth', response);
 			} else if (url.pathname === '/login/google') {
-				// 구글이 hash로 넘겨준 token을 vuex 변수에 저장
+				// get google access token
 				social = 'google';
 				const href = url.hash;
 				const hash = href.split('&')[1];
@@ -69,7 +66,7 @@ const routes = [
 		path: '/join/:userId',
 		name: 'Join',
 		component: () => import(/* webpackChunkName: "Join" */ '@/views/Join.vue'),
-		// beforeEnter: onlyAuthUser,
+		beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/discontinue',
@@ -87,7 +84,7 @@ const routes = [
 		path: '/my/:userId',
 		name: 'My',
 		component: () => import(/* webpackChunkName: "My" */ '@/views/My.vue'),
-		// beforeEnter: onlyAuthUser,
+		beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/:userId/expand/:listType',

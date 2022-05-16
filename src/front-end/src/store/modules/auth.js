@@ -17,6 +17,12 @@ export const auth = {
 			redirectionUri: `${window.location.origin}/login/google`,
 			token: null,
 		},
+		profile: {
+			nickname: null,
+			email: null,
+			cellPhone: null,
+			imgUrl: null,
+		},
 	},
 	getters: {
 		isLogin(state) {
@@ -34,6 +40,9 @@ export const auth = {
 		SET_GOOGLE_AUTH(state, token) {
 			state.google.token = token;
 		},
+		SET_PROFILE(state, user) {
+			state.profile = user;
+		},
 	},
 	actions: {
 		setToken({ commit }, token) {
@@ -46,10 +55,8 @@ export const auth = {
 			commit('SET_GOOGLE_AUTH', response);
 		},
 		async requestNaverAuth({ state }) {
-			// 네이버 로그인 호출
 			const reqState = Math.random().toString(36).substr(2, 11);
 			const apiUrl = `https://nid.naver.com/oauth2.0/authorize`;
-			// 로그인 성공 후 리디렉션 (로그인 버튼 클릭한 페이지로 이동하게끔 라우터에서 처리)
 			window.location.href = `${apiUrl}?response_type=code&client_id=${state.naver.clientId}&redirect_uri=${state.naver.redirectionUri}&state=${reqState}`;
 		},
 		async requestGoogleAuth({ state }) {
@@ -58,7 +65,6 @@ export const auth = {
 			window.location.href = `${apiUrl}&state=${reqState}&redirect_uri=${state.google.redirectionUri}&client_id=${state.google.clientId}`;
 		},
 		async loginWithSocial({ state, commit }, social) {
-			console.log('login with social');
 			const url = `/users/login/oauth/${social}/`;
 
 			let data = null;
@@ -67,21 +73,20 @@ export const auth = {
 				: (data = { accessToken: state.google.token });
 
 			return new Promise((resolve, reject) => {
-				http
-					.post(url, data)
-					.then(res => {
-						// 로그인 성공
+				http.post(url, data).then(res => {
+					const user = res.data.user;
+					if (!user.isVerified) {
+						// login
 						const token = res.headers.accesstoken;
-						commit('SET_TOKEN', token);
 						localStorage.setItem('ACCESS_TOKEN', token);
+						commit('SET_TOKEN', token);
+						commit('SET_PROFILE', user);
 						resolve();
-					})
-					.catch(err => {
-						// 최초 로그인 시도 (회원가입)
-						if (err.response.status === 301) {
-							reject();
-						}
-					});
+					} else {
+						// sign up
+						reject();
+					}
+				});
 			});
 		},
 		keepLoginToken({ commit }) {
