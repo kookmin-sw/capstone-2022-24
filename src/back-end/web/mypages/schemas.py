@@ -21,29 +21,52 @@ MYPAGE_DETAIL_EXAMPLES = [
                     "default": {
                         "fellows": [],
                         "provider": {
-                            "id": 5,
-                            "tmdbId": 119,
-                            "name": "AP",
-                            "link": "",
-                            "logoUrl": "https://some.storage.com/providers/logo_images/app/back-end/static/"
-                            "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
+                            "id": 6,
+                            "tmdbId": 0,
+                            "name": "LF",
+                            "link": "https://laftel.net/",
+                            "logoUrl": "https://blog.kakaocdn.net/"
+                            "dn/beMRoh/btqJUNc2uBT/gLb6LDCKEemdV8IEki0St0/img.png ",
                         },
-                        "applyDateTime": "2022-05-14T04:38:35",
+                        "applyDateTime": "2022-05-17T01:23:19",
                         "status": "Recruiting",
                     },
                     "others": [
                         {
+                            "fellows": [],
+                            "provider": {
+                                "id": 5,
+                                "tmdbId": 119,
+                                "name": "AP",
+                                "link": "https://default_ott_link.com",
+                                "logoUrl": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
+                            },
+                            "applyDateTime": "2022-05-17T01:22:47",
+                            "status": "Recruiting",
+                        },
+                        {
+                            "fellows": [],
+                            "provider": {
+                                "id": 4,
+                                "tmdbId": 337,
+                                "name": "DP",
+                                "link": "https://default_ott_link.com",
+                                "logoUrl": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
+                            },
+                            "applyDateTime": "2022-05-17T01:23:47",
+                            "status": "Recruiting",
+                        },
+                        {
                             "id": 1,
                             "provider": {
-                                "id": 1,
-                                "tmdbId": 8,
-                                "name": "NF",
-                                "link": "",
-                                "logoUrl": "https://some.storage.com/providers/logo_images/app/back-end/static/"
-                                "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
+                                "id": 3,
+                                "tmdbId": 97,
+                                "name": "WC",
+                                "link": "https://default_ott_link.com",
+                                "logoUrl": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
                             },
                             "status": "Recruited",
-                        }
+                        },
                     ],
                 },
                 "videos": {
@@ -104,8 +127,7 @@ MYPAGE_DETAIL_EXAMPLES = [
                         "tmdbId": 356,
                         "name": "WC",
                         "link": "",
-                        "logoUrl": "https://some.storage.com/providers/logo_images/app/back-end/static/https://im"
-                        "age.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+                        "logoUrl": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
                     },
                     "status": "Recruiting",
                     "timeStamps": {

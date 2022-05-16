@@ -6,6 +6,8 @@ from rest_framework import serializers
 class ProviderSerializer(serializers.ModelSerializer):
     """provider model serializer in providers application"""
 
+    logo_url = serializers.URLField(source="logo_key")
+
     class Meta:
         """Meatadata for ProviderSerializer"""
 
