@@ -19,6 +19,11 @@ urlpatterns = [
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger
     path("docs/redoc/", SpectacularRedocView.as_view(url_name="docs"), name="redoc"),  # api docs by redoc
+    # video history
+    path("users/mypage/recent-views/", include("recent_views.urls")),
+    path("users/mypage/watch-marks/", include("watching_marks.urls")),
+    path("users/mypage/wishes/", include("wishes.urls")),
+    path("users/mypage/stars/", include("star_ratings.urls")),
 ]
 
 # show debug toolbar only in DEBUG mode
