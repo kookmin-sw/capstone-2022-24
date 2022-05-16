@@ -124,6 +124,84 @@
   },
   {
     "fields": {
+      "logo_key": "https://blog.kakaocdn.net/dn/beMRoh/btqJUNc2uBT/gLb6LDCKEemdV8IEki0St0/img.png",
+      "name": "LF",
+      "tmdb_id": 0
+    },
+    "model": "providers.provider",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "base_date": "2022-05-13",
+      "provider": 6,
+      "service_charge_per_member": 5500,
+      "subscription_charge_per_member": 4000,
+      "subscription_type": null,
+      "total_subscription_charge": 16000
+    },
+    "model": "providers.charge",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "base_date": "2022-05-13",
+      "provider": 5,
+      "service_charge_per_member": 4500,
+      "subscription_charge_per_member": 3000,
+      "subscription_type": null,
+      "total_subscription_charge": 6000
+    },
+    "model": "providers.charge",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "logo_key": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
+      "name": "NF",
+      "tmdb_id": 8
+    },
+    "model": "providers.provider",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "logo_key": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+      "name": "WV",
+      "tmdb_id": 356
+    },
+    "model": "providers.provider",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "logo_key": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
+      "name": "WC",
+      "tmdb_id": 97
+    },
+    "model": "providers.provider",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "logo_key": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
+      "name": "DP",
+      "tmdb_id": 337
+    },
+    "model": "providers.provider",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "logo_key": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
+      "name": "AP",
+      "tmdb_id": 119
+    },
+    "model": "providers.provider",
+    "pk": 5
+  },
+  {
+    "fields": {
       "category": "MV",
       "film_rating": null,
       "poster_key": "https://image.tmdb.org/t/p/w500/x4ojC59pYfPlAP4mmy2LSkCCuK2.jpg",
