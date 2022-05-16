@@ -37,7 +37,7 @@ class MyPageDetailView(APIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, video_limit, *args, **kwargs):
         """GET /users/mypage/"""
         user = self.get_user()
         serializer = self.serializer_class(user, context={"request": request})
