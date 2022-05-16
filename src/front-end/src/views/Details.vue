@@ -35,7 +35,7 @@
 				<!--				</div>-->
 				<div class="row q-mb-md">
 					<q-select
-						v-if="category === 'TV'"
+						v-if="this.$route.params.category === 'TV'"
 						dense
 						outlined
 						color="blue-4"
@@ -113,7 +113,6 @@ export default {
 			seasons: ['시즌 1', '시즌 2', '시즌 3'],
 			tab: 'all',
 			staff: ['', '', '', '', ''],
-			category: '',
 		};
 	},
 	computed: {
@@ -121,12 +120,13 @@ export default {
 	},
 	async beforeCreate() {
 		const videoId = this.$route.params.videoId;
+    let category;
 		this.$route.params.category === 'MV'
-			? (this.category = 'movie')
-			: (this.category = 'tv');
+			? (category = 'movie')
+			: (category = 'tv');
 		await this.$store.dispatch('videoDetails/loadVideoDetails', {
 			videoId,
-			category: this.category,
+			category,
 		});
 	},
 };
