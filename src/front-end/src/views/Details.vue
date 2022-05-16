@@ -40,8 +40,17 @@
 						outlined
 						color="blue-4"
 						class="col q-ma-sm"
-						v-model="seasonComboBox"
-						:options="seasons" />
+						v-model="season"
+						:options="videoDetails.seasons">
+						<template v-slot:option="scope">
+							<q-item v-bind="scope.itemProps">
+								<q-item-section>
+									<q-item-label>{{ scope.opt.name }}</q-item-label>
+								</q-item-section>
+							</q-item>
+						</template>
+					</q-select>
+
 					<q-btn outline class="col q-ma-sm text-blue-200">찜 하기</q-btn>
 					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>
 					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>
@@ -55,9 +64,9 @@
 						<q-tab-panel name="all">
 							<div class="ott-icons-frame row">
 								<div v-for="provider in videoDetails.providers" :key="provider">
-                  <q-avatar rounded color="grey-4" size="40px">
-                    <img :src="provider.logoUrl" :alt="provider.name">
-                  </q-avatar>
+									<q-avatar rounded color="grey-4" size="40px">
+										<img :src="provider.logoUrl" :alt="provider.name" />
+									</q-avatar>
 								</div>
 							</div>
 						</q-tab-panel>
@@ -109,7 +118,7 @@ import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
-			seasonComboBox: '시즌 1',
+			season: '시즌 1',
 			seasons: ['시즌 1', '시즌 2', '시즌 3'],
 			tab: 'all',
 			staff: ['', '', '', '', ''],
@@ -118,9 +127,14 @@ export default {
 	computed: {
 		...mapState('videoDetails', ['videoDetails']),
 	},
+	watch: {
+		season: function () {
+			console.log(this.season);
+		},
+	},
 	async beforeCreate() {
 		const videoId = this.$route.params.videoId;
-    let category;
+		let category;
 		this.$route.params.category === 'MV'
 			? (category = 'movie')
 			: (category = 'tv');
