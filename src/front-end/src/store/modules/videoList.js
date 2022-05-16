@@ -84,12 +84,7 @@ export const videoList = {
 		async loadVideoList({ state, commit }, offset) {
 			// Home.vue
 			let url = `/videos/?offset=${offset}`;
-			// if (state.search) {
-			// 	url += `&search=${state.search}`;
-			// }
-			// if (state.filters.categories.length !== 0) {
-			// 	url += `&category=${state.filters.categories}`;
-			// }
+
 			if (url !== state.beforeUrl) {
 				await http
 					.get(url)
@@ -112,15 +107,6 @@ export const videoList = {
 						commit('SET_TOTAL_RESULT', 0);
 					});
 			}
-
-			// const maxWidth = 6;
-			// console.log('max width:' maxWidth);
-			// const lack = maxWidth - (state.totalResult.length % maxWidth);
-			// if ((state.totalResult === state.videos.length) && (lack !== maxWidth)) {
-			// 	maxWidth.forEach(i => {
-			// 		console.log(i);
-			// 	})
-			// }
 		},
 		async selectCondition({ commit, dispatch }, condition) {
 			commit(`SET_${condition.name}`, condition.selected);
