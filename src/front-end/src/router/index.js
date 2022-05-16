@@ -21,13 +21,10 @@ const routes = [
 		path: '/login/:social',
 		name: 'LoginCallback',
 		async beforeEnter(to, from, next) {
-			// TODO: 회원가입 페이지 또는 로그인 직후 뒤로가기 시 소셜 로그인 창 안나오도록
-			// TODO: 네이버 로그인 필수 제공 항목 동의 미체크 시 로그인 취소
-			// TODO: 네이버 정보 제공 동의 항목이 로그인 할 때 마다 나온다면...? 해결하기
 			const url = new URL(window.location.href);
 			let social = null;
 			if (url.pathname === '/login/naver') {
-				// 네이버가 url로 넘겨준 code, state를 vuex 변수에 저장
+				// get naver access token (state)
 				social = 'naver';
 				const code = url.searchParams.get('code');
 				const state = url.searchParams.get('state');
@@ -41,7 +38,7 @@ const routes = [
 				};
 				await store.dispatch('auth/setNaverAuth', response);
 			} else if (url.pathname === '/login/google') {
-				// 구글이 hash로 넘겨준 token을 vuex 변수에 저장
+				// get google access token
 				social = 'google';
 				const href = url.hash;
 				const hash = href.split('&')[1];
