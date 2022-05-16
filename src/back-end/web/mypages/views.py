@@ -1,6 +1,5 @@
 """APIs of mypages application"""
 from drf_spectacular.utils import extend_schema
-from mypages.pagination import VideoHistoryPagination
 from mypages.schemas import MYPAGE_DETAIL_EXAMPLES
 from mypages.serializers import MyPageSerializer
 from rest_framework.generics import get_object_or_404
@@ -29,7 +28,6 @@ class MyPageDetailView(APIView):
         "memberapply_set__provider",
     )
     serializer_class = MyPageSerializer
-    pagination_class = VideoHistoryPagination
 
     def get_user(self):
         """Get request user"""
