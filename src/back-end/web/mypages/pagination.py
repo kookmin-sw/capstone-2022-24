@@ -6,20 +6,20 @@ from rest_framework.response import Response
 class VideoHistoryPagination(LimitOffsetPagination):
     """Video pagenation used in mypage"""
 
-    default_limit = 24
-    limit_query_param = "limit"
-    offset_query_param = "offset"
+    default_limit = 5
+    limit_query_param = "video_limit"
+    offset_query_param = "video_offset"
 
     def get_paginated_response(self, data):
         """Make paginated response with data"""
         return Response(
             {
                 "page": {
-                    "limit": self.page.paginator.limit,
-                    "offset": self.page.paginator.offset,
-                    "total_count": self.page.paginator.count,
+                    "limit": self.limit,
+                    "offset": self.offset,
+                    "total_count": self.count,
                 },
-                "count": self.page.paginator.count,
+                "count": self.count,
                 "results": data,
             }
         )
@@ -28,10 +28,10 @@ class VideoHistoryPagination(LimitOffsetPagination):
         """Make paginated result(not response!) with data"""
         return {
             "page": {
-                "limit": self.page.paginator.limit,
-                "offset": self.page.paginator.offset,
-                "total_count": self.page.paginator.count,
+                "limit": self.limit,
+                "offset": self.offset,
+                "total_count": self.count,
             },
-            "count": self.page.paginator.count,
+            "count": self.count,
             "results": data,
         }

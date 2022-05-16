@@ -78,3 +78,6 @@ if DEBUG:
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
     INTERNAL_IPS = ["127.0.0.1"]
     DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG}
+
+# for admin/drf page
+REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += ("rest_framework.authentication.SessionAuthentication",)
