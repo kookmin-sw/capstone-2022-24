@@ -18,7 +18,6 @@ export const videoList = {
 		totalResult: 0,
 		search: '',
 		sort: 'random',
-		providers: '',
 		loadFail: false,
 	},
 	getters: {},
@@ -38,6 +37,9 @@ export const videoList = {
 			state.filters.releaseDateMax = 5;
 			state.filters.releaseDateMin = 1800;
 			state.filters.releaseDateMax = 2022;
+		},
+		INIT_PROVIDERS(state) {
+			state.filters.providers.splice(0, state.filters.providers.length);
 		},
 		SET_PROVIDERS(state, selected) {
 			state.filters.providers.splice(0, state.filters.providers.length);
@@ -93,6 +95,7 @@ export const videoList = {
 		initSetting({ commit }) {
 			commit('INIT_FILTERS');
 			commit('INIT_VIDEOS');
+			commit('INIT_PROVIDERS');
 			commit('SET_SEARCH', '');
 			commit('SET_SORT', 'random');
 		},
