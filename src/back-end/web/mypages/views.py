@@ -1,5 +1,6 @@
 """APIs of mypages application"""
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from mypages.schemas import MYPAGE_DETAIL_EXAMPLES
 from mypages.serializers import MyPageSerializer
 from rest_framework.generics import get_object_or_404
@@ -8,7 +9,19 @@ from rest_framework.views import APIView
 from users.models import User
 
 
-@extend_schema(tags=["Priority-1", "User"], operation_id="사용자 상세 정보(마이페이지) 조회", examples=MYPAGE_DETAIL_EXAMPLES)
+@extend_schema(
+    tags=["Priority-1", "User"],
+    operation_id="사용자 상세 정보(마이페이지) 조회",
+    examples=MYPAGE_DETAIL_EXAMPLES,
+    parameters=[
+        OpenApiParameter(
+            name="videoLimit",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            description="video size of limit from offset 0",
+        ),
+    ],
+)
 class MyPageDetailView(APIView):
     """User information details
 
@@ -37,7 +50,7 @@ class MyPageDetailView(APIView):
         self.check_object_permissions(self.request, obj)
         return obj
 
-    def get(self, request, video_limit, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         """GET /users/mypage/"""
         user = self.get_user()
         serializer = self.serializer_class(user, context={"request": request})
