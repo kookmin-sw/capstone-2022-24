@@ -80,6 +80,11 @@ export const videoList = {
 		},
 	},
 	actions: {
+		initSetting({ commit }) {
+			commit('INIT_FILTERS');
+			commit('INIT_VIDEOS');
+			commit('SET_SEARCH', '');
+		},
 		async loadVideoList({ state, commit }, offset) {
 			let url = `/videos/`;
 			const params = {

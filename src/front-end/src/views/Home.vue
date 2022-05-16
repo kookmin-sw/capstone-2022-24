@@ -160,9 +160,9 @@
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
-			<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
-				작품이 존재하지 않습니다.
-			</div>
+			<!--			<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">-->
+			<!--				작품이 존재하지 않습니다.-->
+			<!--			</div>-->
 		</q-infinite-scroll>
 	</div>
 </template>
@@ -267,6 +267,8 @@ export default {
 		...mapState('videoList', ['videos', 'totalResult']),
 	},
 	async beforeCreate() {
+		window.reload;
+		await this.$store.dispatch('videoList/initSetting');
 		await this.$store.dispatch('videoList/loadVideoList', 0);
 	},
 	methods: {
