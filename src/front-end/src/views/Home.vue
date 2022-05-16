@@ -16,6 +16,7 @@
 					flat
 					color="blue"
 					class="border-blue-100 right-radius-2 col-2"
+					@click="searchButtonClick"
 					id="search-btn">
 					<q-icon name="search" />
 				</q-btn>
@@ -131,25 +132,35 @@
 				name="navigate_next" />
 			<q-btn
 				flat
-				v-for="(s, index) in sort"
+				v-for="(s, index) in this.sort"
 				:key="index"
 				@click="sortButtonClick(index)"
-				:class="{ 'bg-blue-100': s.isSelect }"
-				>{{ s.label }}</q-btn
-			>
+				:class="{ 'text-blue-200 text-bold': s.isSelect }">
+				{{ s.label }}
+			</q-btn>
 		</div>
 		<!-- 작품 목록 -->
-		<q-infinite-scroll :offset="250" @load="videoOnLoad" id="videos-container">
+		<q-infinite-scroll
+			:offset="250"
+			@load="videoOnLoad"
+			id="videos-container"
+			:number="1">
 			<div class="row" id="videos-wrapper">
-				<div class="videos" v-for="(video, index) in videos" :key="index">
-					{{ video.posterKey }}
+				<div class="videos" v-for="video in videos" :key="video.id">
+					<img
+						:src="video.posterKey"
+						:alt="video.title"
+						style="width: 100%; object-fit: cover" />
 				</div>
 			</div>
 			<template v-slot:loading>
-				<div class="row justify-center">
-					<q-spinner-dots color="primary" size="40px" />
+				<div class="row justify-center" v-if="videos.length < totalResult">
+					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
+			<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
+				작품이 존재하지 않습니다.
+			</div>
 		</q-infinite-scroll>
 	</div>
 </template>
@@ -175,8 +186,8 @@ export default {
 			selectFilters: {
 				categories: [
 					{ label: '전체', isSelect: false, name: 'all' },
-					{ label: '영화', isSelect: false, name: 'movie' },
-					{ label: 'TV 시리즈', isSelect: false, name: 'tv' },
+					{ label: '영화', isSelect: false, name: 'MV' },
+					{ label: 'TV 시리즈', isSelect: false, name: 'TV' },
 				],
 				genres: [
 					{ label: '전체', isSelect: false, name: 'all' },
@@ -223,13 +234,15 @@ export default {
 			selected: {
 				ott: [],
 			},
+			limit: 24,
+			videoList: new Set(),
 		};
 	},
 	computed: {
-		...mapState('videoList', ['videos']),
+		...mapState('videoList', ['videos', 'totalResult']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('videoList/loadVideoList', 24);
+		await this.$store.dispatch('videoList/loadVideoList', 0);
 	},
 	methods: {
 		sortButtonClick(idx) {
@@ -240,15 +253,22 @@ export default {
 			});
 			this.sort[idx].isSelect = true;
 		},
-		videoOnLoad() {
-			console.log('loading!!!');
-			// await this.$store.dispatch('videoList/loadVideoList', 24);
+		async videoOnLoad(index, done) {
+			if (this.videos.length <= this.totalResult) {
+				setTimeout(() => {
+					this.$store.dispatch('videoList/loadVideoList', this.videos.length);
+					done();
+				}, 1000);
+			}
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 			if (this.ottFilters[idx].isSelect === true) {
 				this.selected.ott.push(this.ottFilters[idx].label);
 			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+		},
+		searchButtonClick() {
+			this.$store.dispatch('videoList/searchVideos', this.search);
 		},
 		initButtonClick() {
 			// 선택형 필터 초기화
@@ -281,8 +301,10 @@ export default {
 .videos {
 	width: 15%;
 	height: 0;
-	padding-bottom: 20%;
+	padding-bottom: 21%;
 	margin: 0 0 24px 0;
-	background: lightgrey;
+	background: transparent;
+	align-content: center;
+	overflow-y: hidden;
 }
 </style>
