@@ -19,9 +19,13 @@ export const videoList = {
 		search: '',
 		sort: 'random',
 		providers: '',
+		loadFail: false,
 	},
 	getters: {},
 	mutations: {
+		SET_LOAD_FAIL(state, status) {
+			state.loadFail = status;
+		},
 		INIT_FILTERS(state) {
 			state.filters.categories.splice(0, state.filters.categories.length);
 			state.filters.genres.splice(0, state.filters.genres.length);
@@ -62,21 +66,21 @@ export const videoList = {
 				state.filters.watched.push(cond);
 			});
 		},
-		SET_TOTAL_PAGE(state, page) {
-			state.totalPage = page;
-		},
-		SET_TOTAL_RESULT(state, cnt) {
-			state.totalResult = cnt;
+		INIT_VIDEOS(state) {
+			state.videos = [];
+			state.totalResult = 0;
 		},
 		ADD_VIDEOS(state, videos) {
 			state.videos = [...state.videos, ...videos];
 		},
+		SET_TOTAL_RESULT(state, cnt) {
+			state.totalResult = cnt;
+		},
 		SET_SEARCH(state, word) {
 			state.search = word;
 		},
-		INIT_VIDEOS(state) {
-			state.videos = [];
-			state.totalResult = 0;
+		SET_SORT(state, sort) {
+			state.sort = sort;
 		},
 	},
 	actions: {
@@ -84,6 +88,7 @@ export const videoList = {
 			commit('INIT_FILTERS');
 			commit('INIT_VIDEOS');
 			commit('SET_SEARCH', '');
+			commit('SET_SORT', 'random');
 		},
 		async loadVideoList({ state, commit }, offset) {
 			let url = `/videos/`;
@@ -101,7 +106,7 @@ export const videoList = {
 						const total = res.data.page.totalCount;
 						commit('SET_TOTAL_RESULT', total - 1);
 						commit('ADD_VIDEOS', list);
-
+						commit('SET_LOAD_FAIL', false);
 						if (state.totalResult <= state.videos.length) {
 							const maxWidth = 6;
 							const lack = maxWidth - (state.totalResult % maxWidth) - 1;
@@ -111,7 +116,8 @@ export const videoList = {
 						}
 					})
 					.catch(() => {
-						commit('SET_TOTAL_RESULT', 0);
+						commit('INIT_VIDEOS');
+						commit('SET_LOAD_FAIL', true);
 					});
 			}
 		},
@@ -123,10 +129,15 @@ export const videoList = {
 			commit(`SET_${condition.name}`, condition.selected);
 			dispatch('loadVideoList', 24);
 		},
-		async searchVideos({ state, commit, dispatch }, word) {
+		async searchVideos({ commit, dispatch }, word) {
 			commit('INIT_VIDEOS');
 			commit('SET_SEARCH', word);
-			await dispatch('loadVideoList', state.videos.length);
+			await dispatch('loadVideoList', 0);
+		},
+		async sortVideos({ commit, dispatch }, sort) {
+			commit('INIT_VIDEOS');
+			commit('SET_SORT', sort);
+			await dispatch('loadVideoList', 0);
 		},
 	},
 };
