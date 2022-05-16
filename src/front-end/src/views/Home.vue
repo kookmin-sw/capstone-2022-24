@@ -152,7 +152,8 @@
 					<img
 						:src="video.posterKey"
 						:alt="video.title"
-						style="width: 100%; object-fit: cover" />
+						style="width: 100%; object-fit: cover"
+						@click="videoClick(video.videoId, video.category)" />
 				</div>
 			</div>
 			<template v-slot:loading>
@@ -288,6 +289,9 @@ export default {
 					done();
 				}, 1000);
 			}
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
