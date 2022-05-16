@@ -25,7 +25,8 @@
 						<img
 							:src="video.posterKey"
 							:alt="video.title"
-							style="width: 100%; object-fit: cover" />
+							style="width: 100%; object-fit: cover"
+							@click="videoClick(video.videoId, video.category)" />
 						<!--						<q-badge-->
 						<!--							class="row reverse q-ma-none q-pa-sm float-right bg-transparent badge-frame">-->
 						<!--							<q-avatar rounded color="grey" size="28px" class="q-ma-xs" />-->
@@ -79,6 +80,9 @@ export default {
 				'videoDiscontinued/loadVideoList',
 				this.days[idx].value,
 			);
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
 	},
 };
