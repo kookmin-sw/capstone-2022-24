@@ -102,12 +102,51 @@ class HomeView(viewsets.ViewSet):
 
     sort_dict = {
         "random": "id",
-        "new": "offer_date",
+        "new": "videoprovider__offer_date",
         "release": "release_date",
+    }
+    """
+    + Sort:
         "wish": "wishes_count",
         "star": "star_count",
         "rating": "rating",
-    }
+    """
+
+    def filtering(self, _filter, filter_list):
+        """Method : filter video by providers, categories, genres release_date, production_country"""
+
+        categories = filter_list["categories"]
+        providers = filter_list["providers"]
+        genres = filter_list["genres"]
+        release_date_min = filter_list["release_date_min"]
+        release_date_max = filter_list["release_date_max"]
+        production_country = filter_list["production_country"]
+
+        if categories:
+            _category = categories.split(",")
+            _filter &= Q(category__in=_category)
+
+        if providers:
+            _p = providers.split(",")
+            _filter &= Q(videoprovider__provider__name__in=_p)
+
+        if genres:
+            _genres = genres.split(",")
+            _filter &= Q(genre__name__in=_genres)
+
+        if release_date_min:
+            _filter &= Q(release_date__gte=(release_date_min + "-01-01"))
+
+        if release_date_max:
+            _filter &= Q(release_date__lte=(release_date_max + "-12-31"))
+
+        if production_country:
+            if production_country == "KR":
+                _filter &= Q(productioncountry__name=production_country)
+            else:
+                _filter &= ~Q(productioncountry__name=production_country)
+
+        return _filter
 
     def list(self, request):
         """Method: Get Command to search, filter, sort"""
@@ -124,38 +163,32 @@ class HomeView(viewsets.ViewSet):
         """
         =======filtering=======
         Filter : OR operation within the conditions, AND operation between conditions.
-                filter video by providers, categories
+                filter video by providers, categories, release_date, production_country
         """
 
-        providers = self.request.query_params.get("providers", None)
-        categories = self.request.query_params.get("category", None)
+        filter_list = {
+            "providers": self.request.query_params.get("providers", None),
+            "categories": self.request.query_params.get("category", None),
+            "genres": self.request.query_params.get("genres", None),
+            "release_date_min": self.request.query_params.get("releaseDateMin", "1800"),
+            "release_date_max": self.request.query_params.get("releaseDateMax", "2022"),
+            "production_country": self.request.query_params.get("productionCountry", None),
+        }
 
         """
         #아직 구현예정이 없는 필터링 조건
-        genres = self.request.query_params.get('genres', None)
         rating_min = self.request.query_params.get('ratingMin', None)
         rating_max = self.request.query_params.get('ratingMax', None)
-        runtime_min = self.request.query_params.get('runtimeMin', None)
-        runtime_max = self.request.query_params.get('runtimeMax', None)
-        release_date_min = self.request.query_params.get('releaseDateMin', None)
-        release_date_max = self.request.query_params.get('releaseDateMax', None)
-        production_country= self.request.query_params.get('productionCountry', None)
-        offer_type = self.request.query_params.get('offerTye', None)
         watched = self.request.query_params.get('watched', None)
         """
 
-        if categories:
-            _filter &= Q(category=categories)
-
-        if providers:
-            _p = providers.split(",")
-            _filter &= Q(videoprovider__provider__name__in=_p)
+        _filter = self.filtering(_filter, filter_list)
 
         queryset = Video.objects.filter(_filter).distinct()
 
         """
         =======Sorting=======
-        Sort : sort videos ramndomly
+        Sort : sort videos ramndom, new, release
         """
 
         sort = self.request.query_params.get("sort", default="random")
