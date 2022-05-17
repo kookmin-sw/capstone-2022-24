@@ -50,12 +50,12 @@ export default {
 	name: 'Expand',
 	data() {
 		return {
-			currentTab: 'recent',
+			currentTab: '',
 			interactions: [
-				{ label: '최근 조회한 작품', isSelect: true },
-				{ label: '찜한 작품', isSelect: false },
-				{ label: '별점 준 작품', isSelect: false },
-				{ label: '본 작품', isSelect: false },
+				{ label: '최근 조회한 작품', isSelect: false, name: 'recent' },
+				{ label: '찜한 작품', isSelect: false, name: 'wish' },
+				{ label: '별점 준 작품', isSelect: false, name: 'star' },
+				{ label: '본 작품', isSelect: false, name: 'watched' },
 			],
 			videos: [
 				{},
@@ -80,6 +80,14 @@ export default {
 			stars: 4,
 		};
 	},
+	async created() {
+		this.currentTab = this.$route.params.listType;
+		this.interactions.forEach(i => {
+			if (this.currentTab === i.name) {
+				i.isSelect = true;
+			}
+		});
+	},
 	methods: {
 		// videoOnLoad(index, done) {
 		// 	setTimeout(() => {
@@ -94,6 +102,7 @@ export default {
 				}
 			});
 			this.interactions[idx].isSelect = true;
+			this.currentTab = this.interactions[idx].name;// 버튼 클릭되면 currentTab 변수에 선택된 버튼 name 들어가게끔 해뒀습니다
 		},
 	},
 };
