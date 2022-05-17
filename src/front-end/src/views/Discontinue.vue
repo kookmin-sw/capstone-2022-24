@@ -42,10 +42,11 @@ export default {
 	name: 'Discontinue',
 	data() {
 		return {
+			currentTab: 'endSeven',
 			days: [
-				{ label: '7일 이내 종료 예정작', isSelect: true },
-				{ label: '15일 이내 종료 예정작', isSelect: false },
-				{ label: '30일 이내 종료 예정작', isSelect: false },
+				{ label: '7일 이내 종료 예정작', isSelect: true, name: 'endSeven' },
+				{ label: '15일 이내 종료 예정작', isSelect: false, name: 'endFifteen' },
+				{ label: '30일 이내 종료 예정작', isSelect: false, name: 'endThirty' },
 			],
 			videos: [
 				{},
@@ -83,6 +84,7 @@ export default {
 				}
 			});
 			this.days[idx].isSelect = true;
+			this.currentTab = this.days[idx].name;// 버튼 클릭되면 currentTab 변수에 선택된 버튼 name 들어가게끔 해뒀습니다
 		},
 	},
 };
