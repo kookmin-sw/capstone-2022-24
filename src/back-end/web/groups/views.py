@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from applies.models import LeaderApply, MemberApply
+from config.exceptions.input import BadFormatException
 from django.db.models import Q
 from drf_spectacular.utils import (
     OpenApiParameter,
@@ -65,21 +66,16 @@ class GruopPaymentView(viewsets.ViewSet):
 
         try:
             _amount = Charge.objects.get(Q(provider=provider_id)).service_charge_per_member
-        except Charge.DoesNotExist:
-            pass
-            # raise  대충 모임을 모집할수없는 provider을 골랐다고 말해줌
+        except Charge.DoesNotExist as e:
+            raise BadFormatException() from e
 
         if _amount > _user.total_mileages:
-            pass
-            # raise  대충 무슨 님 못사요 에러
-
-        User.objects.filter(id=_user.id).update(total_mileages=_user.total_mileages - _amount)
+            raise BadFormatException()
 
         mileage = Mileage(
             user=_user,
             amount=_amount,
         )
-        mileage.save()
         payment = Payment(
             amount=_amount,
             content="Mileage",
@@ -88,6 +84,7 @@ class GruopPaymentView(viewsets.ViewSet):
             status="D",
             approval_date_time=datetime.now(),
         )
+        mileage.save()
         payment.save()
 
         context = {
@@ -132,18 +129,18 @@ class GroupApplyView(viewsets.ViewSet):
         )
         leader_apply.save()
 
-        context = {"member_apply_id": leader_apply.id}
+        context = {"leader_apply_id": leader_apply.id}
 
         return Response(context, status=status.HTTP_201_CREATED)
 
-    def cancel_member(self, request):
+    def cancel_member(self, request, key=None):
         """test"""
         _user = request.user
         member_apply_id = request.data["member_apply_id"]
         # cancel = request.data["cancel"]
 
         member_apply = MemberApply.objects.get(Q(id=member_apply_id))
-        _amount = member_apply.payment.amount * (-1)
+        _amount = member_apply.payment.amount
         provider_id = member_apply.provider.id
         payment = Payment(
             amount=_amount,
@@ -155,7 +152,7 @@ class GroupApplyView(viewsets.ViewSet):
         )
         mileage = Mileage(
             user=_user,
-            amount=_amount,
+            amount=_amount * (-1),
         )
 
         payment.save()
