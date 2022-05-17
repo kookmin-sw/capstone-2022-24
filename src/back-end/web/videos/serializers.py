@@ -79,3 +79,17 @@ class GenreSerializer(serializers.ModelSerializer):
 
         model = Genre
         fields = "__all__"
+
+
+class VideoHistorySerializer(serializers.ModelSerializer):
+    """Video summary histories in Mypage"""
+
+    poster_url = serializers.URLField(source="poster_key", required=False)
+
+    class Meta:
+        """Metadata for video histories summary"""
+
+        model = Video
+        fields = ["id", "tmdb_id", "poster_url"]
+
+        read_only_fields = ["__all__"]
