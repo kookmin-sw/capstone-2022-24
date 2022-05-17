@@ -143,8 +143,10 @@ class HomeView(viewsets.ViewSet):
         if production_country:
             if production_country == "KR":
                 _filter &= Q(productioncountry__name=production_country)
-            else:
+            elif production_country == "OTHERS":
                 _filter &= ~Q(productioncountry__name=production_country)
+            else:
+                raise BadFormatException()
 
         return _filter
 

@@ -148,7 +148,7 @@ class DetailView(viewsets.ViewSet):
         tv_url = f"https://api.themoviedb.org/3/tv/{key}?api_key={self.api_key}&language={self.language}"
         tv_json_ob = self.get_request_to_json(tv_url)
 
-        season_list = self.get_season_list(tv_json_ob["seasons"])  # 시즌 넘버, 시즌 네임 달려있어야함.
+        season_list = self.get_season_list(tv_json_ob["seasons"])
 
         tv_season_url = (
             f"https://api.themoviedb.org/3/tv/{key}/season/{season_number}"
@@ -180,6 +180,7 @@ class DetailView(viewsets.ViewSet):
             "poster_url": tv.poster_key,
             "title": tv.title,
             "title_english": tv.title_english,
+            "release_date": tv.release_date,
             "overview": season_json_ob["overview"],
             "providers": provider_list,
             "total_seasons": tv_json_ob["number_of_seasons"],
