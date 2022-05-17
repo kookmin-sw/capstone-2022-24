@@ -34,8 +34,25 @@ class VideoListPagination(LimitOffsetPagination):
             description="condtion of filtering video providers : WC, AP, WV, NF, DP, multiple filtering = Use ','",
             type=str,
         ),
-        OpenApiParameter(name="category", description="condtion of filtering video category : MV, TV", type=str),
-        OpenApiParameter(name="sort", description="video sort condition : Use only only random", type=str),
+        OpenApiParameter(
+            name="category",
+            description="condtion of filtering video category : MV, TV, multiple filtering = Use ','",
+            type=str,
+        ),
+        OpenApiParameter(
+            name="genres",
+            description=(
+                "condtion of filtering video category : SF ,액션, 로맨스, 드라마, 판타지,스릴러,코미디,모험,미스터리,애니메이션,음악,가족,"
+                "전쟁,공포,범죄,역사,다큐멘터리,TV 영화, multiple filtering = Use ','"
+            ),
+            type=str,
+        ),
+        OpenApiParameter(name="releaseDateMin", description="condtion of filtering video release date min", type=int),
+        OpenApiParameter(name="releaseDateMax", description="condtion of filtering video release date max", type=int),
+        OpenApiParameter(
+            name="productionCountry", description="condtion of filtering video production country : KR, OTHER", type=str
+        ),
+        OpenApiParameter(name="sort", description="video sort condition : random, new, release", type=str),
         OpenApiParameter(name="limit", description="number of Videos to display", type=int),
         OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
     ],
@@ -113,7 +130,7 @@ class HomeView(viewsets.ViewSet):
     """
 
     def filtering(self, _filter, filter_list):
-        """Method : filter video by providers, categories, genres release_date, production_country"""
+        """Method : filter video by providers, categories, genres, release_date, production_country"""
 
         categories = filter_list["categories"]
         providers = filter_list["providers"]
@@ -159,7 +176,6 @@ class HomeView(viewsets.ViewSet):
         """
 
         search_target = self.request.query_params.get("search", default="")
-
         _filter = Q(title__icontains=search_target)
 
         """
