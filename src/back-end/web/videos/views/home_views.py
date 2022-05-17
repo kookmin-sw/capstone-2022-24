@@ -157,13 +157,14 @@ class HomeView(viewsets.ViewSet):
         if release_date_max:
             _filter &= Q(release_date__lte=(release_date_max + "-12-31"))
 
-        if production_country:
-            if production_country == "KR":
-                _filter &= Q(productioncountry__name=production_country)
-            elif production_country == "OTHERS":
-                _filter &= ~Q(productioncountry__name=production_country)
-            else:
-                raise BadFormatException()
+        if production_country in ("KR,OTHERS", ""):
+            pass
+        elif production_country == "KR":
+            _filter &= Q(productioncountry__name=production_country)
+        elif production_country == "OTHERS":
+            _filter &= ~Q(productioncountry__name=production_country)
+        else:
+            raise BadFormatException()
 
         return _filter
 
@@ -190,7 +191,7 @@ class HomeView(viewsets.ViewSet):
             "genres": self.request.query_params.get("genres", None),
             "release_date_min": self.request.query_params.get("releaseDateMin", "1800"),
             "release_date_max": self.request.query_params.get("releaseDateMax", "2022"),
-            "production_country": self.request.query_params.get("productionCountry", None),
+            "production_country": self.request.query_params.get("productionCountry", ""),
         }
 
         """
