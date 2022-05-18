@@ -14,6 +14,7 @@ urlpatterns = [
     path("videos/", include("videos.urls")),
     path("groups/", include("groups.urls")),
     path("users/", include("users.urls")),
+    path("applies/", include("applies.urls")),
     path("users/mypage/", include("mypages.urls")),
     # api docs
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file

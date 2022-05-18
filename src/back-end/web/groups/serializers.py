@@ -25,3 +25,24 @@ class GroupSerializer(serializers.ModelSerializer):
     def get_group_account(self, obj):
         """Get group account data using GroupAccountSerializer"""
         return GroupAccountSerializer(obj.group_account).data
+
+
+class GroupPaymentResponseSerializer(serializers.Serializer):
+    """Group Serializer for View Response"""
+
+    payment_id = serializers.IntegerField()
+    amount = serializers.IntegerField()
+    request_date_time = serializers.DateTimeField()
+
+    class Meta:
+        """Meta data for Group Payments Response serializer"""
+
+        read_only_fields = "__all__"
+
+    def create(self, validated_data):
+        """method: to not Use"""
+        return 0
+
+    def update(self, instance, validated_data):
+        """method : to not Use"""
+        return 0

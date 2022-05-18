@@ -12,3 +12,13 @@ class PaymentSerializer(serializers.ModelSerializer):
         model = Payment
         fields = "__all__"
         read_only_fields = "__all__"
+
+
+class PaymentSaveSerializer(serializers.ModelSerializer):
+    """Payment model serializer of saving payments"""
+
+    class Meta:
+        """Metadata of PaymentSaveSerializer"""
+
+        model = Payment
+        fields = "__all__"
