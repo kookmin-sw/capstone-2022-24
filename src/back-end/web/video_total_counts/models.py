@@ -12,6 +12,7 @@ class VideoTotalCount(models.Model):
     video = AutoOneToOneField(
         Video,
         on_delete=models.CASCADE,
+        primary_key=True,
     )
     wish_count = models.PositiveIntegerField(
         null=True,
