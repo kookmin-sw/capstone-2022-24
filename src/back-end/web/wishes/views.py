@@ -11,9 +11,10 @@ from rest_framework import permissions, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.response import Response
+from users.models import User
+from video_total_counts.views import decrease_wish_count, increase_wish_count
 from videos.models import Video
 from wishes.exceptions import WishAlreadyExistsException, WishNotFoundException
-from wishes.models import Wish
 from wishes.schemas import WISH_LIST_EXAMPLES
 from wishes.serializers import WishListSerializer, WishSerializer
 
@@ -26,7 +27,7 @@ from wishes.serializers import WishListSerializer, WishSerializer
 class WishListView(ListAPIView):
     """Wish apis of user's video history"""
 
-    queryset = Wish.objects.select_related("user", "video")
+    queryset = User.objects.prefetch_related("wish_set", "wish_set__user" "wish_set__video")
     serializer_class = WishListSerializer
     pagination_class = VideoHistoryPagination
 
@@ -58,36 +59,58 @@ class WishListView(ListAPIView):
 class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyAPIView):
     """[POST & DELETE] /videos/{video_id}/wishes/"""
 
-    queryset = Wish.objects.all()
+    queryset = Video.objects.prefetch_related("wish_set", "wish_set__user", "videototalcount")
     serializer_class = WishSerializer
     permission_classes = [permissions.IsAuthenticated]  # TODO
-    lookup_fields = ("user_id", "video_id")
+    lookup_fields = ("user", "video")
 
-    def get_valid_user_and_video(self, request, *args, **kwargs):
-        """Validate user and video and return user, video dict"""
+    def get_video_by_id(self, video_id):
+        """Find video object among queryset by its id"""
         try:
-            video_id = kwargs["video_id"]
-            user = self.request.user
-            video = Video.objects.get(id=video_id)
-        except KeyError as e:
-            raise InvalidVideoIdException() from e
+            _queryset = self.queryset
+            _video = _queryset.get(id=video_id)
+            return _video
         except Video.objects.model.DoesNotExist as not_exist:
             raise VideoNotFoundException() from not_exist
+
+    def get_queryset(self):
+        """Get wish queryset belongs to video object"""
+        _id = self.kwargs.get("video_id", None)
+        _video = self.get_video_by_id(_id) if _id else None  # type: Video
+        return _video.wish_set
+
+    def get_video_from_request(self, request, *args, **kwargs):
+        """Validate user and video and return user, video dict"""
+        try:
+            _video_id = kwargs["video_id"]
+            _video = self.get_video_by_id(_video_id)
+        except KeyError as e:
+            raise InvalidVideoIdException() from e
+        return _video
+
+    def get_wish_fk(self, user, video):
+        """Get wish request detail with user, video ids"""
         return {"user": user.id, "video": video.id}
 
     def create(self, request, *args, **kwargs):
         """Wish video"""
         try:
-            data = self.get_valid_user_and_video(self, request, *args, **kwargs)
-            serializer = self.get_serializer(data=data)
+            _video = self.get_video_from_request(self, request, *args, **kwargs)
+            _valid_data = self.get_wish_fk(request.user, _video)
+            serializer = self.get_serializer(data=_valid_data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+            # update total count
+            increase_wish_count(_video)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         except ValidationError as error:
+            # flatten error codes
+            _error_codes = (
+                error.get_codes() if isinstance(error.get_codes(), list) else list(*error.get_codes().values())
+            )
             # error is from UniqueTogetherValidator
-            error_codes = list(*error.get_codes().values())
-            if "unique" in error_codes:
+            if "unique" in _error_codes:
                 raise WishAlreadyExistsException() from error
             # others
             raise error
@@ -95,9 +118,14 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
     def destroy(self, request, *args, **kwargs):
         """Unwish video"""
         try:
-            # set user id
+            # validate user and video
+            _video = self.get_video_from_request(self, request, *args, **kwargs)
+            _valid_data = self.get_wish_fk(request.user, _video)
+            # set user
             self.kwargs["user_id"] = request.user.id
-            return super().destroy(self, request, *args, **kwargs)
+            response = super().destroy(self, request, *args, **kwargs)  # type: Response
+            # update total count
+            decrease_wish_count(_video)
+            return response
         except ResultNotFoundException as not_found:
-            self.get_valid_user_and_video(self, request, *args, **kwargs)
             raise WishNotFoundException() from not_found
