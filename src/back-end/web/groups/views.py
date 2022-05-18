@@ -26,7 +26,8 @@ class GruopPaymentView(viewsets.ViewSet):
     """Class for member payments process to Group"""
 
     def payment(self, request):
-        """method: get to payment 처리"""
+        """Method: process payments for Member to apply Group"""
+
         _user = request.user
         provider_id = request.data["provider_id"]
 

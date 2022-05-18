@@ -34,7 +34,7 @@ class BaseApplySerializer(serializers.Serializer):
 
 
 class MemberApplySerializer(serializers.ModelSerializer):
-    """Member Apply Serializer"""
+    """Member Apply Serializer for MemberApply model"""
 
     user = serializers.SerializerMethodField()
     payment = serializers.SerializerMethodField()
@@ -60,7 +60,7 @@ class MemberApplySerializer(serializers.ModelSerializer):
 
 
 class LeaderApplySerializer(serializers.ModelSerializer):
-    """Leader Apply Serializer"""
+    """Leader Apply Serializer for LeaderApply model"""
 
     user = serializers.SerializerMethodField()
     provider = serializers.SerializerMethodField()
@@ -81,7 +81,7 @@ class LeaderApplySerializer(serializers.ModelSerializer):
 
 
 class MemberCancelSerializer(serializers.Serializer):
-    """Serializer : Member Cancel"""
+    """Member Cancel Serializer for View Response"""
 
     user_id = serializers.IntegerField()
     payment_id = serializers.IntegerField()
@@ -95,7 +95,7 @@ class MemberCancelSerializer(serializers.Serializer):
 
 
 class LeaderCancelSerializer(serializers.Serializer):
-    """Serializer : Leader Cancel"""
+    """Leader Cancel Serializer for View Response"""
 
     user_id = serializers.IntegerField()
     provider_id = serializers.IntegerField()

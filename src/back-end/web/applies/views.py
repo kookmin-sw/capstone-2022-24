@@ -44,7 +44,8 @@ class GroupApplyView(viewsets.ViewSet):
         },
     )
     def apply_member(self, request):
-        """test"""
+        """Method: process applying Group for Member"""
+
         _user = request.user
         provider_id = request.data["provider_id"]
         payment_id = request.data["payment_id"]
@@ -80,7 +81,7 @@ class GroupApplyView(viewsets.ViewSet):
         },
     )
     def apply_leader(self, request):
-        """test"""
+        """Method: process applying Group for Leader"""
         _user = request.user
         provider_id = request.data["provider_id"]
 
@@ -109,7 +110,7 @@ class GroupApplyView(viewsets.ViewSet):
         responses={200: OpenApiResponse(description="모임원 취소 성공", response=MemberCancelSerializer)},
     )
     def cancel_member(self, request):
-        """test"""
+        """Method: process Cancling Group and refunding for Member"""
         _user = request.user
         member_apply_id = request.data["member_apply_id"]
         cancel = request.data["cancel"]
@@ -171,7 +172,7 @@ class GroupApplyView(viewsets.ViewSet):
         responses={200: OpenApiResponse(description="모임장 취소 성공", response=LeaderCancelSerializer)},
     )
     def cancel_leader(self, request):
-        """test"""
+        """Method: process Cancling Group for Leader"""
         _user = request.user
         leader_apply_id = request.data["leader_apply_id"]
         cancel = request.data["cancel"]
