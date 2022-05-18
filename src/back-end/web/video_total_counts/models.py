@@ -7,11 +7,13 @@ from videos.models import Video
 class VideoTotalCount(models.Model):
     """Definition of video total count information about interacting with Users"""
 
+    MAX_COUNT_LIMIT = 2147483647
+
     video = models.OneToOneField(
         Video,
         on_delete=models.CASCADE,
     )
-    dibs_count = models.PositiveIntegerField(
+    wish_count = models.PositiveIntegerField(
         null=True,
         default=0,
     )
@@ -31,3 +33,33 @@ class VideoTotalCount(models.Model):
 
     def __str__(self):
         return f"{self.video.title}의 total Counts"
+
+    def increase_wish_count(self):
+        """Increase wish count"""
+        if self.wish_count < self.MAX_COUNT_LIMIT:
+            self.wish_count += 1
+
+    def decrease_wish_count(self):
+        """Decrease wish count"""
+        if self.wish_count > 0:
+            self.wish_count -= 1
+
+    def increase_watch_count(self):
+        """Increase wish count"""
+        if self.watch_count < self.MAX_COUNT_LIMIT:
+            self.watch_count += 1
+
+    def decrease_watch_count(self):
+        """Decrease wish count"""
+        if self.watch_count > 0:
+            self.watch_count -= 1
+
+    def increase_view_count(self):
+        """Increase wish count"""
+        if self.view_count < self.MAX_COUNT_LIMIT:
+            self.view_count += 1
+
+    def decrease_view_count(self):
+        """Decrease wish count"""
+        if self.view_count > 0:
+            self.view_count -= 1
