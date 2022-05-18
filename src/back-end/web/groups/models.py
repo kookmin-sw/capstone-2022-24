@@ -1,6 +1,7 @@
 """Model definition of groups application: Group"""
 import datetime
 
+from annoying.fields import AutoOneToOneField
 from django.db import models
 from django.utils import timezone
 from group_accounts.models import GroupAccount
@@ -17,7 +18,7 @@ class Group(models.Model):
         ("Watching", "관람중"),
     )
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    group_account = models.OneToOneField(GroupAccount, on_delete=models.CASCADE)
+    group_account = AutoOneToOneField(GroupAccount, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, default="Recruiting", choices=STATUS_CHOICES)
     creation_date_time = models.DateTimeField(default=timezone.now)
     start_watching_date_time = models.DateTimeField(null=True, blank=True)

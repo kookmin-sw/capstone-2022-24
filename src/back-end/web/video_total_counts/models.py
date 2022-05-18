@@ -1,5 +1,5 @@
 """Definitions of model about Counting user's video related interacting information : VideoTotalCount"""
-
+from annoying.fields import AutoOneToOneField
 from django.db import models
 from videos.models import Video
 
@@ -9,7 +9,7 @@ class VideoTotalCount(models.Model):
 
     MAX_COUNT_LIMIT = 2147483647
 
-    video = models.OneToOneField(
+    video = AutoOneToOneField(
         Video,
         on_delete=models.CASCADE,
     )
