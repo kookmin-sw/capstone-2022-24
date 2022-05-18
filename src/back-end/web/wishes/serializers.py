@@ -1,6 +1,5 @@
 """Serializers of wish application for json parsing"""
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 from wishes.models import Wish
 
 
@@ -34,9 +33,3 @@ class WishSerializer(serializers.ModelSerializer):
 
         model = Wish
         fields = "__all__"
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Wish.objects.all(),
-                fields=["user", "video"],
-            )
-        ]
