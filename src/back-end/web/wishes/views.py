@@ -12,7 +12,6 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView
 from rest_framework.response import Response
 from users.models import User
-from video_total_counts.views import decrease_wish_count, increase_wish_count
 from videos.models import Video
 from wishes.exceptions import WishAlreadyExistsException, WishNotFoundException
 from wishes.schemas import WISH_LIST_EXAMPLES
@@ -101,8 +100,6 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            # update total count
-            increase_wish_count(_video)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         except ValidationError as error:
             # flatten error codes
@@ -124,8 +121,6 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
             # set user
             self.kwargs["user_id"] = request.user.id
             response = super().destroy(self, request, *args, **kwargs)  # type: Response
-            # update total count
-            decrease_wish_count(_video)
             return response
         except ResultNotFoundException as not_found:
             raise WishNotFoundException() from not_found
