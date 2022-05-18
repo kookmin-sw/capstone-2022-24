@@ -88,6 +88,8 @@ INSTALLED_APPS = [
     "django_extensions",
     # for debugging
     "debug_toolbar",
+    # AutoOneToOneField
+    "annoying",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
