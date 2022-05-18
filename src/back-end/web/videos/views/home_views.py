@@ -129,6 +129,15 @@ class HomeView(viewsets.ViewSet):
         "rating": "rating",
     """
 
+    filter_default = {
+        "providers": None,
+        "categories": None,
+        "genres": None,
+        "release_date_min": "1800",
+        "release_date_max": "2022",
+        "production_country": "",
+    }
+
     def filtering(self, _filter, filter_list):
         """Method : filter video by providers, categories, genres, release_date, production_country"""
 
@@ -201,7 +210,8 @@ class HomeView(viewsets.ViewSet):
         watched = self.request.query_params.get('watched', None)
         """
 
-        _filter = self.filtering(_filter, filter_list)
+        if filter_list != self.filter_default:
+            _filter = self.filtering(_filter, filter_list)
 
         queryset = Video.objects.filter(_filter).distinct()
 
