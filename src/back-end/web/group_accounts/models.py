@@ -1,4 +1,6 @@
 """Model definition of group_accounts application: GroupAccount"""
+import datetime
+
 from django.db import models
 
 
@@ -17,3 +19,14 @@ class GroupAccount(models.Model):
 
     def __str__(self):
         return f"모임 계정 #{self.id}"
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields: frozenset = None):
+        """Save group account id/pw"""
+        # modify id/pw
+        if self.identifier and self.password:
+            self.last_modification_date_time = datetime.now()
+        # register new id/pw
+        else:
+            # TODO: id/pw 둘다 입력해야 등록일시에 추가
+            self.creation_date_time = datetime.now()
+        super().save(force_insert, force_update, using, update_fields)
