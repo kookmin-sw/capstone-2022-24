@@ -1,6 +1,9 @@
 """Serializers of applies application for json parsing"""
+from applies.models import LeaderApply, MemberApply
+from payments.serializers import PaymentSerializer
 from providers.serializers import ProviderSerializer
 from rest_framework import serializers
+from users.serializers import UserSerializer
 
 
 class BaseApplySerializer(serializers.Serializer):
@@ -28,3 +31,77 @@ class BaseApplySerializer(serializers.Serializer):
     def get_fellows(self, obj):
         """Empty fellows because group is not composed yet"""
         return []
+
+
+class MemberApplySerializer(serializers.ModelSerializer):
+    """Member Apply Serializer"""
+
+    user = serializers.SerializerMethodField()
+    payment = serializers.SerializerMethodField()
+    provider = serializers.SerializerMethodField()
+
+    class Meta:
+        """MetaData for MemberApplySerializer"""
+
+        model = MemberApply
+        fields = ("id", "user", "payment", "provider", "apply_date_time")
+
+    def get_user(self, obj):
+        """Get user data using UserSerializer"""
+        return UserSerializer(obj.user).data
+
+    def get_payment(self, obj):
+        """Get payment data using PaymentSerializer"""
+        return PaymentSerializer(obj.payment).data
+
+    def get_provider(self, obj):
+        """Get provider data using ProviderSerializer"""
+        return ProviderSerializer(obj.provider).data
+
+
+class LeaderApplySerializer(serializers.ModelSerializer):
+    """Leader Apply Serializer"""
+
+    user = serializers.SerializerMethodField()
+    provider = serializers.SerializerMethodField()
+
+    class Meta:
+        """MetaData for LeaderApplySerializer"""
+
+        model = LeaderApply
+        fields = ("id", "user", "provider", "apply_date_time")
+
+    def get_user(self, obj):
+        """Get user data using UserSerializer"""
+        return UserSerializer(obj.user).data
+
+    def get_provider(self, obj):
+        """Get provider data using ProviderSerializer"""
+        return ProviderSerializer(obj.provider).data
+
+
+class MemberCancelSerializer(serializers.Serializer):
+    """Serializer : Member Cancel"""
+
+    user_id = serializers.IntegerField()
+    payment_id = serializers.IntegerField()
+    provider_id = serializers.IntegerField()
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
+
+
+class LeaderCancelSerializer(serializers.Serializer):
+    """Serializer : Leader Cancel"""
+
+    user_id = serializers.IntegerField()
+    provider_id = serializers.IntegerField()
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""

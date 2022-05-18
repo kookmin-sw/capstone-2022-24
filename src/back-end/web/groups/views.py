@@ -15,12 +15,12 @@ from users.serializers import UserMileageSerializer
 
 @extend_schema(
     tags=["Priority-1", "Group"],
-    operation_id="모임 신청",
+    operation_id="모임원 결제",
     request=inline_serializer(
-        name="groupPaymentRequestSerializer",
+        name="GroupPaymentRequestSerializer",
         fields={"accessToken": serializers.CharField(), "providerId": serializers.IntegerField()},
     ),
-    responses={201: OpenApiResponse(description="모임 결제 성공", response=GroupPaymentResponseSerializer)},
+    responses={201: OpenApiResponse(description="모임원 결제 성공", response=GroupPaymentResponseSerializer)},
 )
 class GruopPaymentView(viewsets.ViewSet):
     """Class for member payments process to Group"""
