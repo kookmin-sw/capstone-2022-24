@@ -303,6 +303,7 @@ SPECTACULAR_SETTINGS = {
         "persistAuthorization": True,
         "displayOperationId": True,
     },
+    "DISABLE_ERRORS_AND_WARNINGS": True,
 }
 
 # i18n
