@@ -10,6 +10,7 @@ from payments.serializers import PaymentSaveSerializer
 from providers.models import Charge
 from rest_framework import serializers, status, viewsets
 from rest_framework.response import Response
+from users.serializers import UserMileageSerializer
 
 
 @extend_schema(
@@ -34,8 +35,11 @@ class GruopPaymentView(viewsets.ViewSet):
         except Charge.DoesNotExist as e:
             raise BadFormatException() from e
 
-        if _amount > _user.total_mileages:
+        user_serializer = UserMileageSerializer(_user, data={"total_mileages": _user.total_mileages - _amount})
+
+        if not user_serializer.is_valid():
             raise BadFormatException()
+            # 이부분은 금액 부족으로 따로 exceptions 처리 바꿔도 될거 같음
 
         mileage_serializer = MileageSerializer(data={"amount": _amount, "renewal_date_time": timezone.now()})
         payment_serializer = PaymentSaveSerializer(
@@ -52,6 +56,8 @@ class GruopPaymentView(viewsets.ViewSet):
         if mileage_serializer.is_valid(raise_exception=True) & payment_serializer.is_valid(raise_exception=True):
             mileage_serializer.save(user=_user)
             payment_serializer.save()
+            user_serializer.save(total_mileages=(_user.total_mileages - _amount))
+
         response_serializer = GroupPaymentResponseSerializer(
             data={"payment_id": payment_serializer.data["id"], "amount": _amount, "request_date_time": timezone.now()}
         )
