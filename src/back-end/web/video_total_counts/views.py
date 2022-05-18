@@ -7,6 +7,7 @@ def increase_wish_count(video):
     _counter = video.videototalcount  # type: VideoTotalCount
     _counter.increase_wish_count()
     _counter.save()
+    return _counter.wish_count
 
 
 def decrease_wish_count(video):
@@ -14,3 +15,4 @@ def decrease_wish_count(video):
     _counter = video.videototalcount  # type: VideoTotalCount
     _counter.decrease_wish_count()
     _counter.save()
+    return _counter.wish_count
