@@ -88,7 +88,7 @@ INSTALLED_APPS = [
     "django_extensions",
     # for debugging
     "debug_toolbar",
-    # AutoOneToOneField
+    # auto one-to-one object create
     "annoying",
 ] + CUSTOM_APPS
 
