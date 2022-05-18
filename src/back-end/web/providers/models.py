@@ -1,6 +1,15 @@
 """Model definition of providers application: Provider, SubscriptionType, Charge"""
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+
+def get_logo_prefix():
+    """Return prefix to make full logo url"""
+    return f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/providers/logo_images/{settings.STATIC_LOCATION}/"
+
+
+PREFIX = get_logo_prefix()
 
 
 class Provider(models.Model):
@@ -19,6 +28,7 @@ class Provider(models.Model):
         max_length=2,
         choices=NAME_CHOICES,
     )
+    link = models.URLField(default="https://default_ott_link.com")
     logo_key = models.CharField(max_length=100)
 
     class Meta:
@@ -28,6 +38,11 @@ class Provider(models.Model):
 
     def __str__(self):
         return f"{self.get_name_display()}"
+
+    @property
+    def logo_url(self):
+        """Full logo url stored in static storage"""
+        return f"{PREFIX + self.logo_key}"
 
 
 class SubscriptionType(models.Model):
