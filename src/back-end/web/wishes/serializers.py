@@ -28,8 +28,14 @@ class WishListSerializer(serializers.ModelSerializer):
 class WishSerializer(serializers.ModelSerializer):
     """WishSerializer used in create & destroy view"""
 
+    wish_count = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         """Metadata of Wish serializer"""
 
         model = Wish
-        fields = "__all__"
+        fields = ["id", "user", "video", "wish_count", "date_time"]
+
+    def get_wish_count(self, obj):
+        """Get modified wish_count"""
+        return obj.video.videototalcount.wish_count
