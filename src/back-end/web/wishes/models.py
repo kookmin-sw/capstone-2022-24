@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from video_total_counts.views import decrease_wish_count, increase_wish_count
 from videos.models import Video
 
 
@@ -29,3 +30,11 @@ class Wish(models.Model):
 
     def __str__(self):
         return f"찜 #{self.id}"
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super().save(force_insert, force_update, using, update_fields)
+        increase_wish_count(self.video)
+
+    def delete(self, using=None, keep_parents=False):
+        super().delete(using, keep_parents)
+        decrease_wish_count(self.video)
