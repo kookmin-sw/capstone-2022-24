@@ -12,7 +12,7 @@ class BaseApply(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True)
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    apply_date_time = models.DateTimeField(default=timezone.now)
+    apply_date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Abstract setting obout BaseApply model"""

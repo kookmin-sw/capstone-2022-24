@@ -23,9 +23,9 @@ class Group(models.Model):
         blank=True,
     )
     status = models.CharField(max_length=10, default="Recruiting", choices=STATUS_CHOICES)
-    creation_date_time = models.DateTimeField(default=timezone.now)
-    start_watching_date_time = models.DateTimeField(null=True, blank=True)
-    end_watching_date_time = models.DateTimeField(null=True, blank=True)
+    creation_date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
+    start_watching_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
+    end_watching_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for group model"""

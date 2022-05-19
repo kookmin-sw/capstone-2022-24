@@ -33,7 +33,7 @@ class StarRating(models.Model):
         choices=VALUE_CHOICES,
         default=5,
     )
-    date_time = models.DateTimeField(default=timezone.now)
+    date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for star_rating model"""

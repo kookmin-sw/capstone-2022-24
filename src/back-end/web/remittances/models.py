@@ -29,10 +29,7 @@ class Remittance(models.Model):
     payment = models.ForeignKey(Payment, null=True, blank=True, on_delete=models.SET_NULL)
     amount = models.PositiveIntegerField(default=0)
     status = models.CharField(choices=STATUS_CHOICES, max_length=2)
-    transfer_date_time = models.DateTimeField(
-        null=True,
-        blank=True,
-    )
+    transfer_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for remittance model"""

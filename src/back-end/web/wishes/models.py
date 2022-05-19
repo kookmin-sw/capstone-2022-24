@@ -17,7 +17,7 @@ class Wish(models.Model):
         Video,
         on_delete=models.CASCADE,
     )
-    date_time = models.DateTimeField(default=timezone.now)
+    date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for wish model"""

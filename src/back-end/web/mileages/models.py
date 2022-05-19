@@ -9,7 +9,7 @@ class Mileage(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
-    renewal_date_time = models.DateTimeField(default=timezone.now)
+    renewal_date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for mileage model"""

@@ -52,7 +52,7 @@ class Notification(models.Model):
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
     content = models.ForeignKey(NotificationContent, on_delete=models.CASCADE)
     has_read = models.BooleanField(default=False)
-    creation_date_time = models.DateTimeField(default=timezone.now)
+    creation_date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Metadata for notification model"""
