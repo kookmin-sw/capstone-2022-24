@@ -102,7 +102,7 @@ export default {
 				}
 			});
 			this.interactions[idx].isSelect = true;
-			this.currentTab = this.interactions[idx].name;// 버튼 클릭되면 currentTab 변수에 선택된 버튼 name 들어가게끔 해뒀습니다
+			this.currentTab = this.interactions[idx].name;
 		},
 	},
 };
