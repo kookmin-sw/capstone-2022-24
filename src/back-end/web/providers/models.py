@@ -73,8 +73,7 @@ class Charge(models.Model):
     )
     subscription_type = models.OneToOneField(
         SubscriptionType,
-        null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     service_charge_per_member = models.PositiveIntegerField(default=0)
     subscription_charge_per_member = models.PositiveIntegerField(default=0)
