@@ -1,13 +1,17 @@
 """APIs of groups application"""
 
 from config.exceptions.input import BadFormatException
+from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
 from django.utils import timezone
 from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
+from group_accounts.models import GroupAccount
+from groups.exceptions import GroupNotFoundException, WatchingDurationException
+from groups.models import Group
 from groups.serializers import GroupPaymentResponseSerializer
 from mileages.serializers import MileageSerializer
 from payments.serializers import PaymentSaveSerializer
-from providers.models import Charge
+from providers.models import Charge, Provider, SubscriptionType
 from rest_framework import serializers, status, viewsets
 from rest_framework.response import Response
 from users.serializers import UserMileageSerializer
@@ -65,3 +69,46 @@ class GruopPaymentView(viewsets.ViewSet):
         response_serializer.is_valid(raise_exception=True)
 
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+
+def delete_expired_group(group: Group):
+    """Delete group when watching time is passed"""
+    if group.end_watching_date_time < timezone.now():
+        group.delete()
+
+
+def start_watch(group: Group):
+    """set start / end watching time of group"""
+    try:
+        _queryset = Group.objects.select_related("provider").prefetch_related(
+            "provider__charge", "provider__charge__subscription_type"
+        )
+        # start: datetime at group_account created
+        start_date_time = group.group_account.creation_date_time
+        # end: datetime at start_time + subscription duration
+        _subscription_detail = group.provider.charge.subscription_type
+        end_date_time = start_date_time + _subscription_detail.duration
+        # set watching duration
+        group.start_watching_with_duration(start_date_time, end_date_time)
+    except Provider.DoesNotExist as provider_error:
+        raise ResultNotFoundException from provider_error  # TODO: 예외 구체화 필요
+    except Charge.DoesNotExist as charge_error:
+        raise ResultNotFoundException from charge_error  # TODO: 예외 구체화 필요
+    except SubscriptionType.DoesNotExist as subscription_error:
+        raise ResultNotFoundException from subscription_error  # TODO: 예외 구체화 필요
+    except WatchingDurationException as duration_error:
+        raise duration_error
+
+
+def can_start_watch(group: Group):
+    """can not watch before, but can watch now"""
+    try:
+        # check group does not start watching yet
+        _recruited = group.is_waiting_for_watching
+        # check account is fulfilled
+        _registered = group.group_account.has_registered
+        return _recruited and _registered
+    except Group.DoesNotExist as g:
+        raise GroupNotFoundException from g
+    except GroupAccount.DoesNotExist as ga:
+        raise GroupNotFoundException from ga
