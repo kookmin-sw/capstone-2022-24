@@ -1,5 +1,6 @@
 """APIs of providers application"""
 from django.db.models import Q
+from drf_spectacular.utils import extend_schema
 from providers.models import Provider
 from providers.serializers import ProviderListByApplyTypeSerializer
 from rest_framework.generics import GenericAPIView
@@ -33,6 +34,7 @@ def get_providers_by_user_apply_type(user: User):
     return providers
 
 
+@extend_schema(tags=["Priority-1", "Group"], operation_id="모임 신청 여부별 OTT 목록 조회")
 class ProviderListByApplyTypeView(GenericAPIView):
     """Provider list by apply types"""
 

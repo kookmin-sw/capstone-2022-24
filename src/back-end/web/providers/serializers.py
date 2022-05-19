@@ -29,7 +29,9 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
         read_only_fields = ["__all__"]
 
 
-@extend_schema_serializer(examples=PROVIDER_LIST_EXAMPLES)
+@extend_schema_serializer(
+    examples=PROVIDER_LIST_EXAMPLES,
+)
 class ProviderListByApplyTypeSerializer(serializers.Serializer):
     """Providers by apply"""
 
