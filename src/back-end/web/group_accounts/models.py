@@ -19,6 +19,16 @@ class GroupAccount(models.Model):
     def __str__(self):
         return f"모임 계정 #{self.id}"
 
+    @property
+    def has_registered(self):
+        """if leader entered full account information"""
+        return self.creation_date_time is not None
+
+    @property
+    def can_watch(self):
+        """id/pw is not null"""
+        return self.identifier and self.password
+
     @classmethod
     def create_empty_account(cls):
         """Initialize object and return its id"""
@@ -26,12 +36,12 @@ class GroupAccount(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """Save group account id/pw"""
-        # modify id/pw
-        if self.identifier and self.password:
+        # modify id/pw (already fully registered at least once)
+        if self.creation_date_time:
             self.last_modification_date_time = timezone.now()
         # register new id/pw
         else:
-            # TODO: id/pw 둘다 입력해야 등록일시에 추가
+            # when id and pw are fulfilled -> save creation datetime fulfilled
             if update_fields:
                 if ("identifier" in update_fields and self.password) or (
                     "password" in update_fields and self.identifier
