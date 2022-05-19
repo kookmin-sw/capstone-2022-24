@@ -113,7 +113,6 @@ export const videoList = {
 				productionCountry: state.filters.productionCountry.join(','),
 			};
 
-			console.log(params);
 			await http
 				.get(url, { params })
 				.then(res => {

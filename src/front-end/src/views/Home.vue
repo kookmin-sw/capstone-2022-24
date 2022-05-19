@@ -254,7 +254,8 @@ export default {
 			sort: [
 				{ label: '랜덤순', isSelect: true, name: 'random' },
 				// { label: '평점순', isSelect: false, name: 'rating' },
-				// { label: '최신순', isSelect: false, name: 'new' },
+				{ label: '최신순', isSelect: false, name: 'new' },
+				{ label: '개봉순', isSelect: false, name: 'release' },
 				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
 			selected: {
