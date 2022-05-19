@@ -20,6 +20,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from videos.exceptions import WrongVideoIDException
 from videos.models import Video
+from wishes.models import Wish
 
 
 @extend_schema(
@@ -80,7 +81,11 @@ class DetailView(viewsets.ViewSet):
         video_genre = Video.objects.filter(Q(id=video_id)).values_list("genre__name")
         video_production_country = Video.objects.filter(Q(id=video_id)).values_list("productioncountry__name")
 
-        video_info = [video_provider, video_genre, video_production_country]
+        video_info = {
+            "video_provider": video_provider,
+            "video_genre": video_genre,
+            "video_production_country": video_production_country,
+        }
 
         return video_info
 
@@ -88,7 +93,7 @@ class DetailView(viewsets.ViewSet):
         """Method : Make video info list to video info response"""
         provider_list = []
 
-        for item in video_info_list[0]:
+        for item in video_info_list["video_provider"]:
             provider = {
                 "name": item[1],
                 "logo_url": item[2],
@@ -96,15 +101,32 @@ class DetailView(viewsets.ViewSet):
             }
             provider_list.append(provider)
 
-        gerne_list = []
-        for item in video_info_list[1]:
-            gerne_list.append(item[0])
+        genre_list = []
+        for item in video_info_list["video_genre"]:
+            genre_list.append(item[0])
 
         production_country_list = []
-        for item in video_info_list[2]:
+        for item in video_info_list["video_production_country"]:
             production_country_list.append(item[0])
 
-        return [provider_list, gerne_list, production_country_list]
+        return {
+            "provider_list": provider_list,
+            "genre_list": genre_list,
+            "production_country_list": production_country_list,
+        }
+
+    def video_personal_count(self, request_user, video_id, context):
+        """user가 로그인 했을 경우 context에 추가 값을 입력해주는 메소드"""
+
+        try:
+            Wish.objects.get(Q(video=video_id) & Q(user=request_user))
+            wished = True
+        except Wish.DoesNotExist:
+            wished = False
+
+        context["personal"] = {"wished": wished}
+
+        return context
 
     @extend_schema(
         tags=["Priority-1", "Video"],
@@ -209,13 +231,19 @@ class DetailView(viewsets.ViewSet):
             "release_date": tv.release_date,
             "film_rating": tv.film_rating,
             "overview": season_json_ob["overview"],
-            "providers": tv_info_response[0],
-            "genres": tv_info_response[1],
-            "production_countries": tv_info_response[2],
+            "providers": tv_info_response["provider_list"],
+            "genres": tv_info_response["genre_list"],
+            "production_countries": tv_info_response["production_country_list"],
             "total_seasons": tv_json_ob["number_of_seasons"],
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
+            "public": {"wish_count": tv.videototalcount.wish_count},
         }
+
+        context["personal"] = {"wished": None}
+
+        if request.user.is_authenticated:
+            context = self.video_personal_count(request.user, tv.id, context)
 
         return Response(context, status=status.HTTP_200_OK)
 
@@ -320,9 +348,15 @@ class DetailView(viewsets.ViewSet):
             "release_date": movie.release_date,
             "title_english": movie.title_english,
             "overview": overview,
-            "providers": movie_info_response[0],
-            "genres": movie_info_response[1],
-            "production_countries": movie_info_response[2],
+            "providers": movie_info_response["provider_list"],
+            "genres": movie_info_response["genre_list"],
+            "production_countries": movie_info_response["production_country_list"],
+            "public": {"wish_count": movie.videototalcount.wish_count},
         }
+
+        context["personal"] = {"wished": None}
+
+        if request.user.is_authenticated:
+            context = self.video_personal_count(request.user, movie.id, context)
 
         return Response(context, status=status.HTTP_200_OK)
