@@ -15,16 +15,17 @@ urlpatterns = [
     path("groups/", include("groups.urls")),
     path("users/", include("users.urls")),
     path("applies/", include("applies.urls")),
-    path("users/mypage/", include("mypages.urls")),
+    path("mypage/", include("mypages.urls")),
     # api docs
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger
     path("docs/redoc/", SpectacularRedocView.as_view(url_name="docs"), name="redoc"),  # api docs by redoc
     # video history
-    path("users/mypage/recent-views/", include("recent_views.urls")),
-    path("users/mypage/watch-marks/", include("watching_marks.urls")),
-    path("users/mypage/wishes/", include("wishes.urls")),
-    path("users/mypage/stars/", include("star_ratings.urls")),
+    path("mypage/recent-views/", include("recent_views.urls")),
+    path("mypage/watch-marks/", include("watching_marks.urls")),
+    path("mypage/wishes/", include("wishes.urls")),
+    path("mypage/stars/", include("star_ratings.urls")),
+    path("providers/", include("providers.urls")),
 ]
 
 # show debug toolbar only in DEBUG mode
