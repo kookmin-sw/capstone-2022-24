@@ -4,6 +4,7 @@ from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from django.core.exceptions import ValidationError as DjangoValidationError
 from providers.serializers import ProviderListByApplyTypeSerializer
+from providers.views import get_providers_by_user_apply_type
 from rest_framework import serializers
 from users.adapter import UserAccountAdapter
 from users.models import User
@@ -41,7 +42,8 @@ class OAuthLoginUserSerializer(serializers.Serializer):
 
     def get_providers(self, u):
         """get providers by apply type"""
-        return ProviderListByApplyTypeSerializer(u).data
+        _provider = get_providers_by_user_apply_type(u)
+        return ProviderListByApplyTypeSerializer(_provider).data
 
     def update(self, instance, validated_data):
         """Not used"""
