@@ -1,14 +1,15 @@
 """APIs of groups application"""
-
 from config.exceptions.input import BadFormatException
 from django.db.models import Q
 from django.utils import timezone
 from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
-from groups.serializers import GroupPaymentResponseSerializer
+from groups.models import Group
+from groups.serializers import GroupDetailSerializer, GroupPaymentResponseSerializer
 from mileages.serializers import MileageSerializer
 from payments.serializers import PaymentSaveSerializer
 from providers.models import Charge
 from rest_framework import serializers, status, viewsets
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
 from users.serializers import UserMileageSerializer
 
@@ -65,3 +66,15 @@ class GruopPaymentView(viewsets.ViewSet):
         response_serializer.is_valid(raise_exception=True)
 
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class GroupDetailView(RetrieveAPIView):
+    """GET /groups/{group_id}/"""
+
+    queryset = Group.objects.select_related("provider", "group_account",).prefetch_related(
+        "fellow_set",
+        "fellow_set__user",
+        "fellow_set__member",
+        "fellow_set__leader",
+    )
+    serializer_class = GroupDetailSerializer
