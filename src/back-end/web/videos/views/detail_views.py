@@ -116,7 +116,7 @@ class DetailView(viewsets.ViewSet):
         }
 
     def video_personal_count(self, request_user, video_id, context):
-        """user가 로그인 했을 경우 context에 추가 값을 입력해주는 메소드"""
+        """Method : Check whether the User Personal info : Wished"""
 
         try:
             Wish.objects.get(Q(video=video_id) & Q(user=request_user))
