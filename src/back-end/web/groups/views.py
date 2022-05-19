@@ -68,6 +68,7 @@ class GruopPaymentView(viewsets.ViewSet):
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
 
+@extend_schema(tags=["Priority-1", "Group"], operation_id="모임 상세 조회")
 class GroupDetailView(RetrieveAPIView):
     """GET /groups/{group_id}/"""
 
