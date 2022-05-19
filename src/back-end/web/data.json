@@ -16953,5 +16953,49 @@
     },
     "model": "users.user",
     "pk": 4
+  },
+  {
+    "fields": {
+      "creation_date_time": null,
+      "identifier": null,
+      "last_modification_date_time": null,
+      "password": null
+    },
+    "model": "group_accounts.groupaccount",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creation_date_time": null,
+      "identifier": null,
+      "last_modification_date_time": null,
+      "password": null
+    },
+    "model": "group_accounts.groupaccount",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-20T02:33:15",
+      "end_watching_date_time": null,
+      "group_account": 1,
+      "provider": 5,
+      "start_watching_date_time": null,
+      "status": "Recruiting"
+    },
+    "model": "groups.group",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-20T02:33:25",
+      "end_watching_date_time": null,
+      "group_account": 2,
+      "provider": 6,
+      "start_watching_date_time": null,
+      "status": "Recruited"
+    },
+    "model": "groups.group",
+    "pk": 2
   }
 ]
