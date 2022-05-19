@@ -6,6 +6,7 @@ from group_accounts.serializers import (
     GroupAccountIDSerializer,
     GroupAccountPWSerializer,
 )
+from groups.models import Group
 from groups.views import can_start_watch, start_watch
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import UpdateAPIView
@@ -35,8 +36,11 @@ class GroupAccountView(UpdateAPIView):
                 raise CanNotRegisterGroupAccountException
             # 모임 계정 변경
             response = super().patch(request, *args, **kwargs)
-            # 모임 상태 변경 필요? (모집완료 -> 관람중~)
-            if can_start_watch(_group):
+            # 저장 후 새로 fetch
+            # + 모임 상태 변경 필요? (모집완료 -> 관람중~)
+            _q = Group.objects.prefetch_related("group_account")
+            _patched_group = _q.get(id=kwargs.get("group_id"))
+            if can_start_watch(_patched_group):
                 # 모임 상태 변경
                 start_watch(_group)
             return response

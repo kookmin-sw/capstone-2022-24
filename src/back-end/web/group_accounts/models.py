@@ -37,14 +37,11 @@ class GroupAccount(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """Save group account id/pw"""
         # modify id/pw (already fully registered at least once)
-        if self.creation_date_time:
+        if self.has_registered:
             self.last_modification_date_time = timezone.now()
-        # register new id/pw
-        else:
-            # when id and pw are fulfilled -> save creation datetime fulfilled
-            if update_fields:
-                if ("identifier" in update_fields and self.password) or (
-                    "password" in update_fields and self.identifier
-                ):
-                    self.creation_date_time = timezone.now()
+        elif self.can_watch:
+            self.creation_date_time = timezone.now()
         super().save(force_insert, force_update, using, update_fields)
+        # # register new id/pw
+        # if not _before and self.can_watch:
+        #     self.creation_date_time = timezone.now()
