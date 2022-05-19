@@ -3,6 +3,7 @@
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from django.core.exceptions import ValidationError as DjangoValidationError
+from providers.serializers import ProviderListByApplyTypeSerializer
 from rest_framework import serializers
 from users.adapter import UserAccountAdapter
 from users.models import User
@@ -26,6 +27,27 @@ class UserSerializer(serializers.ModelSerializer):
             "is_active",
             "is_verified",
         ]
+
+
+class OAuthLoginUserSerializer(serializers.Serializer):
+    """OAuth login base serializer"""
+
+    user = serializers.SerializerMethodField()
+    providers = serializers.SerializerMethodField()
+
+    def get_user(self, u):
+        """get user profiles"""
+        return UserSerializer(u).data
+
+    def get_providers(self, u):
+        """get providers by apply type"""
+        return ProviderListByApplyTypeSerializer(u).data
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
 
 
 class UserLoginSerializer(LoginSerializer):
