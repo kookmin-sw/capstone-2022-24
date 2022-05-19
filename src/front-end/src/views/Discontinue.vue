@@ -51,10 +51,11 @@ export default {
 	name: 'Discontinue',
 	data() {
 		return {
+			currentTab: 'endSeven',
 			days: [
-				{ label: '7일 이내 종료 예정작', isSelect: true, value: 7 },
-				{ label: '15일 이내 종료 예정작', isSelect: false, value: 15 },
-				{ label: '30일 이내 종료 예정작', isSelect: false, value: 30 },
+				{ label: '7일 이내 종료 예정작', isSelect: true, name: 'endSeven', value: 7 },
+				{ label: '15일 이내 종료 예정작', isSelect: false, name: 'endFifteen', value: 15 },
+				{ label: '30일 이내 종료 예정작', isSelect: false, name: 'endThirty', value: 30 },
 			],
 		};
 	},
@@ -76,6 +77,7 @@ export default {
 				}
 			});
 			this.days[idx].isSelect = true;
+			this.currentTab = this.days[idx].name;
 			this.$store.dispatch(
 				'videoDiscontinued/loadVideoList',
 				this.days[idx].value,
