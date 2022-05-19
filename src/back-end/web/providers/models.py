@@ -50,7 +50,7 @@ class Provider(models.Model):
 class SubscriptionType(models.Model):
     """Model definition of subscription details"""
 
-    name = models.CharField(primary_key=True, max_length=20)
+    name = models.CharField(max_length=20)
     number_of_subscribers = models.PositiveSmallIntegerField()
     duration = models.DurationField(default=datetime.timedelta(days=30))
     detail = models.CharField(null=True, blank=True, max_length=200)
