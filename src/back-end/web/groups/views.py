@@ -78,3 +78,5 @@ class GroupDetailView(RetrieveAPIView):
         "fellow_set__leader",
     )
     serializer_class = GroupDetailSerializer
+    lookup_field = "id"
+    lookup_url_kwarg = "group_id"

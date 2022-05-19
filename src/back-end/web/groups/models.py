@@ -48,4 +48,4 @@ class Group(models.Model):
             _account = GroupAccount()
             _account.save()
             self.group_account = _account
-        super().__init__(Group, self).save(self, *args, **kwargs)
+        super().save(self, *args, **kwargs)
