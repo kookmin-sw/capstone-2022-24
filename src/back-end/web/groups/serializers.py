@@ -1,7 +1,9 @@
 """Serializers of groups application for json parsing"""
+from drf_spectacular.utils import extend_schema_serializer
 from fellows.serializers import FellowProfileSerializer
 from group_accounts.serializers import GroupAccountSerializer
 from groups.models import Group
+from groups.schemas import GROUP_DETAIL_SERIALIZER_EXAMPLES
 from providers.serializers import ProviderSerializer
 from rest_framework import serializers
 
@@ -27,6 +29,7 @@ class GroupPaymentResponseSerializer(serializers.Serializer):
         return 0
 
 
+@extend_schema_serializer(examples=GROUP_DETAIL_SERIALIZER_EXAMPLES)
 class GroupDetailSerializer(serializers.ModelSerializer):
     """Group detail serializer"""
 
