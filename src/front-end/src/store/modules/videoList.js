@@ -107,8 +107,13 @@ export const videoList = {
 				sort: state.sort,
 				providers: state.filters.providers.join(','),
 				category: state.filters.categories.join(','),
+				releaseDateMax: state.filters.releaseDateMax,
+				releaseDateMin: state.filters.releaseDateMin,
+				genres: state.filters.genres.join(','),
+				productionCountry: state.filters.productionCountry.join(','),
 			};
 
+			console.log(params);
 			await http
 				.get(url, { params })
 				.then(res => {
