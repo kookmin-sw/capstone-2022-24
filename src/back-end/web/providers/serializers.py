@@ -1,5 +1,7 @@
 """Serializers of providers application for json parsing"""
+
 from providers.models import Charge, Provider, SubscriptionType
+from providers.views import get_providers_by_user_apply_type
 from rest_framework import serializers
 
 
@@ -14,6 +16,34 @@ class ProviderSerializer(serializers.ModelSerializer):
         model = Provider
         fields = ["id", "tmdb_id", "name", "link", "logo_url"]
         read_only_fields = ["__all__"]
+
+
+class ProviderSummarySerializer(serializers.ModelSerializer):
+    """Provider summary"""
+
+    class Meta:
+        """Metadata for provider"""
+
+        model = Provider
+        fields = ["id", "name", "logo_url", "link"]
+        read_only_fields = ["__all__"]
+
+
+class ProviderListByApplyTypeSerializer(serializers.Serializer):
+    """Providers by apply"""
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
+
+    applied_providers = serializers.SerializerMethodField(method_name="get_providers")
+    not_applied_providers = serializers.SerializerMethodField(method_name="get_providers")
+
+    def get_providers(self, user):
+        """Get providers by apply type"""
+        return get_providers_by_user_apply_type(user)
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
