@@ -3,11 +3,13 @@
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from django.core.exceptions import ValidationError as DjangoValidationError
+from drf_spectacular.utils import extend_schema_serializer
 from providers.serializers import ProviderListByApplyTypeSerializer
 from providers.views import get_providers_by_user_apply_type
 from rest_framework import serializers
 from users.adapter import UserAccountAdapter
 from users.models import User
+from users.schemas import OAUTH_LOGIN_USEr_SERIALIZER_EXAMPLES
 from users.validators import get_nickname_validators, get_unique_nickname_validator
 
 
@@ -30,6 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+@extend_schema_serializer(examples=OAUTH_LOGIN_USEr_SERIALIZER_EXAMPLES)
 class OAuthLoginUserSerializer(serializers.Serializer):
     """OAuth login base serializer"""
 
