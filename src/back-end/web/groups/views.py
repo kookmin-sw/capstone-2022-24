@@ -57,7 +57,7 @@ class GruopPaymentView(viewsets.ViewSet):
         if mileage_serializer.is_valid(raise_exception=True) & payment_serializer.is_valid(raise_exception=True):
             mileage_serializer.save(user=_user)
             payment_serializer.save()
-            user_serializer.save(total_mileages=(_user.total_mileages - _amount))
+            user_serializer.save()
 
         response_serializer = GroupPaymentResponseSerializer(
             data={"payment_id": payment_serializer.data["id"], "amount": _amount, "request_date_time": timezone.now()}
