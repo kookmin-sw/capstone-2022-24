@@ -13,7 +13,7 @@ class Group(models.Model):
     """Model definition of Group composed of leader and members"""
 
     STATUS_CHOICES = (
-        ("Recruited", "모집중"),
+        ("Recruiting", "모집중"),
         ("Recruited", "모집완료"),
         ("Watching", "관람중"),
     )
