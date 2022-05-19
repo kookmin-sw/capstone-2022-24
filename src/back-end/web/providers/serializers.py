@@ -32,18 +32,18 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
 class ProviderListByApplyTypeSerializer(serializers.Serializer):
     """Providers by apply"""
 
-    def update(self, instance, validated_data):
-        """Not used"""
-
-    def create(self, validated_data):
-        """Not used"""
-
     applied_providers = serializers.SerializerMethodField(method_name="get_providers")
     not_applied_providers = serializers.SerializerMethodField(method_name="get_providers")
 
     def get_providers(self, user):
         """Get providers by apply type"""
         return get_providers_by_user_apply_type(user)
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):
