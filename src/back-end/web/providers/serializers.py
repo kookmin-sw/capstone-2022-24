@@ -1,7 +1,7 @@
 """Serializers of providers application for json parsing"""
-
+from drf_spectacular.utils import extend_schema_serializer
 from providers.models import Charge, Provider, SubscriptionType
-from providers.views import get_providers_by_user_apply_type
+from providers.schemas import PROVIDER_LIST_EXAMPLES
 from rest_framework import serializers
 
 
@@ -29,15 +29,22 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
         read_only_fields = ["__all__"]
 
 
+@extend_schema_serializer(examples=PROVIDER_LIST_EXAMPLES)
 class ProviderListByApplyTypeSerializer(serializers.Serializer):
     """Providers by apply"""
 
-    applied_providers = serializers.SerializerMethodField(method_name="get_providers")
-    not_applied_providers = serializers.SerializerMethodField(method_name="get_providers")
+    applied_providers = serializers.SerializerMethodField()
+    not_applied_providers = serializers.SerializerMethodField()
 
-    def get_providers(self, user):
+    def get_applied_providers(self, providers_obj):
         """Get providers by apply type"""
-        return get_providers_by_user_apply_type(user)
+        _applied = providers_obj.get("applied_providers")
+        return ProviderSummarySerializer(_applied, many=True).data
+
+    def get_not_applied_providers(self, providers_obj):
+        """Get providers by apply type"""
+        _not_applied = providers_obj.get("not_applied_providers")
+        return ProviderSummarySerializer(_not_applied, many=True).data
 
     def update(self, instance, validated_data):
         """Not used"""

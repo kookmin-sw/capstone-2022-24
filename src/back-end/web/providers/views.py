@@ -1,13 +1,14 @@
 """APIs of providers application"""
 from django.db.models import Q
 from providers.models import Provider
+from providers.serializers import ProviderListByApplyTypeSerializer
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
 from users.models import User
 
 
-def get_providers_by_user_apply_type(login_user: User):
-    """Get providers in two categories: applied,joined & not applied"""
-
-    # get providers queryset
+def get_providers_by_user_apply_type(user: User):
+    """make each provider list using queryset"""
     _queryset = Provider.objects.prefetch_related(
         "memberapply_set",
         "memberapply_set__user",
@@ -16,22 +17,34 @@ def get_providers_by_user_apply_type(login_user: User):
         "group_set",
         "group_set__fellow_set",
         "group_set__fellow_set__user",
-    )
+    )  # type: QuerySet[Provider]
 
     # get applied providers
-    _filter = (
-        Q(memberapply_set__user=login_user)
-        | Q(leaderapply_set__user=login_user)
-        | Q(group_set__fellow_set__user=login_user)
-    )
-    _applied_providers = _queryset.filter(_filter).all()
+    _filter = Q(memberapply__user=user) | Q(leaderapply__user=user) | Q(group__fellow__user=user)
+    _applied_providers = _queryset.filter(_filter).all()  # type: QuerySet[Provider]
 
     # get not-applied providers
-    _not_applied_providers = _queryset.difference(_applied_providers).all()
-
+    _not_applied_providers = _queryset.exclude(id__in=_applied_providers).all()
     # make dictionary data
-    providers = {
-        "applied_providers": _applied_providers,
-        "not_applied_providers": _not_applied_providers,
-    }
+    providers = dict(
+        applied_providers=list(_applied_providers),
+        not_applied_providers=list(_not_applied_providers),
+    )
     return providers
+
+
+class ProviderListByApplyTypeView(GenericAPIView):
+    """Provider list by apply types"""
+
+    queryset = None
+    serializer_class = ProviderListByApplyTypeSerializer
+
+    def get_queryset(self):
+        """Get providers in two categories"""
+        return get_providers_by_user_apply_type(self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        """Get providers"""
+        _provider = self.get_queryset()
+        serializer = self.get_serializer(_provider)
+        return Response(serializer.data)
