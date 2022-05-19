@@ -8,7 +8,8 @@
 				<q-chip
 					v-if="condition.isSelect"
 					v-model:selected="condition.isSelect"
-					class="bg-blue-80 text-weight-bold text-grey-100">
+					class="bg-blue-80 text-weight-bold text-grey-100"
+					@click="clickCondition(condition)">
 					{{ condition.label }}
 				</q-chip>
 				<!-- not select -->
@@ -49,7 +50,7 @@ export default {
 		};
 	},
 	methods: {
-		clickCondition(cond) {
+		async clickCondition(cond) {
 			// 선택
 			if (cond.isSelect) {
 				if (cond.label === '전체') {
@@ -79,7 +80,7 @@ export default {
 				name: this.filterName,
 				selected: this.selected,
 			};
-			this.$store.dispatch('videoList/selectCondition', condition);
+			await this.$store.dispatch('videoList/filterVideos', condition);
 		},
 	},
 };

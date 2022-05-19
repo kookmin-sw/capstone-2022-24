@@ -37,7 +37,9 @@
 						:key="index"
 						:class="{ 'ott-filter-select': ott.isSelect }"
 						class="q-mr-sm"
-						@click="ottFilterClick(index)" />
+						@click="ottFilterClick(index)">
+						<img :src="ott.logoUrl" :alt="ott.name" />
+					</q-avatar>
 				</div>
 				<!-- 세부 필터 -->
 				<q-list bordered class="q-mb-lg radius-4">
@@ -159,7 +161,7 @@
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
-			<div class="q-mb-xl text-h6 text-bold" v-if="!totalResult">
+			<div class="q-mb-xl text-h6 text-bold" v-if="loadFail">
 				작품이 존재하지 않습니다.
 			</div>
 		</q-infinite-scroll>
@@ -178,11 +180,34 @@ export default {
 	data() {
 		return {
 			ottFilters: {
-				netflix: { label: '넷플릭스', isSelect: false },
-				watcha: { label: '왓챠', isSelect: false },
-				disneyPlus: { label: '디즈니플러스', isSelect: false },
-				tving: { label: '티빙', isSelect: false },
-				wavve: { label: '웨이브', isSelect: false },
+				netflix: {
+					label: '넷플릭스',
+					isSelect: false,
+					name: 'NF',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg',
+				},
+				watcha: {
+					label: '왓챠',
+					isSelect: false,
+					name: 'WC',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
+				},
+				disneyPlus: {
+					label: '디즈니플러스',
+					isSelect: false,
+					name: 'DP',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
+				},
+				wavve: {
+					label: '웨이브',
+					isSelect: false,
+					name: 'WV',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
+				},
 			},
 			selectFilters: {
 				categories: [
@@ -227,10 +252,10 @@ export default {
 			},
 			search: null,
 			sort: [
-				{ label: '랜덤순', isSelect: true },
-				{ label: '평점순', isSelect: false },
-				{ label: '최신순', isSelect: false },
-				{ label: '인기순', isSelect: false },
+				{ label: '랜덤순', isSelect: true, name: 'random' },
+				// { label: '평점순', isSelect: false, name: 'rating' },
+				// { label: '최신순', isSelect: false, name: 'new' },
+				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
 			selected: {
 				ott: [],
@@ -240,9 +265,11 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('videoList', ['videos', 'totalResult']),
+		...mapState('videoList', ['videos', 'totalResult', 'loadFail']),
 	},
 	async beforeCreate() {
+		window.reload;
+		await this.$store.dispatch('videoList/initSetting');
 		await this.$store.dispatch('videoList/loadVideoList', 0);
 	},
 	methods: {
@@ -253,6 +280,7 @@ export default {
 				}
 			});
 			this.sort[idx].isSelect = true;
+			this.$store.dispatch('videoList/sortVideos', this.sort[idx].name);
 		},
 		async videoOnLoad(index, done) {
 			if (this.videos.length <= this.totalResult) {
@@ -268,8 +296,13 @@ export default {
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
 			if (this.ottFilters[idx].isSelect === true) {
-				this.selected.ott.push(this.ottFilters[idx].label);
-			} else this.selected.ott.splice(this.ottFilters[idx].label, 1);
+				this.selected.ott.push(this.ottFilters[idx].name);
+			} else this.selected.ott.splice(this.ottFilters[idx].name, 1);
+			const condition = {
+				name: 'PROVIDERS',
+				selected: this.selected.ott,
+			};
+			this.$store.dispatch('videoList/filterVideos', condition);
 		},
 		searchButtonClick() {
 			this.$store.dispatch('videoList/searchVideos', this.search);

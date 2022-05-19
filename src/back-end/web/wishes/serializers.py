@@ -1,27 +1,41 @@
 """Serializers of wish application for json parsing"""
 from rest_framework import serializers
-from users.serializers import UserSerializer
-from videos.serializers import VideoSerializer
 from wishes.models import Wish
 
 
-class WishSerializer(serializers.ModelSerializer):
+class WishListSerializer(serializers.ModelSerializer):
     """Serializer of Wish model"""
 
-    user = serializers.SerializerMethodField()
-    video = serializers.SerializerMethodField()
+    id = serializers.IntegerField(source="video.id")
+    tmdb_id = serializers.IntegerField(source="video.tmdb_id")
+    title = serializers.CharField(max_length=200, source="video.title")
+    poster_url = serializers.URLField(source="video.poster_key", allow_null=True)
 
     class Meta:
         """Metadata of Wish serializer"""
 
         model = Wish
-        fields = "__all__"
-        read_only_fields = "__all__"
+        fields = [
+            "id",
+            "tmdb_id",
+            "title",
+            "poster_url",
+            "date_time",
+        ]
+        read_only_fields = ["__all__"]
 
-    def get_user(self, obj):
-        """Get user data using UserSerializer"""
-        return UserSerializer(obj.user).data
 
-    def get_video(self, obj):
-        """Get video data using UserSerializer"""
-        return VideoSerializer(obj.video).data
+class WishSerializer(serializers.ModelSerializer):
+    """WishSerializer used in create & destroy view"""
+
+    wish_count = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        """Metadata of Wish serializer"""
+
+        model = Wish
+        fields = ["id", "user", "video", "wish_count", "date_time"]
+
+    def get_wish_count(self, obj):
+        """Get modified wish_count"""
+        return obj.video.videototalcount.wish_count

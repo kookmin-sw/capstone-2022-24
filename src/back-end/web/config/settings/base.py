@@ -88,6 +88,8 @@ INSTALLED_APPS = [
     "django_extensions",
     # for debugging
     "debug_toolbar",
+    # auto one-to-one object create
+    "annoying",
 ] + CUSTOM_APPS
 
 REST_FRAMEWORK = {
@@ -301,6 +303,7 @@ SPECTACULAR_SETTINGS = {
         "persistAuthorization": True,
         "displayOperationId": True,
     },
+    "DISABLE_ERRORS_AND_WARNINGS": True,
 }
 
 # i18n
