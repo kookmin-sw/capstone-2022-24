@@ -16914,5 +16914,26 @@
     },
     "model": "users.user",
     "pk": 3
+  },
+  {
+    "fields": {
+      "birthday": "1990-01-01",
+      "cell_phone_number": "010-1234-5678",
+      "email": "user@example.com",
+      "is_active": true,
+      "is_admin": true,
+      "is_verified": true,
+      "last_login": null,
+      "last_login_date_time": null,
+      "name": "string",
+      "nickname": "string",
+      "password": "pbkdf2_sha256$320000$nKSpGQ6YPAOGVDQ0tUKINt$8PgHtH3bhlsYbwYpHDC/4KnMCSjLYNskzYILh6Zb0wk=",
+      "profile_image_url": null,
+      "registration_date_time": "2022-05-19T03:39:33.685",
+      "total_mileages": 0,
+      "withdrawal_date_time": null
+    },
+    "model": "users.user",
+    "pk": 4
   }
 ]
