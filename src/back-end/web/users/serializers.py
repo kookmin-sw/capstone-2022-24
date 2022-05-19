@@ -144,3 +144,15 @@ class ProfileImageSerializer(serializers.ModelSerializer):
                 "required": True,
             }
         }
+
+
+class UserMileageSerializer(serializers.ModelSerializer):
+    """User serializer for Using Mileage"""
+
+    class Meta:
+        """Metadata of UserSerializer"""
+
+        model = User
+        fields = [
+            "total_mileages",
+        ]
