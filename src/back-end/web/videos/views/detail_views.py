@@ -29,7 +29,7 @@ from wishes.models import Wish
     responses={301: OpenApiResponse(description="첫번째 시즌으로 리다이렉트 조회")},
 )
 @api_view(["GET"])
-@permission_classes((permissions.IsAuthenticatedOrReadOnly,))
+@permission_classes((permissions.AllowAny))
 def tv_season_redirect_view(request, video_id):
     """Method: redirect to TV details page"""
 
@@ -43,7 +43,7 @@ class DetailView(viewsets.ViewSet):
 
     api_key = settings.API_KEY_V3
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
 
     def get_season_list(self, json_season):
         """Method: Get the Tv season lists"""

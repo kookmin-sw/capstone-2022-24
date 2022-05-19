@@ -115,7 +115,7 @@ class VideoListPagination(LimitOffsetPagination):
 class HomeView(viewsets.ViewSet):
     """Class that displays a list of videos on the home screen"""
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
 
     sort_dict = {
         "random": "id",
