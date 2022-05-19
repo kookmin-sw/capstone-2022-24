@@ -3,7 +3,7 @@ import http from '@/api/http';
 export const user = {
 	namespaced: true,
 	state: {
-		userProfile: {
+		profile: {
 			nickname: 'tmp',
 		},
 		groupList: [],
@@ -35,8 +35,8 @@ export const user = {
 		},
 	},
 	mutations: {
-		SET_USER_PROFILE(state, userProfile) {
-			state.userProfile = userProfile;
+		SET_PROFILE(state, profile) {
+			state.profile = profile;
 		},
 		SET_GROUP_LIST(state, groupList) {
 			state.groupList = groupList;
@@ -73,10 +73,15 @@ export const user = {
 		},
 	},
 	actions: {
-		async setUserProfile({ commit }, videoSize) {
-			const url = `/users/mypage?videoSize=${videoSize}`;
+		async setProfile({ commit }) {
+			const url = `/users/mypage/`;
+
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			const headers = {
+				authorization: `Bearer ${token}`,
+			};
 			await http
-				.get(url)
+				.get(url, { headers })
 				.then(res => {
 					const user = res.data.profile;
 					const userProfile = {
@@ -84,21 +89,24 @@ export const user = {
 						phone: user.cellPhoneNumber,
 						email: user.email,
 						profileImg: user.profileImgUrl,
-						socialType: user.socialType.name,
-						socialImg: user.socialType.logoUrl,
-						isBlocked: user.block.isBlocked,
-						endBlocking: user.block.endBlockingDateTime,
+						birthday: user.birthday,
+						isActive: user.isActive,
+						isVerified: user.isVerified,
 					};
-					commit('SET_USER_PROFILE', userProfile);
+					commit('SET_PROFILE', userProfile);
 				})
 				.catch(err => {
 					alert(err);
 				});
 		},
-		async initUserGroups({ commit }, videoSize) {
-			const url = `/users/mypage?videoSize=${videoSize}`;
+		async initUserGroups({ commit }) {
+			const url = `/users/mypage/`;
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			const headers = {
+				authorization: `Bearer ${token}`,
+			};
 			await http
-				.get(url)
+				.get(url, { headers })
 				.then(res => {
 					const groups = res.data.groups;
 					// set: select group = default group
@@ -152,10 +160,14 @@ export const user = {
 					alert(err);
 				});
 		},
-		async initUserVideos({ commit }, videoSize) {
-			const url = `/users/mypage?videoSize=${videoSize}`;
+		async initUserVideos({ commit }) {
+			const url = `/users/mypage/`;
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			const headers = {
+				authorization: `Bearer ${token}`,
+			};
 			await http
-				.get(url)
+				.get(url, { headers })
 				.then(res => {
 					// 최근 조회 작
 					const videos = res.data.videos;

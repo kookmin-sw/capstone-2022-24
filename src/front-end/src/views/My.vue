@@ -3,17 +3,17 @@
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
-			{{ userProfile.nickname }}
+			{{ profile.nickname }}
 		</div>
 		<!--    TODO: profile img 태그 추가-->
 		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100" />
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">전화번호</div>
-			<div>{{ userProfile.phone }}</div>
+			<div>{{ profile.phone }}</div>
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">이메일</div>
-			<div>{{ userProfile.email }}</div>
+			<div>{{ profile.email }}</div>
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
@@ -190,7 +190,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('user', ['userProfile']),
+		...mapState('user', ['profile']),
 		...mapGetters('user', [
 			'getGroupList',
 			'getSelectGroup',
@@ -201,6 +201,7 @@ export default {
 		]),
 	},
 	async beforeCreate() {
+		await this.$store.dispatch('user/setProfile');
 		await this.$store.dispatch('user/initUserGroups');
 		await this.$store.dispatch('user/initUserVideos', 6);
 	},
