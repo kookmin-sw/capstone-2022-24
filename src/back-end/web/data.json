@@ -61,6 +61,38 @@
   },
   {
     "fields": {
+      "detail": "\uad6d\ub0b4\uc5d0\uc11c\ub9cc \uc774\uc6a9 \uac00\ub2a5",
+      "name": "\ud504\ub77c\uc784 \uc694\uae08\uc81c",
+      "number_of_subscribers": 3,
+      "provider": 5
+    },
+    "model": "providers.subscriptiontype",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "detail": "\uad11\uace0 X / \ud504\ub85c\ud544 4\uc778 / \ub3d9\uc2dc\uc7ac\uc0dd 4\uc778 / \ucd5c\uc2e0\ud654 \uc2dc\uccad / \ub2e4\uc6b4\ub85c\ub4dc \uc9c0\uc6d0 / FHD \ud654\uc9c8 / TV \uc571 \uc9c0\uc6d0",
+      "name": "\ud504\ub9ac\ubbf8\uc5c4 \uc694\uae08\uc81c",
+      "number_of_subscribers": 4,
+      "provider": 6
+    },
+    "model": "providers.subscriptiontype",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "base_date": "2022-05-13",
+      "provider": 6,
+      "service_charge_per_member": 5500,
+      "subscription_charge_per_member": 4000,
+      "subscription_type": null,
+      "total_subscription_charge": 16000
+    },
+    "model": "providers.charge",
+    "pk": 1
+  },
+  {
+    "fields": {
       "base_date": "2022-05-13",
       "provider": 6,
       "service_charge_per_member": 5500,
