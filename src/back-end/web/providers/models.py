@@ -1,4 +1,6 @@
 """Model definition of providers application: Provider, SubscriptionType, Charge"""
+import datetime
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -50,6 +52,7 @@ class SubscriptionType(models.Model):
 
     name = models.CharField(primary_key=True, max_length=20)
     number_of_subscribers = models.PositiveSmallIntegerField()
+    duration = models.DurationField(default=datetime.timedelta(days=30))
     detail = models.CharField(null=True, blank=True, max_length=200)
 
     class Meta:
@@ -64,11 +67,11 @@ class SubscriptionType(models.Model):
 class Charge(models.Model):
     """Model definition of charge details"""
 
-    provider = models.ForeignKey(
+    provider = models.OneToOneField(
         Provider,
         on_delete=models.CASCADE,
     )
-    subscription_type = models.ForeignKey(
+    subscription_type = models.OneToOneField(
         SubscriptionType,
         null=True,
         on_delete=models.SET_NULL,
