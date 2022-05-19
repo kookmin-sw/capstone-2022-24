@@ -164,6 +164,8 @@ class DetailView(viewsets.ViewSet):
                             "totalSeasons": 1,
                             "totalEpisodes": 366,
                             "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
+                            "public": {"wishCount": 0},
+                            "personal": {"wished": None},
                         },
                     )
                 ],
@@ -293,6 +295,8 @@ class DetailView(viewsets.ViewSet):
                             ],
                             "genres": ["모험", "드라마", "SF"],
                             "productionCountries": ["GB", "US"],
+                            "public": {"wishCount": 153},
+                            "personal": {"wished": False},
                         },
                     )
                 ],
