@@ -71,9 +71,17 @@ class User(AbstractBaseUser):
     is_verified = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     total_mileages = models.PositiveIntegerField(default=0)
-    withdrawal_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
-    registration_date_time = models.DateTimeField(default=timezone.now, format="%Y-%m-%d %H:%M:%S")
-    last_login_date_time = models.DateTimeField(blank=True, null=True, format="%Y-%m-%d %H:%M:%S")
+    withdrawal_date_time = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+    registration_date_time = models.DateTimeField(
+        default=timezone.now,
+    )
+    last_login_date_time = models.DateTimeField(
+        blank=True,
+        null=True,
+    )
 
     USERNAME_FIELD = "nickname"
     EMAIL_FIELD = "email"

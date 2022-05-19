@@ -7,8 +7,11 @@ class GroupAccount(models.Model):
 
     identifier = models.CharField(max_length=50, null=True, blank=True)
     password = models.CharField(max_length=30, null=True, blank=True)
-    creation_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
-    last_modification_date_time = models.DateTimeField(null=True, blank=True, format="%Y-%m-%d %H:%M:%S")
+    creation_date_time = models.DateTimeField(null=True, blank=True)
+    last_modification_date_time = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         """Metadata for group_account model"""
