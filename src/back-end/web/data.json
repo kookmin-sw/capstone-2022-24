@@ -1,6 +1,7 @@
 [
   {
     "fields": {
+      "link": "https://www.netflix.com/kr/",
       "logo_key": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
       "name": "NF",
       "tmdb_id": 8
@@ -10,7 +11,8 @@
   },
   {
     "fields": {
-      "logo_key": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+      "link": "https://www.wavve.com/",
+      "logo_key": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
       "name": "WV",
       "tmdb_id": 356
     },
@@ -19,7 +21,8 @@
   },
   {
     "fields": {
-      "logo_key": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
+      "link": "https://watcha.com/",
+      "logo_key": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
       "name": "WC",
       "tmdb_id": 97
     },
@@ -28,7 +31,8 @@
   },
   {
     "fields": {
-      "logo_key": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
+      "link": "https://www.disneyplus.com/ko-kr",
+      "logo_key": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
       "name": "DP",
       "tmdb_id": 337
     },
@@ -37,6 +41,7 @@
   },
   {
     "fields": {
+      "link": "https://www.primevideo.com/offers/nonprimehomepage/ref=atv_nb_lcl_ko_KR",
       "logo_key": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
       "name": "AP",
       "tmdb_id": 119
@@ -46,6 +51,7 @@
   },
   {
     "fields": {
+      "link": "https://laftel.net/",
       "logo_key": "https://blog.kakaocdn.net/dn/beMRoh/btqJUNc2uBT/gLb6LDCKEemdV8IEki0St0/img.png",
       "name": "LF",
       "tmdb_id": 0
@@ -16908,5 +16914,26 @@
     },
     "model": "users.user",
     "pk": 3
+  },
+  {
+    "fields": {
+      "birthday": "1990-01-01",
+      "cell_phone_number": "010-1234-5678",
+      "email": "user@example.com",
+      "is_active": true,
+      "is_admin": true,
+      "is_verified": true,
+      "last_login": null,
+      "last_login_date_time": null,
+      "name": "string",
+      "nickname": "string",
+      "password": "pbkdf2_sha256$320000$nKSpGQ6YPAOGVDQ0tUKINt$8PgHtH3bhlsYbwYpHDC/4KnMCSjLYNskzYILh6Zb0wk=",
+      "profile_image_url": null,
+      "registration_date_time": "2022-05-19T03:39:33.685",
+      "total_mileages": 0,
+      "withdrawal_date_time": null
+    },
+    "model": "users.user",
+    "pk": 4
   }
 ]

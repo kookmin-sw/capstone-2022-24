@@ -1,4 +1,5 @@
 """Definitions of model about video informations : Video, VideoDetail, Rating, ProductionCountry, Gerne"""
+from annoying.fields import AutoOneToOneField
 from django.db import models
 
 
@@ -45,7 +46,7 @@ class Video(models.Model):
 class VideoDetail(models.Model):
     """Definition of video detail information that ott providers providered"""
 
-    video = models.OneToOneField(
+    video = AutoOneToOneField(
         Video,
         on_delete=models.CASCADE,
         primary_key=True,

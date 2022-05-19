@@ -6,11 +6,14 @@ from rest_framework import serializers
 class ProviderSerializer(serializers.ModelSerializer):
     """provider model serializer in providers application"""
 
+    logo_url = serializers.URLField(source="logo_key")
+
     class Meta:
         """Meatadata for ProviderSerializer"""
 
         model = Provider
-        fields = "__all__"
+        fields = ["id", "tmdb_id", "name", "link", "logo_url"]
+        read_only_fields = ["__all__"]
 
 
 class SubscriptionTypeSerializer(serializers.ModelSerializer):

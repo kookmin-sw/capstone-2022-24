@@ -1,0 +1,1 @@
+"""URLs of reports application"""

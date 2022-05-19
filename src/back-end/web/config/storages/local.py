@@ -9,6 +9,7 @@ __all__ = (
     "MediaStorage",
 )
 
+
 # static file storage
 class StaticStorage(S3Boto3Storage):
     """Static storage of local environment"""
