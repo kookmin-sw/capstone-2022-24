@@ -2,6 +2,8 @@
 import datetime
 
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils import timezone
 from group_accounts.models import GroupAccount
 from providers.models import Provider
@@ -42,10 +44,13 @@ class Group(models.Model):
             return self.start_watching_date_time + datetime.timedelta(days=3)
         return None
 
-    def save(self, *args, **kwargs):
-        """Save group information"""
-        if not self.group_account:
-            _account = GroupAccount()
-            _account.save()
-            self.group_account = _account
-        super().__init__(Group, self).save(self, *args, **kwargs)
+
+@receiver(pre_save, sender=Group)
+def initialize_group_account(sender, instance, **kwargs):
+    """Create group_account for every new group and attach to the group"""
+    # case of creating
+    if instance.pk is None:
+        # if group doesn't have group_account
+        if not hasattr(instance, "group_account"):
+            _account = GroupAccount.create_empty_account()
+            instance.group_account = _account
