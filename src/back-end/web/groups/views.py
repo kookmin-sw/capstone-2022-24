@@ -77,14 +77,14 @@ def delete_expired_group(group: Group):
         group.delete()
 
 
-def start_watch(group: Group):
+def start_watch(group: Group, queryset=Group.objects):
     """set start / end watching time of group"""
     try:
-        _queryset = Group.objects.select_related("provider").prefetch_related(
+        _queryset = queryset.select_related("provider").prefetch_related(
             "provider__charge", "provider__charge__subscription_type"
         )
         # start: datetime at group_account created
-        start_date_time = group.group_account.creation_date_time
+        start_date_time = timezone.now()
         # end: datetime at start_time + subscription duration
         _subscription_detail = group.provider.charge.subscription_type
         end_date_time = start_date_time + _subscription_detail.duration
@@ -105,8 +105,8 @@ def can_start_watch(group: Group):
     try:
         # check group does not start watching yet
         _recruited = group.is_waiting_for_watching
-        # check account is fulfilled
-        _registered = group.group_account.has_registered
+        # check account is fulfilled and valid
+        _registered = group.group_account.has_registered and group.group_account.can_watch
         return _recruited and _registered
     except Group.DoesNotExist as g:
         raise GroupNotFoundException from g
