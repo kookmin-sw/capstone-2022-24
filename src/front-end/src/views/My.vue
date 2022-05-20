@@ -44,7 +44,6 @@
 	<q-separator color="blue-1" size="2px" inset />
 	<q-separator color="blue-4" inset />
 	<div class="column q-ma-xl">
-		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
 		<!-- 참여, 모집 중인 모임 없음 -->
 		<div
@@ -57,36 +56,40 @@
 			</div>
 			<q-space class="col-2" />
 		</div>
-		<!--				<div class="row">-->
-		<!--			<q-avatar-->
-		<!--				rounded-->
-		<!--				color="grey-4"-->
-		<!--				size="40px"-->
-		<!--				class="q-mr-sm"-->
-		<!--				v-for="group in getGroupList"-->
-		<!--				:key="group.id"-->
-		<!--				@click="clickGroupLogo(group.id)">-->
-		<!--				<div style="font-size: 12px">{{ group.logoUrl }}</div>-->
-		<!--			</q-avatar>-->
-		<!--			<q-btn outline class="text-blue-100 radius-4">+</q-btn>-->
-		<!--				</div>-->
 
-		<!-- 모임 모집 완료 이전 -->
-		<!--    			<div-->
-		<!--    				class="row q-pa-md q-pb-xl"-->
-		<!--    				v-if="!getSelectGroup.fellows"-->
-		<!--    				style="height: 343px">-->
-		<!--    				<q-space class="col-2" />-->
-		<!--    				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">-->
-		<!--    					모임 구성원을 기다리는 중입니다.-->
-		<!--    				</div>-->
-		<!--    				<q-space class="col-2" />-->
-		<!--    			</div>-->
-		<!--		&lt;!&ndash; 모임 탈퇴 &ndash;&gt;-->
+		<!--    참여, 모집 중인 모임 목록-->
+		<div class="row" v-if="getSelectGroup !== null">
+			<q-avatar
+				rounded
+				color="grey-4"
+				size="40px"
+				class="q-mr-sm"
+				v-for="group in getGroupList"
+				:key="group.provider.id"
+				@click="clickGroupLogo(group.provider.id)">
+				<img :src="group.provider.logoUrl" :alt="group.provider.id" />
+			</q-avatar>
+			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
+		</div>
+
+		<!-- 모임 모집 중 -->
+		<div
+			class="row q-pa-md q-pb-xl"
+			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruiting'"
+			style="height: 343px">
+			<q-space class="col-2" />
+			<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">
+				모임 구성원을 기다리는 중입니다.
+			</div>
+			<q-space class="col-2" />
+		</div>
+
+		<!-- 모임 탈퇴 -->
 		<!--		<div class="text-left align-right">-->
 		<!--			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>-->
 		<!--		</div>-->
-		<!--		&lt;!&ndash; 모임 상세 정보 &ndash;&gt;-->
+
+		<!-- 모임 상세 정보 -->
 		<!--		<div class="q-mb-lg bg-blue-70">-->
 		<!--			&lt;!&ndash; 모임 상태 뱃지 &ndash;&gt;-->
 		<!--			<div class="align-right">-->
