@@ -30,7 +30,7 @@ class DiscontinuityClass(viewsets.ViewSet):
     DAY15_DEADLINE = timezone.now() + timezone.timedelta(15)
     DAY7_DEADLINE = timezone.now() + timezone.timedelta(7)
 
-    def response_day(self, _filter, request):
+    def get_discontinue_videos_response(self, _filter, request):
         """Method that Make a Response list of videos on the discontinue screen"""
         video_object = (
             VideoProvider.objects.filter(_filter).values("video__id", "video__title", "video__poster_key").distinct()
@@ -89,10 +89,10 @@ class DiscontinuityClass(viewsets.ViewSet):
             )
         },
     )
-    def day_30(self, request):
+    def get_discontinue_videos_after_30_days(self, request):
         """Method that displays a list of videos on the discontinue screen"""
         _filter = Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gt=self.DAY15_DEADLINE)
-        context = self.response_day(_filter, request)
+        context = self.get_discontinue_videos_response(_filter, request)
         return Response(context, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -114,10 +114,10 @@ class DiscontinuityClass(viewsets.ViewSet):
             )
         },
     )
-    def day_15(self, request):
+    def get_discontinue_videos_after_15_days(self, request):
         """Method that displays a list of videos on the discontinue screen"""
         _filter = Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gt=self.DAY7_DEADLINE)
-        context = self.response_day(_filter, request)
+        context = self.get_discontinue_videos_response(_filter, request)
         return Response(context, status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -139,8 +139,8 @@ class DiscontinuityClass(viewsets.ViewSet):
             )
         },
     )
-    def day_7(self, request):
+    def get_discontinue_videos_after_7_days(self, request):
         """Method that displays a list of videos on the discontinue screen"""
         _filter = Q(deadline__lte=self.DAY7_DEADLINE)
-        context = self.response_day(_filter, request)
+        context = self.get_discontinue_videos_response(_filter, request)
         return Response(context, status=status.HTTP_200_OK)
