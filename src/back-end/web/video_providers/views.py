@@ -92,29 +92,30 @@ class DiscontinuityClass(viewsets.ViewSet):
     DAY30_DEADLINE = timezone.now() + timezone.timedelta(30)
     DAY15_DEADLINE = timezone.now() + timezone.timedelta(15)
     DAY7_DEADLINE = timezone.now() + timezone.timedelta(7)
-    pagination_class = DiscontinuityListPagination
 
     def day_30(self, request):
         """Method that displays a list of videos on the discontinue screen"""
-        _object = VideoProvider.objects.filter(
-            Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gte=self.DAY15_DEADLINE)
-        )
+        _filter = Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gte=self.DAY15_DEADLINE)
+        _object = VideoProvider.objects.all()
         serializer = DiscontinuityVideoSerializer(_object, many=True)
+        
+        paginator = DiscontinuityListPagination()
+        page_obj = paginator.paginate_queryset(serializer.data, request)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(page_obj, status=status.HTTP_200_OK)
 
     def day_15(self, request):
         """Method that displays a list of videos on the discontinue screen"""
-        _object = VideoProvider.objects.filter(
-            Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gte=self.DAY7_DEADLINE)
-        )
+        _filter = Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gte=self.DAY7_DEADLINE)
+        _object = VideoProvider.objects.filter()
         serializer = DiscontinuityVideoSerializer(_object, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def day_7(self, request):
         """Method that displays a list of videos on the discontinue screen"""
-        _object = VideoProvider.objects.filter(Q(deadline__lte=self.DAY7_DEADLINE))
+        _filter = Q(deadline__lte=self.DAY7_DEADLINE)
+        _object = VideoProvider.objects.filter()
         serializer = DiscontinuityVideoSerializer(_object, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
