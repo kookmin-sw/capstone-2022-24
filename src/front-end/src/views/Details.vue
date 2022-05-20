@@ -58,10 +58,17 @@
 					</q-select>
 
 					<q-btn
-						v-if="videoDetails.personal.wished !== null"
+						v-if="this.wished !== null"
 						outline
 						class="col q-ma-sm text-blue-200">
 						찜 하기
+					</q-btn>
+					<q-btn
+						v-else-if="this.wished"
+						outline
+						color="blue-4"
+						class="col q-ma-sm text-blue-200">
+						찜 취소
 					</q-btn>
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
@@ -143,19 +150,15 @@ export default {
 				KR: '한국',
 				US: '미국',
 			},
+			releaseYear: '',
+			productionCountry: '',
+			genre: '',
+			wished: null,
+			details: null,
 		};
 	},
 	computed: {
 		...mapState('videoDetails', ['videoDetails']),
-		releaseYear() {
-			return this.videoDetails.releaseDate.split('-')[0];
-		},
-		productionCountry() {
-			return this.videoDetails.productionCountries.join(',');
-		},
-		genre() {
-			return this.videoDetails.genres.join(',');
-		},
 	},
 	watch: {
 		season: function () {
@@ -178,6 +181,11 @@ export default {
 		});
 		this.videoId = videoId;
 		this.category = category;
+		this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
+		this.productionCountry = this.videoDetails.productionCountries.join(',');
+		this.genre = this.videoDetails.genres.join(',');
+		this.details = this.videoDetails;
+		this.wished = this.videoDetails.personal.wished;
 	},
 };
 </script>
