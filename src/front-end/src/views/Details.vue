@@ -60,6 +60,7 @@
 					<q-btn
 						v-if="this.wished !== null"
 						outline
+						@click="addWish"
 						class="col q-ma-sm text-blue-200">
 						찜 하기
 					</q-btn>
@@ -67,6 +68,7 @@
 						v-else-if="this.wished"
 						outline
 						color="blue-4"
+						@click="cancleWish"
 						class="col q-ma-sm text-blue-200">
 						찜 취소
 					</q-btn>
@@ -186,6 +188,16 @@ export default {
 		this.genre = this.videoDetails.genres.join(',');
 		this.details = this.videoDetails;
 		this.wished = this.videoDetails.personal.wished;
+	},
+	methods: {
+		addWish() {
+			console.log('click add wish btn');
+			this.$store.dispatch('videoInteractions/addWish', this.videoId);
+		},
+		cancleWish() {
+			console.log('click cancle wish btn');
+			this.$store.dispatch('videoInteractions/cancleWish', this.videoId);
+		},
 	},
 };
 </script>
