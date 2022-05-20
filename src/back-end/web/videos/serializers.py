@@ -93,16 +93,3 @@ class VideoHistorySerializer(serializers.ModelSerializer):
         fields = ["id", "tmdb_id", "poster_url"]
 
         read_only_fields = ["__all__"]
-
-class VideoListSerializer(serializers.ModelSerializer):
-    """Video Lists information Serializing to get data"""
-
-    poster_url = serializers.URLField(source="poster_key", required=False)
-
-    class Meta:
-        """Metadata for video histories summary"""
-
-        model = Video
-        fields = ["id", "title", "poster_url"]
-
-        read_only_fields = ["__all__"]
