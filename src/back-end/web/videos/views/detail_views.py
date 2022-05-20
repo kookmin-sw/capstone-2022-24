@@ -29,7 +29,7 @@ from wishes.models import Wish
     responses={301: OpenApiResponse(description="첫번째 시즌으로 리다이렉트 조회")},
 )
 @api_view(["GET"])
-@permission_classes((permissions.AllowAny))
+@permission_classes((permissions.AllowAny,))
 def tv_season_redirect_view(request, video_id):
     """Method: redirect to TV details page"""
 

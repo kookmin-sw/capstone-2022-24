@@ -34,8 +34,13 @@ class Payment(models.Model):
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=1)
     method = models.CharField(choices=METHOD_CHOICES, max_length=2)
     status = models.CharField(default="R", choices=STATUS_CHOICES, max_length=1)
-    request_date_time = models.DateTimeField(default=timezone.now)
-    approval_date_time = models.DateTimeField(null=True, blank=True)
+    request_date_time = models.DateTimeField(
+        default=timezone.now,
+    )
+    approval_date_time = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         """Metadata for payment model"""
