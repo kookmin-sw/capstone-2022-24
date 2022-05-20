@@ -45,3 +45,15 @@ class ChargeSerializer(serializers.ModelSerializer):
     def get_subscription_type(self, obj):
         """Get subscription type data using SubscriptionTypeSerializer"""
         return SubscriptionTypeSerializer(obj.subscription_type).data
+
+
+class ProviderListSerializer(serializers.ModelSerializer):
+    """provider model serializer in providers application"""
+
+    logo_url = serializers.URLField(source="logo_key")
+
+    class Meta:
+        """Meatadata for ProviderSerializer"""
+
+        model = Provider
+        fields = ["name", "logo_url"]
