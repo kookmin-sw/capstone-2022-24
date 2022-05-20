@@ -14,10 +14,16 @@ export const videoDetails = {
 	actions: {
 		async loadVideoDetails({ commit }, video) {
 			const url = `/videos/${video.category}/${video.videoId}`;
+
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
+			let headers = {
+				'content-type': 'application/json',
 			};
+			if (token !== 'null') {
+				headers = {
+					authorization: `Bearer ${token}`,
+				};
+			}
 			await http
 				.get(url, { headers })
 				.then(res => {

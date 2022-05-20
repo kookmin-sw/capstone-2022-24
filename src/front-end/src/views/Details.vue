@@ -28,14 +28,14 @@
 					</div>
 				</div>
 				<!-- 작품 상세 정보 -->
-				<div class="row q-ma-sm">
-					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ releaseYear }} |</div>
-					<div class="q-mr-sm q-mt-auto q-mb-auto">
-						{{ productionCountry }} |
-					</div>
-					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ genre }}</div>
-					<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
-				</div>
+				<!--				<div class="row q-ma-sm">-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ releaseYear }} |</div>-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">-->
+				<!--						{{ productionCountry }} |-->
+				<!--					</div>-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ genre }}</div>-->
+				<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
+				<!--				</div>-->
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<!--				<div class="row q-ma-sm q-mb-md">-->
 				<!--					<q-avatar rounded color="grey-4" size="25px" class="q-mr-xs" />-->
@@ -183,11 +183,11 @@ export default {
 		});
 		this.videoId = videoId;
 		this.category = category;
-		this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
-		this.productionCountry = this.videoDetails.productionCountries.join(',');
-		this.genre = this.videoDetails.genres.join(',');
-		this.details = this.videoDetails;
-		this.wished = this.videoDetails.personal.wished;
+		// this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
+		// this.productionCountry = this.videoDetails.productionCountries.join(',');
+		// this.genre = this.videoDetails.genres.join(',');
+		// this.details = this.videoDetails;
+		// this.wished = this.videoDetails.personal.wished;
 	},
 	methods: {
 		addWish() {
