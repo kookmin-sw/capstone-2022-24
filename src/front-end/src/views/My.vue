@@ -6,7 +6,12 @@
 			{{ profile.nickname }}
 		</div>
 		<!--    TODO: profile img 태그 추가-->
-		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100" />
+		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100">
+			<img
+				:src="profile.profileImageUrl"
+				:alt="'profile'"
+				v-if="profile.profileImageUrl" />
+		</q-avatar>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">전화번호</div>
 			<div>{{ profile.phone }}</div>
@@ -25,112 +30,112 @@
 				충전하기
 			</div>
 		</div>
-		<div class="row text-left">
-			<div class="text-weight-bold info-item">계좌</div>
-			<div>(은행) 356-xxxx-xxxx-xx</div>
-			<div
-				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
-				style="cursor: pointer">
-				등록/수정
-			</div>
-		</div>
+		<!--		<div class="row text-left">-->
+		<!--			<div class="text-weight-bold info-item">계좌</div>-->
+		<!--			<div>(은행) 356-xxxx-xxxx-xx</div>-->
+		<!--			<div-->
+		<!--				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"-->
+		<!--				style="cursor: pointer">-->
+		<!--				등록/수정-->
+		<!--			</div>-->
+		<!--		</div>-->
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue-1" size="2px" inset />
 	<q-separator color="blue-4" inset />
-	<div class="column q-ma-xl">
-		<!-- 참여 중인 모임 목록 (로고) -->
-		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
-		<div class="row">
-			<q-avatar
-				rounded
-				color="grey-4"
-				size="40px"
-				class="q-mr-sm"
-				v-for="group in getGroupList"
-				:key="group.id"
-				@click="clickGroupLogo(group.id)">
-				<div style="font-size: 12px">{{ group.logoUrl }}</div>
-			</q-avatar>
-			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
-		</div>
-		<!-- 모임 탈퇴 -->
-		<div class="text-left align-right">
-			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>
-		</div>
-		<!-- 모임 상세 정보 -->
-		<div class="q-mb-lg bg-blue-70">
-			<!-- 모임 상태 뱃지 -->
-			<div class="align-right">
-				<q-badge
-					text-color="white"
-					align="top"
-					class="q-pa-sm bg-blue-200 text-body2">
-					모임 상태 &amp; D-day
-				</q-badge>
-			</div>
-			<!-- 모임 모집 완료 이전 -->
-			<div
-				class="row q-pa-md q-pb-xl"
-				v-if="!getSelectGroup.fellows"
-				style="height: 343px">
-				<q-space class="col-2" />
-				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">
-					모임 구성원을 기다리는 중입니다.
-				</div>
-				<q-space class="col-2" />
-			</div>
-			<!-- 모임 모집 완료 이후 -->
-			<div v-else>
-				<!-- 구성원 -->
-				<div class="row q-pa-md q-pb-xl">
-					<q-space class="col-2" />
-					<div
-						class="col"
-						v-for="fellow in getSelectGroup.fellows"
-						:key="fellow.nickname">
-						<q-avatar rounded size="73px" class="bg-blue-100" />
-						<div>{{ fellow.nickname }}</div>
-					</div>
-					<q-space class="col-2" />
-				</div>
-			</div>
-		</div>
-		<!-- ott 계정 정보 -->
-		<div v-if="getSelectGroup.account">
-			<div class="q-mb-md">
-				<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />
-				<q-input
-					readonly
-					label="비밀번호"
-					v-model="getSelectGroup.account.password" />
-			</div>
-			<div class="row">
-				<q-space class="col-8" />
-				<q-btn outline class="q-mr-sm text-blue-200">
-					신고<q-icon name="no_accounts" />
-				</q-btn>
-				<q-btn outline class="text-blue-200">
-					<a
-						:href="getSelectGroup.provider.link"
-						target="_blank"
-						class="text-blue-200">
-						{{ getSelectGroup.provider.name }} 바로가기
-					</a>
-					<q-icon name="arrow_right_alt" />
-				</q-btn>
-			</div>
-		</div>
-	</div>
+	<!--	<div class="column q-ma-xl">-->
+	<!--		&lt;!&ndash; 참여 중인 모임 목록 (로고) &ndash;&gt;-->
+	<!--		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>-->
+	<!--		<div class="row">-->
+	<!--			<q-avatar-->
+	<!--				rounded-->
+	<!--				color="grey-4"-->
+	<!--				size="40px"-->
+	<!--				class="q-mr-sm"-->
+	<!--				v-for="group in getGroupList"-->
+	<!--				:key="group.id"-->
+	<!--				@click="clickGroupLogo(group.id)">-->
+	<!--				<div style="font-size: 12px">{{ group.logoUrl }}</div>-->
+	<!--			</q-avatar>-->
+	<!--			<q-btn outline class="text-blue-100 radius-4">+</q-btn>-->
+	<!--		</div>-->
+	<!--		&lt;!&ndash; 모임 탈퇴 &ndash;&gt;-->
+	<!--		<div class="text-left align-right">-->
+	<!--			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>-->
+	<!--		</div>-->
+	<!--		&lt;!&ndash; 모임 상세 정보 &ndash;&gt;-->
+	<!--		<div class="q-mb-lg bg-blue-70">-->
+	<!--			&lt;!&ndash; 모임 상태 뱃지 &ndash;&gt;-->
+	<!--			<div class="align-right">-->
+	<!--				<q-badge-->
+	<!--					text-color="white"-->
+	<!--					align="top"-->
+	<!--					class="q-pa-sm bg-blue-200 text-body2">-->
+	<!--					모임 상태 &amp; D-day-->
+	<!--				</q-badge>-->
+	<!--			</div>-->
+	<!--			&lt;!&ndash; 모임 모집 완료 이전 &ndash;&gt;-->
+	<!--			<div-->
+	<!--				class="row q-pa-md q-pb-xl"-->
+	<!--				v-if="!getSelectGroup.fellows"-->
+	<!--				style="height: 343px">-->
+	<!--				<q-space class="col-2" />-->
+	<!--				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">-->
+	<!--					모임 구성원을 기다리는 중입니다.-->
+	<!--				</div>-->
+	<!--				<q-space class="col-2" />-->
+	<!--			</div>-->
+	<!--			&lt;!&ndash; 모임 모집 완료 이후 &ndash;&gt;-->
+	<!--			<div v-else>-->
+	<!--				&lt;!&ndash; 구성원 &ndash;&gt;-->
+	<!--				<div class="row q-pa-md q-pb-xl">-->
+	<!--					<q-space class="col-2" />-->
+	<!--					<div-->
+	<!--						class="col"-->
+	<!--						v-for="fellow in getSelectGroup.fellows"-->
+	<!--						:key="fellow.nickname">-->
+	<!--						<q-avatar rounded size="73px" class="bg-blue-100" />-->
+	<!--						<div>{{ fellow.nickname }}</div>-->
+	<!--					</div>-->
+	<!--					<q-space class="col-2" />-->
+	<!--				</div>-->
+	<!--			</div>-->
+	<!--		</div>-->
+	<!--		&lt;!&ndash; ott 계정 정보 &ndash;&gt;-->
+	<!--		<div v-if="getSelectGroup.account">-->
+	<!--			<div class="q-mb-md">-->
+	<!--				<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />-->
+	<!--				<q-input-->
+	<!--					readonly-->
+	<!--					label="비밀번호"-->
+	<!--					v-model="getSelectGroup.account.password" />-->
+	<!--			</div>-->
+	<!--			<div class="row">-->
+	<!--				<q-space class="col-8" />-->
+	<!--				<q-btn outline class="q-mr-sm text-blue-200">-->
+	<!--					신고<q-icon name="no_accounts" />-->
+	<!--				</q-btn>-->
+	<!--				<q-btn outline class="text-blue-200">-->
+	<!--					<a-->
+	<!--						:href="getSelectGroup.provider.link"-->
+	<!--						target="_blank"-->
+	<!--						class="text-blue-200">-->
+	<!--						{{ getSelectGroup.provider.name }} 바로가기-->
+	<!--					</a>-->
+	<!--					<q-icon name="arrow_right_alt" />-->
+	<!--				</q-btn>-->
+	<!--			</div>-->
+	<!--		</div>-->
+	<!--	</div>-->
 
-	<!--  최근 조회 작품  -->
-	<q-separator color="blue-1" size="2px" inset />
-	<q-separator color="blue-4" inset />
-	<user-videos
-		:title="recentList.title"
-		:video-list="getRecentList"
-		:push-video-method="recentList.method"
-		:expand-id="recentList.expandId" />
+	<!--	&lt;!&ndash;  최근 조회 작품  &ndash;&gt;-->
+	<!--	<q-separator color="blue-1" size="2px" inset />-->
+	<!--	<q-separator color="blue-4" inset />-->
+	<!--	<user-videos-->
+	<!--		:title="recentList.title"-->
+	<!--		:video-list="getRecentList"-->
+	<!--		:push-video-method="recentList.method"-->
+	<!--		:expand-id="recentList.expandId" />-->
 
 	<!--  찜한 작품  -->
 	<user-videos
@@ -139,19 +144,19 @@
 		:push-video-method="wishList.method"
 		:expand-id="wishList.expandId" />
 
-	<!-- 별점 준 작품 -->
-	<user-videos
-		:title="starList.title"
-		:video-list="getStarList"
-		:push-video-method="starList.method"
-		:expand-id="starList.expandId" />
+	<!--	&lt;!&ndash; 별점 준 작품 &ndash;&gt;-->
+	<!--	<user-videos-->
+	<!--		:title="starList.title"-->
+	<!--		:video-list="getStarList"-->
+	<!--		:push-video-method="starList.method"-->
+	<!--		:expand-id="starList.expandId" />-->
 
-	<!-- 본 작품 -->
-	<user-videos
-		:title="watchList.title"
-		:video-list="getWatchList"
-		:push-video-method="watchList.method"
-		:expand-id="watchList.expandId" />
+	<!--	&lt;!&ndash; 본 작품 &ndash;&gt;-->
+	<!--	<user-videos-->
+	<!--		:title="watchList.title"-->
+	<!--		:video-list="getWatchList"-->
+	<!--		:push-video-method="watchList.method"-->
+	<!--		:expand-id="watchList.expandId" />-->
 </template>
 
 <script>
@@ -202,8 +207,8 @@ export default {
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('user/setProfile');
-		await this.$store.dispatch('user/initUserGroups');
-		await this.$store.dispatch('user/initUserVideos', 6);
+		// await this.$store.dispatch('user/initUserGroups');
+		// await this.$store.dispatch('user/initUserVideos', 6);
 	},
 	methods: {
 		async clickGroupLogo(groupId) {
