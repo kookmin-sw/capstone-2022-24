@@ -84,6 +84,52 @@
 			<q-space class="col-2" />
 		</div>
 
+		<!-- 모집 완료 -->
+		<div
+			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
+			<!-- 구성원 -->
+			<div class="row q-pa-md q-pb-xl">
+				<q-space class="col-2" />
+				<div
+					class="col"
+					v-for="fellow in getSelectGroup.fellows"
+					:key="fellow.nickname">
+					<q-avatar rounded size="73px" class="bg-blue-100" />
+					<div>{{ fellow.nickname }}</div>
+				</div>
+				<q-space class="col-2" />
+			</div>
+			<!-- ott 계정 정보 -->
+			<div v-if="getSelectGroup.account">
+				<div class="q-mb-md">
+					<q-input
+						readonly
+						label="아이디"
+						v-model="getSelectGroup.account.id" />
+					<q-input
+						readonly
+						label="비밀번호"
+						v-model="getSelectGroup.account.password" />
+				</div>
+			</div>
+			<!-- 버튼 -->
+			<div class="row">
+				<q-space class="col-8" />
+				<q-btn outline class="q-mr-sm text-blue-200">
+					신고<q-icon name="no_accounts" />
+				</q-btn>
+				<q-btn outline class="text-blue-200">
+					<a
+						:href="getSelectGroup.provider.link"
+						target="_blank"
+						class="text-blue-200">
+						{{ getSelectGroup.provider.name }} 바로가기
+					</a>
+					<q-icon name="arrow_right_alt" />
+				</q-btn>
+			</div>
+		</div>
+
 		<!-- 모임 탈퇴 -->
 		<!--		<div class="text-left align-right">-->
 		<!--			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>-->
@@ -100,47 +146,6 @@
 		<!--					모임 상태 &amp; D-day-->
 		<!--				</q-badge>-->
 		<!--			</div>-->
-		<!--			&lt;!&ndash; 모임 모집 완료 이후 &ndash;&gt;-->
-		<!--			<div v-else>-->
-		<!--				&lt;!&ndash; 구성원 &ndash;&gt;-->
-		<!--				<div class="row q-pa-md q-pb-xl">-->
-		<!--					<q-space class="col-2" />-->
-		<!--					<div-->
-		<!--						class="col"-->
-		<!--						v-for="fellow in getSelectGroup.fellows"-->
-		<!--						:key="fellow.nickname">-->
-		<!--						<q-avatar rounded size="73px" class="bg-blue-100" />-->
-		<!--						<div>{{ fellow.nickname }}</div>-->
-		<!--					</div>-->
-		<!--					<q-space class="col-2" />-->
-		<!--				</div>-->
-		<!--			</div>-->
-		<!--		</div>-->
-		<!--		&lt;!&ndash; ott 계정 정보 &ndash;&gt;-->
-		<!--		<div v-if="getSelectGroup.account">-->
-		<!--			<div class="q-mb-md">-->
-		<!--				<q-input readonly label="아이디" v-model="getSelectGroup.account.id" />-->
-		<!--				<q-input-->
-		<!--					readonly-->
-		<!--					label="비밀번호"-->
-		<!--					v-model="getSelectGroup.account.password" />-->
-		<!--			</div>-->
-		<!--			<div class="row">-->
-		<!--				<q-space class="col-8" />-->
-		<!--				<q-btn outline class="q-mr-sm text-blue-200">-->
-		<!--					신고<q-icon name="no_accounts" />-->
-		<!--				</q-btn>-->
-		<!--				<q-btn outline class="text-blue-200">-->
-		<!--					<a-->
-		<!--						:href="getSelectGroup.provider.link"-->
-		<!--						target="_blank"-->
-		<!--						class="text-blue-200">-->
-		<!--						{{ getSelectGroup.provider.name }} 바로가기-->
-		<!--					</a>-->
-		<!--					<q-icon name="arrow_right_alt" />-->
-		<!--				</q-btn>-->
-		<!--			</div>-->
-		<!--		</div>-->
 	</div>
 
 	<!--  최근 조회 작품  -->
