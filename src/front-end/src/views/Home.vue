@@ -66,11 +66,11 @@
 							:conditions="selectFilters.countries"
 							id="countries-filter" />
 						<!-- 관람 여부 -->
-						<select-filter
-							:filter-label="'관람여부'"
-							:filter-name="'WATCHED'"
-							:conditions="selectFilters.watched"
-							id="watched-filter" />
+						<!--						<select-filter-->
+						<!--							:filter-label="'관람여부'"-->
+						<!--							:filter-name="'WATCHED'"-->
+						<!--							:conditions="selectFilters.watched"-->
+						<!--							id="watched-filter" />-->
 						<!-- 연도 -->
 						<div class="row q-mt-md" id="years-filter">
 							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
@@ -81,7 +81,8 @@
 									switch-label-side
 									color="blue-4"
 									v-model="slideFilters.year"
-									:min="1800"
+									@change="yearFilterClick"
+									:min="1985"
 									:max="2022"
 									:step="1"
 									:left-label-value="`${slideFilters.year.min}년`"
@@ -89,22 +90,22 @@
 							</div>
 						</div>
 						<!-- 평점 -->
-						<div class="row q-mt-md" id="rating-filter">
-							<div class="col-2 q-mt-auto q-mb-auto">평점</div>
-							<q-separator vertical inset color="blue-4" />
-							<div class="col-9 q-pa-md q-pb-lg">
-								<q-range
-									label-always
-									switch-label-side
-									color="blue-4"
-									v-model="slideFilters.rate"
-									:min="0.5"
-									:max="5"
-									:step="0.5"
-									:left-label-value="`${slideFilters.rate.min}점`"
-									:right-label-value="`${slideFilters.rate.max}점`" />
-							</div>
-						</div>
+						<!--						<div class="row q-mt-md" id="rating-filter">-->
+						<!--							<div class="col-2 q-mt-auto q-mb-auto">평점</div>-->
+						<!--							<q-separator vertical inset color="blue-4" />-->
+						<!--							<div class="col-9 q-pa-md q-pb-lg">-->
+						<!--								<q-range-->
+						<!--									label-always-->
+						<!--									switch-label-side-->
+						<!--									color="blue-4"-->
+						<!--									v-model="slideFilters.rate"-->
+						<!--									:min="0.5"-->
+						<!--									:max="5"-->
+						<!--									:step="0.5"-->
+						<!--									:left-label-value="`${slideFilters.rate.min}점`"-->
+						<!--									:right-label-value="`${slideFilters.rate.max}점`" />-->
+						<!--							</div>-->
+						<!--						</div>-->
 						<!-- 필터 초기화 버튼 -->
 						<q-btn
 							flat
@@ -244,7 +245,7 @@ export default {
 			},
 			slideFilters: {
 				year: {
-					min: 1800,
+					min: 1985,
 					max: 2022,
 				},
 				rate: {
@@ -276,15 +277,6 @@ export default {
 		await this.$store.dispatch('videoList/loadVideoList', 0);
 	},
 	methods: {
-		sortButtonClick(idx) {
-			this.sort.forEach(i => {
-				if (i !== idx) {
-					i.isSelect = false;
-				}
-			});
-			this.sort[idx].isSelect = true;
-			this.$store.dispatch('videoList/sortVideos', this.sort[idx].name);
-		},
 		async videoOnLoad(index, done) {
 			if (this.videos.length <= this.totalResult) {
 				setTimeout(() => {
@@ -295,6 +287,18 @@ export default {
 		},
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });
+		},
+		searchButtonClick() {
+			this.$store.dispatch('videoList/searchVideos', this.search);
+		},
+		sortButtonClick(idx) {
+			this.sort.forEach(i => {
+				if (i !== idx) {
+					i.isSelect = false;
+				}
+			});
+			this.sort[idx].isSelect = true;
+			this.$store.dispatch('videoList/sortVideos', this.sort[idx].name);
 		},
 		ottFilterClick(idx) {
 			this.ottFilters[idx].isSelect = !this.ottFilters[idx].isSelect;
@@ -307,8 +311,12 @@ export default {
 			};
 			this.$store.dispatch('videoList/filterVideos', condition);
 		},
-		searchButtonClick() {
-			this.$store.dispatch('videoList/searchVideos', this.search);
+		yearFilterClick() {
+			const condition = {
+				name: 'YEAR',
+				range: this.slideFilters.year,
+			};
+			this.$store.dispatch('videoList/slideFilterVideos', condition);
 		},
 		initButtonClick() {
 			// 선택형 필터 초기화
@@ -318,7 +326,7 @@ export default {
 				});
 			}
 			// 슬라이드형 필터 초기화
-			this.slideFilters.year.min = 1800;
+			this.slideFilters.year.min = 1985;
 			this.slideFilters.year.max = 2022;
 			this.slideFilters.rate.min = 0.5;
 			this.slideFilters.rate.max = 5;

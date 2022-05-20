@@ -9,7 +9,7 @@ export const videoList = {
 			genres: [],
 			ratingMin: 0.5,
 			ratingMax: 5,
-			releaseDateMin: 1800,
+			releaseDateMin: 1985,
 			releaseDateMax: 2022,
 			productionCountry: [],
 			watched: [],
@@ -35,7 +35,7 @@ export const videoList = {
 			state.filters.watched.splice(0, state.filters.watched.length);
 			state.filters.ratingMin = 0.5;
 			state.filters.releaseDateMax = 5;
-			state.filters.releaseDateMin = 1800;
+			state.filters.releaseDateMin = 1985;
 			state.filters.releaseDateMax = 2022;
 		},
 		INIT_PROVIDERS(state) {
@@ -73,6 +73,10 @@ export const videoList = {
 			selected.forEach(cond => {
 				state.filters.watched.push(cond);
 			});
+		},
+		SET_YEAR(state, range) {
+			state.filters.releaseDateMin = range.min;
+			state.filters.releaseDateMax = range.max;
 		},
 		INIT_VIDEOS(state) {
 			state.videos = [];
@@ -141,6 +145,11 @@ export const videoList = {
 		},
 		async filterVideos({ commit, dispatch }, condition) {
 			commit(`SET_${condition.name}`, condition.selected);
+			commit('INIT_VIDEOS');
+			dispatch('loadVideoList', 0);
+		},
+		async slideFilterVideos({ commit, dispatch }, condition) {
+			commit(`SET_${condition.name}`, condition.range);
 			commit('INIT_VIDEOS');
 			dispatch('loadVideoList', 0);
 		},
