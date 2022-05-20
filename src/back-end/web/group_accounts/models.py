@@ -49,4 +49,4 @@ class GroupAccount(models.Model):
             _pw_filled = kwargs.get("password") or self.password
             if _id_filled and _pw_filled:
                 self.creation_date_time = timezone.now()
-        super().save(self, *args, **kwargs)
+        super().save()

@@ -39,7 +39,7 @@ class GroupAccountView(UpdateAPIView):
             # 저장 후 새로 fetch
             # + 모임 상태 변경 필요? (모집완료 -> 관람중~)
             _q = Group.objects.select_related("group_account")
-            _patched_group = _q.get(id=kwargs.get("group_id"))
+            _patched_group = _q.get(id=_group.id)
             if can_start_watch(_patched_group):
                 # 모임 상태 변경
                 start_watch(_group, _q)
