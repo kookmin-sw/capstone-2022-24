@@ -28,12 +28,14 @@
 					</div>
 				</div>
 				<!-- 작품 상세 정보 -->
-				<!--				<div class="row q-ma-sm">-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">연도</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">국가</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">장르</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
-				<!--				</div>-->
+				<div class="row q-ma-sm">
+					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ releaseYear }} |</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">
+						{{ productionCountry }} |
+					</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ genre }}</div>
+					<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
+				</div>
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<!--				<div class="row q-ma-sm q-mb-md">-->
 				<!--					<q-avatar rounded color="grey-4" size="25px" class="q-mr-xs" />-->
@@ -55,9 +57,14 @@
 						:option-label="'name'">
 					</q-select>
 
-					<q-btn outline class="col q-ma-sm text-blue-200">찜 하기</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>
+					<q-btn
+						v-if="videoDetails.personal.wished !== null"
+						outline
+						class="col q-ma-sm text-blue-200">
+						찜 하기
+					</q-btn>
+					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
+					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
 				<q-card flat bordered class="q-ma-sm">
@@ -132,10 +139,23 @@ export default {
 			season: '시즌 1',
 			tab: 'all',
 			staff: ['', '', '', '', ''],
+			countryList: {
+				KR: '한국',
+				US: '미국',
+			},
 		};
 	},
 	computed: {
 		...mapState('videoDetails', ['videoDetails']),
+		releaseYear() {
+			return this.videoDetails.releaseDate.split('-')[0];
+		},
+		productionCountry() {
+			return this.videoDetails.productionCountries.join(',');
+		},
+		genre() {
+			return this.videoDetails.genres.join(',');
+		},
 	},
 	watch: {
 		season: function () {
@@ -146,7 +166,7 @@ export default {
 			});
 		},
 	},
-	async beforeCreate() {
+	async created() {
 		const videoId = this.$route.params.videoId;
 		let category;
 		this.$route.params.category === 'MV'
