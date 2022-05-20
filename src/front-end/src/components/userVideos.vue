@@ -18,12 +18,12 @@
 			class="bg-blue-70">
 			<q-carousel-slide
 				:name="page"
-				v-for="page in videoList.totalPage"
+				v-for="page in videoList.total"
 				:key="page">
 				<div
 					class="row fit justify-center items-center video-list-frame"
 					v-if="videoList.results[page - 1]">
-					<div v-if="videoList.totalResult === 0">추가된 작품이 없습니다.</div>
+					<div v-if="videoList.total === 0">추가된 작품이 없습니다.</div>
 					<div
 						class="video-poster bg-grey-4"
 						v-for="video in videoList.results[page - 1].videos"

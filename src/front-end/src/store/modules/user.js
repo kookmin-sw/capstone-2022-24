@@ -73,7 +73,7 @@ export const user = {
 		},
 	},
 	actions: {
-		async setProfile({ commit }) {
+		async initProfile({ commit }) {
 			const url = `/users/mypage/`;
 
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
@@ -94,6 +94,16 @@ export const user = {
 						isVerified: user.isVerified,
 					};
 					commit('SET_PROFILE', userProfile);
+					console.log(res.data);
+					// const groups = res.data.group;
+					// console.log(groups);
+					const videos = res.data.videos;
+					const wishes = {
+						total: videos.wishes.totalCount,
+						results: videos.wishes.results,
+					};
+					commit('SET_RECENT_LIST', wishes);
+					console.log(videos);
 				})
 				.catch(err => {
 					alert(err);

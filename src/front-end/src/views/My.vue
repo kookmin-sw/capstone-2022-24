@@ -206,7 +206,7 @@ export default {
 		]),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('user/setProfile');
+		await this.$store.dispatch('user/initProfile');
 		// await this.$store.dispatch('user/initUserGroups');
 		// await this.$store.dispatch('user/initUserVideos', 6);
 	},
