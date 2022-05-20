@@ -2,7 +2,7 @@
 	<!-- 작품 정보 영역 -->
 	<div class="q-ma-xl details">
 		<!--		<q-btn flat class="row q-mb-sm justify-start">&lt; 뒤로가기</q-btn>-->
-		<div class="row col-gap-12">
+		<div class="row col-gap-12" v-if="videoDetails">
 			<!-- 포스터 -->
 			<div class="col-3 q-ma-sm bg-grey-4" style="width: 242px; height: 342px">
 				<img
