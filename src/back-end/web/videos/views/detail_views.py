@@ -155,7 +155,8 @@ class DetailView(viewsets.ViewSet):
                             "posterUrl": "https://image.tmdb.org/t/p/w500/ekp9PbSODHiTXXqnHJ4Sq6YHkhq.jpg",
                             "title": "블리치",
                             "titleEnglish": "Bleach",
-                            "releaseDate": "2004-10-05",
+                            "releaseYear": "2004",
+                            "releaseDate": "10-05",
                             "filmRating": None,
                             "overview": "",
                             "providers": [
@@ -166,7 +167,7 @@ class DetailView(viewsets.ViewSet):
                                 }
                             ],
                             "genres": ["Action & Adventure", "애니메이션", "Sci-Fi & Fantasy"],
-                            "productionCountries": ["JP"],
+                            "productionCountries": ["일본"],
                             "totalSeasons": 1,
                             "totalEpisodes": 366,
                             "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
@@ -274,13 +275,14 @@ class DetailView(viewsets.ViewSet):
                             "videoId": 8,
                             "posterUrl": "https://image.tmdb.org/t/p/w500/zDNAeWU0PxKolEX1D8Vn1qWhGjH.jpg",
                             "title": "인터스텔라",
-                            "releaseDate": "2014-11-05",
+                            "releaseYear": "2014",
+                            "releaseDate": "11-05",
                             "titleEnglish": "Interstellar",
                             "overview": (
-                                "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이"
-                                "전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다. 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다."
-                                "거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부."
-                                "이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데..."
+                                "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다."
+                                " 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다. 거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 "
+                                "함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부. 이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를"
+                                " 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데..."
                             ),
                             "providers": [
                                 {
@@ -300,8 +302,8 @@ class DetailView(viewsets.ViewSet):
                                 },
                             ],
                             "genres": ["모험", "드라마", "SF"],
-                            "productionCountries": ["GB", "US"],
-                            "public": {"wishCount": 153},
+                            "productionCountries": ["영국", "미국"],
+                            "public": {"wishCount": 0},
                             "personal": {"wished": False},
                         },
                     )

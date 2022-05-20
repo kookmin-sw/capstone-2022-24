@@ -156,7 +156,7 @@ class HomeView(viewsets.ViewSet):
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        if genres:
+        if (genres is not None) & (genres != "all"):
             _genres = genres.split(",")
             _filter &= Q(genre__name__in=_genres)
 
