@@ -7,13 +7,11 @@ from users.serializers import UserSerializer
 class MileageSerializer(serializers.ModelSerializer):
     """Mileage Serializer for json parsing"""
 
-    user = serializers.SerializerMethodField()
-
     class Meta:
         """Meta data for Mielage serializer"""
 
         model = Mileage
-        fields = "__all__"
+        fields = ["user", "amount", "renewal_date_time"]
 
     def get_user(self, obj):
         """Get user data using UserSerializer"""
