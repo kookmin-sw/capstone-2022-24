@@ -18,8 +18,9 @@ from drf_spectacular.utils import (
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
-from videos.models import Video
+from videos.models import Genre, ProductionCountry, Video
 from wishes.models import Wish
 
 
@@ -69,17 +70,17 @@ class DetailView(viewsets.ViewSet):
     def get_video_info(self, video_id):
         """Method: get to video info in DB"""
         video_provider = (
-            Video.objects.filter(Q(id=video_id))
+            VideoProvider.objects.filter(Q(video=video_id))
             .values_list(
-                "videoprovider__link",
-                "videoprovider__provider__name",
-                "videoprovider__provider__logo_key",
+                "link",
+                "provider__name",
+                "provider__logo_key",
             )
             .distinct()
         )
 
-        video_genre = Video.objects.filter(Q(id=video_id)).values_list("genre__name")
-        video_production_country = Video.objects.filter(Q(id=video_id)).values_list("productioncountry__name")
+        video_genre = Genre.objects.filter(Q(video=video_id)).values_list("name")
+        video_production_country = ProductionCountry.objects.filter(Q(video=video_id)).values_list("name")
 
         video_info = {
             "video_provider": video_provider,
