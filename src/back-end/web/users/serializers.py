@@ -25,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
             "birthday",
             "is_active",
             "is_verified",
+            "total_mileages",
         ]
 
 
