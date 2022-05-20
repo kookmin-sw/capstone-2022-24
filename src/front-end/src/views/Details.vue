@@ -58,20 +58,20 @@
 					</q-select>
 
 					<q-btn
-						v-if="this.wished !== null"
+						v-if="videoDetails.wished !== null"
 						outline
 						@click="addWish"
 						class="col q-ma-sm text-blue-200">
 						찜 하기
 					</q-btn>
-					<q-btn
-						v-else-if="this.wished"
-						outline
-						color="blue-4"
-						@click="cancleWish"
-						class="col q-ma-sm text-blue-200">
-						찜 취소
-					</q-btn>
+					<!--					<q-btn-->
+					<!--						v-else-if="this.wished"-->
+					<!--						outline-->
+					<!--						color="blue-4"-->
+					<!--						@click="cancleWish"-->
+					<!--						class="col q-ma-sm text-blue-200">-->
+					<!--						찜 취소-->
+					<!--					</q-btn>-->
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>

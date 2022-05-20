@@ -8,14 +8,20 @@ export const videoInteractions = {
 	actions: {
 		async addWish(context, videoId) {
 			console.log('vuex, addWish', videoId);
-			const url = `videos/${videoId}/wishes`;
+			const url = `videos/${videoId}/wishes/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
-				authorization: `Bearer ${token}`,
+				Authorization: `Bearer ${token}`,
 			};
-			await http.post(url, { headers }).then(res => {
-				console.log(res);
-			});
+			console.log(url, headers);
+			await http
+				.post(url, {}, { headers })
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 		cancleWish(context, videoId) {
 			console.log('vuex, cancleWish', videoId);
