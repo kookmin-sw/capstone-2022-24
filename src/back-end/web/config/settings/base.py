@@ -111,6 +111,8 @@ REST_FRAMEWORK = {
     # Permit only to authenticated user
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    # time stamp format
+    "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
 }
 
 MIDDLEWARE = [

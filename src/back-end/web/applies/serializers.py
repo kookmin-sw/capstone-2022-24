@@ -17,7 +17,7 @@ class BaseApplySerializer(serializers.Serializer):
 
     fellows = serializers.SerializerMethodField()
     provider = serializers.SerializerMethodField()
-    apply_date_time = serializers.DateTimeField()
+    apply_date_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     status = serializers.SerializerMethodField()
 
     def get_provider(self, obj):
