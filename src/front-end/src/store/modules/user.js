@@ -83,6 +83,7 @@ export const user = {
 			await http
 				.get(url, { headers })
 				.then(res => {
+					// set user
 					const user = res.data.profile;
 					const userProfile = {
 						nickname: user.nickname,
@@ -95,13 +96,17 @@ export const user = {
 					};
 					commit('SET_PROFILE', userProfile);
 
+					// set user videos
 					const videos = res.data.videos;
 					const wishes = {
 						total: videos.wishes.totalCount,
 						results: videos.wishes.results,
 					};
 					commit('SET_WISH_LIST', wishes);
-					console.log(videos);
+
+					// set groups
+					const groups = res.data.groups;
+					console.log(groups);
 				})
 				.catch(err => {
 					alert(err);
@@ -163,68 +168,6 @@ export const user = {
 				.then(res => {
 					commit('SET_SELECT_GROUP', res.data);
 					commit('ADD_GROUP_INFO', res.data);
-				})
-				.catch(err => {
-					alert(err);
-				});
-		},
-		async initUserVideos({ commit }) {
-			const url = `/users/mypage/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-			await http
-				.get(url, { headers })
-				.then(res => {
-					// 최근 조회 작
-					const videos = res.data.videos;
-					const recentList = {
-						totalPage: videos.recentViews.page.totalPage,
-						totalResult: videos.recentViews.page.totalResult,
-						results: [
-							{
-								videos: videos.recentViews.results,
-							},
-						],
-					};
-					commit('SET_RECENT_LIST', recentList);
-
-					// 찜 작
-					const wishList = {
-						totalPage: videos.wishes.page.totalPage,
-						totalResult: videos.wishes.page.totalResult,
-						results: [
-							{
-								videos: videos.wishes.results,
-							},
-						],
-					};
-					commit('SET_WISH_LIST', wishList);
-
-					// 별점 작
-					const starList = {
-						totalPage: videos.stars.page.totalPage,
-						totalResult: videos.stars.page.totalResult,
-						results: [
-							{
-								videos: videos.stars.results,
-							},
-						],
-					};
-					commit('SET_STAR_LIST', starList);
-
-					// 본 작
-					const watchList = {
-						totalPage: videos.watchMarks.page.totalPage,
-						totalResult: videos.watchMarks.page.totalResult,
-						results: [
-							{
-								videos: videos.watchMarks.results,
-							},
-						],
-					};
-					commit('SET_WATCH_LIST', watchList);
 				})
 				.catch(err => {
 					alert(err);
