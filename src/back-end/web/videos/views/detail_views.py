@@ -231,7 +231,8 @@ class DetailView(viewsets.ViewSet):
             "poster_url": tv.poster_key,
             "title": tv.title,
             "title_english": tv.title_english,
-            "release_date": tv.release_date,
+            "release_year": str(tv.release_date.year),
+            "release_date": tv.release_date.strftime("%m-%d"),
             "film_rating": tv.film_rating,
             "overview": season_json_ob["overview"],
             "providers": tv_info_response["provider_list"],
@@ -241,9 +242,8 @@ class DetailView(viewsets.ViewSet):
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count},
+            "personal": {"wished": None},
         }
-
-        context["personal"] = {"wished": None}
 
         if request.user.is_authenticated:
             context = self.video_personal_count(request.user, tv.id, context)
@@ -350,16 +350,16 @@ class DetailView(viewsets.ViewSet):
             "video_id": movie.id,
             "poster_url": movie.poster_key,
             "title": movie.title,
-            "release_date": movie.release_date,
+            "release_year": str(movie.release_date.year),
+            "release_date": movie.release_date.strftime("%m-%d"),
             "title_english": movie.title_english,
             "overview": overview,
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
             "public": {"wish_count": movie.videototalcount.wish_count},
+            "personal": {"wished": None},
         }
-
-        context["personal"] = {"wished": None}
 
         if request.user.is_authenticated:
             context = self.video_personal_count(request.user, movie.id, context)
