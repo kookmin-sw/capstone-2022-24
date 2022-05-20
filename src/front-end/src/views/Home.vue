@@ -161,7 +161,9 @@
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
-			<div class="q-mb-xl text-h6 text-bold" v-if="loadFail">
+			<div
+				class="q-mb-xl text-h6 text-bold"
+				v-if="loadFail && videos.length === 0">
 				작품이 존재하지 않습니다.
 			</div>
 		</q-infinite-scroll>
