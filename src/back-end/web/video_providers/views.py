@@ -13,7 +13,7 @@ from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
-from video_providers.serializers import VideoProviderSerializer
+from video_providers.serializers import DiscontinuityVideoSerializer
 
 
 class DiscontinuityListPagination(LimitOffsetPagination):
@@ -99,7 +99,7 @@ class DiscontinuityClass(viewsets.ViewSet):
         _object = VideoProvider.objects.filter(
             Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gte=self.DAY15_DEADLINE)
         )
-        serializer = VideoProviderSerializer(_object, many=True)
+        serializer = DiscontinuityVideoSerializer(_object, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -108,13 +108,13 @@ class DiscontinuityClass(viewsets.ViewSet):
         _object = VideoProvider.objects.filter(
             Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gte=self.DAY7_DEADLINE)
         )
-        serializer = VideoProviderSerializer(_object, many=True)
+        serializer = DiscontinuityVideoSerializer(_object, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def day_7(self, request):
         """Method that displays a list of videos on the discontinue screen"""
         _object = VideoProvider.objects.filter(Q(deadline__lte=self.DAY7_DEADLINE))
-        serializer = VideoProviderSerializer(_object, many=True)
+        serializer = DiscontinuityVideoSerializer(_object, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
