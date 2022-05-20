@@ -73,13 +73,11 @@ export default {
 		},
 	},
 	computed: {
-		...mapState('user', ['userProfile']),
+		...mapState('auth', ['profile']),
 	},
 	methods: {
 		clickAllBtn() {
-			this.$router.push(
-				`/${this.userProfile.nickname}/expand/${this.expandId}`,
-			);
+			this.$router.push(`/${this.profile.nickname}/expand/${this.expandId}`);
 		},
 	},
 };
