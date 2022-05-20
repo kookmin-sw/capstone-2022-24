@@ -65,7 +65,7 @@ a:hover{
 
 a.router-link-exact-active{
     color: #449BFE;
-    text-weight: bold;
+    /*text-weight: bold;*/
 }
 
 .col-gap-12{
@@ -116,6 +116,10 @@ a.router-link-exact-active{
 }
 .text-blue-70 {
     color: #E3F0FF;
+}
+
+.text-white {
+    color: white;
 }
 
 /* border color */
