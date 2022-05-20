@@ -1,5 +1,5 @@
 <template>
-	<q-card style="width: 480px; max-width: 60vw" v-if="isActive">
+	<q-card style="width: 480px; max-width: 60vw; height: 100%; max-height: 70vh;" v-if="isActive">
 		<!--    alarm title    -->
 		<q-card-section class="row items-center q-pb-none q-pt-sm">
 			<div class="text-subtitle1 text-weight-bold q-pt-auto q-pb-auto">
