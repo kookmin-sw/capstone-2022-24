@@ -16,7 +16,7 @@ from drf_spectacular.utils import (
     extend_schema_view,
     inline_serializer,
 )
-from rest_framework import serializers, status
+from rest_framework import permissions, serializers, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import (
     CreateAPIView,
@@ -24,7 +24,6 @@ from rest_framework.generics import (
     UpdateAPIView,
     get_object_or_404,
 )
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -154,7 +153,7 @@ class SignUpView(CreateAPIView):
     """Sign up with nickname(required) and profile image(optional)"""
 
     serializer_class = UserSignUpVerifySerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
         """Save user's nickname & profile"""
