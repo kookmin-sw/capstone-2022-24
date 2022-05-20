@@ -91,8 +91,7 @@ class DiscontinuityClass(viewsets.ViewSet):
     )
     def day_30(self, request):
         """Method that displays a list of videos on the discontinue screen"""
-        _filter = Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gte=self.DAY15_DEADLINE)
-        _filter = Q()
+        _filter = Q(deadline__lte=self.DAY30_DEADLINE) & Q(deadline__gt=self.DAY15_DEADLINE)
         context = self.response_day(_filter, request)
         return Response(context, status=status.HTTP_200_OK)
 
@@ -117,7 +116,7 @@ class DiscontinuityClass(viewsets.ViewSet):
     )
     def day_15(self, request):
         """Method that displays a list of videos on the discontinue screen"""
-        _filter = Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gte=self.DAY7_DEADLINE)
+        _filter = Q(deadline__lte=self.DAY15_DEADLINE) & Q(deadline__gt=self.DAY7_DEADLINE)
         context = self.response_day(_filter, request)
         return Response(context, status=status.HTTP_200_OK)
 
