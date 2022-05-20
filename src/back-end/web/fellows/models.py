@@ -14,7 +14,9 @@ class Fellow(models.Model):
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
     will_renew = models.BooleanField(default=True)
     creation_date_time = models.DateTimeField(default=timezone.now)
-    last_modification_date_time = models.DateTimeField(default=timezone.now)
+    last_modification_date_time = models.DateTimeField(
+        default=timezone.now,
+    )
     has_reported = models.BooleanField(default=False)
 
     class Meta:

@@ -16,7 +16,9 @@ class RecentView(models.Model):
         Video,
         on_delete=models.CASCADE,
     )
-    last_view_date_time = models.DateTimeField(default=timezone.now)
+    last_view_date_time = models.DateTimeField(
+        default=timezone.now,
+    )
 
     class Meta:
         """Metadata for recent_view model"""
