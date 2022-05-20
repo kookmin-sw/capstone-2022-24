@@ -211,6 +211,13 @@ export default {
 					logoUrl:
 						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
 				},
+				amazonPrime: {
+					label: '아마존프라임',
+					isSelect: false,
+					name: 'AP',
+					logoUrl:
+						'https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg',
+				},
 			},
 			selectFilters: {
 				categories: [
