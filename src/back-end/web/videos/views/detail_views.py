@@ -1,8 +1,10 @@
 """APIs of Video application : DetailView"""
 # pylint: disable=R0914
 
+import gettext
 import json
 
+import pycountry
 import requests
 from config.exceptions.result import VideoNotFoundException
 from django.conf import settings
@@ -107,8 +109,11 @@ class DetailView(viewsets.ViewSet):
             genre_list.append(item[0])
 
         production_country_list = []
+        get = gettext.translation("iso3166", pycountry.LOCALES_DIR, languages=["ko"])
+        get.install()
         for item in video_info_list["video_production_country"]:
-            production_country_list.append(item[0])
+            country_name = get.gettext(pycountry.countries.get(alpha_2=item[0]).name)
+            production_country_list.append(country_name)
 
         return {
             "provider_list": provider_list,
