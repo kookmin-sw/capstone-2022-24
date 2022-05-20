@@ -39,7 +39,7 @@ export const user = {
 			state.profile = profile;
 		},
 		SET_GROUP_LIST(state, groupList) {
-			state.groupList = groupList;
+			state.groupList = [...state.groupList, ...groupList];
 		},
 		ADD_GROUP_INFO(state, group) {
 			state.groupsInfo.push(group);
@@ -73,7 +73,7 @@ export const user = {
 		},
 	},
 	actions: {
-		async initProfile({ commit }) {
+		async initProfile({ state, commit }) {
 			const url = `/users/mypage/`;
 
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
@@ -83,7 +83,7 @@ export const user = {
 			await http
 				.get(url, { headers })
 				.then(res => {
-					// set user
+					// init profile
 					const user = res.data.profile;
 					const userProfile = {
 						nickname: user.nickname,
@@ -96,7 +96,7 @@ export const user = {
 					};
 					commit('SET_PROFILE', userProfile);
 
-					// set user videos
+					// set videos
 					const videos = res.data.videos;
 					const wishes = {
 						total: videos.wishes.totalCount,
@@ -104,8 +104,12 @@ export const user = {
 					};
 					commit('SET_WISH_LIST', wishes);
 
-					// set groups
+					// init groups
 					const groups = res.data.groups;
+					commit('SET_SELECT_GROUP', groups.default);
+					commit('SET_GROUP_LIST', [groups.default]);
+					commit('SET_GROUP_LIST', groups.others);
+					console.log(state.groupList, state.selectGroup);
 					console.log(groups);
 				})
 				.catch(err => {

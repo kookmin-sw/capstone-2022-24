@@ -46,7 +46,18 @@
 	<div class="column q-ma-xl">
 		<!-- 참여 중인 모임 목록 (로고) -->
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
-		<!--		<div class="row">-->
+		<!-- 참여, 모집 중인 모임 없음 -->
+		<div
+			class="row q-pa-md q-pb-xl bg-blue-70"
+			style="height: 343px"
+			v-if="getSelectGroup === null">
+			<q-space class="col-2" />
+			<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">
+				참여 중이거나 모집 중인 모임이 없습니다.
+			</div>
+			<q-space class="col-2" />
+		</div>
+		<!--				<div class="row">-->
 		<!--			<q-avatar-->
 		<!--				rounded-->
 		<!--				color="grey-4"-->
@@ -58,7 +69,19 @@
 		<!--				<div style="font-size: 12px">{{ group.logoUrl }}</div>-->
 		<!--			</q-avatar>-->
 		<!--			<q-btn outline class="text-blue-100 radius-4">+</q-btn>-->
-		<!--		</div>-->
+		<!--				</div>-->
+
+		<!-- 모임 모집 완료 이전 -->
+		<!--    			<div-->
+		<!--    				class="row q-pa-md q-pb-xl"-->
+		<!--    				v-if="!getSelectGroup.fellows"-->
+		<!--    				style="height: 343px">-->
+		<!--    				<q-space class="col-2" />-->
+		<!--    				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">-->
+		<!--    					모임 구성원을 기다리는 중입니다.-->
+		<!--    				</div>-->
+		<!--    				<q-space class="col-2" />-->
+		<!--    			</div>-->
 		<!--		&lt;!&ndash; 모임 탈퇴 &ndash;&gt;-->
 		<!--		<div class="text-left align-right">-->
 		<!--			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>-->
@@ -73,17 +96,6 @@
 		<!--					class="q-pa-sm bg-blue-200 text-body2">-->
 		<!--					모임 상태 &amp; D-day-->
 		<!--				</q-badge>-->
-		<!--			</div>-->
-		<!--			&lt;!&ndash; 모임 모집 완료 이전 &ndash;&gt;-->
-		<!--			<div-->
-		<!--				class="row q-pa-md q-pb-xl"-->
-		<!--				v-if="!getSelectGroup.fellows"-->
-		<!--				style="height: 343px">-->
-		<!--				<q-space class="col-2" />-->
-		<!--				<div class="q-mt-auto q-mb-auto text-h6 text-weight-bold">-->
-		<!--					모임 구성원을 기다리는 중입니다.-->
-		<!--				</div>-->
-		<!--				<q-space class="col-2" />-->
 		<!--			</div>-->
 		<!--			&lt;!&ndash; 모임 모집 완료 이후 &ndash;&gt;-->
 		<!--			<div v-else>-->
