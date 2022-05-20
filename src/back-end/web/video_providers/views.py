@@ -84,7 +84,7 @@ class DiscontinuityClass(viewsets.ViewSet):
                     name="videoListSerializer",
                     fields={"result": serializers.CharField()},
                 ),
-                description="검색 성공",
+                description="작품 목록 제공 성공",
                 examples=[OpenApiExample(response_only=True, name="Success Example", value=SCHEMA_VALUE)],
             )
         },
@@ -109,7 +109,7 @@ class DiscontinuityClass(viewsets.ViewSet):
                     name="videoListSerializer",
                     fields={"result": serializers.CharField()},
                 ),
-                description="검색 성공",
+                description="작품 목록 제공 성공",
                 examples=[OpenApiExample(response_only=True, name="Success Example", value=SCHEMA_VALUE)],
             )
         },
@@ -134,7 +134,7 @@ class DiscontinuityClass(viewsets.ViewSet):
                     name="videoListSerializer",
                     fields={"result": serializers.CharField()},
                 ),
-                description="검색 성공",
+                description="작품 목록 제공 성공",
                 examples=[OpenApiExample(response_only=True, name="Success Example", value=SCHEMA_VALUE)],
             )
         },
