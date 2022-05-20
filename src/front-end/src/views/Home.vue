@@ -161,7 +161,9 @@
 					<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 				</div>
 			</template>
-			<div class="q-mb-xl text-h6 text-bold" v-if="loadFail">
+			<div
+				class="q-mb-xl text-h6 text-bold"
+				v-if="loadFail && totalResult === 0">
 				작품이 존재하지 않습니다.
 			</div>
 		</q-infinite-scroll>
@@ -253,9 +255,9 @@ export default {
 			search: null,
 			sort: [
 				{ label: '랜덤순', isSelect: true, name: 'random' },
-				// { label: '평점순', isSelect: false, name: 'rating' },
 				{ label: '최신순', isSelect: false, name: 'new' },
 				{ label: '개봉순', isSelect: false, name: 'release' },
+				// { label: '평점순', isSelect: false, name: 'rating' },
 				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
 			selected: {
