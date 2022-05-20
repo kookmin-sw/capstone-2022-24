@@ -58,20 +58,19 @@
 					</q-select>
 
 					<q-btn
-						v-if="videoDetails.wished !== null"
+						v-if="this.wished !== null && this.wished"
+						flat
+						@click="cancleWish"
+						class="col q-ma-sm bg-blue-100 text-white text-bold">
+						찜 취소
+					</q-btn>
+					<q-btn
+						v-else-if="this.wished !== null && !this.wished"
 						outline
 						@click="addWish"
 						class="col q-ma-sm text-blue-200">
 						찜 하기
 					</q-btn>
-					<!--					<q-btn-->
-					<!--						v-else-if="this.wished"-->
-					<!--						outline-->
-					<!--						color="blue-4"-->
-					<!--						@click="cancleWish"-->
-					<!--						class="col q-ma-sm text-blue-200">-->
-					<!--						찜 취소-->
-					<!--					</q-btn>-->
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>
@@ -155,12 +154,9 @@ export default {
 			releaseYear: '',
 			productionCountry: '',
 			genre: '',
-			wished: null,
 			details: null,
+			wished: null,
 		};
-	},
-	computed: {
-		...mapState('videoDetails', ['videoDetails']),
 	},
 	watch: {
 		season: function () {
@@ -170,6 +166,9 @@ export default {
 				season: this.season.number,
 			});
 		},
+	},
+	computed: {
+		...mapState('videoDetails', ['videoDetails']),
 	},
 	async created() {
 		const videoId = this.$route.params.videoId;
@@ -187,16 +186,22 @@ export default {
 		// this.productionCountry = this.videoDetails.productionCountries.join(',');
 		// this.genre = this.videoDetails.genres.join(',');
 		// this.details = this.videoDetails;
-		// this.wished = this.videoDetails.personal.wished;
+		this.wished = this.videoDetails.personal.wished;
 	},
 	methods: {
 		addWish() {
-			console.log('click add wish btn');
-			this.$store.dispatch('videoInteractions/addWish', this.videoId);
+			this.$store
+				.dispatch('videoInteractions/addWish', this.videoId)
+				.then(() => {
+					this.wished = true;
+				});
 		},
 		cancleWish() {
-			console.log('click cancle wish btn');
-			this.$store.dispatch('videoInteractions/cancleWish', this.videoId);
+			this.$store
+				.dispatch('videoInteractions/cancleWish', this.videoId)
+				.then(() => {
+					this.wished = false;
+				});
 		},
 	},
 };
