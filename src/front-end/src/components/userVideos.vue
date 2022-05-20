@@ -4,35 +4,38 @@
 			<div class="text-h6 text-weight-bold">{{ title }}</div>
 			<q-btn flat class="text-grey" @click="clickAllBtn">전체보기</q-btn>
 		</div>
-		<q-carousel
-			v-model="currentPage"
-			transition-prev="slide-right"
-			transition-next="slide-left"
-			swipeable
-			animated
-			padding
-			arrows
-			ref="carousel"
-			control-color="blue-4"
-			height="230px"
-			class="bg-blue-70">
-			<q-carousel-slide
-				:name="page"
-				v-for="page in videoList.total"
-				:key="page">
-				<div
-					class="row fit justify-center items-center video-list-frame"
-					v-if="videoList.results[page - 1]">
-					<div v-if="videoList.total === 0">추가된 작품이 없습니다.</div>
-					<div
-						class="video-poster bg-grey-4"
-						v-for="video in videoList.results[page - 1].videos"
-						:key="video.id">
-						{{ video.posterUrl }}
-					</div>
-				</div>
-			</q-carousel-slide>
-		</q-carousel>
+		<div v-for="video in videoList" :key="video">
+			{{ video }}
+		</div>
+		<!--		<q-carousel-->
+		<!--			v-model="currentPage"-->
+		<!--			transition-prev="slide-right"-->
+		<!--			transition-next="slide-left"-->
+		<!--			swipeable-->
+		<!--			animated-->
+		<!--			padding-->
+		<!--			arrows-->
+		<!--			ref="carousel"-->
+		<!--			control-color="blue-4"-->
+		<!--			height="230px"-->
+		<!--			class="bg-blue-70">-->
+		<!--			<q-carousel-slide-->
+		<!--				:name="page"-->
+		<!--				v-for="page in videoList.total"-->
+		<!--				:key="page">-->
+		<!--				<div-->
+		<!--					class="row fit justify-center items-center video-list-frame"-->
+		<!--					v-if="videoList.results[page - 1]">-->
+		<!--					<div v-if="videoList.total === 0">추가된 작품이 없습니다.</div>-->
+		<!--					<div-->
+		<!--						class="video-poster bg-grey-4"-->
+		<!--						v-for="video in videoList.results[page - 1].videos"-->
+		<!--						:key="video.id">-->
+		<!--						{{ video.posterUrl }}-->
+		<!--					</div>-->
+		<!--				</div>-->
+		<!--			</q-carousel-slide>-->
+		<!--		</q-carousel>-->
 	</div>
 </template>
 

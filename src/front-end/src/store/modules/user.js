@@ -94,15 +94,13 @@ export const user = {
 						isVerified: user.isVerified,
 					};
 					commit('SET_PROFILE', userProfile);
-					console.log(res.data);
-					// const groups = res.data.group;
-					// console.log(groups);
+
 					const videos = res.data.videos;
 					const wishes = {
 						total: videos.wishes.totalCount,
 						results: videos.wishes.results,
 					};
-					commit('SET_RECENT_LIST', wishes);
+					commit('SET_WISH_LIST', wishes);
 					console.log(videos);
 				})
 				.catch(err => {
