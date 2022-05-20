@@ -163,7 +163,7 @@
 			</template>
 			<div
 				class="q-mb-xl text-h6 text-bold"
-				v-if="loadFail && totalResult === 0">
+				v-if="loadFail && videos.length === 0">
 				작품이 존재하지 않습니다.
 			</div>
 		</q-infinite-scroll>

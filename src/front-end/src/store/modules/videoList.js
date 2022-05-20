@@ -130,7 +130,7 @@ export const videoList = {
 					}
 				})
 				.catch(() => {
-					commit('INIT_VIDEOS');
+					// commit('INIT_VIDEOS');
 					commit('SET_LOAD_FAIL', true);
 				});
 		},

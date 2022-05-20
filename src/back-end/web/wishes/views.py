@@ -60,7 +60,7 @@ class WishCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, DestroyA
 
     queryset = Video.objects.prefetch_related("wish_set", "wish_set__user", "videototalcount")
     serializer_class = WishSerializer
-    permission_classes = [permissions.IsAuthenticated]  # TODO
+    permission_classes = (permissions.IsAuthenticated,)  # TODO
     lookup_fields = ("user", "video")
 
     def get_video_by_id(self, video_id):
