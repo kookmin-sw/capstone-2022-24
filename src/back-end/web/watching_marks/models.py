@@ -16,7 +16,9 @@ class WatchingMark(models.Model):
         Video,
         on_delete=models.CASCADE,
     )
-    date_time = models.DateTimeField(default=timezone.now)
+    date_time = models.DateTimeField(
+        default=timezone.now,
+    )
 
     class Meta:
         """Metadata for watching_mark model"""
