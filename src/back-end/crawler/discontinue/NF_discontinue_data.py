@@ -1,11 +1,11 @@
 """dynamic crawling discontinue data for Netflix"""
 
 import json
-import os
 import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from setting_dynamic_crawl import setting_driver_path
 
 
 def get_NF_discontine_data():
@@ -13,8 +13,7 @@ def get_NF_discontine_data():
 
     URL = "https://unogs.com/countrydetail"
 
-    driver_path = "\\chromewebdrive\\chromedrive_win32\\chromedriver.exe"
-    path = os.getcwd() + driver_path
+    path = setting_driver_path()
     driver = webdriver.Chrome(path)
 
     driver.get(url=URL)
@@ -50,6 +49,5 @@ def get_NF_discontine_data():
 if __name__ == "__main__":
     NF_data_path = "./NeflixDiscontinue.json"
     netflix_list = get_NF_discontine_data()
-    print(netflix_list)
     with open(NF_data_path, "w") as outfile:
         json.dump(netflix_list, outfile)

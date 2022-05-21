@@ -1,7 +1,6 @@
 """dynamic crawling discontinue data for Watcha"""
 
 import json
-import os
 import time
 
 import requests
@@ -9,6 +8,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from setting_dynamic_crawl import setting_driver_path
 
 
 def infinite_loop(driver):
@@ -31,14 +31,16 @@ def get_WC_discontinue_link():
     """Method: crawl Watcha upcoming release video links"""
 
     URL = "https://watcha.com/staffmades/3740?external_link_referer=copytopaste&ref=share"
-    driver_path = "\\chromewebdrive\\chromedrive_win32\\chromedriver.exe"
-    path = os.getcwd() + driver_path
+
+    path = setting_driver_path()
     driver = webdriver.Chrome(path)
 
     driver.get(url=URL)
     time.sleep(3)
+
     discontinue_link_list = []
     infinite_loop(driver)
+
     expire_list = driver.find_elements(by=By.CLASS_NAME, value="css-1hqk0rn")
     for item in expire_list:
         title = item.find_element(by=By.CLASS_NAME, value="css-1fucs4t-StyledText.eb5y16b1").text
