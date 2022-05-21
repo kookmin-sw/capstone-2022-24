@@ -25,12 +25,12 @@
 								<div class="video-title text-left text-weight-bold">
 									영화 제목
 								</div>
-								<q-rating
-									size="18px"
-									v-model="stars"
-									:max="5"
-									class="text-blue-100" />
-								<div>2022.03.14</div>
+								<!--								<q-rating-->
+								<!--									size="18px"-->
+								<!--									v-model="stars"-->
+								<!--									:max="5"-->
+								<!--									class="text-blue-100" />-->
+								<div class="q-mb-lg">2022.03.14</div>
 							</div>
 						</div>
 					</div>
@@ -52,10 +52,10 @@ export default {
 		return {
 			currentTab: '',
 			interactions: [
-				{ label: '최근 조회한 작품', isSelect: false, name: 'recent' },
+				// { label: '최근 조회한 작품', isSelect: false, name: 'recent' },
 				{ label: '찜한 작품', isSelect: false, name: 'wish' },
-				{ label: '별점 준 작품', isSelect: false, name: 'star' },
-				{ label: '본 작품', isSelect: false, name: 'watched' },
+				// { label: '별점 준 작품', isSelect: false, name: 'star' },
+				// { label: '본 작품', isSelect: false, name: 'watched' },
 			],
 			videos: [
 				{},
