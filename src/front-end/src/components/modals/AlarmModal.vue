@@ -1,6 +1,7 @@
 <template>
 	<q-card style="width: 480px; max-width: 60vw; height: 100%; max-height: 70vh;" v-if="isActive">
-		<!--    alarm title    -->
+    <!--TODO: 타이틀 레이아웃 수정(상단 여백 넣기) 및 css 통일(사이트 대표 컬러 적용, 타이틀 텍스트 등) -->
+    <!--    alarm title    -->
 		<q-card-section class="row items-center q-pb-none q-pt-sm">
 			<div class="text-subtitle1 text-weight-bold q-pt-auto q-pb-auto">
 				<q-icon name="notifications_none" size="md" color="blue" />
@@ -53,6 +54,7 @@
 				<q-btn icon="close" flat round dense color="blue" size="sm" />
 			</div>
 		</q-card-section>
+    <!-- TODO: 더미데이터 메세지 추가(내용 각각 다르게)   -->
 	</q-card>
 </template>
 <script>
