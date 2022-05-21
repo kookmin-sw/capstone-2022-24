@@ -57,6 +57,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     """Model of user that use ongot service"""
 
+    MAX_MILEAGES = 2147483647
+
     nickname = models.CharField(
         max_length=8,
         unique=True,
@@ -113,6 +115,12 @@ class User(AbstractBaseUser):
     def is_staff(self):
         """Isn't normal but admin?"""
         return self.is_admin
+
+    def is_updatable_mileages_with(self, amount):
+        """validate new total_mileages if amount is applied"""
+        if isinstance(amount) is not int:
+            return False
+        return 0 <= self.total_mileages + amount <= self.MAX_MILEAGES
 
 
 @receiver(post_save, sender=Mileage)
