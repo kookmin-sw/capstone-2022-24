@@ -89,7 +89,7 @@
 		<div class="text-left align-right">
 			<q-btn flat dense class="text-grey">모임 탈퇴 하기 &gt;</q-btn>
 		</div>
-		<!-- 구성원 -->
+		<!-- 모임 상세 정보 -->
 		<div
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
 			<div class="bg-blue-70">
@@ -103,15 +103,32 @@
 					</q-badge>
 				</div>
 			</div>
+			<!-- 구성원 -->
 			<div class="row q-pa-md q-pb-xl bg-blue-70">
-				<!-- 모임 상세 정보 -->
 				<q-space class="col-2" />
 				<div
 					class="col"
 					v-for="fellow in getSelectGroup.fellows"
 					:key="fellow.nickname">
-					<q-avatar rounded size="73px" class="bg-blue-100" />
-					<div>{{ fellow.nickname }}</div>
+					<q-avatar
+						rounded
+						size="73px"
+						:class="{
+							myself: fellow.isMyself,
+							'bg-blue-100': fellow.profileImageUrl === null,
+						}">
+						<img
+							:src="fellow.profileImageUrl"
+							:alt="fellow.id"
+							v-if="fellow.profileImageUrl" />
+					</q-avatar>
+					<div>
+						<q-icon
+							name="fas fa-crown"
+							size="16px"
+							color="blue-4"
+							v-if="fellow.isLeader" />{{ fellow.nickname }}
+					</div>
 				</div>
 				<q-space class="col-2" />
 			</div>
@@ -258,5 +275,10 @@ export default {
 .align-right {
 	display: flex;
 	flex-direction: row-reverse;
+}
+
+.myself {
+	border: 3px solid #449bfe;
+	border-radius: 6px;
 }
 </style>
