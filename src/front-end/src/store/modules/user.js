@@ -73,7 +73,7 @@ export const user = {
 		},
 	},
 	actions: {
-		async initProfile({ state, commit }) {
+		async initProfile({ commit }) {
 			commit('SET_PROFILE', {});
 			const url = `/users/mypage/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
@@ -109,8 +109,6 @@ export const user = {
 					commit('SET_SELECT_GROUP', groups.default);
 					commit('SET_GROUP_LIST', [groups.default]);
 					commit('SET_GROUP_LIST', groups.others);
-					console.log(state.groupList, state.selectGroup);
-					console.log(groups);
 				})
 				.catch(err => {
 					alert(err);
@@ -118,35 +116,13 @@ export const user = {
 		},
 		async selectGroup({ state, commit }, groupId) {
 			// 사용자가 선택한 모임 정보가 존재하는지 확인
-			console.log(groupId);
-			console.log(state.groupList);
 			const selected = state.groupList.find(group => {
 				return group.provider.id === groupId;
 			});
-			console.log(selected);
 			if (selected) {
 				// TODO: 모임 상세 api 호출 (PR중)
 				commit('SET_SELECT_GROUP', selected);
 			}
-			// if (!selected) {
-			// 	// 존재하지 않으면 정보 가져오고 선택 모임 갱신
-			// 	await dispatch('pushGroupInfo', groupId);
-			// } else {
-			// 	// 존재하면 선택 모임 갱신
-			// 	commit('SET_SELECT_GROUP', selected);
-			// }
-		},
-		async pushGroupInfo({ commit }, groupId) {
-			const url = `/users/providers/${groupId}`;
-			await http
-				.get(url)
-				.then(res => {
-					commit('SET_SELECT_GROUP', res.data);
-					commit('ADD_GROUP_INFO', res.data);
-				})
-				.catch(err => {
-					alert(err);
-				});
 		},
 		async pushRecentList({ commit }, { page, size }) {
 			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;

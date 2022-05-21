@@ -96,7 +96,7 @@
 				flat
 				dense
 				class="text-grey"
-				v-if="getSelectGroup.status === 'Recruited'">
+				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
 				모임 탈퇴 하기 &gt;
 			</q-btn>
 		</div>
