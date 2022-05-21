@@ -113,7 +113,7 @@ export const videoList = {
 				category: state.filters.categories.join(','),
 				releaseDateMax: state.filters.releaseDateMax,
 				releaseDateMin: state.filters.releaseDateMin,
-				genres: state.filters.genres.join(','),
+				// genres: state.filters.genres.join(','),
 				productionCountry: state.filters.productionCountry.join(','),
 			};
 

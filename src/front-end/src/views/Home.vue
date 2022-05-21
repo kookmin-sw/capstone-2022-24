@@ -263,8 +263,8 @@ export default {
 			search: null,
 			sort: [
 				{ label: '랜덤순', isSelect: true, name: 'random' },
-				{ label: '최신순', isSelect: false, name: 'new' },
-				{ label: '개봉순', isSelect: false, name: 'release' },
+				{ label: '추가순', isSelect: false, name: 'new' },
+				{ label: '신작순', isSelect: false, name: 'release' },
 				// { label: '평점순', isSelect: false, name: 'rating' },
 				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
