@@ -63,8 +63,14 @@ export const user = {
 			const headers = {
 				authorization: `Bearer ${token}`,
 			};
+
+			const params = {
+				videoLimit: 6,
+				videoOffset: 0,
+			};
+
 			await http
-				.get(url, { headers })
+				.get(url, { params, headers })
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
@@ -112,8 +118,8 @@ export const user = {
 				authorization: `Bearer ${token}`,
 			};
 			const params = {
-				videoLimit: 5,
-				videoOffset: state.wishList.length * 5,
+				videoLimit: 6,
+				videoOffset: state.wishList.length * 6,
 			};
 			http
 				.get(url, { params, headers })

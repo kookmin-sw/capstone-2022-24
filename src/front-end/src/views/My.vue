@@ -189,7 +189,7 @@
 		v-if="getWishList"
 		:title="wishList.title"
 		:total="totalWish"
-		:total-page="Math.ceil(totalWish / 5)"
+		:total-page="Math.ceil(totalWish / 6)"
 		:video-list="getWishList"
 		:push-video-method="wishList.method"
 		:expand-id="wishList.expandId" />
