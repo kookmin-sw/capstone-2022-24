@@ -119,8 +119,8 @@ class HomeView(viewsets.ViewSet):
 
     sort_dict = {
         "random": "id",
-        "new": "videoprovider__offer_date",
-        "release": "release_date",
+        "new": "-videoprovider__offer_date",
+        "release": "-release_date",
     }
     """
     + Sort:
@@ -156,7 +156,7 @@ class HomeView(viewsets.ViewSet):
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        if genres:
+        if (genres is not None) & (genres != "all"):
             _genres = genres.split(",")
             _filter &= Q(genre__name__in=_genres)
 
