@@ -74,8 +74,8 @@ export const user = {
 	},
 	actions: {
 		async initProfile({ state, commit }) {
+			commit('SET_PROFILE', {});
 			const url = `/users/mypage/`;
-
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,
@@ -83,6 +83,7 @@ export const user = {
 			await http
 				.get(url, { headers })
 				.then(res => {
+					console.log(res);
 					// init profile
 					const user = res.data.profile;
 					const userProfile = {
@@ -116,54 +117,25 @@ export const user = {
 					alert(err);
 				});
 		},
-		async initUserGroups({ commit }) {
-			const url = `/users/mypage/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-			await http
-				.get(url, { headers })
-				.then(res => {
-					const groups = res.data.groups;
-					// set: select group = default group
-					const defaultGroup = groups.default;
-					commit('ADD_GROUP_INFO', defaultGroup);
-					commit('SET_SELECT_GROUP', defaultGroup);
-
-					// list에 default group 추가
-					const groupList = [
-						{
-							id: defaultGroup.provider.id,
-							logoUrl: defaultGroup.provider.logoUrl,
-						},
-					];
-					// list에 others 추가
-					const others = groups.others;
-					others.forEach(group => {
-						groupList.push({
-							id: group.provider.id,
-							logoUrl: group.provider.logoUrl,
-						});
-					});
-					commit('SET_GROUP_LIST', groupList);
-				})
-				.catch(err => {
-					alert(err);
-				});
-		},
-		async setSelectGroup({ state, commit, dispatch }, groupId) {
+		async selectGroup({ state, commit }, groupId) {
 			// 사용자가 선택한 모임 정보가 존재하는지 확인
-			const selected = state.groupsInfo.find(group => {
+			console.log(groupId);
+			console.log(state.groupList);
+			const selected = state.groupList.find(group => {
 				return group.provider.id === groupId;
 			});
-			if (!selected) {
-				// 존재하지 않으면 정보 가져오고 선택 모임 갱신
-				await dispatch('pushGroupInfo', groupId);
-			} else {
-				// 존재하면 선택 모임 갱신
+			console.log(selected);
+			if (selected) {
+				// TODO: 모임 상세 api 호출 (PR중)
 				commit('SET_SELECT_GROUP', selected);
 			}
+			// if (!selected) {
+			// 	// 존재하지 않으면 정보 가져오고 선택 모임 갱신
+			// 	await dispatch('pushGroupInfo', groupId);
+			// } else {
+			// 	// 존재하면 선택 모임 갱신
+			// 	commit('SET_SELECT_GROUP', selected);
+			// }
 		},
 		async pushGroupInfo({ commit }, groupId) {
 			const url = `/users/providers/${groupId}`;
