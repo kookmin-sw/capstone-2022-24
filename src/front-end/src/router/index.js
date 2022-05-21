@@ -79,6 +79,10 @@ const routes = [
 		name: 'Details',
 		component: () =>
 			import(/* webpackChunkName: "Details" */ '@/views/Details.vue'),
+		beforeEnter(to, from, next) {
+			store.commit('videoDetails/SET_VIDEO_DETAILS', {});
+			next();
+		},
 	},
 	{
 		path: '/my/:userId',

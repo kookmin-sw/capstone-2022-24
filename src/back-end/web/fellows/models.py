@@ -11,10 +11,12 @@ class Fellow(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    payment = models.ForeignKey(Payment, null=True, blank=True, on_delete=models.SET_NULL)
     will_renew = models.BooleanField(default=True)
     creation_date_time = models.DateTimeField(default=timezone.now)
-    last_modification_date_time = models.DateTimeField(default=timezone.now)
+    last_modification_date_time = models.DateTimeField(
+        default=timezone.now,
+    )
     has_reported = models.BooleanField(default=False)
 
     class Meta:

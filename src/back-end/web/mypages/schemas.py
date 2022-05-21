@@ -16,6 +16,7 @@ MYPAGE_DETAIL_EXAMPLES = [
                     "birthday": "1990-01-01",
                     "isActive": True,
                     "isVerified": True,
+                    "totalMileage": 3200,
                 },
                 "groups": {
                     "default": {

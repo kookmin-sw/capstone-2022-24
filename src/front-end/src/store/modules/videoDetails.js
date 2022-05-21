@@ -14,8 +14,18 @@ export const videoDetails = {
 	actions: {
 		async loadVideoDetails({ commit }, video) {
 			const url = `/videos/${video.category}/${video.videoId}`;
+
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			let headers = {
+				'content-type': 'application/json',
+			};
+			if (token !== 'null') {
+				headers = {
+					authorization: `Bearer ${token}`,
+				};
+			}
 			await http
-				.get(url)
+				.get(url, { headers })
 				.then(res => {
 					const details = res.data;
 					commit('SET_VIDEO_DETAILS', details);

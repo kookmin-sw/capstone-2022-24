@@ -13,7 +13,7 @@ class GroupPaymentResponseSerializer(serializers.Serializer):
 
     payment_id = serializers.IntegerField()
     amount = serializers.IntegerField()
-    request_date_time = serializers.DateTimeField()
+    request_date_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         """Meta data for Group Payments Response serializer"""

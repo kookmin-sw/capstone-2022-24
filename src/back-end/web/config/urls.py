@@ -13,9 +13,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("videos/", include("videos.urls")),
     path("groups/", include("groups.urls")),
+    path("groups/<int:group_id>/account/", include("group_accounts.urls")),
     path("users/", include("users.urls")),
     path("applies/", include("applies.urls")),
     path("mypage/", include("mypages.urls")),
+    path("discontinues/", include("video_providers.urls")),
     # api docs
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger

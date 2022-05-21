@@ -77,7 +77,7 @@ export const auth = {
 					const user = res.data.user;
 					if (!user.isVerified) {
 						// login
-						const token = res.headers.accesstoken;
+						const token = res.data.accessToken;
 						localStorage.setItem('ACCESS_TOKEN', token);
 						commit('SET_TOKEN', token);
 						commit('SET_PROFILE', user);

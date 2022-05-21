@@ -2,7 +2,7 @@
 	<!-- 작품 정보 영역 -->
 	<div class="q-ma-xl details">
 		<!--		<q-btn flat class="row q-mb-sm justify-start">&lt; 뒤로가기</q-btn>-->
-		<div class="row col-gap-12">
+		<div class="row col-gap-12" v-if="videoDetails">
 			<!-- 포스터 -->
 			<div class="col-3 q-ma-sm bg-grey-4" style="width: 242px; height: 342px">
 				<img
@@ -29,10 +29,12 @@
 				</div>
 				<!-- 작품 상세 정보 -->
 				<!--				<div class="row q-ma-sm">-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">연도</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">국가</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">장르</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ releaseYear }} |</div>-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">-->
+				<!--						{{ productionCountry }} |-->
+				<!--					</div>-->
+				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ genre }}</div>-->
+				<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
 				<!--				</div>-->
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<!--				<div class="row q-ma-sm q-mb-md">-->
@@ -55,9 +57,22 @@
 						:option-label="'name'">
 					</q-select>
 
-					<q-btn outline class="col q-ma-sm text-blue-200">찜 하기</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>
-					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>
+					<q-btn
+						v-if="this.wished !== null && this.wished"
+						flat
+						@click="cancleWish"
+						class="col q-ma-sm bg-blue-100 text-white text-bold">
+						찜 취소
+					</q-btn>
+					<q-btn
+						v-else-if="this.wished !== null && !this.wished"
+						outline
+						@click="addWish"
+						class="col q-ma-sm text-blue-200">
+						찜 하기
+					</q-btn>
+					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
+					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
 				<q-card flat bordered class="q-ma-sm">
@@ -132,10 +147,16 @@ export default {
 			season: '시즌 1',
 			tab: 'all',
 			staff: ['', '', '', '', ''],
+			countryList: {
+				KR: '한국',
+				US: '미국',
+			},
+			releaseYear: '',
+			productionCountry: '',
+			genre: '',
+			details: null,
+			wished: null,
 		};
-	},
-	computed: {
-		...mapState('videoDetails', ['videoDetails']),
 	},
 	watch: {
 		season: function () {
@@ -146,7 +167,10 @@ export default {
 			});
 		},
 	},
-	async beforeCreate() {
+	computed: {
+		...mapState('videoDetails', ['videoDetails']),
+	},
+	async created() {
 		const videoId = this.$route.params.videoId;
 		let category;
 		this.$route.params.category === 'MV'
@@ -158,6 +182,27 @@ export default {
 		});
 		this.videoId = videoId;
 		this.category = category;
+		// this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
+		// this.productionCountry = this.videoDetails.productionCountries.join(',');
+		// this.genre = this.videoDetails.genres.join(',');
+		// this.details = this.videoDetails;
+		this.wished = this.videoDetails.personal.wished;
+	},
+	methods: {
+		addWish() {
+			this.$store
+				.dispatch('videoInteractions/addWish', this.videoId)
+				.then(() => {
+					this.wished = true;
+				});
+		},
+		cancleWish() {
+			this.$store
+				.dispatch('videoInteractions/cancleWish', this.videoId)
+				.then(() => {
+					this.wished = false;
+				});
+		},
 	},
 };
 </script>
