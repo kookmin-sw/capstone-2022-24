@@ -1,5 +1,6 @@
 """Serializers of applies application for json parsing"""
 from applies.models import LeaderApply, MemberApply
+from fellows.serializers import FellowProfileSerializer
 from payments.serializers import PaymentSerializer
 from providers.serializers import ProviderSerializer
 from rest_framework import serializers
@@ -105,3 +106,30 @@ class LeaderCancelSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         """Not used"""
+
+
+class ApplyDetailSerializer(serializers.Serializer):
+    """Abstract apply model serializer"""
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
+
+    fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
+    provider = serializers.SerializerMethodField()
+    time_stamps = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
+
+    def get_provider(self, obj):
+        """Get provider data using ProviderSerializer"""
+        return ProviderSerializer(obj.provider).data
+
+    def get_status(self, obj):
+        """Get default group status - <Recruiting>"""
+        return "Recruiting"
+
+    def get_time_stamps(self, obj):
+        """Get time stamps"""
+        return {"apply_date_time": obj.apply_date_time}
