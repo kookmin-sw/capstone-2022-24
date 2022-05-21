@@ -1,8 +1,10 @@
 """APIs of Video application : DetailView"""
 # pylint: disable=R0914
 
+import gettext
 import json
 
+import pycountry
 import requests
 from config.exceptions.result import VideoNotFoundException
 from django.conf import settings
@@ -18,8 +20,9 @@ from drf_spectacular.utils import (
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
-from videos.models import Video
+from videos.models import Genre, ProductionCountry, Video
 from wishes.models import Wish
 
 
@@ -69,17 +72,17 @@ class DetailView(viewsets.ViewSet):
     def get_video_info(self, video_id):
         """Method: get to video info in DB"""
         video_provider = (
-            Video.objects.filter(Q(id=video_id))
+            VideoProvider.objects.filter(Q(video=video_id))
             .values_list(
-                "videoprovider__link",
-                "videoprovider__provider__name",
-                "videoprovider__provider__logo_key",
+                "link",
+                "provider__name",
+                "provider__logo_key",
             )
             .distinct()
         )
 
-        video_genre = Video.objects.filter(Q(id=video_id)).values_list("genre__name")
-        video_production_country = Video.objects.filter(Q(id=video_id)).values_list("productioncountry__name")
+        video_genre = Genre.objects.filter(Q(video=video_id)).values_list("name")
+        video_production_country = ProductionCountry.objects.filter(Q(video=video_id)).values_list("name")
 
         video_info = {
             "video_provider": video_provider,
@@ -106,8 +109,11 @@ class DetailView(viewsets.ViewSet):
             genre_list.append(item[0])
 
         production_country_list = []
+        get = gettext.translation("iso3166", pycountry.LOCALES_DIR, languages=["ko"])
+        get.install()
         for item in video_info_list["video_production_country"]:
-            production_country_list.append(item[0])
+            country_name = get.gettext(pycountry.countries.get(alpha_2=item[0]).name)
+            production_country_list.append(country_name)
 
         return {
             "provider_list": provider_list,
@@ -149,7 +155,8 @@ class DetailView(viewsets.ViewSet):
                             "posterUrl": "https://image.tmdb.org/t/p/w500/ekp9PbSODHiTXXqnHJ4Sq6YHkhq.jpg",
                             "title": "블리치",
                             "titleEnglish": "Bleach",
-                            "releaseDate": "2004-10-05",
+                            "releaseYear": "2004",
+                            "releaseDate": "10-05",
                             "filmRating": None,
                             "overview": "",
                             "providers": [
@@ -160,7 +167,7 @@ class DetailView(viewsets.ViewSet):
                                 }
                             ],
                             "genres": ["Action & Adventure", "애니메이션", "Sci-Fi & Fantasy"],
-                            "productionCountries": ["JP"],
+                            "productionCountries": ["일본"],
                             "totalSeasons": 1,
                             "totalEpisodes": 366,
                             "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
@@ -230,7 +237,8 @@ class DetailView(viewsets.ViewSet):
             "poster_url": tv.poster_key,
             "title": tv.title,
             "title_english": tv.title_english,
-            "release_date": tv.release_date,
+            "release_year": str(tv.release_date.year),
+            "release_date": tv.release_date.strftime("%m-%d"),
             "film_rating": tv.film_rating,
             "overview": season_json_ob["overview"],
             "providers": tv_info_response["provider_list"],
@@ -240,9 +248,8 @@ class DetailView(viewsets.ViewSet):
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count},
+            "personal": {"wished": None},
         }
-
-        context["personal"] = {"wished": None}
 
         if request.user.is_authenticated:
             context = self.video_personal_count(request.user, tv.id, context)
@@ -268,13 +275,14 @@ class DetailView(viewsets.ViewSet):
                             "videoId": 8,
                             "posterUrl": "https://image.tmdb.org/t/p/w500/zDNAeWU0PxKolEX1D8Vn1qWhGjH.jpg",
                             "title": "인터스텔라",
-                            "releaseDate": "2014-11-05",
+                            "releaseYear": "2014",
+                            "releaseDate": "11-05",
                             "titleEnglish": "Interstellar",
                             "overview": (
-                                "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이"
-                                "전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다. 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다."
-                                "거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부."
-                                "이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데..."
+                                "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다."
+                                " 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다. 거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 "
+                                "함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부. 이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를"
+                                " 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데..."
                             ),
                             "providers": [
                                 {
@@ -294,8 +302,8 @@ class DetailView(viewsets.ViewSet):
                                 },
                             ],
                             "genres": ["모험", "드라마", "SF"],
-                            "productionCountries": ["GB", "US"],
-                            "public": {"wishCount": 153},
+                            "productionCountries": ["영국", "미국"],
+                            "public": {"wishCount": 0},
                             "personal": {"wished": False},
                         },
                     )
@@ -349,16 +357,16 @@ class DetailView(viewsets.ViewSet):
             "video_id": movie.id,
             "poster_url": movie.poster_key,
             "title": movie.title,
-            "release_date": movie.release_date,
+            "release_year": str(movie.release_date.year),
+            "release_date": movie.release_date.strftime("%m-%d"),
             "title_english": movie.title_english,
             "overview": overview,
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
             "public": {"wish_count": movie.videototalcount.wish_count},
+            "personal": {"wished": None},
         }
-
-        context["personal"] = {"wished": None}
 
         if request.user.is_authenticated:
             context = self.video_personal_count(request.user, movie.id, context)

@@ -17,12 +17,12 @@ jobs:
         position: 'bottom'
         resolve: true
         link-style: "body"
-  link-milestone:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: andrefcdias/add-to-milestone@v1.2.2
-      name: Link current milestone to pull request
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        milestone: "~ *"
-        use-expression: true
+#  link-milestone:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: andrefcdias/add-to-milestone@v1.2.2
+#      name: Link current milestone to pull request
+#      with:
+#        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+#        milestone: "~ *"
+#        use-expression: true
