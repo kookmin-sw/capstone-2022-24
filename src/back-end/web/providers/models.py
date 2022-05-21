@@ -18,12 +18,13 @@ class Provider(models.Model):
     """Model definition about OTT Providers"""
 
     NAME_CHOICES = (
-        ("NF", "Netflix"),
-        ("WC", "Watcha"),
-        ("DP", "DisneyPlus"),
-        ("TV", "Tving"),
-        ("WV", "Wavve"),
-        ("AP", "AmazonPrime"),
+        ("NF", "넷플릭스"),
+        ("WC", "왓챠"),
+        ("DP", "디즈니 플러스"),
+        ("TV", "티빙"),
+        ("WV", "웨이브"),
+        ("AP", "아마존 프라임"),
+        ("LF", "라프텔"),
     )
     tmdb_id = models.PositiveBigIntegerField()
     name = models.CharField(
