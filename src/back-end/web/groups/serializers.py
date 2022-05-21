@@ -5,6 +5,7 @@ from group_accounts.serializers import GroupAccountSerializer
 from groups.models import Group
 from groups.schemas import GROUP_DETAIL_SERIALIZER_EXAMPLES
 from providers.serializers import ProviderSerializer
+from reports.serializers import ReportSerializer
 from rest_framework import serializers
 
 
@@ -36,8 +37,6 @@ class GroupDetailSerializer(serializers.ModelSerializer):
     provider = serializers.SerializerMethodField()
     status = serializers.CharField(source="get_status")
     account = serializers.SerializerMethodField()
-    fellows = serializers.SerializerMethodField(method_name="get_fellows_and_report")
-    report = serializers.SerializerMethodField(method_name="get_fellows_and_report")
     time_stamps = serializers.SerializerMethodField()
 
     class Meta:
@@ -49,8 +48,6 @@ class GroupDetailSerializer(serializers.ModelSerializer):
             "provider",
             "status",
             "account",
-            "fellows",
-            "report",
             "time_stamps",
         ]
         read_only_fields = ["__all__"]
@@ -67,24 +64,31 @@ class GroupDetailSerializer(serializers.ModelSerializer):
         """Get fellows and reports"""
         _user = self.context.get("request").user
         _fellow_querysest = obj.fellow_set.all()
-        _report = dict(reported=False, report_count=0, leader_report_count=0)
+        _report_meta = dict(reported=False, report_count=0, leader_report_count=0)
         _fellow_users = []
         for f in _fellow_querysest:
             if _member := getattr(f, "member", None):
-                _report["leader_report_count"] += _member.has_reported_leader
+                _report_meta["leader_report_count"] += _member.has_reported_leader
             if f.id == _user.id:
-                _report["reported"] = f.has_reported
-            _report["report_count"] += f.has_reported
+                _report_meta["reported"] = f.has_reported
+            _report_meta["report_count"] += f.has_reported
             _fellow_users.append(
                 FellowProfileSerializer(
                     f.user, context={"is_leader": not _member, "request": self.context["request"]}
                 ).data
             )
+        _report = ReportSerializer(_report_meta).data
         return {"fellows": _fellow_users, "report": _report}
 
     def get_time_stamps(self, obj):
         """Get date time related fields"""
         return GroupTimeStampSerializer(obj).data
+
+    def to_representation(self, instance):
+        _representation = super().to_representation(instance)
+        _fellows_and_report = self.get_fellows_and_report(instance)
+        _representation.update(_fellows_and_report)
+        return _representation
 
 
 class GroupTimeStampSerializer(serializers.ModelSerializer):
