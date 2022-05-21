@@ -19,7 +19,7 @@
 		<q-separator color="blue-4" />
 
 		<!--    msg 1   -->
-		<q-card-section class="text-center" v-if="isActive">
+		<q-card-section class="text-center bg-blue-70" v-if="isActive">
 			<div class="text-left q-mt-sm q-mb-sm q-ml-lg q-mr-lg">
 				<span class="q-mr-sm text-weight-bold">모임 알림</span>
 				<span>구독 종료까지 3일 남았습니다!</span>
@@ -40,7 +40,6 @@
 			</div>
 		</q-card-section>
 		<q-separator color="grey-4" />
-		<!-- TODO: 더미데이터 메세지 추가(내용 각각 다르게)   -->
 	</q-card>
 </template>
 
