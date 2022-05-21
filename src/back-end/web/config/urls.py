@@ -13,9 +13,11 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("videos/", include("videos.urls")),
     path("groups/", include("groups.urls")),
+    path("groups/<int:group_id>/account/", include("group_accounts.urls")),
     path("users/", include("users.urls")),
     path("applies/", include("applies.urls")),
     path("users/mypage/", include("mypages.urls")),
+    path("discontinues/", include("video_providers.urls")),
     # user - mileage api
     path("mileages/", include("mileages.urls")),
     # api docs

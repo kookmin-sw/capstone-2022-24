@@ -61,11 +61,29 @@
   },
   {
     "fields": {
+      "detail": "\uad6d\ub0b4\uc5d0\uc11c\ub9cc \uc774\uc6a9 \uac00\ub2a5",
+      "name": "\ud504\ub77c\uc784 \uc694\uae08\uc81c",
+      "number_of_subscribers": 3
+    },
+    "model": "providers.subscriptiontype",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "detail": "\uad11\uace0 X / \ud504\ub85c\ud544 4\uc778 / \ub3d9\uc2dc\uc7ac\uc0dd 4\uc778 / \ucd5c\uc2e0\ud654 \uc2dc\uccad / \ub2e4\uc6b4\ub85c\ub4dc \uc9c0\uc6d0 / FHD \ud654\uc9c8 / TV \uc571 \uc9c0\uc6d0",
+      "name": "\ud504\ub9ac\ubbf8\uc5c4 \uc694\uae08\uc81c",
+      "number_of_subscribers": 4
+    },
+    "model": "providers.subscriptiontype",
+    "pk": 2
+  },
+  {
+    "fields": {
       "base_date": "2022-05-13",
       "provider": 6,
       "service_charge_per_member": 5500,
       "subscription_charge_per_member": 4000,
-      "subscription_type": null,
+      "subscription_type": 2,
       "total_subscription_charge": 16000
     },
     "model": "providers.charge",
@@ -77,7 +95,7 @@
       "provider": 5,
       "service_charge_per_member": 4500,
       "subscription_charge_per_member": 3000,
-      "subscription_type": null,
+      "subscription_type": 1,
       "total_subscription_charge": 6000
     },
     "model": "providers.charge",
@@ -11898,7 +11916,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -11922,7 +11940,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -11934,7 +11952,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -11946,7 +11964,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -11970,7 +11988,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -11994,7 +12012,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -12018,7 +12036,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12054,7 +12072,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12078,7 +12096,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12114,7 +12132,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -12126,7 +12144,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12174,7 +12192,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12186,7 +12204,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12222,7 +12240,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12270,7 +12288,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12318,7 +12336,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12354,7 +12372,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12390,7 +12408,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12474,7 +12492,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12486,7 +12504,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12522,7 +12540,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12582,7 +12600,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12630,7 +12648,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12666,7 +12684,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12702,7 +12720,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12786,7 +12804,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12834,7 +12852,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12858,7 +12876,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12870,7 +12888,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12918,7 +12936,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -12930,7 +12948,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -12966,7 +12984,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13026,7 +13044,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13074,7 +13092,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13146,7 +13164,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13206,7 +13224,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13230,7 +13248,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13266,7 +13284,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13290,7 +13308,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13326,7 +13344,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13362,7 +13380,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13386,7 +13404,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13410,7 +13428,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13446,7 +13464,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13482,7 +13500,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13518,7 +13536,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13542,7 +13560,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13566,7 +13584,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13602,7 +13620,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13614,7 +13632,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13650,7 +13668,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13662,7 +13680,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13674,7 +13692,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13710,7 +13728,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13746,7 +13764,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13782,7 +13800,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13806,7 +13824,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13842,7 +13860,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13878,7 +13896,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -13890,7 +13908,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -13938,7 +13956,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -13986,7 +14004,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -14034,7 +14052,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -14070,7 +14088,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -14082,7 +14100,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14094,7 +14112,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14106,7 +14124,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -14142,7 +14160,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -14178,7 +14196,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14214,7 +14232,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14250,7 +14268,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -14310,7 +14328,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14346,7 +14364,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14370,7 +14388,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14430,7 +14448,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14490,7 +14508,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14514,7 +14532,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14550,7 +14568,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -14562,7 +14580,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -14586,7 +14604,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14610,7 +14628,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14694,7 +14712,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14754,7 +14772,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14766,7 +14784,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14814,7 +14832,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14886,7 +14904,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14958,7 +14976,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -14970,7 +14988,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15006,7 +15024,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -15042,7 +15060,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15102,7 +15120,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -15126,7 +15144,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15150,7 +15168,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -15186,7 +15204,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15222,7 +15240,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -15234,7 +15252,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15318,7 +15336,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15342,7 +15360,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -15354,7 +15372,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15390,7 +15408,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "rent",
@@ -15402,7 +15420,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15426,7 +15444,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15486,7 +15504,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": "buy",
@@ -15546,7 +15564,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15654,7 +15672,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15702,7 +15720,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15714,7 +15732,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15726,7 +15744,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15762,7 +15780,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15774,7 +15792,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15822,7 +15840,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15846,7 +15864,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15858,7 +15876,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15870,7 +15888,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.netflix.com/kr/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15942,7 +15960,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -15990,7 +16008,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16038,7 +16056,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16050,7 +16068,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16062,7 +16080,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16086,7 +16104,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16098,7 +16116,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16110,7 +16128,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16122,7 +16140,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16134,7 +16152,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.disneyplus.com/ko-kr",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16170,7 +16188,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16194,7 +16212,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16218,7 +16236,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16278,7 +16296,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16290,7 +16308,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16326,7 +16344,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16362,7 +16380,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16410,7 +16428,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16458,7 +16476,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16506,7 +16524,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.wavve.com/",
       "offer_date": "2022-05-12",
       "offer_type": null,
@@ -16554,7 +16572,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16590,7 +16608,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16626,7 +16644,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16638,7 +16656,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16650,7 +16668,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://watcha.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16698,7 +16716,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16710,7 +16728,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16746,7 +16764,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16770,7 +16788,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16782,7 +16800,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-05-26",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16794,7 +16812,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16806,7 +16824,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-04",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16830,7 +16848,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16842,7 +16860,7 @@
   },
   {
     "fields": {
-      "deadline": null,
+      "deadline": "2022-06-19",
       "link": "https://www.primevideo.com/",
       "offer_date": "2022-05-12",
       "offer_type": "flatrate",
@@ -16935,5 +16953,49 @@
     },
     "model": "users.user",
     "pk": 4
+  },
+  {
+    "fields": {
+      "creation_date_time": null,
+      "identifier": null,
+      "last_modification_date_time": null,
+      "password": null
+    },
+    "model": "group_accounts.groupaccount",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creation_date_time": null,
+      "identifier": null,
+      "last_modification_date_time": null,
+      "password": null
+    },
+    "model": "group_accounts.groupaccount",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-20T02:33:15",
+      "end_watching_date_time": null,
+      "group_account": 1,
+      "provider": 5,
+      "start_watching_date_time": null,
+      "status": "Recruiting"
+    },
+    "model": "groups.group",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-20T02:33:25",
+      "end_watching_date_time": null,
+      "group_account": 2,
+      "provider": 6,
+      "start_watching_date_time": null,
+      "status": "Recruited"
+    },
+    "model": "groups.group",
+    "pk": 2
   }
 ]

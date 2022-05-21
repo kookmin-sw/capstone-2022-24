@@ -12,3 +12,23 @@ class GroupAccountSerializer(serializers.ModelSerializer):
         model = GroupAccount
         fields = "__all__"
         read_only_fields = ["creationDateTime", "lastModificationDateTime"]
+
+
+class GroupAccountIDSerializer(serializers.ModelSerializer):
+    """Serializer of group account identieir"""
+
+    class Meta:
+        """Metadata of GroupAccountIDSerializer"""
+
+        model = GroupAccount
+        fields = ["identifier"]
+
+
+class GroupAccountPWSerializer(serializers.ModelSerializer):
+    """Serializer of group account password"""
+
+    class Meta:
+        """Metadata of GroupAccountPWSerializer"""
+
+        model = GroupAccount
+        fields = ["password"]
