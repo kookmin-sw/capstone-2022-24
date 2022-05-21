@@ -171,24 +171,28 @@ export default {
 		...mapState('videoDetails', ['videoDetails']),
 	},
 	async created() {
-		const videoId = this.$route.params.videoId;
-		let category;
-		this.$route.params.category === 'MV'
-			? (category = 'movie')
-			: (category = 'tv');
-		await this.$store.dispatch('videoDetails/loadVideoDetails', {
-			videoId,
-			category,
-		});
-		this.videoId = videoId;
-		this.category = category;
-		// this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
-		// this.productionCountry = this.videoDetails.productionCountries.join(',');
-		// this.genre = this.videoDetails.genres.join(',');
-		// this.details = this.videoDetails;
-		this.wished = this.videoDetails.personal.wished;
+		await this.loadDetails();
 	},
 	methods: {
+		async loadDetails() {
+			const videoId = this.$route.params.videoId;
+			let category;
+			this.$route.params.category === 'MV'
+				? (category = 'movie')
+				: (category = 'tv');
+			await this.$store.dispatch('videoDetails/loadVideoDetails', {
+				videoId,
+				category,
+			});
+			this.videoId = videoId;
+			this.category = category;
+			this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
+			// this.productionCountry = this.videoDetails.productionCountries.join(',');
+			// this.genre = this.videoDetails.genres.join(',');
+			// this.details = this.videoDetails;
+			// console.log(this.videoDetails);
+			this.wished = this.videoDetails.personal.wished;
+		},
 		addWish() {
 			this.$store
 				.dispatch('videoInteractions/addWish', this.videoId)
