@@ -43,6 +43,9 @@ export const auth = {
 		SET_PROFILE(state, user) {
 			state.profile = user;
 		},
+		SET_NICKNAME(state, nickname) {
+			state.profile.nickname = nickname;
+		},
 	},
 	actions: {
 		setToken({ commit }, token) {
@@ -79,6 +82,7 @@ export const auth = {
 						// login
 						const token = res.data.accessToken;
 						localStorage.setItem('ACCESS_TOKEN', token);
+						localStorage.setItem('NICKNAME', user.nickname);
 						commit('SET_TOKEN', token);
 						commit('SET_PROFILE', user);
 						resolve();
@@ -91,7 +95,9 @@ export const auth = {
 		},
 		keepLoginToken({ commit }) {
 			const token = localStorage.getItem('ACCESS_TOKEN');
+			const nickname = localStorage.getItem('NICKNAME');
 			commit('SET_TOKEN', token);
+			commit('SET_NICKNAME', nickname);
 		},
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');

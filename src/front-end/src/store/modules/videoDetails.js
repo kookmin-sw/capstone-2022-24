@@ -34,17 +34,17 @@ export const videoDetails = {
 					console.log('');
 				});
 		},
-		async loadVideoSeason({ commit }, video) {
-			const url = `/videos/${video.category}/${video.videoId}/seasons/${video.season}`;
-			await http
-				.get(url)
-				.then(res => {
-					const details = res.data;
-					commit('SET_VIDEO_DETAILS', details);
-				})
-				.catch(() => {
-					console.log('');
-				});
-		},
+	},
+	async loadVideoSeason({ commit }, video) {
+		const url = `/videos/${video.category}/${video.videoId}/seasons/${video.season}`;
+		await http
+			.get(url)
+			.then(res => {
+				const details = res.data;
+				commit('SET_VIDEO_DETAILS', details);
+			})
+			.catch(() => {
+				console.log('');
+			});
 	},
 };

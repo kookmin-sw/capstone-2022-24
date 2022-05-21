@@ -4,8 +4,16 @@
 			<div class="text-h6 text-weight-bold">{{ title }}</div>
 			<q-btn flat class="text-grey" @click="clickAllBtn">전체보기</q-btn>
 		</div>
+
+		<div
+			class="text-h6 text-bold bg-blue-70"
+			v-if="!totalPage"
+			style="height: 230px; line-height: 230px">
+			추가된 작품이 없습니다.
+		</div>
 		<q-carousel
 			v-model="currentPage"
+			v-else
 			transition-prev="slide-right"
 			transition-next="slide-left"
 			swipeable
@@ -16,19 +24,19 @@
 			control-color="blue-4"
 			height="230px"
 			class="bg-blue-70">
-			<q-carousel-slide
-				:name="page"
-				v-for="page in videoList.totalPage"
-				:key="page">
+			<q-carousel-slide :name="page" v-for="page in totalPage" :key="page">
 				<div
 					class="row fit justify-center items-center video-list-frame"
-					v-if="videoList.results[page - 1]">
-					<div v-if="videoList.totalResult === 0">추가된 작품이 없습니다.</div>
+					v-if="videoList[this.currentPage - 1]">
 					<div
 						class="video-poster bg-grey-4"
-						v-for="video in videoList.results[page - 1].videos"
+						v-for="video in videoList[this.currentPage - 1]"
 						:key="video.id">
-						{{ video.posterUrl }}
+						<img
+							:src="video.posterUrl"
+							:alt="video.title"
+							@click="videoClick(video.id, video.category)"
+							style="width: 100%; object-fit: cover" />
 					</div>
 				</div>
 			</q-carousel-slide>
@@ -43,6 +51,12 @@ export default {
 	props: {
 		title: {
 			type: String,
+			require: true,
+		},
+		total: {
+			require: true,
+		},
+		totalPage: {
 			require: true,
 		},
 		videoList: {
@@ -63,20 +77,19 @@ export default {
 		};
 	},
 	watch: {
-		currentPage: function (newVal) {
-			if (newVal >= this.videoList.results.length) {
-				this.$store.dispatch('user/pushRecentList', { page: newVal, size: 6 });
-			}
+		currentPage: function () {
+			this.$store.dispatch(this.pushVideoMethod);
 		},
 	},
 	computed: {
-		...mapState('user', ['userProfile']),
+		...mapState('auth', ['profile']),
 	},
 	methods: {
 		clickAllBtn() {
-			this.$router.push(
-				`/${this.userProfile.nickname}/expand/${this.expandId}`,
-			);
+			this.$router.push(`/${this.profile.nickname}/expand/${this.expandId}`);
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
 	},
 };
