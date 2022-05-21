@@ -175,38 +175,18 @@
 		</div>
 	</div>
 
-	<!--  최근 조회 작품  -->
 	<q-separator color="blue-1" size="2px" inset />
 	<q-separator color="blue-4" inset />
-	<!--	<user-videos-->
-	<!--		:title="recentList.title"-->
-	<!--		:video-list="getRecentList"-->
-	<!--		:push-video-method="recentList.method"-->
-	<!--		:expand-id="recentList.expandId" />-->
 
 	<!--  찜한 작품  -->
 	<user-videos
 		v-if="getWishList"
 		:title="wishList.title"
 		:total="totalWish"
-		:total-page="Math.ceil(totalWish / 6)"
+		:total-page="Math.ceil(totalWish / maxWidth)"
 		:video-list="getWishList"
 		:push-video-method="wishList.method"
 		:expand-id="wishList.expandId" />
-
-	<!--	&lt;!&ndash; 별점 준 작품 &ndash;&gt;-->
-	<!--	<user-videos-->
-	<!--		:title="starList.title"-->
-	<!--		:video-list="getStarList"-->
-	<!--		:push-video-method="starList.method"-->
-	<!--		:expand-id="starList.expandId" />-->
-
-	<!--	&lt;!&ndash; 본 작품 &ndash;&gt;-->
-	<!--	<user-videos-->
-	<!--		:title="watchList.title"-->
-	<!--		:video-list="getWatchList"-->
-	<!--		:push-video-method="watchList.method"-->
-	<!--		:expand-id="watchList.expandId" />-->
 </template>
 
 <script>
@@ -221,6 +201,7 @@ export default {
 	components: { UserVideos },
 	data() {
 		return {
+			maxWidth: 6,
 			selectGroup: {},
 			recentList: {
 				title: '최근 조회 작품',
