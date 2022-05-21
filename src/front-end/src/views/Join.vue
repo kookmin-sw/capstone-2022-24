@@ -1,4 +1,8 @@
 <template>
+	<!-- 모임 신청 성공 모달  -->
+	<q-dialog v-model="isSuccess">
+		<join-success-modal :isActive="isSuccess" />
+	</q-dialog>
 	<!-- 1단계 영역 -->
 	<div class="step-one-frame row q-ma-xl">
 		<q-space class="col-2" />
@@ -94,8 +98,10 @@
 </template>
 
 <script>
+import JoinSuccessModal from '@/components/modals/JoinSuccessModal';
 export default {
 	name: 'Join',
+	components: { JoinSuccessModal },
 	data() {
 		return {
 			ottFilters: {
@@ -114,6 +120,7 @@ export default {
 				member: false,
 			},
 			state: true,
+			isSuccess: false,
 		};
 	},
 	methods: {
@@ -152,8 +159,19 @@ export default {
 			} else this.state = true;
 			return this.state;
 		},
-		joinBtnClick() {
-			alert('모임 신청이 완료되었습니다!');
+		async joinBtnClick() {
+			const applyer = {
+				// TODO: provider Id 수정
+				providerId: 1,
+				paymentId: null,
+			};
+			if (this.roleSelect.leader) {
+				await this.$store.dispatch('join/applyLeader', applyer);
+			} else {
+				await this.$store.dispatch('join/applyMember', applyer).then(() => {
+					this.isSuccess = true;
+				});
+			}
 		},
 	},
 };
