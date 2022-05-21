@@ -116,7 +116,7 @@ class User(AbstractBaseUser):
 
 
 @receiver(post_save, sender=Mileage)
-def update_user_total_mileages(self, instance: Mileage, created, **kwargs):
+def update_user_total_mileages(instance: Mileage, created, **kwargs):
     """When mileage record is created, update user total_mileages field with record"""
     if created:
         _user = instance.user
