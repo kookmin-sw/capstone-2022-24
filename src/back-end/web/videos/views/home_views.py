@@ -119,8 +119,8 @@ class HomeView(viewsets.ViewSet):
 
     sort_dict = {
         "random": "id",
-        "new": "videoprovider__offer_date",
-        "release": "release_date",
+        "new": "-videoprovider__offer_date",
+        "release": "-release_date",
     }
     """
     + Sort:
