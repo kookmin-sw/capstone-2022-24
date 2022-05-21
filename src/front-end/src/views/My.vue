@@ -57,7 +57,7 @@
 			<q-space class="col-2" />
 		</div>
 
-		<!--    참여, 모집 중인 모임 목록-->
+		<!-- 참여, 모집 중인 모임 목록-->
 		<div class="row" v-if="getSelectGroup !== null">
 			<q-avatar
 				rounded
@@ -85,10 +85,26 @@
 		</div>
 
 		<!-- 모집 완료 -->
+		<!-- 모임 탈퇴 -->
+		<div class="text-left align-right">
+			<q-btn flat dense class="text-grey">모임 탈퇴 하기 &gt;</q-btn>
+		</div>
+		<!-- 구성원 -->
 		<div
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
-			<!-- 구성원 -->
-			<div class="row q-pa-md q-pb-xl">
+			<div class="bg-blue-70">
+				<!-- 모임 상태 뱃지 -->
+				<div class="align-right">
+					<q-badge
+						text-color="white"
+						align="top"
+						class="q-pa-sm bg-blue-200 text-body2">
+						모임 상태 &amp; D-day
+					</q-badge>
+				</div>
+			</div>
+			<div class="row q-pa-md q-pb-xl bg-blue-70">
+				<!-- 모임 상세 정보 -->
 				<q-space class="col-2" />
 				<div
 					class="col"
@@ -129,23 +145,6 @@
 				</q-btn>
 			</div>
 		</div>
-
-		<!-- 모임 탈퇴 -->
-		<!--		<div class="text-left align-right">-->
-		<!--			<q-btn flat dense>모임 탈퇴 하기 &gt;</q-btn>-->
-		<!--		</div>-->
-
-		<!-- 모임 상세 정보 -->
-		<!--		<div class="q-mb-lg bg-blue-70">-->
-		<!--			&lt;!&ndash; 모임 상태 뱃지 &ndash;&gt;-->
-		<!--			<div class="align-right">-->
-		<!--				<q-badge-->
-		<!--					text-color="white"-->
-		<!--					align="top"-->
-		<!--					class="q-pa-sm bg-blue-200 text-body2">-->
-		<!--					모임 상태 &amp; D-day-->
-		<!--				</q-badge>-->
-		<!--			</div>-->
 	</div>
 
 	<!--  최근 조회 작품  -->
