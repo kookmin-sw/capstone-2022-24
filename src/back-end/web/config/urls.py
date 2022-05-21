@@ -18,6 +18,8 @@ urlpatterns = [
     path("applies/", include("applies.urls")),
     path("users/mypage/", include("mypages.urls")),
     path("discontinues/", include("video_providers.urls")),
+    # user - mileage api
+    path("mileages/", include("mileages.urls")),
     # api docs
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger

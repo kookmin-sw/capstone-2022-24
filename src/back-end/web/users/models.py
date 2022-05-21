@@ -1,7 +1,10 @@
 """Model definition of users application: SocialType, UserManager, User"""
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
+from mileages.models import Mileage
 from users.validators import cell_phone_number_validator, get_nickname_validators
 
 
@@ -110,3 +113,12 @@ class User(AbstractBaseUser):
     def is_staff(self):
         """Isn't normal but admin?"""
         return self.is_admin
+
+
+@receiver(post_save, sender=Mileage)
+def update_user_total_mileages(instance: Mileage, created, **kwargs):
+    """When mileage record is created, update user total_mileages field with record"""
+    if created:
+        _user = instance.user
+        _user.total_mileages += instance.amount
+        _user.save()
