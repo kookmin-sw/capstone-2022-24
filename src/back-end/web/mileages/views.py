@@ -1,8 +1,10 @@
 """APIs of mileage application"""
 from config.exceptions.input import BadFormatException
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from mileages.exceptions import MileageAmountException
+from mileages.models import Mileage
 from mileages.serializers import MileageSerializer
-from rest_framework import viewsets
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 
@@ -16,6 +18,7 @@ from rest_framework.response import Response
 class MileageViewSet(viewsets.ModelViewSet):
     """Mileage API: GET/PUT/PATCH /mileages/"""
 
+    queryset = Mileage.objects.select_related("user").all()
     serializer_class = MileageSerializer
     http_method_names = [
         "get",
@@ -24,25 +27,32 @@ class MileageViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
+        """Get mileage histories"""
         return self.request.user.mileage_set.all()
 
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop("partial", False)
-        serializer = self.get_serializer(data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        serializer.perform_create()
-        return Response(serializer.data)
+    def create_history(self, request):
+        """Create mileage history with serializer"""
+        try:
+            serializer = self.get_serializer(data=request.data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            return serializer.data
+        except ValueError as value_error:
+            raise MileageAmountException from value_error
+
+    def create(self, request, *args, **kwargs):
+        """POST /mileages/"""
+        _history = self.create_history(request)
+        headers = self.get_success_headers(_history)
+        return Response(_history, status=status.HTTP_201_CREATED, headers=headers)
 
     def partial_update(self, request, *args, **kwargs):
+        """PATCH /mileages/"""
         try:
-            kwargs["partial"] = True
-            # amount is not numb현er
-            if not isinstance(kwargs["amount"], int):
-                raise ValueError
             # change positive/negative value
-            kwargs["amount"] = -kwargs["amount"]
-            return self.update(request, *args, **kwargs)
-        except KeyError as e:
-            raise BadFormatException from e
+            if request.data and request.data.get("amount"):
+                request.data["amount"] *= -1
+            _history = self.create_history(request)
+            return Response(_history)
         except ValueError as e:
             raise BadFormatException from e
