@@ -16997,5 +16997,85 @@
     },
     "model": "groups.group",
     "pk": 2
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-21T20:06:26",
+      "group": 2,
+      "has_reported": false,
+      "last_modification_date_time": "2022-05-21T20:06:26",
+      "payment": null,
+      "user": 1,
+      "will_renew": true
+    },
+    "model": "fellows.fellow",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-21T20:06:40",
+      "group": 2,
+      "has_reported": false,
+      "last_modification_date_time": "2022-05-21T20:06:40",
+      "payment": null,
+      "user": 2,
+      "will_renew": true
+    },
+    "model": "fellows.fellow",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "creation_date_time": "2022-05-21T20:06:52",
+      "group": 2,
+      "has_reported": false,
+      "last_modification_date_time": "2022-05-21T20:06:52",
+      "payment": null,
+      "user": 4,
+      "will_renew": true
+    },
+    "model": "fellows.fellow",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "fellow": 2,
+      "has_reported_leader": false
+    },
+    "model": "fellows.member",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "fellow": 3,
+      "has_reported_leader": false
+    },
+    "model": "fellows.member",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "fellow": 4,
+      "has_reported_leader": false
+    },
+    "model": "fellows.member",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "fellow": 1
+    },
+    "model": "fellows.leader",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "apply_date_time": "2022-05-21T20:30:33",
+      "payment": null,
+      "provider": 5,
+      "user": 1
+    },
+    "model": "applies.memberapply",
+    "pk": 1
   }
 ]
