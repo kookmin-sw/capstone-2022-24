@@ -18,18 +18,26 @@ def get_providers_by_user_apply_type(user: User):
         "group_set",
         "group_set__fellow_set",
         "group_set__fellow_set__user",
+        "charge",  # for validation of subscription availability
     )  # type: QuerySet[Provider]
 
     # get applied providers
-    _filter = Q(memberapply__user=user) | Q(leaderapply__user=user) | Q(group__fellow__user=user)
-    _applied_providers = _queryset.filter(_filter).all()  # type: QuerySet[Provider]
+    _applied_filter = Q(memberapply__user=user) | Q(leaderapply__user=user) | Q(group__fellow__user=user)
+    _applied_providers = _queryset.filter(_applied_filter).all()  # type: QuerySet[Provider]
 
     # get not-applied providers
-    _not_applied_providers = _queryset.exclude(id__in=_applied_providers).all()
+    _available_filter = Q(charge__isnull=False)
+    _not_applied_filter = _available_filter & ~Q(id__in=_applied_providers)
+    _not_applied_providers = _queryset.filter(_not_applied_filter).all()
+
+    # get not-supported providers
+    _not_supported_providers = _queryset.filter(~_available_filter).all()
+
     # make dictionary data
     providers = dict(
         applied_providers=list(_applied_providers),
         not_applied_providers=list(_not_applied_providers),
+        not_supported_providers=list(_not_supported_providers),
     )
     return providers
 

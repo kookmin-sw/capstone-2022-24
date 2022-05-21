@@ -22,6 +22,8 @@ class ProviderSerializer(serializers.ModelSerializer):
 class ProviderSummarySerializer(serializers.ModelSerializer):
     """Provider summary"""
 
+    name = serializers.CharField(source="get_name_display")
+
     class Meta:
         """Metadata for provider"""
 
@@ -38,6 +40,7 @@ class ProviderListByApplyTypeSerializer(serializers.Serializer):
 
     applied_providers = serializers.SerializerMethodField()
     not_applied_providers = serializers.SerializerMethodField()
+    not_supported_providers = serializers.SerializerMethodField()
 
     def get_applied_providers(self, providers_obj):
         """Get providers by apply type"""
@@ -48,6 +51,11 @@ class ProviderListByApplyTypeSerializer(serializers.Serializer):
         """Get providers by apply type"""
         _not_applied = providers_obj.get("not_applied_providers")
         return ProviderSummarySerializer(_not_applied, many=True).data
+
+    def get_not_supported_providers(self, providers_obj):
+        """Get providers that user can not apply"""
+        _not_supported = providers_obj.get("not_supported_providers")
+        return ProviderSummarySerializer(_not_supported, many=True).data
 
     def update(self, instance, validated_data):
         """Not used"""
