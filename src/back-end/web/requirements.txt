@@ -8,6 +8,7 @@ attrs==21.4.0
 autobahn==22.2.2
 Automat==20.2.0
 backports.zoneinfo==0.2.1
+beautifulsoup4==4.11.1
 billiard==3.6.4.0
 black==22.1.0
 boto3==1.21.24
@@ -116,6 +117,7 @@ selenium==4.1.5
 service-identity==21.1.0
 six==1.16.0
 sniffio==1.2.0
+soupsieve==2.3.2.post1
 sqlparse==0.2.4
 toml==0.10.2
 tomli==2.0.1

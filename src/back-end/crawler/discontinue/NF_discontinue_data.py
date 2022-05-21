@@ -1,4 +1,4 @@
-"""crawling discontinue data for Netflix"""
+"""dynamic crawling discontinue data for Netflix"""
 
 import json
 import os
@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 def get_NF_discontine_data():
-    """Method : crawl Netflix upcoming releases through the unogs site."""
+    """Method : crawl Netflix upcoming release videos through the unogs site."""
 
     URL = "https://unogs.com/countrydetail"
 
