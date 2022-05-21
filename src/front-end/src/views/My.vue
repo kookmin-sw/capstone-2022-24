@@ -47,7 +47,7 @@
 		<div class="q-mb-md text-left text-h6 text-weight-bold">참여 중인 모임</div>
 		<!-- 참여, 모집 중인 모임 없음 -->
 		<div
-			class="row q-pa-md q-pb-xl bg-blue-70"
+			class="row q-mt-lg q-pa-md q-pb-xl bg-blue-70"
 			style="height: 343px"
 			v-if="getSelectGroup === null">
 			<q-space class="col-2" />
@@ -67,14 +67,19 @@
 				v-for="group in getGroupList"
 				:key="group.provider.id"
 				@click="clickGroupLogo(group.provider.id)">
-				<img :src="group.provider.logoUrl" :alt="group.provider.id" />
+				<img
+					:src="group.provider.logoUrl"
+					:alt="group.provider.id"
+					:class="{
+						selected: getSelectGroup.provider.id === group.provider.id,
+					}" />
 			</q-avatar>
 			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
 		</div>
 
 		<!-- 모임 모집 중 -->
 		<div
-			class="row q-pa-md q-pb-xl"
+			class="row q-mt-lg q-pa-md q-pb-xl bg-blue-70"
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruiting'"
 			style="height: 343px">
 			<q-space class="col-2" />
@@ -87,7 +92,13 @@
 		<!-- 모집 완료 -->
 		<!-- 모임 탈퇴 -->
 		<div class="text-left align-right">
-			<q-btn flat dense class="text-grey">모임 탈퇴 하기 &gt;</q-btn>
+			<q-btn
+				flat
+				dense
+				class="text-grey"
+				v-if="getSelectGroup.status === 'Recruited'">
+				모임 탈퇴 하기 &gt;
+			</q-btn>
 		</div>
 		<!-- 모임 상세 정보 -->
 		<div
@@ -114,7 +125,7 @@
 						rounded
 						size="73px"
 						:class="{
-							myself: fellow.isMyself,
+							selected: fellow.isMyself,
 							'bg-blue-100': fellow.profileImageUrl === null,
 						}">
 						<img
@@ -243,11 +254,10 @@ export default {
 	},
 	async beforeCreate() {
 		await this.$store.dispatch('user/initProfile');
-		// await this.$store.dispatch('user/initUserGroups');
 	},
 	methods: {
 		async clickGroupLogo(groupId) {
-			await this.$store.dispatch('user/setSelectGroup', groupId);
+			await this.$store.dispatch('user/selectGroup', groupId);
 		},
 
 		async chargeCredit() {
@@ -259,8 +269,7 @@ export default {
 					failUrl: window.location.origin + '/fail',
 				})
 				.catch(function (error) {
-					if (error.code === 'USER_CANCEL')
-						alert('충전 결제가 취소되었습니다!');
+					if (error.code === 'USER_CANCEL') alert('결제가 취소되었습니다!');
 				});
 		},
 	},
@@ -277,7 +286,7 @@ export default {
 	flex-direction: row-reverse;
 }
 
-.myself {
+.selected {
 	border: 3px solid #449bfe;
 	border-radius: 6px;
 }
