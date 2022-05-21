@@ -35,6 +35,7 @@
 						<img
 							:src="video.posterUrl"
 							:alt="video.title"
+							@click="videoClick(video.id, video.category)"
 							style="width: 100%; object-fit: cover" />
 					</div>
 				</div>
@@ -86,6 +87,9 @@ export default {
 	methods: {
 		clickAllBtn() {
 			this.$router.push(`/${this.profile.nickname}/expand/${this.expandId}`);
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
 	},
 };
