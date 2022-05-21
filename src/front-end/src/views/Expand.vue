@@ -15,28 +15,35 @@
 				{{ i.label }}</q-btn
 			>
 		</div>
+		<div v-if="!wishList">찜한 작품이 존재하지 않습니다.</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
-					<div class="video-poster" v-for="index in videos" :key="index">
-						<div class="bg-grey-4" style="padding-top: 130%"></div>
+					<div class="video-poster" v-for="video in wishList" :key="video.id">
+						<img
+							:src="video.posterUrl"
+							:alt="video.id"
+							style="width: 100%; object-fit: cover"
+							@click="videoClick(video.videoId, video.category)" />
 						<div class="row no-wrap items-center">
 							<div class="col text-right q-mt-sm">
 								<div class="video-title text-left text-weight-bold">
-									영화 제목
+									{{ video.title }}
 								</div>
 								<!--								<q-rating-->
 								<!--									size="18px"-->
 								<!--									v-model="stars"-->
 								<!--									:max="5"-->
 								<!--									class="text-blue-100" />-->
-								<div class="q-mb-lg">2022.03.14</div>
+								<div class="q-mb-lg">{{ getDate(video.dateTime) }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<template v-slot:loading>
-					<div class="row q-mb-lg justify-center">
+					<div
+						class="row q-mb-lg justify-center"
+						v-if="wishList.length < totalWish">
 						<q-spinner-dots color="primary" size="40px" />
 					</div>
 				</template>
@@ -46,6 +53,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	name: 'Expand',
 	data() {
@@ -57,26 +65,6 @@ export default {
 				// { label: '별점 준 작품', isSelect: false, name: 'star' },
 				// { label: '본 작품', isSelect: false, name: 'watched' },
 			],
-			videos: [
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-			],
 			stars: 4,
 		};
 	},
@@ -87,6 +75,11 @@ export default {
 				i.isSelect = true;
 			}
 		});
+		await this.$store.commit('videoExpands/INIT_VIDEOS');
+		await this.$store.dispatch('videoExpands/setWishList');
+	},
+	computed: {
+		...mapState('videoExpands', ['wishList', 'totalWish']),
 	},
 	methods: {
 		// videoOnLoad(index, done) {
@@ -103,6 +96,12 @@ export default {
 			});
 			this.interactions[idx].isSelect = true;
 			this.currentTab = this.interactions[idx].name;
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
+		},
+		getDate(dateTime) {
+			return dateTime.split(' ')[0];
 		},
 	},
 };

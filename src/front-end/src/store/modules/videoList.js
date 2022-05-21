@@ -121,7 +121,7 @@ export const videoList = {
 						const maxWidth = 6;
 						const lack = maxWidth - (state.totalResult % maxWidth) - 1;
 						for (let i = 0; i < lack; i++) {
-							commit('ADD_VIDEOS', [{}]);
+							commit('ADD_WISH_VIDEOS', [{}]);
 						}
 					}
 				})
