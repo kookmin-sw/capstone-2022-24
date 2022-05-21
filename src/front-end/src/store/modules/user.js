@@ -83,7 +83,6 @@ export const user = {
 			await http
 				.get(url, { headers })
 				.then(res => {
-					console.log(res);
 					// init profile
 					const user = res.data.profile;
 					const userProfile = {
