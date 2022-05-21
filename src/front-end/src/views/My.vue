@@ -77,6 +77,7 @@
 			<q-btn
 				outline
 				class="text-blue-100 radius-4"
+				v-if="getGroupList.length < 2"
 				@click="this.$router.push({ name: 'Join' })">
 				+
 			</q-btn>
