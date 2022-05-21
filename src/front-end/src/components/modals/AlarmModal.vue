@@ -20,10 +20,10 @@
 
 		<!--    msg 1   -->
 		<q-card-section class="text-center" v-if="isActive">
-			<div class="text-left q-ma-md">
+			<div class="text-left q-mt-sm q-mb-sm q-ml-lg q-mr-lg">
 				<span class="q-mr-sm text-weight-bold">모임 알림</span>
 				<span>구독 종료까지 3일 남았습니다!</span>
-				<div class="text-grey q-mt-sm">
+				<div class="text-grey q-mt-xs">
 					넷플릭스 모임 구독 종료일 - 6월 30일
 				</div>
 				<div class="text-right text-grey">6월 28일</div>
@@ -32,10 +32,10 @@
 		<q-separator color="grey-4" />
 		<!--    msg 2   -->
 		<q-card-section class="text-center" v-if="isActive">
-			<div class="text-left q-ma-md">
+			<div class="text-left q-mt-sm q-mb-sm q-ml-lg q-mr-lg">
 				<span class="q-mr-sm text-weight-bold">결제 알림</span>
 				<span>왓챠 구독 후 계정 정보를 등록해주세요!</span>
-				<div class="text-grey q-mt-sm">왓챠 모임 결제 요청</div>
+				<div class="text-grey q-mt-xs">왓챠 모임 결제 요청</div>
 				<div class="text-right text-grey">5월 31일</div>
 			</div>
 		</q-card-section>
