@@ -11,6 +11,7 @@
 					clear-icon="close"
 					v-model="search"
 					class="border-blue-100 left-radius-2 col-10 q-pl-md q-pr-md"
+					@keydown.enter.prevent="searchButtonClick"
 					id="search-input" />
 				<q-btn
 					flat
