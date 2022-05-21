@@ -82,8 +82,8 @@ class GroupDetailView(RetrieveAPIView):
         "fellow_set__leader",
     )
     serializer_class = GroupDetailSerializer
-    lookup_field = "id"
-    lookup_url_kwarg = "group_id"
+    lookup_field = "provider_id"
+    lookup_url_kwarg = "provider_id"
 
 
 def delete_expired_group(group: Group):
