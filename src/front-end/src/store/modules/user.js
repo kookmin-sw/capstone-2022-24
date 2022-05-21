@@ -36,6 +36,9 @@ export const user = {
 		},
 	},
 	mutations: {
+		INIT_GROUP(state) {
+			state.groupList = [];
+		},
 		SET_PROFILE(state, profile) {
 			state.profile = profile;
 		},
@@ -57,6 +60,7 @@ export const user = {
 	},
 	actions: {
 		async initProfile({ commit }) {
+			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
 			const url = `/users/mypage/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));

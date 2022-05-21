@@ -74,7 +74,12 @@
 						selected: getSelectGroup.provider.id === group.provider.id,
 					}" />
 			</q-avatar>
-			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
+			<q-btn
+				outline
+				class="text-blue-100 radius-4"
+				@click="this.$router.push({ name: 'Join' })">
+				+
+			</q-btn>
 		</div>
 
 		<!-- 모임 모집 중 -->
@@ -110,7 +115,7 @@
 						text-color="white"
 						align="top"
 						class="q-pa-sm bg-blue-200 text-body2">
-						모임 상태 &amp; D-day
+						모집 완료 및 관람중
 					</q-badge>
 				</div>
 			</div>
@@ -237,6 +242,7 @@ export default {
 		]),
 	},
 	async beforeCreate() {
+		window.reload;
 		await this.$store.dispatch('user/initProfile');
 	},
 	methods: {
