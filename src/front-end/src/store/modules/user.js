@@ -42,38 +42,17 @@ export const user = {
 		SET_GROUP_LIST(state, groupList) {
 			state.groupList = [...state.groupList, ...groupList];
 		},
-		ADD_GROUP_INFO(state, group) {
-			state.groupsInfo.push(group);
-		},
 		SET_SELECT_GROUP(state, group) {
 			state.selectGroup = group;
 		},
 		INIT_VIDEOS(state) {
 			state.wishList = [];
 		},
-		SET_RECENT_LIST(state, videoList) {
-			state.recentList = videoList;
-		},
-		PUSH_RECENT_LIST(state, videoList) {
-			state.recentList.results.push(videoList);
-		},
 		SET_TOTAL_WISH(state, total) {
 			state.totalWish = total;
 		},
 		PUSH_WISH_LIST(state, videoList) {
 			state.wishList.push(videoList);
-		},
-		SET_STAR_LIST(state, videoList) {
-			state.starList = videoList;
-		},
-		PUSH_STAR_LIST(state, videoList) {
-			state.starList.results.push(videoList);
-		},
-		SET_WATCH_LIST(state, videoList) {
-			state.watchList = videoList;
-		},
-		PUSH_WATCH_LIST(state, videoList) {
-			state.watchList.results.push(videoList);
 		},
 	},
 	actions: {
@@ -126,60 +105,23 @@ export const user = {
 				commit('SET_SELECT_GROUP', selected);
 			}
 		},
-		async pushRecentList({ commit }, { page, size }) {
-			const url = `/users/mypage/recent-views?page=${page}&size=${size}`;
-			http
-				.get(url)
-				.then(res => {
-					const videoList = {
-						videos: res.data.results,
-					};
-					commit('PUSH_RECENT_LIST', videoList);
-				})
-				.catch(err => {
-					alert(err);
-				});
-		},
-		async pushWishList({ commit }) {
+		async pushWishList({ state, commit }) {
 			const url = `/users/mypage/wishes`;
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			const headers = {
+				authorization: `Bearer ${token}`,
+			};
+			const params = {
+				videoLimit: 5,
+				videoOffset: state.wishList.length * 5,
+			};
 			http
-				.get(url)
+				.get(url, { params, headers })
 				.then(res => {
-					const videoList = {
-						videos: res.data.results,
-					};
-					commit('PUSH_WISH_LIST', videoList);
+					commit('PUSH_WISH_LIST', res.data.results);
 				})
 				.catch(err => {
-					alert(err);
-				});
-		},
-		async pushStarList({ commit }, { page, size }) {
-			const url = `/users/mypage/stars?page=${page}&size=${size}`;
-			http
-				.get(url)
-				.then(res => {
-					const videoList = {
-						videos: res.data.results,
-					};
-					commit('PUSH_STAR_LIST', videoList);
-				})
-				.catch(err => {
-					alert(err);
-				});
-		},
-		async pushWatchList({ commit }, { page, size }) {
-			const url = `/users/mypage/watch-marks?page=${page}&size=${size}`;
-			http
-				.get(url)
-				.then(res => {
-					const videoList = {
-						videos: res.data.results,
-					};
-					commit('PUSH_WATCH_LIST', videoList);
-				})
-				.catch(err => {
-					alert(err);
+					console.log(err);
 				});
 		},
 	},

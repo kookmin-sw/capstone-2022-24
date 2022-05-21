@@ -77,17 +77,11 @@ export default {
 	},
 	watch: {
 		currentPage: function () {
-			console.log(this.currentPage);
-			// if (newVal >= this.videoList.length) {
-			// 	this.$store.dispatch('user/pushWishList');
-			// }
+			this.$store.dispatch(this.pushVideoMethod);
 		},
 	},
 	computed: {
 		...mapState('auth', ['profile']),
-	},
-	created() {
-		console.log(this.totalPage, this.total, this.videoList[0]);
 	},
 	methods: {
 		clickAllBtn() {
