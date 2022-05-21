@@ -90,12 +90,13 @@ class MyPageGroupOthersSerializer(serializers.ModelSerializer):
     """Others group serializer in mypage format"""
 
     provider = serializers.SerializerMethodField()
+    fellows = serializers.ListField(default=[])
 
     class Meta:
         """Metadata of others in mypage groups"""
 
         model = Group
-        fields = ["id", "provider", "status"]
+        fields = ["id", "provider", "status", "fellows"]
         read_only_fields = ["__all__"]
 
     def get_provider(self, group):
