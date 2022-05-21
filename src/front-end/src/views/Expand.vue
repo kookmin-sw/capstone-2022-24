@@ -35,7 +35,7 @@
 								<!--									v-model="stars"-->
 								<!--									:max="5"-->
 								<!--									class="text-blue-100" />-->
-								<div class="q-mb-lg">{{ getDate(video.dateTime) }}</div>
+								<div class="q-mb-lg">{{ video.dateTime }}</div>
 							</div>
 						</div>
 					</div>
@@ -76,18 +76,20 @@ export default {
 			}
 		});
 		await this.$store.commit('videoExpands/INIT_VIDEOS');
-		await this.$store.dispatch('videoExpands/setWishList');
+		await this.$store.dispatch('videoExpands/loadWishList', 0);
 	},
 	computed: {
 		...mapState('videoExpands', ['wishList', 'totalWish']),
 	},
 	methods: {
-		// videoOnLoad(index, done) {
-		// 	setTimeout(() => {
-		// 		this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
-		// 		done();
-		// 	}, 2000);
-		// },
+		videoOnLoad(index, done) {
+			if (this.wishList.length <= this.totalWish) {
+				setTimeout(() => {
+					this.$store.dispatch('videoExpands/loadWishList', this.videos.length);
+					done();
+				}, 1000);
+			}
+		},
 		interactionButtonClick(idx) {
 			this.interactions.forEach(i => {
 				if (i !== idx) {
@@ -100,9 +102,9 @@ export default {
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
-		getDate(dateTime) {
-			return dateTime.split(' ')[0];
-		},
+		// getDate(dateTime) {
+		// 	return dateTime.split(' ')[0];
+		// },
 	},
 };
 </script>
