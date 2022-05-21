@@ -1,5 +1,6 @@
 """APIs of groups application"""
-
+from applies.models import LeaderApply, MemberApply
+from applies.serializers import ApplyDetailSerializer
 from config.exceptions.input import BadFormatException
 from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
@@ -8,12 +9,14 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_seriali
 from group_accounts.models import GroupAccount
 from groups.exceptions import GroupNotFoundException, WatchingDurationException
 from groups.models import Group
-from groups.serializers import GroupPaymentResponseSerializer
+from groups.serializers import GroupDetailSerializer, GroupPaymentResponseSerializer
 from mileages.serializers import MileageSerializer
 from payments.serializers import PaymentSaveSerializer
 from providers.models import Charge, Provider, SubscriptionType
 from rest_framework import serializers, status, viewsets
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
+from users.models import User
 from users.serializers import UserMileageSerializer
 
 
@@ -69,6 +72,64 @@ class GruopPaymentView(viewsets.ViewSet):
         response_serializer.is_valid(raise_exception=True)
 
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+
+@extend_schema(tags=["Priority-1", "Group"], operation_id="모임 상세 조회")
+class GroupDetailView(RetrieveAPIView):
+    """GET /groups/{group_id}/"""
+
+    queryset = Group.objects.select_related("provider", "group_account",).prefetch_related(
+        "fellow_set",
+        "fellow_set__user",
+        "fellow_set__member",
+        "fellow_set__leader",
+    )
+    serializer_class = GroupDetailSerializer
+    lookup_field = "provider_id"
+    lookup_url_kwarg = "provider_id"
+
+    def get_apply(self, *args, **filter_kwargs):
+        """GET apply object of leader or member"""
+        _apply_queryset = User.objects.prefetch_related(
+            "leaderapply_set", "leaderapply_set__provider", "memberapply_set", "memberapply_set__provider"
+        )
+        _user = self.request.user
+        try:
+            # first: member_apply
+            _member = _user.memberapply_set.get(**filter_kwargs)
+            return _member
+        except MemberApply.DoesNotExist:
+            try:
+                # second: leader_apply
+                _leader = _user.leaderapply_set.get(**filter_kwargs)
+                return _leader
+            except LeaderApply.DoesNotExist as leader_error:
+                raise GroupNotFoundException from leader_error
+
+    def get_object(self):
+        """Return group or apply object if user is related to provider(id={provider_id}) else 404 error"""
+        # find group by lookup field and path parameter
+        _queryset = self.get_queryset()
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        _filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        try:
+            _group = _queryset.get(**_filter_kwargs)
+            self.check_object_permissions(self.request, _group)
+            return _group
+        except _queryset.model.DoesNotExist:
+            # applied group but not joined yet
+            _apply = self.get_apply(_filter_kwargs)
+            return _apply
+
+    def get_serializer(self, *args, **kwargs):
+        """Return the serializer instance"""
+        serializer_class = self.get_serializer_class()
+        if args:
+            # not group but apply -> ApplyDetailSerializer
+            if args[0].__class__ is LeaderApply or args[0].__class__ is MemberApply:
+                serializer_class = ApplyDetailSerializer
+        kwargs.setdefault("context", self.get_serializer_context())
+        return serializer_class(*args, **kwargs)
 
 
 def delete_expired_group(group: Group):
