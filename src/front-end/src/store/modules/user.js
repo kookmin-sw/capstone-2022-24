@@ -10,9 +10,10 @@ export const user = {
 		groupsInfo: [],
 		selectGroup: {},
 		recentList: {},
-		wishList: {},
+		wishList: [],
 		starList: {},
 		watchList: {},
+		totalWish: 0,
 	},
 	getters: {
 		getGroupList(state) {
@@ -47,17 +48,20 @@ export const user = {
 		SET_SELECT_GROUP(state, group) {
 			state.selectGroup = group;
 		},
+		INIT_VIDEOS(state) {
+			state.wishList = [];
+		},
 		SET_RECENT_LIST(state, videoList) {
 			state.recentList = videoList;
 		},
 		PUSH_RECENT_LIST(state, videoList) {
 			state.recentList.results.push(videoList);
 		},
-		SET_WISH_LIST(state, videoList) {
-			state.wishList = videoList;
+		SET_TOTAL_WISH(state, total) {
+			state.totalWish = total;
 		},
 		PUSH_WISH_LIST(state, videoList) {
-			state.wishList.results.push(videoList);
+			state.wishList.push(videoList);
 		},
 		SET_STAR_LIST(state, videoList) {
 			state.starList = videoList;
@@ -98,11 +102,9 @@ export const user = {
 
 					// set videos
 					const videos = res.data.videos;
-					const wishes = {
-						total: videos.wishes.totalCount,
-						results: videos.wishes.results,
-					};
-					commit('SET_WISH_LIST', wishes);
+					commit('SET_TOTAL_WISH', videos.wishes.page.totalCount);
+					commit('INIT_VIDEOS');
+					commit('PUSH_WISH_LIST', videos.wishes.results);
 
 					// init groups
 					const groups = res.data.groups;
@@ -138,8 +140,8 @@ export const user = {
 					alert(err);
 				});
 		},
-		async pushWishList({ commit }, { page, size }) {
-			const url = `/users/mypage/wishes?page=${page}&size=${size}`;
+		async pushWishList({ commit }) {
+			const url = `/users/mypage/wishes`;
 			http
 				.get(url)
 				.then(res => {

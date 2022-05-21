@@ -186,7 +186,10 @@
 
 	<!--  찜한 작품  -->
 	<user-videos
+		v-if="getWishList"
 		:title="wishList.title"
+		:total="totalWish"
+		:total-page="Math.ceil(totalWish / 5)"
 		:video-list="getWishList"
 		:push-video-method="wishList.method"
 		:expand-id="wishList.expandId" />
@@ -242,7 +245,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('user', ['profile']),
+		...mapState('user', ['profile', 'totalWish']),
 		...mapGetters('user', [
 			'getGroupList',
 			'getSelectGroup',
