@@ -11,7 +11,7 @@
 					clear-icon="close"
 					v-model="search"
 					class="border-blue-100 left-radius-2 col-10 q-pl-md q-pr-md"
-					@keydown.enter.prevent="searchButtonClick"
+					@keypress.enter="searchButtonClick"
 					id="search-input" />
 				<q-btn
 					flat
@@ -66,12 +66,6 @@
 							:filter-name="'COUNTRY'"
 							:conditions="selectFilters.countries"
 							id="countries-filter" />
-						<!-- 관람 여부 -->
-						<!--						<select-filter-->
-						<!--							:filter-label="'관람여부'"-->
-						<!--							:filter-name="'WATCHED'"-->
-						<!--							:conditions="selectFilters.watched"-->
-						<!--							id="watched-filter" />-->
 						<!-- 연도 -->
 						<div class="row q-mt-md" id="years-filter">
 							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
@@ -90,23 +84,6 @@
 									:right-label-value="`${slideFilters.year.max}년`" />
 							</div>
 						</div>
-						<!-- 평점 -->
-						<!--						<div class="row q-mt-md" id="rating-filter">-->
-						<!--							<div class="col-2 q-mt-auto q-mb-auto">평점</div>-->
-						<!--							<q-separator vertical inset color="blue-4" />-->
-						<!--							<div class="col-9 q-pa-md q-pb-lg">-->
-						<!--								<q-range-->
-						<!--									label-always-->
-						<!--									switch-label-side-->
-						<!--									color="blue-4"-->
-						<!--									v-model="slideFilters.rate"-->
-						<!--									:min="0.5"-->
-						<!--									:max="5"-->
-						<!--									:step="0.5"-->
-						<!--									:left-label-value="`${slideFilters.rate.min}점`"-->
-						<!--									:right-label-value="`${slideFilters.rate.max}점`" />-->
-						<!--							</div>-->
-						<!--						</div>-->
 						<!-- 필터 초기화 버튼 -->
 						<q-btn
 							flat
