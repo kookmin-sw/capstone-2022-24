@@ -58,6 +58,7 @@ MYPAGE_DETAIL_EXAMPLES = [
                             "status": "Recruiting",
                         },
                         {
+                            "fellows": [],
                             "id": 1,
                             "provider": {
                                 "id": 3,

@@ -113,6 +113,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     # time stamp format
     "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
+    "DATE_FORMAT": "%Y-%m-%d",
+    "TIME_FORMAT": "%H:%M:%S",
 }
 
 MIDDLEWARE = [
@@ -373,7 +375,7 @@ USER_ID_FIELD = "nickname"
 REST_AUTH_SERIALIZERS = {
     "LOGIN_SERIALIZER": "users.serializers.UserLoginSerializer",
     "REGISTER_SERIALIZER": "users.serializers.UserSignUpSerializer",
-    "USER_DETAILS_SERIALIZER": "users.serializers.UserSerializer",
+    "USER_DETAILS_SERIALIZER": "users.serializers.OAuthLoginUserSerializer",
 }
 
 AUTHENTICATION_BACKENDS = {
