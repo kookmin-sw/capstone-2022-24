@@ -3,9 +3,13 @@
 from dj_rest_auth.registration.serializers import SocialLoginSerializer
 from dj_rest_auth.serializers import LoginSerializer
 from django.core.exceptions import ValidationError as DjangoValidationError
+from drf_spectacular.utils import extend_schema_serializer
+from providers.serializers import ProviderListByApplyTypeSerializer
+from providers.views import get_providers_by_user_apply_type
 from rest_framework import serializers
 from users.adapter import UserAccountAdapter
 from users.models import User
+from users.schemas import OAUTH_LOGIN_USEr_SERIALIZER_EXAMPLES
 from users.validators import get_nickname_validators, get_unique_nickname_validator
 
 
@@ -27,6 +31,29 @@ class UserSerializer(serializers.ModelSerializer):
             "is_verified",
             "total_mileages",
         ]
+
+
+@extend_schema_serializer(examples=OAUTH_LOGIN_USEr_SERIALIZER_EXAMPLES)
+class OAuthLoginUserSerializer(serializers.Serializer):
+    """OAuth login base serializer"""
+
+    user = serializers.SerializerMethodField()
+    providers = serializers.SerializerMethodField()
+
+    def get_user(self, u):
+        """get user profiles"""
+        return UserSerializer(u).data
+
+    def get_providers(self, u):
+        """get providers by apply type"""
+        _provider = get_providers_by_user_apply_type(u)
+        return ProviderListByApplyTypeSerializer(_provider).data
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
 
 
 class UserLoginSerializer(LoginSerializer):
