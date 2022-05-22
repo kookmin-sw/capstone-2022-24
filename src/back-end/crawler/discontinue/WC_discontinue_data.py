@@ -91,7 +91,7 @@ def get_WC_discontinue_data(link_list):
 
 
 if __name__ == "__main__":
-    WC_data_path = "./WachaDiscontinue.json"
+    WC_data_path = "./WatchaDiscontinue.json"
     watcha_link_list = get_WC_discontinue_link()
     watcha_list = get_WC_discontinue_data(watcha_link_list)
     print(watcha_list)
