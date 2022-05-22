@@ -173,21 +173,21 @@ export default {
 					isSelect: false,
 					name: 'WC',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
+						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
 				},
 				disneyPlus: {
 					label: '디즈니플러스',
 					isSelect: false,
 					name: 'DP',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
+						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
 				},
 				wavve: {
 					label: '웨이브',
 					isSelect: false,
 					name: 'WV',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
+						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
 				},
 				amazonPrime: {
 					label: '아마존프라임',
