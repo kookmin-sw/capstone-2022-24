@@ -19,7 +19,9 @@
 					v-for="(otts, index) in ottFilters"
 					:key="index"
 					:class="{ 'ott-select': otts.isSelect }"
-					@click="ottFilterClick(index), stepCompletionCheck(index)" />
+					@click="ottFilterClick(index), stepCompletionCheck(index)">
+					<img :src="otts.logoUrl" :alt="otts.name" />
+				</q-avatar>
 			</div>
 		</div>
 		<q-space class="col-2" />
@@ -98,19 +100,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import JoinSuccessModal from '@/components/modals/JoinSuccessModal';
 export default {
 	name: 'Join',
 	components: { JoinSuccessModal },
 	data() {
 		return {
-			ottFilters: {
-				netflix: { label: '넷플릭스', isSelect: false },
-				watcha: { label: '왓챠', isSelect: false },
-				disneyPlus: { label: '디즈니플러스', isSelect: false },
-				tving: { label: '티빙', isSelect: false },
-				wavve: { label: '웨이브', isSelect: false },
-			},
+			ottFilters: {},
 			selected: {
 				ott: [],
 			},
@@ -122,6 +119,16 @@ export default {
 			state: true,
 			isSuccess: false,
 		};
+	},
+	async created() {
+		await this.$store.dispatch('join/joinProviders');
+		this.notApplied.forEach(provider => {
+			this.ottFilters[provider.name] = provider;
+			this.ottFilters[provider.name]['isSelect'] = false;
+		});
+	},
+	computed: {
+		...mapState('join', ['notApplied']),
 	},
 	methods: {
 		ottFilterClick(idx) {
@@ -151,12 +158,10 @@ export default {
 			}
 		},
 		stepCompletionCheck(idx) {
-			if (
+			this.state = !(
 				this.ottFilters[idx].isSelect &&
 				(this.roleSelect.leader || this.roleSelect.member)
-			) {
-				this.state = false;
-			} else this.state = true;
+			);
 			return this.state;
 		},
 		async joinBtnClick() {
