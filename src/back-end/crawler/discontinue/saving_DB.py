@@ -1,4 +1,4 @@
-"""Save the data in the actual DB"""
+"""Save the discontine data in the actual DB : NF, WC"""
 
 import json
 import os
@@ -16,7 +16,7 @@ from check_env import setting_env
 
 
 def saving_NF_data(NF_list):
-    """Method: Save the NF data in Video Provider model"""
+    """Method: Save the NF discontine data in Video Provider model"""
     for item in NF_list:
         if item["category"] == "series":
             category = "TV"
@@ -54,8 +54,9 @@ def saving_NF_data(NF_list):
         conn.commit()
 
 
-def saving_WC_data(NF_list):
-    for item in NF_list:
+def saving_WC_data(WC_list):
+    """Method: Save the WC discontine data in Video Provider model"""
+    for item in WC_list:
 
         if "에피소드" in item["category"]:
             category = "TV"
