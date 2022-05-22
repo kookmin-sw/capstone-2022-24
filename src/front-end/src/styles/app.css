@@ -131,6 +131,10 @@ a.router-link-exact-active{
     border-radius: 0;
 }
 
+.border-grey-100 {
+    border: #1B1B1B 1px solid;
+}
+
 /* border radius */
 .left-radius-2 {
     border-radius: 2px 0 0 2px;

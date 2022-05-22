@@ -25,26 +25,8 @@ export const videoDiscontinued = {
 	},
 	actions: {
 		async loadVideoList({ commit }, days) {
-			let url = `/videos/`;
+			let url = `/discontinues/${days}`;
 			let params;
-			if (days === 7) {
-				params = {
-					limit: 12,
-					offset: 71,
-				};
-			}
-			if (days === 15) {
-				params = {
-					limit: 8,
-					offset: 21,
-				};
-			}
-			if (days === 30) {
-				params = {
-					limit: 17,
-					offset: 45,
-				};
-			}
 			commit('INIT_VIDEOS');
 			await http
 				.get(url, { params })
@@ -54,14 +36,13 @@ export const videoDiscontinued = {
 					commit('SET_TOTAL_RESULT', total - 1);
 					commit('ADD_VIDEOS', list);
 					commit('SET_LOAD_FAIL', false);
-
-					const maxWidth = 6;
-					if (params.limit % maxWidth !== 0) {
-						const lack = maxWidth - (params.limit % maxWidth);
-						for (let i = 0; i < lack; i++) {
-							commit('ADD_VIDEOS', [{}]);
-						}
-					}
+					// const maxWidth = 6;
+					// if (params.limit % maxWidth !== 0) {
+					// 	const lack = maxWidth - (params.limit % maxWidth);
+					// 	for (let i = 0; i < lack; i++) {
+					// 		commit('ADD_VIDEOS', [{}]);
+					// 	}
+					// }
 				})
 				.catch(() => {
 					commit('INIT_VIDEOS');
