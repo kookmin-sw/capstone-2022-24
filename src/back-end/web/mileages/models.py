@@ -20,5 +20,3 @@ class Mileage(models.Model):
 
     def __str__(self):
         return f"마일리지 {self.amount}원 갱신"
-
-    # T0D0: 사용자 총 마일리지 갱신
