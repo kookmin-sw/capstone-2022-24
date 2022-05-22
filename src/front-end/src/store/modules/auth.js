@@ -77,7 +77,8 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					const user = res.data.user;
+					console.log(res);
+					const user = res.data.user.user;
 					if (!user.isVerified) {
 						// login
 						const token = res.data.accessToken;
@@ -101,6 +102,7 @@ export const auth = {
 		},
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');
+			localStorage.removeItem('NICKNAME');
 			router.go(0);
 		},
 		nicknameDuplication(context, nickname) {
