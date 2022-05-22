@@ -32,15 +32,22 @@ class WishListView(ListAPIView):
 
     def get_queryset(self):
         """get login user's wish objects"""
-        # (required) query parameters: videoLimit & videoOffset (used in pagination)
-        if VideoHistoryPagination.limit_query_param not in self.request.query_params:
-            raise InvalidPaginationParameterException()
-        if VideoHistoryPagination.offset_query_param not in self.request.query_params:
-            raise InvalidPaginationParameterException()
-        # other query parameters are included
-        if len(self.request.query_params) >= 3:
-            raise InvalidPaginationParameterException()
-        return self.request.user.wish_set.all()
+        try:
+            # (required) query parameters: videoLimit & videoOffset (used in pagination)
+            if VideoHistoryPagination.limit_query_param not in self.request.query_params:
+                raise InvalidPaginationParameterException()
+            if VideoHistoryPagination.offset_query_param not in self.request.query_params:
+                raise InvalidPaginationParameterException()
+            # other query parameters are included
+            if len(self.request.query_params) >= 3:
+                raise InvalidPaginationParameterException()
+            _queryset = self.request.user.wish_set.order_by("-date_time")
+            # user does not wish any videos yet
+            if not _queryset:
+                raise WishNotFoundException
+            return _queryset
+        except WishNotFoundException as wish_404:
+            raise WishNotFoundException from wish_404
 
     def get(self, request, *args, **kwargs):
         return super().get(self, request, *args, **kwargs)

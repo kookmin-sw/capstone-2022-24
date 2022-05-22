@@ -1,64 +1,24 @@
 """Serializers of fellows application for json parsing"""
-from fellows.models import Fellow, Leader, Member
-from groups.serializers import GroupSerializer
-from payments.serializers import PaymentSerializer
 from rest_framework import serializers
-from users.serializers import UserSerializer
+from users.models import User
 
 
-class FellowSerializer(serializers.ModelSerializer):
-    """Serializer of Fellow model"""
+class FellowProfileSerializer(serializers.ModelSerializer):
+    """Users' profile in group details"""
 
-    user = serializers.SerializerMethodField()
-    group = serializers.SerializerMethodField()
-    payment = serializers.SerializerMethodField()
-
-    class Meta:
-        """Meta data of FellowSerializer"""
-
-        model = Fellow
-        fields = "__all__"
-
-    def get_user(self, obj):
-        """Get user data using UserSerializer"""
-        return UserSerializer(obj.user).data
-
-    def get_group(self, obj):
-        """Get group data using GroupSerializer"""
-        return GroupSerializer(obj.group).data
-
-    def get_payment(self, obj):
-        """Get payment data using PaymentSerializer"""
-        return PaymentSerializer(obj.payment).data
-
-
-class MemberSerializer(serializers.ModelSerializer):
-    """Serializer of Member model"""
-
-    fellow = serializers.SerializerMethodField()
+    is_leader = serializers.SerializerMethodField()
+    is_myself = serializers.SerializerMethodField()
 
     class Meta:
-        """Meta data of MemberSerializer"""
+        """Metadata of UserGroupProfileSerializer"""
 
-        model = Member
-        fields = "__all__"
+        model = User
+        fields = ["id", "nickname", "profile_image_url", "is_leader", "is_myself"]
 
-    def get_fellow(self, obj):
-        """Get fellow data using FellowSerializer"""
-        return FellowSerializer(obj.provider).data
+    def get_is_leader(self, user):
+        """is user leader in the group?"""
+        return self.context.get("is_leader", False)
 
-
-class LeaderSerializer(serializers.ModelSerializer):
-    """Serializer of Leader model"""
-
-    fellow = serializers.SerializerMethodField()
-
-    class Meta:
-        """Meta data of LeaderSerializer"""
-
-        model = Leader
-        fields = "__all__"
-
-    def get_fellow(self, obj):
-        """Get fellow data using FellowSerializer"""
-        return FellowSerializer(obj.provider).data
+    def get_is_myself(self, user):
+        """is group fellow == me?"""
+        return user == self.context.get("request").user

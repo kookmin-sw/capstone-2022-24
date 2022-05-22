@@ -90,6 +90,6 @@ class VideoHistorySerializer(serializers.ModelSerializer):
         """Metadata for video histories summary"""
 
         model = Video
-        fields = ["id", "tmdb_id", "poster_url"]
+        fields = ["id", "category", "poster_url"]
 
         read_only_fields = ["__all__"]
