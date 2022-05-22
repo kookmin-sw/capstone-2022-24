@@ -133,7 +133,7 @@ if __name__ == "__main__":
     conn = MySQLdb.connect(
         user=env("DB_USER"),
         passwd=env("DB_PASSWORD"),
-        host=env("DB_HOST"),
+        host=env("DB_HOST_NAME"),
         port=int(env("DB_PORT")),
         db=env("DB_NAME"),
     )

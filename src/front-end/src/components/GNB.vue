@@ -3,6 +3,10 @@
 	<q-dialog v-model="isLoginModal">
 		<login-modal :isActive="isLoginModal"></login-modal>
 	</q-dialog>
+	<!-- Alarm Modal -->
+	<q-dialog v-model="isAlarmModal">
+		<alarm-modal :isActive="isAlarmModal"></alarm-modal>
+	</q-dialog>
 	<!-- gnb -->
 	<div class="gnb container">
 		<div class="row items-center">
@@ -34,7 +38,7 @@
 							<q-icon name="person" size="md" color="blue-4" />
 						</router-link>
 					</q-btn>
-					<q-btn flat class="alarm-menu col-4">
+					<q-btn flat class="alarm-menu col-4" @click="alarmBtnClick">
 						<q-icon
 							name="notifications_none"
 							size="md"
@@ -72,15 +76,18 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import LoginModal from '@/components/modals/LoginModal';
+import AlarmModal from '@/components/modals/AlarmModal';
 export default {
 	name: 'GNB',
 	components: {
 		LoginModal,
+		AlarmModal,
 	},
 	data() {
 		return {
 			isLoginModal: false,
 			isRegisterModal: false,
+			isAlarmModal: false,
 		};
 	},
 	computed: {
@@ -93,6 +100,9 @@ export default {
 		},
 		logoutBtnClick() {
 			this.$store.dispatch('auth/logout');
+		},
+		alarmBtnClick() {
+			this.isAlarmModal = !this.isAlarmModal;
 		},
 	},
 };

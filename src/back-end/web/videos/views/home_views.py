@@ -119,8 +119,8 @@ class HomeView(viewsets.ViewSet):
 
     sort_dict = {
         "random": "id",
-        "new": "videoprovider__offer_date",
-        "release": "release_date",
+        "new": "-videoprovider__offer_date",
+        "release": "-release_date",
     }
     """
     + Sort:
@@ -132,7 +132,7 @@ class HomeView(viewsets.ViewSet):
     filter_default = {
         "providers": None,
         "categories": None,
-        "genres": None,
+        "genres": "",
         "release_date_min": "1800",
         "release_date_max": "2022",
         "production_country": "",
@@ -156,7 +156,7 @@ class HomeView(viewsets.ViewSet):
             _p = providers.split(",")
             _filter &= Q(videoprovider__provider__name__in=_p)
 
-        if genres:
+        if genres not in ("all", ""):
             _genres = genres.split(",")
             _filter &= Q(genre__name__in=_genres)
 
@@ -197,7 +197,7 @@ class HomeView(viewsets.ViewSet):
         filter_list = {
             "providers": self.request.query_params.get("providers", None),
             "categories": self.request.query_params.get("category", None),
-            "genres": self.request.query_params.get("genres", None),
+            "genres": self.request.query_params.get("genres", ""),
             "release_date_min": self.request.query_params.get("releaseDateMin", "1800"),
             "release_date_max": self.request.query_params.get("releaseDateMax", "2022"),
             "production_country": self.request.query_params.get("productionCountry", ""),
