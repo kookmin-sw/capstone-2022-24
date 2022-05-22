@@ -375,7 +375,7 @@ USER_ID_FIELD = "nickname"
 REST_AUTH_SERIALIZERS = {
     "LOGIN_SERIALIZER": "users.serializers.UserLoginSerializer",
     "REGISTER_SERIALIZER": "users.serializers.UserSignUpSerializer",
-    "USER_DETAILS_SERIALIZER": "users.serializers.UserSerializer",
+    "USER_DETAILS_SERIALIZER": "users.serializers.OAuthLoginUserSerializer",
 }
 
 AUTHENTICATION_BACKENDS = {
