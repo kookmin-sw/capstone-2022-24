@@ -113,7 +113,7 @@ export const videoList = {
 				category: state.filters.categories.join(','),
 				releaseDateMax: state.filters.releaseDateMax,
 				releaseDateMin: state.filters.releaseDateMin,
-				// genres: state.filters.genres.join(','),
+				genres: state.filters.genres.join(','),
 				productionCountry: state.filters.productionCountry.join(','),
 			};
 
@@ -125,7 +125,7 @@ export const videoList = {
 					commit('SET_TOTAL_RESULT', total - 1);
 					commit('ADD_VIDEOS', list);
 					commit('SET_LOAD_FAIL', false);
-					if (state.totalResult <= state.videos.length) {
+					if (state.totalResult + 1 <= state.videos.length) {
 						const maxWidth = 6;
 						const lack = maxWidth - (state.totalResult % maxWidth) - 1;
 						for (let i = 0; i < lack; i++) {
