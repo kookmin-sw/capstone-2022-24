@@ -3,6 +3,11 @@ from config.exceptions.input import BadFormatException
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from mileages.exceptions import MileageAmountException
 from mileages.models import Mileage
+from mileages.schemas import (
+    MILEAGE_PARTIAL_UPDATE_EXAMPLES,
+    MILEAGE_POST_EXAMPLES,
+    MILEAGES_LIST_EXAMPLES,
+)
 from mileages.serializers import MileageSerializer
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -11,9 +16,24 @@ from rest_framework.response import Response
 # pylint: disable=R0901
 @extend_schema_view(
     operation_id="마일리지",
-    get=extend_schema(tags=["Priority-1", "User"], operation_id="마일리지 내역 조히", description="Get mileage histories"),
-    post=extend_schema(tags=["Priority-3", "User"], operation_id="마일리지 충전", description="Charge milages"),
-    patch=extend_schema(tags=["Priority-1", "User"], operation_id="마일리지 사용", description="Use milages"),
+    list=extend_schema(
+        tags=["Priority-1", "User"],
+        operation_id="마일리지 내역 조회",
+        description="Get mileage histories",
+        examples=MILEAGES_LIST_EXAMPLES,
+    ),
+    create=extend_schema(
+        tags=["Priority-3", "User"],
+        operation_id="마일리지 충전",
+        description="Charge milages",
+        examples=MILEAGE_POST_EXAMPLES,
+    ),
+    partial_update=extend_schema(
+        tags=["Priority-1", "User"],
+        operation_id="마일리지 사용",
+        description="Use milages",
+        examples=MILEAGE_PARTIAL_UPDATE_EXAMPLES,
+    ),
 )
 class MileageViewSet(viewsets.ModelViewSet):
     """Mileage API: GET/PUT/PATCH /mileages/"""
