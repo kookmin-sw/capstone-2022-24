@@ -39,6 +39,8 @@ class MyPageDetailView(APIView):
         "memberapply_set",
         "leaderapply_set__provider",
         "memberapply_set__provider",
+        "wish_set",
+        "wish_set__video",
     )
     serializer_class = MyPageSerializer
 
