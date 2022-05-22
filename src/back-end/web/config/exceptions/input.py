@@ -26,6 +26,14 @@ class InvalidVideoIdException(APIException):
     default_code = "invalid Video ID"
 
 
+class UnknownRequestException(APIException):
+    """Invalid video_id path parameter"""
+
+    status_code = 400
+    default_detail = "올바르지 않은 요청입니다."
+    default_code = "invalid_request"
+
+
 class InvalidProviderIdException(APIException):
     """Invalid provider in request data"""
 

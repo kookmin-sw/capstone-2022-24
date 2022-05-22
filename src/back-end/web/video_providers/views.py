@@ -33,7 +33,9 @@ class DiscontinuityClass(viewsets.ViewSet):
     def get_discontinue_videos_response(self, _filter, request):
         """Method that Make a Response list of videos on the discontinue screen"""
         video_object = (
-            VideoProvider.objects.filter(_filter).values("video__id", "video__title", "video__poster_key").distinct()
+            VideoProvider.objects.filter(_filter)
+            .values("video__id", "video__title", "video__poster_key", "video__category")
+            .distinct()
         )
         provider_object = (
             VideoProvider.objects.filter(_filter).values("video__id", "provider__name", "provider__logo_key").distinct()
@@ -55,6 +57,7 @@ class DiscontinuityClass(viewsets.ViewSet):
             temp = {
                 "id": video["video__id"],
                 "title": video["video__title"],
+                "category": video["video__category"],
                 "poster_key": video["video__poster_key"],
                 "providers": provider_list,
             }

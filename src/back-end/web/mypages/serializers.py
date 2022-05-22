@@ -1,10 +1,9 @@
 """Mypage serializers for json parsing"""
 from applies.serializers import BaseApplySerializer
-from group_accounts.serializers import GroupAccountSerializer
 from groups.models import Group
+from groups.serializers import GroupDetailSerializer
 from mypages.pagination import VideoHistoryPagination
 from providers.serializers import ProviderSerializer
-from reports.serializers import ReportSerializer
 from rest_framework import serializers
 from users.models import User
 from users.serializers import UserSerializer
@@ -79,31 +78,8 @@ class MyPageGroupSerializer(serializers.Serializer):
             if not _default:
                 _default_group = _joined_groups[0]  # type: Group
                 _others_start_idx = 1
-                # get report details
-                # make _default result
-                _default_report = dict(reported=False, report_count=0, leader_report_count=0)
-                _fellows = _default_group.fellow_set.all()
-                _fellow_users = []
-                for f in _fellows:
-                    if _member := getattr(f, "member", None):
-                        _default_report["leader_report_count"] += _member.has_reported_leader
-                    if f.id == instance.id:
-                        _default_report["reported"] = f.has_reported
-                    _default_report["report_count"] += f.has_reported
-                    _fellow_users.append(
-                        UserFellowProfileSerializer(
-                            f.user, context={"is_leader": not _member, "request": self.context["request"]}
-                        ).data
-                    )
-
-                _default = dict(
-                    provider=ProviderSerializer(_default_group.provider).data,
-                    status=_default_group.status,
-                    time_stamps=MyPageGroupTimeStampSerializer(_default_group).data,
-                    fellows=_fellow_users,
-                    account=GroupAccountSerializer(_default_group.group_account).data,
-                    report=ReportSerializer(_default_report).data,
-                )
+                # get _default group detail
+                _default = GroupDetailSerializer(_default_group, context={"request": self.context.get("request")}).data
             _others += MyPageGroupOthersSerializer(_joined_groups[_others_start_idx:], many=True).data
         groups["default"] = _default
         groups["others"] = _others
@@ -114,53 +90,18 @@ class MyPageGroupOthersSerializer(serializers.ModelSerializer):
     """Others group serializer in mypage format"""
 
     provider = serializers.SerializerMethodField()
+    fellows = serializers.ListField(default=[])
 
     class Meta:
         """Metadata of others in mypage groups"""
 
         model = Group
-        fields = ["id", "provider", "status"]
+        fields = ["id", "provider", "status", "fellows"]
         read_only_fields = ["__all__"]
 
     def get_provider(self, group):
         """Get provider of one of others' group"""
         return ProviderSerializer(group.provider).data
-
-
-class MyPageGroupTimeStampSerializer(serializers.ModelSerializer):
-    """Date time stamps in group serializer"""
-
-    class Meta:
-        """Metadata for GroupTimeStampSerializer"""
-
-        model = Group
-        fields = [
-            "creation_date_time",
-            "start_watching_date_time",
-            "end_watching_date_time",
-            "end_reporting_date_time",
-        ]
-
-
-class UserFellowProfileSerializer(serializers.ModelSerializer):
-    """Users' profile in group details"""
-
-    is_leader = serializers.SerializerMethodField()
-    is_myself = serializers.SerializerMethodField()
-
-    class Meta:
-        """Metadata of UserGroupProfileSerializer"""
-
-        model = User
-        fields = ["id", "nickname", "profile_image_url", "is_leader", "is_myself"]
-
-    def get_is_leader(self, user):
-        """is user leader in the group?"""
-        return self.context.get("is_leader", False)
-
-    def get_is_myself(self, user):
-        """is group fellow == me?"""
-        return user == self.context.get("request").user
 
 
 class VideoTotalHistorySerializer(serializers.Serializer):

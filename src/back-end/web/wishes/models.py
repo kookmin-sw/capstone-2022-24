@@ -31,6 +31,16 @@ class Wish(models.Model):
     def __str__(self):
         return f"찜 #{self.id}"
 
+    @property
+    def get_date(self):
+        """Get date from date_time field"""
+        return self.date_time.date()
+
+    @property
+    def get_time(self):
+        """Get time from date_time field"""
+        return self.date_time.time()
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert, force_update, using, update_fields)
         increase_wish_count(self.video)

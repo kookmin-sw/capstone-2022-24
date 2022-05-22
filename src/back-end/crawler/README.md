@@ -23,6 +23,9 @@ Save the data arranged through arrange_data.py in the actual DB
 ### check_env.py
 Check the environment and read environment variable file according to the environment.
 
+## folder : discontinue
+Folder containing code to crawl information about discontinuing videos
+
 
 ## HOW TO USE?
 ### 1. select video category that you want.
