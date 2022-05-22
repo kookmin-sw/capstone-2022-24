@@ -11,6 +11,7 @@
 					clear-icon="close"
 					v-model="search"
 					class="border-blue-100 left-radius-2 col-10 q-pl-md q-pr-md"
+					@keypress.enter="searchButtonClick"
 					id="search-input" />
 				<q-btn
 					flat
@@ -65,12 +66,6 @@
 							:filter-name="'COUNTRY'"
 							:conditions="selectFilters.countries"
 							id="countries-filter" />
-						<!-- 관람 여부 -->
-						<!--						<select-filter-->
-						<!--							:filter-label="'관람여부'"-->
-						<!--							:filter-name="'WATCHED'"-->
-						<!--							:conditions="selectFilters.watched"-->
-						<!--							id="watched-filter" />-->
 						<!-- 연도 -->
 						<div class="row q-mt-md" id="years-filter">
 							<div class="col-2 q-mt-auto q-mb-auto">연도</div>
@@ -89,23 +84,6 @@
 									:right-label-value="`${slideFilters.year.max}년`" />
 							</div>
 						</div>
-						<!-- 평점 -->
-						<!--						<div class="row q-mt-md" id="rating-filter">-->
-						<!--							<div class="col-2 q-mt-auto q-mb-auto">평점</div>-->
-						<!--							<q-separator vertical inset color="blue-4" />-->
-						<!--							<div class="col-9 q-pa-md q-pb-lg">-->
-						<!--								<q-range-->
-						<!--									label-always-->
-						<!--									switch-label-side-->
-						<!--									color="blue-4"-->
-						<!--									v-model="slideFilters.rate"-->
-						<!--									:min="0.5"-->
-						<!--									:max="5"-->
-						<!--									:step="0.5"-->
-						<!--									:left-label-value="`${slideFilters.rate.min}점`"-->
-						<!--									:right-label-value="`${slideFilters.rate.max}점`" />-->
-						<!--							</div>-->
-						<!--						</div>-->
 						<!-- 필터 초기화 버튼 -->
 						<q-btn
 							flat
@@ -195,21 +173,21 @@ export default {
 					isSelect: false,
 					name: 'WC',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
+						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
 				},
 				disneyPlus: {
 					label: '디즈니플러스',
 					isSelect: false,
 					name: 'DP',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
+						'https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg',
 				},
 				wavve: {
 					label: '웨이브',
 					isSelect: false,
 					name: 'WV',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
+						'https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg',
 				},
 				amazonPrime: {
 					label: '아마존프라임',
@@ -263,8 +241,8 @@ export default {
 			search: null,
 			sort: [
 				{ label: '랜덤순', isSelect: true, name: 'random' },
-				{ label: '최신순', isSelect: false, name: 'new' },
-				{ label: '개봉순', isSelect: false, name: 'release' },
+				{ label: '추가순', isSelect: false, name: 'new' },
+				{ label: '신작순', isSelect: false, name: 'release' },
 				// { label: '평점순', isSelect: false, name: 'rating' },
 				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
