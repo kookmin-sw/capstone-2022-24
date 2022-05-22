@@ -36,19 +36,15 @@ class BaseApplySerializer(serializers.Serializer):
 class MemberApplySerializer(serializers.ModelSerializer):
     """Member Apply Serializer for MemberApply model"""
 
-    user = serializers.SerializerMethodField()
-    payment = serializers.SerializerMethodField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    payment = serializers.SerializerMethodField(required=False, allow_null=True)
     provider = serializers.SerializerMethodField()
 
     class Meta:
         """MetaData for MemberApplySerializer"""
 
         model = MemberApply
-        fields = ("id", "user", "payment", "provider", "apply_date_time")
-
-    def get_user(self, obj):
-        """Get user data using UserSerializer"""
-        return UserSerializer(obj.user).data
+        fields = ("user", "payment", "provider", "apply_date_time")
 
     def get_payment(self, obj):
         """Get payment data using PaymentSerializer"""

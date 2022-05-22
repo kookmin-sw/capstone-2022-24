@@ -1,5 +1,5 @@
 """APIs of applies application"""
-
+# pylint: disable=R0901
 from applies.models import LeaderApply, MemberApply
 from applies.serializers import (
     LeaderApplySerializer,
@@ -8,9 +8,15 @@ from applies.serializers import (
     MemberCancelSerializer,
 )
 from config.exceptions.input import BadFormatException
+from config.mixins import MultipleFieldLookupMixin
 from django.db.models import Q
 from django.utils import timezone
-from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
+from drf_spectacular.utils import (
+    OpenApiResponse,
+    extend_schema,
+    extend_schema_view,
+    inline_serializer,
+)
 from mileages.serializers import MileageSerializer
 from payments.models import Payment
 from payments.serializers import PaymentSaveSerializer
@@ -20,18 +26,14 @@ from rest_framework.response import Response
 from users.serializers import UserMileageSerializer
 
 
-class GroupApplyView(viewsets.ViewSet):
-    """Class for member, leader  apply to Group"""
-
-    @extend_schema(
+@extend_schema_view(
+    create=extend_schema(
         tags=["Priority-1", "Group"],
         operation_id="모임원 신청",
         request=inline_serializer(
             name="MemberApplyRequestSerializer",
             fields={
-                "accessToken": serializers.CharField(),
                 "providerId": serializers.IntegerField(),
-                "paymentId": serializers.IntegerField(),
             },
         ),
         responses={
@@ -42,16 +44,63 @@ class GroupApplyView(viewsets.ViewSet):
                 ),
             )
         },
+    ),
+    update=extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임원 취소",
+        request=inline_serializer(
+            name="LeaderApplyRequestSerializer",
+            fields={
+                "memberApplyId": serializers.IntegerField(),
+                "cancel": serializers.BooleanField(),
+            },
+        ),
+        responses={200: OpenApiResponse(description="모임원 취소 성공", response=MemberCancelSerializer)},
+    ),
+)
+class MemberApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
+    """Class for member, leader  apply to Group"""
+
+    serializer_class = MemberApplySerializer
+    queryset = MemberApply.objects.select_related(
+        "provider",
+        "user",
+        "payment",
     )
+    lookup_fields = ("user_id", "provider_id")
+
     def apply_member(self, request):
         """Method: process applying Group for Member"""
+        # --- 신청 가능 여부 검사
+        # 권한 체크
+        # 신청 가능한 모임인지 확인(provider.charge != null)
+        # 모임원 신청 중복 검사
+        # 모임장 신청 중복 검사
+        # 구성원 참여 중복 검사
+        # --- 마일리지 차감
+        # payment가 null이면 total_mileages에서 provider.charge.serviceChargePerMember만큼 차감
+        # --- 모임원 신청
+        # member_apply에 등록
+        # --- 매칭
+        # 모임원 신청한 Provider id 받아오기
+        # provider(id=provider_id).charge.numberOfSubscribers 받아오기
+        # 모임 인원수: leader:1, member:numberOfSubscribers-1
+        # 매칭 여부 확인: member_apply와 leader_apply에서 해당 인원수 충족하는지 검사
+        # 충족
+        # --> *** 신청한 user, leader/member, payment를 leader/member queryset에 저장해두기 ***
+        # --> 모임(provider=provider_id인 객체, status="Recruited") 객체 생성
+        # --> 구성원 객체(provider, user, payment) x 구성원수 생성  # TODO: leader/member 생성 시 fellow 자동 생성?
+        # --> user, provider로 모임원 신청, 모임장 신청 조회
+        # --> 일괄 삭제
+        # 미충족
+        # --> 냅둔다
 
         _user = request.user
         provider_id = request.data["provider_id"]
         payment_id = request.data["payment_id"]
         try:
             _provider = Provider.objects.get(Q(id=provider_id))
-            _payment = Payment.objects.get(Q(id=payment_id))
+            _payment = Payment.objects.filter(Q(id=payment_id))
         except Provider.DoesNotExist as e:
             raise BadFormatException() from e
         except Payment.DoesNotExist as e:
@@ -64,56 +113,19 @@ class GroupApplyView(viewsets.ViewSet):
 
         return Response({"member_apply_id": member_apply_serializer.data["id"]}, status=status.HTTP_201_CREATED)
 
-    @extend_schema(
-        tags=["Priority-1", "Group"],
-        operation_id="모임장 신청",
-        request=inline_serializer(
-            name="LeaderApplyRequestSerializer",
-            fields={"accessToken": serializers.CharField(), "providerId": serializers.IntegerField()},
-        ),
-        responses={
-            201: OpenApiResponse(
-                description="모임장 신청 성공",
-                response=inline_serializer(
-                    name="LeaderApplyResponseSerializer", fields={"leader_apply_id": serializers.IntegerField()}
-                ),
-            )
-        },
-    )
-    def apply_leader(self, request):
-        """Method: process applying Group for Leader"""
-        _user = request.user
-        provider_id = request.data["provider_id"]
-
-        try:
-            _provider = Provider.objects.get(Q(id=provider_id))
-        except Provider.DoesNotExist as e:
-            raise BadFormatException() from e
-
-        leader_apply_serializer = LeaderApplySerializer(data={"apply_date_time": timezone.now()})
-        if leader_apply_serializer.is_valid():
-            leader_apply_serializer.save(user=_user, provider=_provider)
-
-        return Response({"leader_apply_id": leader_apply_serializer.data["id"]}, status=status.HTTP_201_CREATED)
-
-    @extend_schema(
-        tags=["Priority-1", "Group"],
-        operation_id="모임원 취소",
-        request=inline_serializer(
-            name="LeaderApplyRequestSerializer",
-            fields={
-                "accessToken": serializers.CharField(),
-                "memberApplyId": serializers.IntegerField(),
-                "cancel": serializers.BooleanField(),
-            },
-        ),
-        responses={200: OpenApiResponse(description="모임원 취소 성공", response=MemberCancelSerializer)},
-    )
     def cancel_member(self, request):
         """Method: process Cancling Group and refunding for Member"""
+        # --- 취소 가능 여부 검사
+        # 권한 체크
+        # 모임원 신청 기록 확인
+        # --- 마일리지 환금
+        # payment == null -> total_mileages를 provider.charge.serviceChargePerMember만큼 ++
+        # payment != null -> total_mileages를 payment.amount만큼 ++
+        # --- 모임원 신청 객체 삭제
+        # member_apply 객체 삭제
         _user = request.user
-        member_apply_id = request.data["member_apply_id"]
-        cancel = request.data["cancel"]
+        cancel = request.data.get("cancel")
+        member_apply_id = request.data.get("member_apply_id")
         if cancel:
             try:
                 _member_apply = MemberApply.objects.get(Q(id=member_apply_id))
@@ -157,6 +169,42 @@ class GroupApplyView(viewsets.ViewSet):
             _member_apply.delete()
 
         return Response(member_cancel_serialzer.data, status=status.HTTP_200_OK)
+
+
+class LeaderApplyViewSet(viewsets.ModelViewSet):
+    """Leader apply apis"""
+
+    @extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임장 신청",
+        request=inline_serializer(
+            name="LeaderApplyRequestSerializer",
+            fields={"providerId": serializers.IntegerField()},
+        ),
+        responses={
+            201: OpenApiResponse(
+                description="모임장 신청 성공",
+                response=inline_serializer(
+                    name="LeaderApplyResponseSerializer", fields={"leader_apply_id": serializers.IntegerField()}
+                ),
+            )
+        },
+    )
+    def apply_leader(self, request):
+        """Method: process applying Group for Leader"""
+        _user = request.user
+        provider_id = request.data["provider_id"]
+
+        try:
+            _provider = Provider.objects.get(Q(id=provider_id))
+        except Provider.DoesNotExist as e:
+            raise BadFormatException() from e
+
+        leader_apply_serializer = LeaderApplySerializer(data={"apply_date_time": timezone.now()})
+        if leader_apply_serializer.is_valid():
+            leader_apply_serializer.save(user=_user, provider=_provider)
+
+        return Response({"leader_apply_id": leader_apply_serializer.data["id"]}, status=status.HTTP_201_CREATED)
 
     @extend_schema(
         tags=["Priority-1", "Group"],
