@@ -7,7 +7,11 @@ from applies.serializers import (
     MemberApplySerializer,
     MemberCancelSerializer,
 )
-from config.exceptions.input import BadFormatException
+from config.exceptions.input import (
+    BadFormatException,
+    InvalidProviderIdException,
+    NotSupportedProviderException,
+)
 from config.mixins import MultipleFieldLookupMixin
 from django.db.models import Q
 from django.utils import timezone
@@ -72,8 +76,8 @@ class MemberApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
     def apply_member(self, request):
         """Method: process applying Group for Member"""
         # --- 신청 가능 여부 검사
-        # 권한 체크
-        # 신청 가능한 모임인지 확인(provider.charge != null)
+        # 권한 체크 ㅇ
+        # 신청 가능한 모임인지 확인(provider.charge != null) (o)
         # 모임원 신청 중복 검사
         # 모임장 신청 중복 검사
         # 구성원 참여 중복 검사
@@ -84,7 +88,7 @@ class MemberApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         # --- 매칭
         # 모임원 신청한 Provider id 받아오기
         # provider(id=provider_id).charge.numberOfSubscribers 받아오기
-        # 모임 인원수: leader:1, member:numberOfSubscribers-1
+        # 모임 인원수: leader:1, member:numberOfSubcribers-1
         # 매칭 여부 확인: member_apply와 leader_apply에서 해당 인원수 충족하는지 검사
         # 충족
         # --> *** 신청한 user, leader/member, payment를 leader/member queryset에 저장해두기 ***
@@ -95,12 +99,21 @@ class MemberApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         # 미충족
         # --> 냅둔다
 
+        _provider_queryset = Provider.objects.prefetch_related(
+            "charge", "charge__subscription_type"
+        )  # type: QuerySet[Provider]
+        _data = request.data
         _user = request.user
-        provider_id = request.data["provider_id"]
-        payment_id = request.data["payment_id"]
+        provider_id = _data["provider_id"]
+        payment_id = _data["payment_id"]
         try:
-            _provider = Provider.objects.get(Q(id=provider_id))
+            _provider = _provider_queryset.get(id=provider_id)  # type: Provider
             _payment = Payment.objects.filter(Q(id=payment_id))
+            # validate provider is supported
+            if not hasattr(_provider, "charge"):
+                raise NotSupportedProviderException()
+        except KeyError as e:
+            raise InvalidProviderIdException() from e
         except Provider.DoesNotExist as e:
             raise BadFormatException() from e
         except Payment.DoesNotExist as e:
