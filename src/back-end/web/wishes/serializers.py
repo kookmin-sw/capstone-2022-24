@@ -7,21 +7,17 @@ class WishListSerializer(serializers.ModelSerializer):
     """Serializer of Wish model"""
 
     id = serializers.IntegerField(source="video.id")
-    tmdb_id = serializers.IntegerField(source="video.tmdb_id")
+    category = serializers.CharField(source="video.category", max_length=2)
     title = serializers.CharField(max_length=200, source="video.title")
     poster_url = serializers.URLField(source="video.poster_key", allow_null=True)
+    date = serializers.DateField(source="get_date")
+    time = serializers.TimeField(source="get_time")
 
     class Meta:
         """Metadata of Wish serializer"""
 
         model = Wish
-        fields = [
-            "id",
-            "tmdb_id",
-            "title",
-            "poster_url",
-            "date_time",
-        ]
+        fields = ["id", "category", "title", "poster_url", "date", "time"]
         read_only_fields = ["__all__"]
 
 
