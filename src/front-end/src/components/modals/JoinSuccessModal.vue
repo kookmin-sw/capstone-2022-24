@@ -7,7 +7,7 @@
 
 		<q-card-section class="col text-center q-ma-lg q-mt-none" v-if="isActive">
 			<div class="text-h6">{{ $t('join.success') }}</div>
-			<q-btn flat color="blue">
+			<q-btn flat color="blue" @click="this.$router.push({ name: 'My' })">
 				<div class="text-underline">{{ $t('join.goGroupState') }}</div>
 				<q-icon name="arrow_right_alt" size="md" />
 			</q-btn>
