@@ -17024,5 +17024,86 @@
     },
     "model": "applies.memberapply",
     "pk": 1
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:33",
+      "user": 1,
+      "video": 15
+    },
+    "model": "wishes.wish",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:37",
+      "user": 1,
+      "video": 5
+    },
+    "model": "wishes.wish",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:41",
+      "user": 1,
+      "video": 109
+    },
+    "model": "wishes.wish",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:45",
+      "user": 1,
+      "video": 88
+    },
+    "model": "wishes.wish",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:50",
+      "user": 1,
+      "video": 75
+    },
+    "model": "wishes.wish",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:55",
+      "user": 1,
+      "video": 176
+    },
+    "model": "wishes.wish",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:27:00",
+      "user": 1,
+      "video": 23
+    },
+    "model": "wishes.wish",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:28:42",
+      "user": 1,
+      "video": 78
+    },
+    "model": "wishes.wish",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:29:15",
+      "user": 1,
+      "video": 127
+    },
+    "model": "wishes.wish",
+    "pk": 9
   }
 ]
