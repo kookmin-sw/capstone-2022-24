@@ -74,7 +74,13 @@
 						selected: getSelectGroup.provider.id === group.provider.id,
 					}" />
 			</q-avatar>
-			<q-btn outline class="text-blue-100 radius-4">+</q-btn>
+			<q-btn
+				outline
+				class="text-blue-100 radius-4"
+				v-if="getGroupList.length < 2"
+				@click="this.$router.push({ name: 'Join' })">
+				+
+			</q-btn>
 		</div>
 
 		<!-- 모임 모집 중 -->
@@ -96,7 +102,7 @@
 				flat
 				dense
 				class="text-grey"
-				v-if="getSelectGroup.status === 'Recruited'">
+				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
 				모임 탈퇴 하기 &gt;
 			</q-btn>
 		</div>
@@ -110,7 +116,7 @@
 						text-color="white"
 						align="top"
 						class="q-pa-sm bg-blue-200 text-body2">
-						모임 상태 &amp; D-day
+						모집 완료 및 관람중
 					</q-badge>
 				</div>
 			</div>
@@ -175,35 +181,18 @@
 		</div>
 	</div>
 
-	<!--  최근 조회 작품  -->
 	<q-separator color="blue-1" size="2px" inset />
 	<q-separator color="blue-4" inset />
-	<!--	<user-videos-->
-	<!--		:title="recentList.title"-->
-	<!--		:video-list="getRecentList"-->
-	<!--		:push-video-method="recentList.method"-->
-	<!--		:expand-id="recentList.expandId" />-->
 
 	<!--  찜한 작품  -->
 	<user-videos
+		v-if="getWishList"
 		:title="wishList.title"
+		:total="totalWish"
+		:total-page="Math.ceil(totalWish / maxWidth)"
 		:video-list="getWishList"
 		:push-video-method="wishList.method"
 		:expand-id="wishList.expandId" />
-
-	<!--	&lt;!&ndash; 별점 준 작품 &ndash;&gt;-->
-	<!--	<user-videos-->
-	<!--		:title="starList.title"-->
-	<!--		:video-list="getStarList"-->
-	<!--		:push-video-method="starList.method"-->
-	<!--		:expand-id="starList.expandId" />-->
-
-	<!--	&lt;!&ndash; 본 작품 &ndash;&gt;-->
-	<!--	<user-videos-->
-	<!--		:title="watchList.title"-->
-	<!--		:video-list="getWatchList"-->
-	<!--		:push-video-method="watchList.method"-->
-	<!--		:expand-id="watchList.expandId" />-->
 </template>
 
 <script>
@@ -218,6 +207,7 @@ export default {
 	components: { UserVideos },
 	data() {
 		return {
+			maxWidth: 6,
 			selectGroup: {},
 			recentList: {
 				title: '최근 조회 작품',
@@ -242,7 +232,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('user', ['profile']),
+		...mapState('user', ['profile', 'totalWish']),
 		...mapGetters('user', [
 			'getGroupList',
 			'getSelectGroup',
@@ -253,6 +243,7 @@ export default {
 		]),
 	},
 	async beforeCreate() {
+		window.reload;
 		await this.$store.dispatch('user/initProfile');
 	},
 	methods: {
