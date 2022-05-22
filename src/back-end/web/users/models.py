@@ -118,7 +118,7 @@ class User(AbstractBaseUser):
 
     def is_updatable_mileages_with(self, amount):
         """validate new total_mileages if amount is applied"""
-        if isinstance(amount) is not int:
+        if not isinstance(amount, int):
             return False
         return 0 <= self.total_mileages + amount <= self.MAX_MILEAGES
 
