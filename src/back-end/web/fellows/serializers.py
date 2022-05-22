@@ -1,4 +1,5 @@
 """Serializers of fellows application for json parsing"""
+from fellows.models import Fellow, Member
 from rest_framework import serializers
 from users.models import User
 
@@ -22,3 +23,23 @@ class FellowProfileSerializer(serializers.ModelSerializer):
     def get_is_myself(self, user):
         """is group fellow == me?"""
         return user == self.context.get("request").user
+
+
+class FellowReportSerializer(serializers.ModelSerializer):
+    """fellow serializer for group report"""
+
+    class Meta:
+        """Metadata of FellowReportSerializer"""
+
+        model = Fellow
+        fields = ["has_reported", "last_modification_date_time"]
+
+
+class LeaderReportSerializer(serializers.ModelSerializer):
+    """Member serializer for Leader report"""
+
+    class Meta:
+        """Metadata of LeaderReportSerializer"""
+
+        model = Member
+        fields = ["has_reported_leader"]
