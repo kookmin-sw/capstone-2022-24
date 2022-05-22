@@ -27,27 +27,26 @@ export const join = {
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
 		},
-		async applyMember(context, applyer) {
-			const url = `applies/member/`;
+		async applyGroup(context, applyer) {
+			const url = `applies/${applyer.role}/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,
 			};
+			const data = {
+				providerId: applyer.providerId,
+				paymentId: applyer.paymentId,
+			};
 			return new Promise((resolve, reject) => {
 				http
-					.post(url, applyer, { headers })
+					.post(url, data, { headers })
 					.then(() => {
-						console.log('모임원 모임 신청 성공');
 						resolve();
 					})
 					.catch(() => {
-						console.log('모임원 모임 신청 실패');
 						reject();
 					});
 			});
-		},
-		applyLeader() {
-			console.log('vuex, applyLeader');
 		},
 	},
 };
