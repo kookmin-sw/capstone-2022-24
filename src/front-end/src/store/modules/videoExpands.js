@@ -21,7 +21,7 @@ export const videoExpands = {
 	},
 	actions: {
 		async loadWishList({ state, commit }, offset) {
-			const url = `/users/mypage/wishes`;
+			const url = `/mypage/wishes`;
 			const token = localStorage.getItem('ACCESS_TOKEN');
 			const headers = {
 				authorization: `Bearer ${token}`,
