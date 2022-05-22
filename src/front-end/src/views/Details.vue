@@ -190,11 +190,6 @@ export default {
 			});
 			this.videoId = videoId;
 			this.category = category;
-			this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
-			// this.productionCountry = this.videoDetails.productionCountries.join(',');
-			// this.genre = this.videoDetails.genres.join(',');
-			// this.details = this.videoDetails;
-			// console.log(this.videoDetails);
 			this.wished = this.videoDetails.personal.wished;
 		},
 		addWish() {
