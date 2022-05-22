@@ -4,13 +4,7 @@ from math import ceil
 
 from django.db.models import Q
 from django.utils import timezone
-from drf_spectacular.utils import (
-    OpenApiExample,
-    OpenApiParameter,
-    OpenApiResponse,
-    extend_schema,
-    inline_serializer,
-)
+from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
 from fellows.models import Fellow
 from fellows.serializers import FellowReportSerializer, LeaderReportSerializer
 from groups.models import Group
@@ -31,7 +25,7 @@ class ReportClass(viewsets.ViewSet):
 
     @extend_schema(
         tags=["Priority-2", "Group"],
-        operation_id="모임장 신고",
+        operation_id="모임 신고",
         responses={
             201: OpenApiResponse(
                 response=inline_serializer(
@@ -43,7 +37,7 @@ class ReportClass(viewsets.ViewSet):
                         "deleted_group": serializers.BooleanField(),
                     },
                 ),
-                description="모임장 신고 성공",
+                description="모임 신고 성공",
                 examples=[],
             )
         },
@@ -88,21 +82,21 @@ class ReportClass(viewsets.ViewSet):
         return Response(context, status=status.HTTP_201_CREATED)
 
     @extend_schema(
-        tags=["Priority-2", "Video"],
-        operation_id="30일이내 내려가는 작품 목록",
-        parameters=[
-            OpenApiParameter(name="limit", description="number of Videos to display", type=int),
-            OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
-        ],
+        tags=["Priority-2", "Group"],
+        operation_id="모임장 신고",
         responses={
-            200: OpenApiResponse(
+            201: OpenApiResponse(
                 response=inline_serializer(
                     # meaningless serializer. Just Use to make the example visible
-                    name="videoListSerializer",
-                    fields={"result": serializers.CharField()},
+                    name="GroupReportSerializer",
+                    fields={
+                        "user_nickname": serializers.CharField(),
+                        "report_count": serializers.IntegerField(),
+                        "deleted_group": serializers.BooleanField(),
+                    },
                 ),
-                description="작품 목록 제공 성공",
-                examples=[OpenApiExample(response_only=True, name="Success Example", value={})],
+                description="모임장 신고 성공",
+                examples=[],
             )
         },
     )
@@ -147,6 +141,15 @@ class ReportClass(viewsets.ViewSet):
 
         return Response(context, status=status.HTTP_201_CREATED)
 
+    @extend_schema(
+        tags=["Priority-3", "Group"],
+        operation_id="모임 신고 취소",
+        responses={
+            204: OpenApiResponse(
+                description="모임 신고 취소 성공",
+            )
+        },
+    )
     def cancel_report_group(self, request, group_id):
         """method: Report group Cancel"""
         _user = request.user
@@ -169,6 +172,15 @@ class ReportClass(viewsets.ViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @extend_schema(
+        tags=["Priority-3", "Group"],
+        operation_id="모임 신고 취소",
+        responses={
+            204: OpenApiResponse(
+                description="모임 신고 취소 성공",
+            )
+        },
+    )
     def cancel_report_leader(self, request, group_id):
         """method: Report leader Cancel"""
         _user = request.user
