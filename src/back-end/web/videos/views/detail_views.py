@@ -48,6 +48,8 @@ class DetailView(viewsets.ViewSet):
 
     permission_classes = (permissions.AllowAny,)
 
+    category_title_naming = {"TV": "name", "MV": "title"}
+
     def get_season_list(self, json_season):
         """Method: Get the Tv season lists"""
 
@@ -60,6 +62,24 @@ class DetailView(viewsets.ViewSet):
             season_list.append(season)
 
         return season_list
+
+    def get_similar_list(self, similar_json, category_type):
+        """Method: Get the similar video lists"""
+
+        similar_list = []
+        naming = self.category_title_naming[category_type]
+        count = 0
+        while len(similar_list) < 6:
+            poster_path = similar_json["results"][count]["poster_path"]
+            if poster_path:
+                similar_video = {
+                    "poster": f"https://image.tmdb.org/t/p/w500{poster_path}",
+                    "title": similar_json["results"][count][naming],
+                }
+                similar_list.append(similar_video)
+            count += 1
+
+        return similar_list
 
     def get_request_to_json(self, url):
         """Method: get json response to get video info"""
@@ -228,6 +248,13 @@ class DetailView(viewsets.ViewSet):
 
         tv_info_list = self.get_video_info(tv_id)
 
+        tv_similar_url = (
+            f"https://api.themoviedb.org/3/tv/{key}/similar?api_key={self.api_key}&language={self.language}"
+        )
+        tv_similar_json_ob = self.get_request_to_json(tv_similar_url)
+
+        similar_list = self.get_similar_list(tv_similar_json_ob, tv.category)
+
         """======Making Response======"""
 
         tv_info_response = self.make_video_response(tv_info_list)
@@ -249,6 +276,7 @@ class DetailView(viewsets.ViewSet):
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count},
             "personal": {"wished": None},
+            "similar": similar_list,
         }
 
         if request.user.is_authenticated:
@@ -348,6 +376,12 @@ class DetailView(viewsets.ViewSet):
         overview = json_ob["overview"]
 
         movie_info_list = self.get_video_info(movie_id)
+        movie_similar_url = (
+            f"https://api.themoviedb.org/3/movie/{key}/similar?api_key={self.api_key}&language={self.language}"
+        )
+        movie_similar_json_ob = self.get_request_to_json(movie_similar_url)
+
+        similar_list = self.get_similar_list(movie_similar_json_ob, movie.category)
 
         """======Making Response======"""
 
@@ -366,6 +400,7 @@ class DetailView(viewsets.ViewSet):
             "production_countries": movie_info_response["production_country_list"],
             "public": {"wish_count": movie.videototalcount.wish_count},
             "personal": {"wished": None},
+            "similar": similar_list,
         }
 
         if request.user.is_authenticated:
