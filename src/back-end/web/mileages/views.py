@@ -76,3 +76,11 @@ class MileageViewSet(viewsets.ModelViewSet):
             return Response(_history)
         except ValueError as e:
             raise BadFormatException from e
+
+
+def create_histories_and_update_mileages(request, amount):
+    """update user's mileage and create mileage history"""
+    serializer = MileageSerializer(data={"amount": amount}, context={"request": request})
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return serializer.data
