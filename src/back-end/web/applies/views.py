@@ -72,6 +72,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         "user",
         "payment",
     )
+    lookup_fields = ("user_id", "provider_id")
 
     def get_object(self):
         filter_kwargs = {"user_id": self.request.user.id, "provider_id": self.request.data["provider_id"]}
@@ -203,7 +204,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                     _amount = _apply.payment.amount
                 else:
                     # user has spent mileages
-                    _amount = _provider
+                    _amount = _provider.charge.service_charge_per_member
                 # return mileages
                 # _mileage_response = MileageViewSet.as_view({"put": "create"})(_mileage_request)
                 create_histories_and_update_mileages(request, _amount)
