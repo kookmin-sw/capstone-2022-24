@@ -35,7 +35,7 @@
 								<!--									v-model="stars"-->
 								<!--									:max="5"-->
 								<!--									class="text-blue-100" />-->
-								<div class="q-mb-lg">{{ video.dateTime }}</div>
+								<div class="q-mb-lg">{{ video.date }}</div>
 							</div>
 						</div>
 					</div>

@@ -31,9 +31,10 @@ export const videoExpands = {
 				videoOffset: offset,
 			};
 			await http.get(url, { params, headers }).then(res => {
-				commit('SET_TOTAL_WISH', res.data.page.totalCount);
+				commit('SET_TOTAL_WISH', res.data.page.totalCount - 1);
 				commit('ADD_WISH_VIDEOS', res.data.results);
-				if (state.totalWish <= state.wishList.length) {
+
+				if (state.totalWish + 1 <= state.wishList.length) {
 					const maxWidth = 6;
 					const lack = maxWidth - (state.totalWish % maxWidth) - 1;
 					for (let i = 0; i < lack; i++) {
