@@ -146,9 +146,11 @@ export default {
 			this.ottFilters[provider.name] = provider;
 			this.ottFilters[provider.name]['isSelect'] = false;
 		});
+		// console.log(this.notApplied);
+		// console.log(this.applied);
 	},
 	computed: {
-		...mapState('join', ['notApplied']),
+		...mapState('join', ['notApplied', 'applied']),
 	},
 	methods: {
 		ottFilterClick(idx) {

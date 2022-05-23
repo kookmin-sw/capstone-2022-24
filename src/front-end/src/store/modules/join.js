@@ -23,6 +23,7 @@ export const join = {
 				authorization: `Bearer ${token}`,
 			};
 			await http.get(url, { headers }).then(res => {
+				console.log(res.data);
 				commit('SET_APPLIED', res.data.appliedProviders);
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
