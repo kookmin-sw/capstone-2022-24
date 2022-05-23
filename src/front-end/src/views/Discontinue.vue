@@ -17,9 +17,10 @@
 		</div>
 		<div>
 			<q-infinite-scroll
-				:offset="250"
+				:offset="150"
 				@load="videoOnLoad"
 				id="videos-container"
+				debounce="50"
 				:number="1">
 				<div class="row" id="videos-wrapper">
 					<div
@@ -60,48 +61,6 @@
 					작품이 존재하지 않습니다.
 				</div>
 			</q-infinite-scroll>
-			<!--			<q-infinite-scroll :offset="250" @load="videoOnLoad">-->
-			<!--				<div class="row video-list-frame">-->
-			<!--					<div-->
-			<!--						class="video-poster"-->
-			<!--						v-for="(video, index) in videos"-->
-			<!--						:key="index"-->
-			<!--						style="position: relative">-->
-			<!--						<img-->
-			<!--							:src="video.posterKey"-->
-			<!--							:alt="video.title"-->
-			<!--							style="width: 100%; object-fit: cover"-->
-			<!--							@click="videoClick(video.videoId, video.category)" />-->
-			<!--						<q-badge-->
-			<!--							class="row reverse q-ma-none q-pa-sm float-right bg-transparent badge-frame"-->
-			<!--							style="position: absolute; top: 0; left: 0">-->
-			<!--							<q-avatar-->
-			<!--								rounded-->
-			<!--								size="md"-->
-			<!--								class="q-mr-xs"-->
-			<!--								v-for="provider in video.providers"-->
-			<!--								:key="provider.id">-->
-			<!--								<img-->
-			<!--									:src="provider.logoKey"-->
-			<!--									:alt="provider.id"-->
-			<!--									class="border-grey-100" />-->
-			<!--							</q-avatar>-->
-			<!--						</q-badge>-->
-			<!--					</div>-->
-			<!--				</div>-->
-			<!--				<template v-slot:loading>-->
-			<!--					<div-->
-			<!--						class="row q-mb-lg justify-center"-->
-			<!--						v-if="videos.length < totalResult">-->
-			<!--						<q-spinner-dots color="primary" size="40px" />-->
-			<!--					</div>-->
-			<!--				</template>-->
-			<!--				<div-->
-			<!--					class="q-mb-xl text-h6 text-bold"-->
-			<!--					v-if="loadFail && videos.length === 0">-->
-			<!--					{{ currentTab }}일 이내 종료 예정인 작품이 존재하지 않습니다.-->
-			<!--				</div>-->
-			<!--			</q-infinite-scroll>-->
 		</div>
 	</div>
 </template>
@@ -157,6 +116,8 @@ export default {
 					});
 					done();
 				}, 1000);
+			} else {
+				done();
 			}
 		},
 		async daysButtonClick(idx) {
