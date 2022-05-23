@@ -141,17 +141,14 @@ export default {
 		};
 	},
 	async created() {
-		await this.$store.dispatch('join/joinProviders');
+		await this.$store.dispatch('groups/joinProviders');
 		this.notApplied.forEach(provider => {
 			this.ottFilters[provider.name] = provider;
 			this.ottFilters[provider.name]['isSelect'] = false;
 		});
-		// console.log(this.notApplied);
-		// console.log(this.applied);
-		// console.log(this.ottFilters);
 	},
 	computed: {
-		...mapState('join', ['notApplied', 'applied']),
+		...mapState('groups', ['notApplied', 'applied']),
 	},
 	methods: {
 		ottFilterClick(idx) {
@@ -194,16 +191,10 @@ export default {
 				paymentId: null,
 				role: this.role,
 			};
-			this.$store.dispatch('join/applyGroup', applyer).then(() => {
+			this.$store.dispatch('groups/applyGroup', applyer).then(() => {
 				this.isSuccess = true;
+				window.location.href();
 			});
-			// if (this.roleSelect.leader) {
-			// 	await this.$store.dispatch('join/applyLeader', applyer);
-			// } else {
-			// 	await this.$store.dispatch('join/applyMember', applyer).then(() => {
-			// 		this.isSuccess = true;
-			// 	});
-			// }
 		},
 	},
 };

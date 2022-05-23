@@ -1,6 +1,6 @@
 import http from '@/api/http';
 
-export const join = {
+export const groups = {
 	namespaced: true,
 	state: {
 		applied: [],
@@ -30,7 +30,8 @@ export const join = {
 		},
 		async applyGroup(context, applyer) {
 			// TODO: 엔드포인트 변경 예정 (PR중)
-			const url = `applies/${applyer.role}/`;
+			const url = `/applies/${applyer.role}/`;
+			console.log(url);
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,
