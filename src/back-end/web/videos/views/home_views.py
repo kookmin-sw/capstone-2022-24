@@ -222,8 +222,7 @@ class HomeView(viewsets.ViewSet):
 
         sort = self.request.query_params.get("sort", default="random")
         try:
-            if sort:
-                queryset = queryset.order_by(self.sort_dict[sort], "id")
+            queryset = queryset.order_by(self.sort_dict[sort], "id")
         except KeyError as e:
             raise BadFormatException() from e
 
