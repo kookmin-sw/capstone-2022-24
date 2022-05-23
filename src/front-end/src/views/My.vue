@@ -22,7 +22,7 @@
 		</div>
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">정직 비용</div>
-			<div>1,000 원</div>
+			<div>{{ profile.mileages }} 원</div>
 			<div
 				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
 				style="cursor: pointer"
@@ -30,15 +30,6 @@
 				충전하기
 			</div>
 		</div>
-		<!--		<div class="row text-left">-->
-		<!--			<div class="text-weight-bold info-item">계좌</div>-->
-		<!--			<div>(은행) 356-xxxx-xxxx-xx</div>-->
-		<!--			<div-->
-		<!--				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"-->
-		<!--				style="cursor: pointer">-->
-		<!--				등록/수정-->
-		<!--			</div>-->
-		<!--		</div>-->
 	</div>
 	<!-- 모임 영역 -->
 	<q-separator color="blue-1" size="2px" inset />
