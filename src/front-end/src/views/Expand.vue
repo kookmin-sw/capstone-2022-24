@@ -15,7 +15,9 @@
 				{{ i.label }}</q-btn
 			>
 		</div>
-		<div v-if="!wishList">찜한 작품이 존재하지 않습니다.</div>
+		<div v-if="loadFail" class="text-h6 text-bold">
+			추가한 작품이 존재하지 않습니다.
+		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
@@ -79,7 +81,7 @@ export default {
 		await this.$store.dispatch('videoExpands/loadWishList', 0);
 	},
 	computed: {
-		...mapState('videoExpands', ['wishList', 'totalWish']),
+		...mapState('videoExpands', ['wishList', 'totalWish', 'loadFail']),
 	},
 	methods: {
 		videoOnLoad(index, done) {
