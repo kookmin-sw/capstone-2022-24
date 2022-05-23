@@ -4,7 +4,7 @@
 		<join-success-modal :isActive="isSuccess" />
 	</q-dialog>
 	<!-- 모든 ott 신청했을 때 -->
-	<div v-if="!ottFilters.length" style="height: 50vh">
+	<div v-if="!notApplied.length" style="height: 50vh">
 		<div style="position: relative; top: 45%">
 			<div class="text-h6 text-bold">
 				신청 가능한 모든 OTT 모임에 참여 중입니다.
@@ -148,6 +148,7 @@ export default {
 		});
 		// console.log(this.notApplied);
 		// console.log(this.applied);
+		// console.log(this.ottFilters);
 	},
 	computed: {
 		...mapState('join', ['notApplied', 'applied']),
