@@ -24,7 +24,7 @@
 							:src="video.posterUrl"
 							:alt="video.id"
 							style="width: 100%; object-fit: cover"
-							@click="videoClick(video.videoId, video.category)" />
+							@click="videoClick(video.id, video.category)" />
 						<div class="row no-wrap items-center">
 							<div class="col text-right q-mt-sm">
 								<div class="video-title text-left text-weight-bold">
@@ -102,9 +102,6 @@ export default {
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
-		// getDate(dateTime) {
-		// 	return dateTime.split(' ')[0];
-		// },
 	},
 };
 </script>
