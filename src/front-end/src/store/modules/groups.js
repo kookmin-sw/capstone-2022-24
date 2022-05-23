@@ -23,7 +23,6 @@ export const groups = {
 				authorization: `Bearer ${token}`,
 			};
 			await http.get(url, { headers }).then(res => {
-				console.log(res.data);
 				commit('SET_APPLIED', res.data.appliedProviders);
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
@@ -31,7 +30,6 @@ export const groups = {
 		async applyGroup(context, applyer) {
 			// TODO: 엔드포인트 변경 예정 (PR중)
 			const url = `/applies/${applyer.role}/`;
-			console.log(url);
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,
@@ -51,8 +49,22 @@ export const groups = {
 					});
 			});
 		},
-		async LeaveGroup() {
-			console.log('leave group');
+		async LeaveGroup(context, id) {
+			console.log('leave group', id);
+			// TODO: member, leader 변수
+			// TODO: 변경된 api requeset 확인, 적용
+			const token = String(localStorage.getItem('ACCESS_TOKEN'));
+			const headers = {
+				authorization: `Bearer ${token}`,
+			};
+			const role = 'member';
+			const url = `/applies/${role}/`;
+			const data = {
+				provideId: id,
+			};
+			await http.put(url, data, { headers }).then(res => {
+				console.log(res);
+			});
 		},
 	},
 };
