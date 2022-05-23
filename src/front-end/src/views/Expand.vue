@@ -18,12 +18,14 @@
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
-					<div class="video-poster" v-for="video in wishList" :key="video.id">
-						<img
-							:src="video.posterUrl"
-							:alt="video.id"
-							style="width: 100%; object-fit: cover"
-							@click="videoClick(video.id, video.category)" />
+					<div style="width: 15%" v-for="video in wishList" :key="video.id">
+						<div class="video-poster">
+							<img
+								:src="video.posterUrl"
+								:alt="video.id"
+								style="max-height: 238px; object-fit: cover"
+								@click="videoClick(video.id, video.category)" />
+						</div>
 						<div class="row no-wrap items-center">
 							<div class="col text-right q-mt-sm">
 								<div class="video-title text-left text-weight-bold">
@@ -116,8 +118,9 @@ export default {
 	justify-content: space-between;
 }
 .video-poster {
-	width: 15%;
-	margin: 0 0 24px 0;
+	width: 100%;
+	height: auto;
+	margin: 0 0 0 0;
 }
 .video-title {
 	white-space: nowrap;
