@@ -97,7 +97,7 @@
 					<div class="text-weight-bold">{{ $t('join.stepTitle3') }}</div>
 				</div>
 				<div class="explanation col text-left q-mb-md">
-					<div v-if="!selected.ott">신청할 OTT 서비스를 선택해주세요.</div>
+					<div v-if="!selected.ott[0]">신청할 OTT 서비스를 선택해주세요.</div>
 					<div v-else>
 						<div>
 							{{ selected.ott.join(' ') }}(을)를 {{ role }}(으)로 신청합니다.

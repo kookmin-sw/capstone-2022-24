@@ -29,6 +29,7 @@ export const join = {
 			});
 		},
 		async applyGroup(context, applyer) {
+			// TODO: 엔드포인트 변경 예정 (PR중)
 			const url = `applies/${applyer.role}/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
