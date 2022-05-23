@@ -51,5 +51,8 @@ export const groups = {
 					});
 			});
 		},
+		async LeaveGroup() {
+			console.log('leave group');
+		},
 	},
 };
