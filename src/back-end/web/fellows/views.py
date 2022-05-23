@@ -13,8 +13,8 @@ def create_fellows_and_map_into_group_by_applies(group: Group, queryset: QuerySe
     try:
         for apply in queryset:
             # get information with queryset
-            _u = queryset.user
-            _p = queryset.payment if hasattr(queryset, "payment") else None
+            _u = apply.user
+            _p = apply.payment if hasattr(apply, "payment") else None
             _fellow = Fellow.objects.create(user=_u, group=group, payment=_p)
 
             # get fellow role by apply object's fellow_type

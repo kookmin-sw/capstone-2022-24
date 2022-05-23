@@ -1,5 +1,5 @@
 """APIs of applies application"""
-# pylint: disable=R0901,R0914
+# pylint: disable=R0901,R0914,R0912
 from collections import Counter
 
 from applies.exceptions import ApplyAlreadyExistException
@@ -143,9 +143,8 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             _num_of_needed_fellows = self.get_number_of_remain_fellows_in(_provider)
             _matched_applies = self.get_queryset().filter(provider__id=_provider.id).all()
             # Recruited !!!!!!!
-            if _num_of_needed_fellows == dict(
-                Counter(_matched_applies.values_list("fellow_type"))
-            ):  # format ex. {"L": 1, "M": 2}
+            # format ex. {"L": 1, "M": 2}
+            if _num_of_needed_fellows == dict(Counter(_matched_applies.values_list("fellow_type", flat=True))):
                 # 5-1-2. create group
                 _new_group = create_group_with_provider(provider=_provider)
                 # 5-1-3. create fellows and map leader / member by each fellow_type
@@ -155,14 +154,14 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 # 5-1-4.
                 _matched_applies.delete()
             return _response
-        # except TypeError as type_error:
-        #     raise BadFormatException() from type_error
-        # except KeyError as key_error:
-        #     raise InvalidProviderIdException() from key_error
-        # except Provider.DoesNotExist as provider_error:
-        #     raise BadFormatException() from provider_error
-        # except Payment.DoesNotExist as payment_error:
-        #     raise BadFormatException() from payment_error
+        except TypeError as type_error:
+            raise BadFormatException() from type_error
+        except KeyError as key_error:
+            raise InvalidProviderIdException() from key_error
+        except Provider.DoesNotExist as provider_error:
+            raise BadFormatException() from provider_error
+        except Payment.DoesNotExist as payment_error:
+            raise BadFormatException() from payment_error
         except Charge.DoesNotExist as charge_error:
             raise NotEnoughSubscriptionInformationException() from charge_error
         except SubscriptionType.DoesNotExist as subscription_error:
