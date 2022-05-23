@@ -31,7 +31,7 @@ export const videoExpands = {
 				authorization: `Bearer ${token}`,
 			};
 			const params = {
-				videoLimit: 48,
+				videoLimit: 12,
 				videoOffset: offset,
 			};
 			await http

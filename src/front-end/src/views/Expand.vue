@@ -12,11 +12,8 @@
 					'text-weight-bold': i.isSelect,
 					'text-blue-200': i.isSelect,
 				}">
-				{{ i.label }}</q-btn
-			>
-		</div>
-		<div v-if="loadFail" class="text-h6 text-bold">
-			추가한 작품이 존재하지 않습니다.
+				{{ i.label }}
+			</q-btn>
 		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
@@ -43,12 +40,13 @@
 					</div>
 				</div>
 				<template v-slot:loading>
-					<div
-						class="row q-mb-lg justify-center"
-						v-if="wishList.length < totalWish">
-						<q-spinner-dots color="primary" size="40px" />
+					<div class="row justify-center" v-if="wishList.length < totalWish">
+						<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 					</div>
 				</template>
+				<div v-if="loadFail && wishList.length === 0" class="text-h6 text-bold">
+					추가한 작품이 존재하지 않습니다.
+				</div>
 			</q-infinite-scroll>
 		</div>
 	</div>
@@ -87,7 +85,10 @@ export default {
 		videoOnLoad(index, done) {
 			if (this.wishList.length <= this.totalWish) {
 				setTimeout(() => {
-					this.$store.dispatch('videoExpands/loadWishList', this.videos.length);
+					this.$store.dispatch(
+						'videoExpands/loadWishList',
+						this.wishList.length,
+					);
 					done();
 				}, 1000);
 			}
