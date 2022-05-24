@@ -48,6 +48,8 @@ class DetailView(viewsets.ViewSet):
 
     permission_classes = (permissions.AllowAny,)
 
+    category_title_naming = {"TV": "name", "MV": "title"}
+
     def get_season_list(self, json_season):
         """Method: Get the Tv season lists"""
 
@@ -60,6 +62,24 @@ class DetailView(viewsets.ViewSet):
             season_list.append(season)
 
         return season_list
+
+    def get_similar_list(self, similar_json, category_type):
+        """Method: Get the similar video lists"""
+
+        similar_list = []
+        naming = self.category_title_naming[category_type]
+        count = 0
+        while len(similar_list) < 6 or similar_json["total_results"] == count:
+            poster_path = similar_json["results"][count]["poster_path"]
+            if poster_path:
+                similar_video = {
+                    "poster_url": f"https://image.tmdb.org/t/p/w500{poster_path}",
+                    "title": similar_json["results"][count][naming],
+                }
+                similar_list.append(similar_video)
+            count += 1
+
+        return similar_list
 
     def get_request_to_json(self, url):
         """Method: get json response to get video info"""
@@ -162,7 +182,7 @@ class DetailView(viewsets.ViewSet):
                             "providers": [
                                 {
                                     "name": "WV",
-                                    "logoUrl": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+                                    "logoUrl": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
                                     "link": "https://www.wavve.com/",
                                 }
                             ],
@@ -173,6 +193,32 @@ class DetailView(viewsets.ViewSet):
                             "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
                             "public": {"wishCount": 0},
                             "personal": {"wished": None},
+                            "similar": [
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
+                                    "title": "교향시편 유레카 세븐",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
+                                    "title": "신세기 에반게리온",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
+                                    "title": "소녀혁명 우테나",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
+                                    "title": "오란고교 사교클럽",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
+                                    "title": "사무라이 참프루",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
+                                    "title": "시리얼 익스페러먼츠 레인",
+                                },
+                            ],
                         },
                     )
                 ],
@@ -228,6 +274,13 @@ class DetailView(viewsets.ViewSet):
 
         tv_info_list = self.get_video_info(tv_id)
 
+        tv_similar_url = (
+            f"https://api.themoviedb.org/3/tv/{key}/similar?api_key={self.api_key}&language={self.language}"
+        )
+        tv_similar_json_ob = self.get_request_to_json(tv_similar_url)
+
+        similar_list = self.get_similar_list(tv_similar_json_ob, tv.category)
+
         """======Making Response======"""
 
         tv_info_response = self.make_video_response(tv_info_list)
@@ -249,6 +302,7 @@ class DetailView(viewsets.ViewSet):
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count},
             "personal": {"wished": None},
+            "similars": similar_list,
         }
 
         if request.user.is_authenticated:
@@ -272,39 +326,53 @@ class DetailView(viewsets.ViewSet):
                         response_only=True,
                         name="Success Example",
                         value={
-                            "videoId": 8,
-                            "posterUrl": "https://image.tmdb.org/t/p/w500/zDNAeWU0PxKolEX1D8Vn1qWhGjH.jpg",
-                            "title": "인터스텔라",
-                            "releaseYear": "2014",
-                            "releaseDate": "11-05",
-                            "titleEnglish": "Interstellar",
+                            "videoId": 3,
+                            "posterUrl": "https://image.tmdb.org/t/p/w500/dBz61uAt6xjJt4yqhiZXQt0a1bB.jpg",
+                            "title": "킹덤: 아신전",
+                            "releaseYear": "2021",
+                            "releaseDate": "07-23",
+                            "titleEnglish": "Kingdom: Ashin of the North",
                             "overview": (
-                                "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다."
-                                " 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다. 거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 "
-                                "함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부. 이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를"
-                                " 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데..."
+                                "비극과 배신이 삶을 덮친다. 기이하고 불길한 뭔가를 발견한다. 한순간에 가족과 동족을 잃은 여인."
+                                " 오직 복수를 꿈꾸며 살아온 그녀가 짙은 어둠을 마주한다."
                             ),
                             "providers": [
                                 {
                                     "name": "NF",
                                     "logoUrl": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
                                     "link": "https://www.netflix.com/kr/",
-                                },
-                                {
-                                    "name": "WV",
-                                    "logoUrl": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
-                                    "link": "https://www.wavve.com/",
-                                },
-                                {
-                                    "name": "WC",
-                                    "logoUrl": "https://image.tmdb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg",
-                                    "link": "https://watcha.com/",
-                                },
+                                }
                             ],
-                            "genres": ["모험", "드라마", "SF"],
-                            "productionCountries": ["영국", "미국"],
+                            "genres": ["드라마", "판타지", "스릴러"],
+                            "productionCountries": ["대한민국"],
                             "public": {"wishCount": 0},
                             "personal": {"wished": False},
+                            "similar": [
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
+                                    "title": "9 불리츠",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
+                                    "title": "상티넬",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
+                                    "title": "G-Zombie",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
+                                    "title": "Z",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
+                                    "title": "아미 오브 더 데드: 도둑들",
+                                },
+                                {
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
+                                    "title": "코다",
+                                },
+                            ],
                         },
                     )
                 ],
@@ -348,6 +416,12 @@ class DetailView(viewsets.ViewSet):
         overview = json_ob["overview"]
 
         movie_info_list = self.get_video_info(movie_id)
+        movie_similar_url = (
+            f"https://api.themoviedb.org/3/movie/{key}/similar?api_key={self.api_key}&language={self.language}"
+        )
+        movie_similar_json_ob = self.get_request_to_json(movie_similar_url)
+
+        similar_list = self.get_similar_list(movie_similar_json_ob, movie.category)
 
         """======Making Response======"""
 
@@ -366,6 +440,7 @@ class DetailView(viewsets.ViewSet):
             "production_countries": movie_info_response["production_country_list"],
             "public": {"wish_count": movie.videototalcount.wish_count},
             "personal": {"wished": None},
+            "similars": similar_list,
         }
 
         if request.user.is_authenticated:

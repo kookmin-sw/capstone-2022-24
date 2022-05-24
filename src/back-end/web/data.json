@@ -16840,7 +16840,7 @@
       "password": "pbkdf2_sha256$320000$yyzRu9gbWhP1q51ZdCuhwb$EMRC92sfULKo4C6H4NLnwniN/zDK62A9se7AigducpI=",
       "profile_image_url": null,
       "registration_date_time": "2022-05-11T07:18:41",
-      "total_mileages": 0,
+      "total_mileages": 20000,
       "withdrawal_date_time": null
     },
     "model": "users.user",
@@ -16903,7 +16903,7 @@
       "password": "pbkdf2_sha256$320000$nKSpGQ6YPAOGVDQ0tUKINt$8PgHtH3bhlsYbwYpHDC/4KnMCSjLYNskzYILh6Zb0wk=",
       "profile_image_url": null,
       "registration_date_time": "2022-05-19T03:39:33.685",
-      "total_mileages": 0,
+      "total_mileages": 10000,
       "withdrawal_date_time": null
     },
     "model": "users.user",
@@ -17017,12 +17017,146 @@
   },
   {
     "fields": {
-      "apply_date_time": "2022-05-21T20:30:33",
-      "payment": null,
-      "provider": 5,
-      "user": 1
+      "date_time": "2022-05-23T02:26:33",
+      "user": 1,
+      "video": 15
     },
-    "model": "applies.memberapply",
+    "model": "wishes.wish",
     "pk": 1
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:37",
+      "user": 1,
+      "video": 5
+    },
+    "model": "wishes.wish",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:41",
+      "user": 1,
+      "video": 109
+    },
+    "model": "wishes.wish",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:45",
+      "user": 1,
+      "video": 88
+    },
+    "model": "wishes.wish",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:50",
+      "user": 1,
+      "video": 75
+    },
+    "model": "wishes.wish",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:26:55",
+      "user": 1,
+      "video": 176
+    },
+    "model": "wishes.wish",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:27:00",
+      "user": 1,
+      "video": 23
+    },
+    "model": "wishes.wish",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:28:42",
+      "user": 1,
+      "video": 78
+    },
+    "model": "wishes.wish",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:29:15",
+      "user": 1,
+      "video": 127
+    },
+    "model": "wishes.wish",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:31:08",
+      "user": 2,
+      "video": 7
+    },
+    "model": "wishes.wish",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:48:33",
+      "user": 2,
+      "video": 14
+    },
+    "model": "wishes.wish",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:48:38",
+      "user": 2,
+      "video": 17
+    },
+    "model": "wishes.wish",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:48:42",
+      "user": 2,
+      "video": 187
+    },
+    "model": "wishes.wish",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:49:06",
+      "user": 2,
+      "video": 144
+    },
+    "model": "wishes.wish",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:50:00",
+      "user": 2,
+      "video": 10
+    },
+    "model": "wishes.wish",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-23T02:50:09",
+      "user": 2,
+      "video": 12
+    },
+    "model": "wishes.wish",
+    "pk": 17
   }
 ]

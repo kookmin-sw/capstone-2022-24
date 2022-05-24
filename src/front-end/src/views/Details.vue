@@ -13,7 +13,7 @@
 			<div class="col text-left">
 				<!-- 작품 제목 -->
 				<div class="q-ma-sm">
-					<div>
+					<div class="video-title">
 						<span class="text-h6 text-weight-bold">
 							{{ videoDetails.title }}
 						</span>
@@ -28,14 +28,18 @@
 					</div>
 				</div>
 				<!-- 작품 상세 정보 -->
-				<!--				<div class="row q-ma-sm">-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ releaseYear }} |</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">-->
-				<!--						{{ productionCountry }} |-->
-				<!--					</div>-->
-				<!--					<div class="q-mr-sm q-mt-auto q-mb-auto">{{ genre }}</div>-->
-				<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
-				<!--				</div>-->
+				<div class="row q-ma-sm q-mb-lg" v-if="videoDetails">
+					<div class="q-mr-sm q-mt-auto q-mb-auto">
+						{{ videoDetails.releaseYear }} |
+					</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">
+						{{ videoDetails.productionCountries.join(', ') }} |
+					</div>
+					<div class="q-mr-sm q-mt-auto q-mb-auto">
+						{{ videoDetails.genres.join(', ') }}
+					</div>
+					<!--									<div class="q-mr-sm q-mt-auto q-mb-auto">상영시간</div>-->
+				</div>
 				<!-- 작품 상세 정보: 외부 평점 -->
 				<!--				<div class="row q-ma-sm q-mb-md">-->
 				<!--					<q-avatar rounded color="grey-4" size="25px" class="q-mr-xs" />-->
@@ -186,11 +190,6 @@ export default {
 			});
 			this.videoId = videoId;
 			this.category = category;
-			this.releaseYear = this.videoDetails.releaseDate.split('-')[0];
-			// this.productionCountry = this.videoDetails.productionCountries.join(',');
-			// this.genre = this.videoDetails.genres.join(',');
-			// this.details = this.videoDetails;
-			// console.log(this.videoDetails);
 			this.wished = this.videoDetails.personal.wished;
 		},
 		addWish() {
@@ -215,5 +214,10 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 	row-gap: 24px;
+}
+.video-title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 </style>
