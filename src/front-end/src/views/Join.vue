@@ -1,7 +1,7 @@
 <template>
 	<!-- 모임 신청 성공 모달  -->
 	<q-dialog v-model="isSuccess">
-		<join-success-modal :isActive="isSuccess" />
+		<join-success-modal :isActive="isSuccess" @clickOk="applySuccess" />
 	</q-dialog>
 	<!-- 모임 신청 실패 모달 -->
 	<q-dialog v-model="isFail">
@@ -212,14 +212,14 @@ export default {
 			this.$store
 				.dispatch('groups/applyGroup', applyer)
 				.then(() => {
-					console.log('성공!');
 					this.isSuccess = true;
-					window.location.href();
 				})
 				.catch(() => {
-					console.log('실패!');
 					this.isFail = true;
 				});
+		},
+		applySuccess() {
+			window.location.reload(true);
 		},
 	},
 };

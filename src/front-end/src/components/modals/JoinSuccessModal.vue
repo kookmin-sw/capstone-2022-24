@@ -11,7 +11,12 @@
 		</q-card-section>
 
 		<q-card-actions align="right">
-			<q-btn flat label="확인" class="text-blue-200" v-close-popup />
+			<q-btn
+				flat
+				label="확인"
+				class="text-blue-200"
+				@click="clickOk"
+				v-close-popup />
 		</q-card-actions>
 	</q-card>
 </template>
@@ -23,6 +28,11 @@ export default {
 		isActive: {
 			type: Boolean,
 			require: true,
+		},
+	},
+	methods: {
+		clickOk() {
+			this.$emit('clickOk');
 		},
 	},
 };
