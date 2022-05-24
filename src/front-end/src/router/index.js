@@ -95,6 +95,7 @@ const routes = [
 		name: 'Expand',
 		component: () =>
 			import(/* webpackChunkName: "Expand" */ '@/views/Expand.vue'),
+		beforeEnter: onlyAuthUser,
 	},
 	{
 		path: '/introduction',

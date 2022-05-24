@@ -62,7 +62,7 @@ export const user = {
 		async initProfile({ commit }) {
 			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
-			const url = `/users/mypage/`;
+			const url = `/mypage/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,
@@ -86,6 +86,7 @@ export const user = {
 						birthday: user.birthday,
 						isActive: user.isActive,
 						isVerified: user.isVerified,
+						mileages: user.totalMileages,
 					};
 					commit('SET_PROFILE', userProfile);
 
@@ -116,7 +117,7 @@ export const user = {
 			}
 		},
 		async pushWishList({ state, commit }) {
-			const url = `/users/mypage/wishes`;
+			const url = `/mypage/wishes`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
 				authorization: `Bearer ${token}`,

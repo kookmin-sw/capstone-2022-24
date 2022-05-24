@@ -243,6 +243,7 @@ export default {
 				{ label: '랜덤순', isSelect: true, name: 'random' },
 				{ label: '추가순', isSelect: false, name: 'new' },
 				{ label: '신작순', isSelect: false, name: 'release' },
+				{ label: '제목순', isSelect: false, name: 'order' },
 				// { label: '평점순', isSelect: false, name: 'rating' },
 				// { label: '인기순', isSelect: false, name: 'wish' },
 			],
@@ -268,6 +269,8 @@ export default {
 					this.$store.dispatch('videoList/loadVideoList', this.videos.length);
 					done();
 				}, 1000);
+			} else {
+				done();
 			}
 		},
 		videoClick(videoId, category) {
