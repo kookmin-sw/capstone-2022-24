@@ -199,7 +199,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/userVideos';
-import MileageModal from '@/components/MileageModal';
+import MileageModal from '@/components/modals/MileageModal';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
