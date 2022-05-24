@@ -161,7 +161,7 @@ export const auth = {
 				.post(url)
 				.then(res => {
 					// 로그인 성공
-					const token = res.headers.accesstoken;
+					const token = res.data.accessToken;
 					commit('SET_TOKEN', token);
 					localStorage.setItem('ACCESS_TOKEN', token);
 					alert('회원가입에 성공했습니다.');
