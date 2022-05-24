@@ -26,7 +26,7 @@ export const auth = {
 	},
 	getters: {
 		isLogin(state) {
-			return state.token !== null;
+			return state.profile.nickname !== null;
 		},
 	},
 	mutations: {
@@ -77,14 +77,15 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					console.log(res.data);
 					const user = res.data.user.user;
+					const token = res.data.accessToken;
+					localStorage.setItem('ACCESS_TOKEN', token);
+					commit('SET_TOKEN', token);
+
 					if (!user.isVerified) {
 						// login
-						const token = res.data.accessToken;
-						localStorage.setItem('ACCESS_TOKEN', token);
+						console.log('login');
 						localStorage.setItem('NICKNAME', user.nickname);
-						commit('SET_TOKEN', token);
 						commit('SET_PROFILE', user);
 						resolve();
 					} else {
