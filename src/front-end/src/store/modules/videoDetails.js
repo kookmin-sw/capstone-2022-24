@@ -18,7 +18,6 @@ export const videoDetails = {
 				.get(url)
 				.then(res => {
 					const details = res.data;
-					console.log(details);
 					commit('SET_VIDEO_DETAILS', details);
 				})
 				.catch(() => {
