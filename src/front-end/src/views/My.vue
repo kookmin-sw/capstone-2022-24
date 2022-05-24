@@ -2,7 +2,7 @@
 <template>
 	<!-- mileage modal -->
 	<q-dialog v-model="isMileageModal">
-		<mileage-modal :isActive="isMileAgeModal"></mileage-modal>
+		<mileage-modal :isActive="isMileageModal"></mileage-modal>
 	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
