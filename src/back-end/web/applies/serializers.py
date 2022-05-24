@@ -1,8 +1,6 @@
 """Serializers of applies application for json parsing"""
 from applies.models import GroupApply
-from applies.schemas import GROUP_APPLY_EXAMPLES
 from config.exceptions.input import NotSupportedProviderException
-from drf_spectacular.utils import extend_schema_serializer
 from fellows.serializers import FellowProfileSerializer
 from payments.serializers import PaymentSerializer
 from providers.exceptions import NotFoundProviderException
@@ -39,7 +37,6 @@ class BaseApplySerializer(serializers.Serializer):
         return []
 
 
-@extend_schema_serializer(examples=GROUP_APPLY_EXAMPLES)
 class GroupApplySerializer(serializers.ModelSerializer):
     """Member Apply Serializer for MemberApply model"""
 

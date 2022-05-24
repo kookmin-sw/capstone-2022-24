@@ -5,12 +5,12 @@ from django.urls import path
 urlpatterns = [
     path(
         "member/",
-        GroupApplyViewSet.as_view({"put": "cancel", "post": "apply_member"}),
+        GroupApplyViewSet.as_view({"put": "cancel_member", "post": "apply_member"}),
         name="member apply&cancel",
     ),
     path(
         "leader/",
-        GroupApplyViewSet.as_view({"put": "cancel", "post": "apply_leader"}),
+        GroupApplyViewSet.as_view({"put": "cancel_leader", "post": "apply_leader"}),
         name="leader apply&cancel",
     ),
 ]
