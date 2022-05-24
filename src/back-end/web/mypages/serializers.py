@@ -51,7 +51,7 @@ class MyPageGroupSerializer(serializers.Serializer):
         _default = None
 
         # 1-1. get group applies
-        _applies = instance.fellow_set.all()
+        _applies = instance.groupapply_set.all()
         _others = []
 
         # 1-2. fill default if user instance is applying group
