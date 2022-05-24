@@ -73,7 +73,7 @@ class DetailView(viewsets.ViewSet):
             poster_path = similar_json["results"][count]["poster_path"]
             if poster_path:
                 similar_video = {
-                    "poster": f"https://image.tmdb.org/t/p/w500{poster_path}",
+                    "poster_url": f"https://image.tmdb.org/t/p/w500{poster_path}",
                     "title": similar_json["results"][count][naming],
                 }
                 similar_list.append(similar_video)
@@ -195,27 +195,27 @@ class DetailView(viewsets.ViewSet):
                             "personal": {"wished": None},
                             "similar": [
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
                                     "title": "교향시편 유레카 세븐",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
                                     "title": "신세기 에반게리온",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
                                     "title": "소녀혁명 우테나",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
                                     "title": "오란고교 사교클럽",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
                                     "title": "사무라이 참프루",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
                                     "title": "시리얼 익스페러먼츠 레인",
                                 },
                             ],
@@ -302,7 +302,7 @@ class DetailView(viewsets.ViewSet):
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count},
             "personal": {"wished": None},
-            "similar": similar_list,
+            "similars": similar_list,
         }
 
         if request.user.is_authenticated:
@@ -349,27 +349,27 @@ class DetailView(viewsets.ViewSet):
                             "personal": {"wished": False},
                             "similar": [
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
                                     "title": "9 불리츠",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
                                     "title": "상티넬",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
                                     "title": "G-Zombie",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
                                     "title": "Z",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
                                     "title": "아미 오브 더 데드: 도둑들",
                                 },
                                 {
-                                    "poster": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
+                                    "poster_url": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
                                     "title": "코다",
                                 },
                             ],
@@ -440,7 +440,7 @@ class DetailView(viewsets.ViewSet):
             "production_countries": movie_info_response["production_country_list"],
             "public": {"wish_count": movie.videototalcount.wish_count},
             "personal": {"wished": None},
-            "similar": similar_list,
+            "similars": similar_list,
         }
 
         if request.user.is_authenticated:
