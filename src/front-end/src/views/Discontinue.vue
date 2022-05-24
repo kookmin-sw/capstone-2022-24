@@ -16,29 +16,50 @@
 			</q-btn>
 		</div>
 		<div>
-			<q-infinite-scroll :offset="250" @load="videoOnLoad">
-				<div class="row video-list-frame">
+			<q-infinite-scroll
+				:offset="150"
+				@load="videoOnLoad"
+				id="videos-container"
+				debounce="100"
+				:number="1">
+				<div class="row" id="videos-wrapper">
 					<div
-						class="video-poster"
-						v-for="(video, index) in videos"
-						:key="index">
+						class="videos"
+						v-for="video in videos"
+						:key="video.id"
+						style="position: relative">
 						<img
 							:src="video.posterKey"
 							:alt="video.title"
 							style="width: 100%; object-fit: cover"
-							@click="videoClick(video.videoId, video.category)" />
-						<!--						<q-badge-->
-						<!--							class="row reverse q-ma-none q-pa-sm float-right bg-transparent badge-frame">-->
-						<!--							<q-avatar rounded color="grey" size="28px" class="q-ma-xs" />-->
-						<!--							<q-avatar rounded color="grey" size="28px" class="q-ma-xs" />-->
-						<!--						</q-badge>-->
+							@click="videoClick(video.id, video.category)" />
+						<q-badge
+							class="row reverse q-ma-none q-pa-sm float-right bg-transparent badge-frame"
+							style="position: absolute; top: 0; left: 0">
+							<q-avatar
+								rounded
+								size="md"
+								class="q-mr-xs"
+								v-for="provider in video.providers"
+								:key="provider.id">
+								<img
+									:src="provider.logoKey"
+									:alt="provider.id"
+									class="border-grey-100" />
+							</q-avatar>
+						</q-badge>
 					</div>
 				</div>
-				<!--				<template v-slot:loading>-->
-				<!--					<div class="row q-mb-lg justify-center">-->
-				<!--						<q-spinner-dots color="primary" size="40px" />-->
-				<!--					</div>-->
-				<!--				</template>-->
+				<template v-slot:loading>
+					<div class="row justify-center" v-if="videos.length < totalResult">
+						<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
+					</div>
+				</template>
+				<div
+					class="q-mb-xl text-h6 text-bold"
+					v-if="loadFail && videos.length === 0">
+					작품이 존재하지 않습니다.
+				</div>
 			</q-infinite-scroll>
 		</div>
 	</div>
@@ -51,11 +72,26 @@ export default {
 	name: 'Discontinue',
 	data() {
 		return {
-			currentTab: 'endSeven',
+			currentTab: 7,
 			days: [
-				{ label: '7일 이내 종료 예정작', isSelect: true, name: 'endSeven', value: 7 },
-				{ label: '15일 이내 종료 예정작', isSelect: false, name: 'endFifteen', value: 15 },
-				{ label: '30일 이내 종료 예정작', isSelect: false, name: 'endThirty', value: 30 },
+				{
+					label: '7일 이내 종료 예정작',
+					isSelect: true,
+					name: 'endSeven',
+					value: 7,
+				},
+				{
+					label: '15일 이내 종료 예정작',
+					isSelect: false,
+					name: 'endFifteen',
+					value: 15,
+				},
+				{
+					label: '30일 이내 종료 예정작',
+					isSelect: false,
+					name: 'endThirty',
+					value: 30,
+				},
 			],
 		};
 	},
@@ -63,25 +99,40 @@ export default {
 		...mapState('videoDiscontinued', ['videos', 'totalResult', 'loadFail']),
 	},
 	async beforeCreate() {
-		await this.$store.dispatch('videoDiscontinued/loadVideoList', 7);
+		window.reload;
+		await this.$store.commit('videoDiscontinued/INIT_VIDEOS');
+		await this.$store.dispatch('videoDiscontinued/loadVideoList', {
+			day: 7,
+			offset: 0,
+		});
 	},
 	methods: {
-		videoOnLoad() {
-			// infinite scroll
-			return 0;
+		async videoOnLoad(index, done) {
+			if (this.videos.length < this.totalResult && !this.loadFail) {
+				setTimeout(() => {
+					this.$store.dispatch('videoDiscontinued/loadVideoList', {
+						day: this.currentTab,
+						offset: this.videos.length,
+					});
+					done();
+				}, 1000);
+			} else {
+				done();
+			}
 		},
-		daysButtonClick(idx) {
+		async daysButtonClick(idx) {
 			this.days.forEach(i => {
 				if (i !== idx) {
 					i.isSelect = false;
 				}
 			});
 			this.days[idx].isSelect = true;
-			this.currentTab = this.days[idx].name;
-			this.$store.dispatch(
-				'videoDiscontinued/loadVideoList',
-				this.days[idx].value,
-			);
+			this.currentTab = this.days[idx].value;
+			await this.$store.commit('videoDiscontinued/INIT_VIDEOS');
+			await this.$store.dispatch('videoDiscontinued/loadVideoList', {
+				day: this.currentTab,
+				offset: 0,
+			});
 		},
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });
@@ -91,17 +142,18 @@ export default {
 </script>
 
 <style scoped>
-.video-list-frame {
+#videos-wrapper {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
 
-.video-poster {
+.videos {
 	width: 15%;
 	height: 0;
-	padding-bottom: 20%;
+	padding-bottom: 21%;
 	margin: 0 0 24px 0;
+	background: transparent;
 	align-content: center;
 	overflow-y: hidden;
 }
