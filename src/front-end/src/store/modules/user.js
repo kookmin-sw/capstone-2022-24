@@ -63,18 +63,13 @@ export const user = {
 			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
 			const url = `/mypage/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-
 			const params = {
 				videoLimit: 6,
 				videoOffset: 0,
 			};
 
 			await http
-				.get(url, { params, headers })
+				.get(url, { params })
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
@@ -118,16 +113,12 @@ export const user = {
 		},
 		async pushWishList({ state, commit }) {
 			const url = `/mypage/wishes`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
 			const params = {
 				videoLimit: 6,
 				videoOffset: state.wishList.length * 6,
 			};
 			http
-				.get(url, { params, headers })
+				.get(url, { params })
 				.then(res => {
 					commit('PUSH_WISH_LIST', res.data.results);
 				})

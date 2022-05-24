@@ -24,15 +24,10 @@ export const videoInteractions = {
 			});
 		},
 		async cancleWish(context, videoId) {
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				Authorization: `Bearer ${token}`,
-			};
-
 			const url = `videos/${videoId}/wishes/`;
 			return new Promise((resolve, reject) => {
 				http
-					.delete(url, { headers })
+					.delete(url)
 					.then(() => {
 						resolve();
 					})
