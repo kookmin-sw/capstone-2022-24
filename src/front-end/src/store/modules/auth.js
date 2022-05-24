@@ -101,6 +101,7 @@ export const auth = {
 		},
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');
+			localStorage.removeItem('NICKNAME');
 			router.go(0);
 		},
 		nicknameDuplication(context, nickname) {
