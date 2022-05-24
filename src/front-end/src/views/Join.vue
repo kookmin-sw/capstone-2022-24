@@ -3,6 +3,13 @@
 	<q-dialog v-model="isSuccess">
 		<join-success-modal :isActive="isSuccess" />
 	</q-dialog>
+	<q-dialog v-model="isPayment" persistent>
+		<payment-modal
+			@clickOk="applyGroup"
+			:isActive="isPayment"
+			:provider="selected.ott[0]"
+			:role="role" />
+	</q-dialog>
 	<!-- 모든 ott 신청했을 때 -->
 	<div v-if="!notApplied.length" style="height: 50vh">
 		<div style="position: relative; top: 45%">
@@ -122,9 +129,10 @@
 <script>
 import { mapState } from 'vuex';
 import JoinSuccessModal from '@/components/modals/JoinSuccessModal';
+import PaymentModal from '@/components/modals/PaymentModal';
 export default {
 	name: 'Join',
-	components: { JoinSuccessModal },
+	components: { JoinSuccessModal, PaymentModal },
 	data() {
 		return {
 			ottFilters: {},
@@ -138,6 +146,7 @@ export default {
 			},
 			state: true,
 			isSuccess: false,
+			isPayment: false,
 		};
 	},
 	async created() {
@@ -183,10 +192,9 @@ export default {
 			);
 			return this.state;
 		},
-		async joinBtnClick() {
+		async applyGroup() {
 			const provider = this.selected.ott[0];
 			const applyer = {
-				// TODO: provider Id 수정
 				providerId: this.ottFilters[provider].id,
 				paymentId: null,
 				role: this.role,
