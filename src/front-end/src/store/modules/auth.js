@@ -7,13 +7,13 @@ export const auth = {
 	state: {
 		token: null,
 		naver: {
-			clientId: `HDyG0cg2DID7bPsLQ4_u`,
+			clientId: process.env.VUE_APP_NAVER_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/naver`,
 			code: null,
 			resState: null,
 		},
 		google: {
-			clientId: `111000957224-lu56fk9cgkavoika3b1b9872vv0lri8q.apps.googleusercontent.com`,
+			clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/google`,
 			token: null,
 		},
