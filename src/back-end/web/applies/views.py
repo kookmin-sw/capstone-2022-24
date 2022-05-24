@@ -14,12 +14,7 @@ from config.exceptions.input import (
 )
 from config.mixins import MultipleFieldLookupMixin
 from django.db import IntegrityError
-from drf_spectacular.utils import (
-    OpenApiResponse,
-    extend_schema,
-    extend_schema_view,
-    inline_serializer,
-)
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
 from fellows.models import Leader, Member
 from fellows.views import create_fellows_and_map_into_group_by_applies
 from groups.views import create_group_with_provider
@@ -27,39 +22,37 @@ from mileages.exceptions import MileageAmountException
 from mileages.views import create_histories_and_update_mileages
 from payments.models import Payment
 from providers.models import Charge, Provider, SubscriptionType
-from rest_framework import serializers, viewsets
+from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 
 
 @extend_schema_view(
-    create=extend_schema(
+    operation_id="모임 신청",
+    apply_member=extend_schema(
         tags=["Priority-1", "Group"],
         operation_id="모임원 신청",
-        request=inline_serializer(
-            name="MemberApplyRequestSerializer",
-            fields={
-                "providerId": serializers.IntegerField(),
-            },
-        ),
+        description="Apply member of provider(id={provider_id})",
         responses={
             201: OpenApiResponse(
                 description="모임원 신청 성공",
-                response=inline_serializer(
-                    name="MemberApplyResponseSerializer", fields={"member_apply_id": serializers.IntegerField()}
-                ),
             )
         },
     ),
-    update=extend_schema(
+    apply_leader=extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임장 신청",
+        description="Apply leader of provider(id={provider_id})",
+        responses={
+            201: OpenApiResponse(
+                description="모임원 신청 성공",
+            )
+        },
+    ),
+    cancel=extend_schema(
         tags=["Priority-1", "Group"],
         operation_id="모임원 취소",
-        request=inline_serializer(
-            name="LeaderApplyRequestSerializer",
-            fields={
-                "memberApplyId": serializers.IntegerField(),
-                "cancel": serializers.BooleanField(),
-            },
-        ),
+        description="Cancel applying of fellow",
+        request=GroupApplySerializer,
         responses={200: OpenApiResponse(description="모임원 취소 성공", response=ApplyCancelSerializer)},
     ),
 )
@@ -72,6 +65,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         "user",
         "payment",
     )
+    http_method_names = ["post", "put"]
     lookup_fields = ("user_id", "provider_id")
 
     def get_object(self):
