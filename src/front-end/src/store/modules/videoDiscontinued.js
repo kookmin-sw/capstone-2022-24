@@ -15,6 +15,7 @@ export const videoDiscontinued = {
 		INIT_VIDEOS(state) {
 			state.videos = [];
 			state.totalResult = 0;
+			state.loadFail = false;
 		},
 		ADD_VIDEOS(state, videos) {
 			state.videos = [...state.videos, ...videos];
@@ -44,6 +45,7 @@ export const videoDiscontinued = {
 						for (let i = 0; i < lack; i++) {
 							commit('ADD_VIDEOS', [{}]);
 						}
+						commit('SET_LOAD_FAIL', true);
 					}
 				})
 				.catch(() => {

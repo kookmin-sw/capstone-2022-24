@@ -20,7 +20,7 @@
 				:offset="150"
 				@load="videoOnLoad"
 				id="videos-container"
-				debounce="50"
+				debounce="100"
 				:number="1">
 				<div class="row" id="videos-wrapper">
 					<div
@@ -108,7 +108,7 @@ export default {
 	},
 	methods: {
 		async videoOnLoad(index, done) {
-			if (this.videos.length <= this.totalResult) {
+			if (this.videos.length < this.totalResult && !this.loadFail) {
 				setTimeout(() => {
 					this.$store.dispatch('videoDiscontinued/loadVideoList', {
 						day: this.currentTab,
