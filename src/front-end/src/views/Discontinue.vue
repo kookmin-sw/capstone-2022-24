@@ -32,7 +32,7 @@
 							:src="video.posterKey"
 							:alt="video.title"
 							style="width: 100%; object-fit: cover"
-							@click="videoClick(video.videoId, video.category)" />
+							@click="videoClick(video.id, video.category)" />
 						<q-badge
 							class="row reverse q-ma-none q-pa-sm float-right bg-transparent badge-frame"
 							style="position: absolute; top: 0; left: 0">
