@@ -195,27 +195,27 @@ class DetailView(viewsets.ViewSet):
                             "personal": {"wished": None},
                             "similar": [
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
                                     "title": "교향시편 유레카 세븐",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
                                     "title": "신세기 에반게리온",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
                                     "title": "소녀혁명 우테나",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
                                     "title": "오란고교 사교클럽",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
                                     "title": "사무라이 참프루",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
                                     "title": "시리얼 익스페러먼츠 레인",
                                 },
                             ],
@@ -349,27 +349,27 @@ class DetailView(viewsets.ViewSet):
                             "personal": {"wished": False},
                             "similar": [
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
                                     "title": "9 불리츠",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
                                     "title": "상티넬",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
                                     "title": "G-Zombie",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
                                     "title": "Z",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
                                     "title": "아미 오브 더 데드: 도둑들",
                                 },
                                 {
-                                    "poster_url": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
+                                    "posterUrl": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
                                     "title": "코다",
                                 },
                             ],
