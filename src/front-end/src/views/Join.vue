@@ -3,6 +3,11 @@
 	<q-dialog v-model="isSuccess">
 		<join-success-modal :isActive="isSuccess" />
 	</q-dialog>
+	<!-- 모임 신청 실패 모달 -->
+	<q-dialog v-model="isFail">
+		<join-fail-modal :isActive="isFail" />
+	</q-dialog>
+	<!-- 결제, 신청 확인 모달 -->
 	<q-dialog v-model="isPayment" persistent>
 		<payment-modal
 			@clickOk="applyGroup"
@@ -130,9 +135,10 @@
 import { mapState } from 'vuex';
 import JoinSuccessModal from '@/components/modals/JoinSuccessModal';
 import PaymentModal from '@/components/modals/PaymentModal';
+import JoinFailModal from '@/components/modals/JoinFailModal';
 export default {
 	name: 'Join',
-	components: { JoinSuccessModal, PaymentModal },
+	components: { JoinFailModal, JoinSuccessModal, PaymentModal },
 	data() {
 		return {
 			ottFilters: {},
@@ -146,6 +152,7 @@ export default {
 			},
 			state: true,
 			isSuccess: false,
+			isFail: false,
 			isPayment: false,
 		};
 	},
@@ -192,6 +199,9 @@ export default {
 			);
 			return this.state;
 		},
+		joinBtnClick() {
+			this.isPayment = true;
+		},
 		async applyGroup() {
 			const provider = this.selected.ott[0];
 			const applyer = {
@@ -199,10 +209,17 @@ export default {
 				paymentId: null,
 				role: this.role,
 			};
-			this.$store.dispatch('groups/applyGroup', applyer).then(() => {
-				this.isSuccess = true;
-				window.location.href();
-			});
+			this.$store
+				.dispatch('groups/applyGroup', applyer)
+				.then(() => {
+					console.log('성공!');
+					this.isSuccess = true;
+					window.location.href();
+				})
+				.catch(() => {
+					console.log('실패!');
+					this.isFail = true;
+				});
 		},
 	},
 };
