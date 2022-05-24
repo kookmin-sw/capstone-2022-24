@@ -105,7 +105,7 @@ export default {
 	width: 15%;
 	height: 0;
 	padding-bottom: 20%;
-	margin: 0 12px 24px 0;
+	margin: 0 10px 0 0;
 	background: transparent;
 	align-content: center;
 	overflow-y: hidden;
