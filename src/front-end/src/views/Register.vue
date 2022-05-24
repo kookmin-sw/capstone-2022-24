@@ -23,7 +23,10 @@
 							accept="image/png, image/jpeg, image/jpg"
 							class="hidden"
 							@change="loadImg()" />
-						<q-icon size="44px" name="add_circle_outline" class="text-blue-100" />
+						<q-icon
+							size="44px"
+							name="add_circle_outline"
+							class="text-blue-100" />
 					</div>
 				</q-avatar>
 			</div>
@@ -39,11 +42,14 @@
 						dense
 						label="한글, 알파벳, 숫자를 사용하여 8글자 이하로 입력해주세요."
 						:hint="this.canNicknameText"
-            color="blue-4"
+						color="blue-4"
 						class="column col-9 q-pr-lg"
 						v-model="nickname"
 						@keyup="this.canNickname = false" />
-					<q-btn outline @click="nicknameValidation" class="col-3 text-blue-200">
+					<q-btn
+						outline
+						@click="nicknameValidation"
+						class="col-3 text-blue-200">
 						중복 확인
 					</q-btn>
 				</div>
@@ -52,7 +58,7 @@
 			<q-btn
 				@click="clickSignUp"
 				unelevated
-        color="blue-4"
+				color="blue-4"
 				class="full-width q-mb-lg">
 				회원가입
 			</q-btn>
