@@ -80,14 +80,14 @@
 				flat
 				dense
 				class="text-grey"
-				v-if="getSelectGroup !== null"
+				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'"
 				@click="clickLeaveGroup">
 				모임 탈퇴 하기 &gt;
 			</q-btn>
 		</div>
 		<!-- 모임 모집 중 -->
 		<div
-			class="row q-pa-md q-pb-xl bg-blue-70"
+			class="row q-pa-md q-mt-md q-pb-xl bg-blue-70"
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruiting'"
 			style="height: 343px">
 			<q-space class="col-2" />
