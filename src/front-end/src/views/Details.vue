@@ -117,47 +117,34 @@
 	<q-separator color="blue-4" inset />
 	<div class="q-ma-xl text-left">
 		<div class="q-mb-md text-h6 text-weight-bold">유사 작품 추천</div>
-		<q-carousel
-			v-model="currentPage"
-			transition-prev="slide-right"
-			transition-next="slide-left"
-			swipeable
-			animated
-			padding
-			arrows
-			ref="carousel"
-			control-color="blue-4"
-			height="320px"
-			class="bg-blue-70">
-			<q-carousel-slide :name="currentPage" :key="currentPage">
+		<div class="bg-blue-70 q-pa-lg">
+			<div
+				class="text-h6 text-bold bg-blue-70"
+				v-if="!videoDetails.similars"
+				style="height: 300px; line-height: 300px">
+				추가된 작품이 없습니다.
+			</div>
+			<div class="row video-list-frame" v-else>
 				<div
-					class="text-h6 text-bold bg-blue-70"
-					v-if="!videoDetails.similars"
-					style="height: 300px; line-height: 300px">
-					추가된 작품이 없습니다.
-				</div>
-				<div class="row video-list-frame" v-else>
-					<div
-						style="width: 15%"
-						v-for="video in videoDetails.similars"
-						:key="video.id">
-						<div class="video-poster">
-							<img
-								:src="video.posterUrl"
-								:alt="video.id"
-								class="video-poster-img" />
-						</div>
-						<div class="row no-wrap items-center">
-							<div class="col text-right q-mt-sm">
-								<div class="video-title text-left text-weight-bold">
-									{{ video.title }}
-								</div>
+					style="width: 15%"
+					v-for="video in videoDetails.similars"
+					:key="video.id">
+					<div class="video-poster">
+						<img
+							:src="video.posterUrl"
+							:alt="video.id"
+							class="video-poster-img" />
+					</div>
+					<div class="row no-wrap items-center">
+						<div class="col text-right q-mt-sm">
+							<div class="video-title text-left text-weight-bold">
+								{{ video.title }}
 							</div>
 						</div>
 					</div>
 				</div>
-			</q-carousel-slide>
-		</q-carousel>
+			</div>
+		</div>
 	</div>
 	<!-- hr -->
 	<!--	<q-separator color="blue-1" size="2px" inset />-->
@@ -277,7 +264,7 @@ export default {
 }
 .video-poster-img {
 	width: inherit;
-	max-height: 238px;
+	max-height: 217px;
 	min-height: 200px;
 	object-fit: cover;
 }
