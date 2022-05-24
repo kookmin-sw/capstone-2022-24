@@ -5,6 +5,7 @@ import { videoList } from '@/store/modules/videoList';
 import { videoDetails } from '@/store/modules/videoDetails';
 import { videoDiscontinued } from '@/store/modules/videoDiscontinued';
 import { videoInteractions } from '@/store/modules/videoInteractions';
+import { videoExpands } from '@/store/modules/videoExpands';
 
 export default createStore({
 	state: {},
@@ -18,5 +19,6 @@ export default createStore({
 		videoDetails,
 		videoDiscontinued,
 		videoInteractions,
+		videoExpands,
 	},
 });
