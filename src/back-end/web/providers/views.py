@@ -33,9 +33,9 @@ def get_providers_by_user_apply_type(user: User):
 
     # make dictionary data
     providers = dict(
-        applied_providers=list(_applied_providers),
-        not_applied_providers=list(_not_applied_providers),
-        not_supported_providers=list(_not_supported_providers),
+        applied_providers=list(_applied_providers.distinct()),
+        not_applied_providers=list(_not_applied_providers.distinct()),
+        not_supported_providers=list(_not_supported_providers.distinct()),
     )
     return providers
 
