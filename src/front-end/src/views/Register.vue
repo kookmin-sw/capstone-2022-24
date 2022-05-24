@@ -1,19 +1,19 @@
 <template>
-	<div class="row q-ma-lg">
+	<div class="row q-ma-xl">
 		<q-space class="col-2" />
 		<!-- 회원가입 영역 -->
 		<div class="col-8">
 			<!-- 회원가입 타이틀 -->
-			<div class="q-mb-md text-left text-h5 text-weight-bold">회원가입</div>
+			<div class="q-mb-lg text-left text-h6 text-weight-bold">회원가입</div>
 			<!-- 프로필 사진 입력 -->
 			<div class="text-left q-mb-lg">
-				<div class="text-h6 text-weight-bold">프로필 사진</div>
+				<div class="text-weight-bold text-blue-200">프로필 사진</div>
 				<div class="q-mb-md">사용할 프로필 사진을 업로드해주세요.</div>
 				<q-avatar
 					rounded
 					size="120px"
 					:style="`background-image : url(${imageUrl})`"
-					class="q-mb-lg profile-img">
+					class="q-mb-md profile-img text-blue-200">
 					<div @click="clickInputField()">
 						<input
 							ref="image"
@@ -23,27 +23,27 @@
 							accept="image/png, image/jpeg, image/jpg"
 							class="hidden"
 							@change="loadImg()" />
-						<q-icon size="44px" name="add_circle_outline" />
+						<q-icon size="44px" name="add_circle_outline" class="text-blue-100" />
 					</div>
 				</q-avatar>
 			</div>
 			<!-- 닉네임 입력 -->
-			<div class="text-left q-mb-lg">
-				<div class="q-mb-xs text-h6 text-weight-bold">닉네임</div>
-				<div>
+			<div class="text-left q-mb-xl">
+				<div class="text-weight-bold text-blue-200">닉네임</div>
+				<div class="q-mb-md">
 					사용할 닉네임을 입력해주세요. 닉네임은 회원가입 후 변경이
 					불가능합니다.
 				</div>
-				<div></div>
 				<div class="row items-center">
 					<q-input
 						dense
 						label="한글, 알파벳, 숫자를 사용하여 8글자 이하로 입력해주세요."
 						:hint="this.canNicknameText"
-						class="column col-9 q-pr-lg q-mb-lg"
+            color="blue-4"
+						class="column col-9 q-pr-lg"
 						v-model="nickname"
 						@keyup="this.canNickname = false" />
-					<q-btn outline color="blue" @click="nicknameValidation" class="col-3">
+					<q-btn outline @click="nicknameValidation" class="col-3 text-blue-200">
 						중복 확인
 					</q-btn>
 				</div>
@@ -52,7 +52,7 @@
 			<q-btn
 				@click="clickSignUp"
 				unelevated
-				color="blue"
+        color="blue-4"
 				class="full-width q-mb-lg">
 				회원가입
 			</q-btn>
@@ -199,7 +199,7 @@ export default {
 
 <style scoped>
 .profile-img {
-	border: dotted 2px cornflowerblue;
+	border: dotted 2px;
 	background-size: cover;
 	background-position: 50% 50%;
 }
