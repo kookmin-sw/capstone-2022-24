@@ -13,7 +13,7 @@
 			<div class="col text-left">
 				<!-- 작품 제목 -->
 				<div class="q-ma-sm">
-					<div>
+					<div class="video-title">
 						<span class="text-h6 text-weight-bold">
 							{{ videoDetails.title }}
 						</span>
@@ -214,5 +214,10 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 	row-gap: 24px;
+}
+.video-title {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 </style>
