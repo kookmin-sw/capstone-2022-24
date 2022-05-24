@@ -23,7 +23,7 @@
 							<img
 								:src="video.posterUrl"
 								:alt="video.id"
-								style="max-height: 238px; object-fit: cover"
+								class="video-poster-img"
 								@click="videoClick(video.id, video.category)" />
 						</div>
 						<div class="row no-wrap items-center">
@@ -121,6 +121,12 @@ export default {
 	width: 100%;
 	height: auto;
 	margin: 0 0 0 0;
+}
+.video-poster-img {
+	width: inherit;
+	max-height: 238px;
+	min-height: 200px;
+	object-fit: cover;
 }
 .video-title {
 	white-space: nowrap;
