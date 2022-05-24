@@ -12,70 +12,60 @@
 					'text-weight-bold': i.isSelect,
 					'text-blue-200': i.isSelect,
 				}">
-				{{ i.label }}</q-btn
-			>
+				{{ i.label }}
+			</q-btn>
 		</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
-					<div class="video-poster" v-for="index in videos" :key="index">
-						<div class="bg-grey-4" style="padding-top: 130%"></div>
+					<div style="width: 15%" v-for="video in wishList" :key="video.id">
+						<div class="video-poster">
+							<img
+								:src="video.posterUrl"
+								:alt="video.id"
+								style="max-height: 238px; object-fit: cover"
+								@click="videoClick(video.id, video.category)" />
+						</div>
 						<div class="row no-wrap items-center">
 							<div class="col text-right q-mt-sm">
 								<div class="video-title text-left text-weight-bold">
-									영화 제목
+									{{ video.title }}
 								</div>
-								<q-rating
-									size="18px"
-									v-model="stars"
-									:max="5"
-									class="text-blue-100" />
-								<div>2022.03.14</div>
+								<!--								<q-rating-->
+								<!--									size="18px"-->
+								<!--									v-model="stars"-->
+								<!--									:max="5"-->
+								<!--									class="text-blue-100" />-->
+								<div class="q-mb-lg">{{ video.date }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<template v-slot:loading>
-					<div class="row q-mb-lg justify-center">
-						<q-spinner-dots color="primary" size="40px" />
+					<div class="row justify-center" v-if="wishList.length < totalWish">
+						<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 					</div>
 				</template>
+				<div v-if="loadFail && wishList.length === 0" class="text-h6 text-bold">
+					추가한 작품이 존재하지 않습니다.
+				</div>
 			</q-infinite-scroll>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	name: 'Expand',
 	data() {
 		return {
 			currentTab: '',
 			interactions: [
-				{ label: '최근 조회한 작품', isSelect: false, name: 'recent' },
+				// { label: '최근 조회한 작품', isSelect: false, name: 'recent' },
 				{ label: '찜한 작품', isSelect: false, name: 'wish' },
-				{ label: '별점 준 작품', isSelect: false, name: 'star' },
-				{ label: '본 작품', isSelect: false, name: 'watched' },
-			],
-			videos: [
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
-				{},
+				// { label: '별점 준 작품', isSelect: false, name: 'star' },
+				// { label: '본 작품', isSelect: false, name: 'watched' },
 			],
 			stars: 4,
 		};
@@ -87,14 +77,24 @@ export default {
 				i.isSelect = true;
 			}
 		});
+		await this.$store.commit('videoExpands/INIT_VIDEOS');
+		await this.$store.dispatch('videoExpands/loadWishList', 0);
+	},
+	computed: {
+		...mapState('videoExpands', ['wishList', 'totalWish', 'loadFail']),
 	},
 	methods: {
-		// videoOnLoad(index, done) {
-		// 	setTimeout(() => {
-		// 		this.videos.push({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});
-		// 		done();
-		// 	}, 2000);
-		// },
+		videoOnLoad(index, done) {
+			if (this.wishList.length <= this.totalWish) {
+				setTimeout(() => {
+					this.$store.dispatch(
+						'videoExpands/loadWishList',
+						this.wishList.length,
+					);
+					done();
+				}, 1000);
+			}
+		},
 		interactionButtonClick(idx) {
 			this.interactions.forEach(i => {
 				if (i !== idx) {
@@ -103,6 +103,9 @@ export default {
 			});
 			this.interactions[idx].isSelect = true;
 			this.currentTab = this.interactions[idx].name;
+		},
+		videoClick(videoId, category) {
+			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
 	},
 };
@@ -115,8 +118,9 @@ export default {
 	justify-content: space-between;
 }
 .video-poster {
-	width: 15%;
-	margin: 0 0 24px 0;
+	width: 100%;
+	height: auto;
+	margin: 0 0 0 0;
 }
 .video-title {
 	white-space: nowrap;
