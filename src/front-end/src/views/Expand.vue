@@ -12,19 +12,20 @@
 					'text-weight-bold': i.isSelect,
 					'text-blue-200': i.isSelect,
 				}">
-				{{ i.label }}</q-btn
-			>
+				{{ i.label }}
+			</q-btn>
 		</div>
-		<div v-if="!wishList">찜한 작품이 존재하지 않습니다.</div>
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
-					<div class="video-poster" v-for="video in wishList" :key="video.id">
-						<img
-							:src="video.posterUrl"
-							:alt="video.id"
-							style="width: 100%; object-fit: cover"
-							@click="videoClick(video.videoId, video.category)" />
+					<div style="width: 15%" v-for="video in wishList" :key="video.id">
+						<div class="video-poster">
+							<img
+								:src="video.posterUrl"
+								:alt="video.id"
+								style="max-height: 238px; object-fit: cover"
+								@click="videoClick(video.id, video.category)" />
+						</div>
 						<div class="row no-wrap items-center">
 							<div class="col text-right q-mt-sm">
 								<div class="video-title text-left text-weight-bold">
@@ -35,18 +36,19 @@
 								<!--									v-model="stars"-->
 								<!--									:max="5"-->
 								<!--									class="text-blue-100" />-->
-								<div class="q-mb-lg">{{ video.dateTime }}</div>
+								<div class="q-mb-lg">{{ video.date }}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<template v-slot:loading>
-					<div
-						class="row q-mb-lg justify-center"
-						v-if="wishList.length < totalWish">
-						<q-spinner-dots color="primary" size="40px" />
+					<div class="row justify-center" v-if="wishList.length < totalWish">
+						<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 					</div>
 				</template>
+				<div v-if="loadFail && wishList.length === 0" class="text-h6 text-bold">
+					추가한 작품이 존재하지 않습니다.
+				</div>
 			</q-infinite-scroll>
 		</div>
 	</div>
@@ -79,13 +81,16 @@ export default {
 		await this.$store.dispatch('videoExpands/loadWishList', 0);
 	},
 	computed: {
-		...mapState('videoExpands', ['wishList', 'totalWish']),
+		...mapState('videoExpands', ['wishList', 'totalWish', 'loadFail']),
 	},
 	methods: {
 		videoOnLoad(index, done) {
 			if (this.wishList.length <= this.totalWish) {
 				setTimeout(() => {
-					this.$store.dispatch('videoExpands/loadWishList', this.videos.length);
+					this.$store.dispatch(
+						'videoExpands/loadWishList',
+						this.wishList.length,
+					);
 					done();
 				}, 1000);
 			}
@@ -102,9 +107,6 @@ export default {
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });
 		},
-		// getDate(dateTime) {
-		// 	return dateTime.split(' ')[0];
-		// },
 	},
 };
 </script>
@@ -116,8 +118,9 @@ export default {
 	justify-content: space-between;
 }
 .video-poster {
-	width: 15%;
-	margin: 0 0 24px 0;
+	width: 100%;
+	height: auto;
+	margin: 0 0 0 0;
 }
 .video-title {
 	white-space: nowrap;
