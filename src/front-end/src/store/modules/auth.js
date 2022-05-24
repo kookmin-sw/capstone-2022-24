@@ -77,6 +77,7 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
+					console.log(res.data);
 					const user = res.data.user.user;
 					if (!user.isVerified) {
 						// login
@@ -145,26 +146,37 @@ export const auth = {
 			promise.then(
 				() => {},
 				() => {
-					return alert('파일 업로드에 실패했습니다. 다시 시도해주세요.');
+					return alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
 				},
 			);
 		},
-		signUp({ commit, dispatch }, user) {
+		async signUp({ commit, dispatch }, user) {
 			// upload image
 			const fileInfo = {
 				photoKey: user.photoKey,
 				file: user.file,
 			};
-			dispatch('uploadImage', fileInfo);
+			await dispatch('uploadImage', fileInfo);
+
+			const data = {
+				nickname: user.nickname,
+				profileImageUrl:
+					process.env.VUE_APP_S3_URL_PREFIX + encodeURI(user.nickname) + '.png',
+			};
+
 			// back-end api
-			const url = '/users';
+			const url = '/users/';
 			http
-				.post(url)
+				.post(url, data)
 				.then(res => {
 					// 로그인 성공
 					const token = res.data.accessToken;
-					commit('SET_TOKEN', token);
+					const user = res.data.user.user;
 					localStorage.setItem('ACCESS_TOKEN', token);
+					localStorage.setItem('NICKNAME', user.nickname);
+					commit('SET_TOKEN', token);
+					commit('SET_PROFILE', user);
+					console.log('success', res.data);
 					alert('회원가입에 성공했습니다.');
 					router.replace('/');
 				})
