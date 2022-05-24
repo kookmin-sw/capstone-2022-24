@@ -77,7 +77,7 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					const user = res.data.user;
+					const user = res.data.user.user;
 					if (!user.isVerified) {
 						// login
 						const token = res.data.accessToken;
