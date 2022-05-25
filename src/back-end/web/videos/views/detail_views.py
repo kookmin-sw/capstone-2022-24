@@ -174,7 +174,7 @@ class DetailView(viewsets.ViewSet):
             400: OpenApiResponse(
                 response=inline_serializer(
                     # meaningless serializer. Just Use to make the example visible
-                    name="movie2Serializer",
+                    name="tvSeason2Serializer",
                     fields={"detail": serializers.CharField()},
                 ),
                 description="작품 종류와 다른 작품 ID 입력",
@@ -182,7 +182,7 @@ class DetailView(viewsets.ViewSet):
             404: OpenApiResponse(
                 response=inline_serializer(
                     # meaningless serializer. Just Use to make the example visible
-                    name="movie3Serializer",
+                    name="tvSeason3Serializer",
                     fields={"detail": serializers.CharField()},
                 ),
                 description="없는 작품 ID 입력",
