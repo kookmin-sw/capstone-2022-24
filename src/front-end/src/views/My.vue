@@ -198,7 +198,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import UserVideos from '@/components/userVideos';
+import UserVideos from '@/components/UserVideos';
 import MileageModal from '@/components/modals/MileageModal';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 
