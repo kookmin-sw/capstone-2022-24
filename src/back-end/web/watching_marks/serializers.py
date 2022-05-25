@@ -1,6 +1,8 @@
 """Serializers of wish application for json parsing"""
+from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from watching_marks.models import WatchingMark
+from watching_marks.schemas import WATCHINGMARK_SERIALIZER_EXAMPLES
 
 
 class WatchingMarkListSerializer(serializers.ModelSerializer):
@@ -21,6 +23,7 @@ class WatchingMarkListSerializer(serializers.ModelSerializer):
         read_only_fields = ["__all__"]
 
 
+@extend_schema_serializer(examples=WATCHINGMARK_SERIALIZER_EXAMPLES)
 class WatchingMarkSerializer(serializers.ModelSerializer):
     """WatchingMarkSerializer used in create & destroy view"""
 

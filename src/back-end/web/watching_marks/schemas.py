@@ -28,3 +28,17 @@ WATCHINGMARK_LIST_EXAMPLES = [
         },
     ),
 ]
+
+WATCHINGMARK_SERIALIZER_EXAMPLES = [
+    OpenApiExample(
+        response_only=True,
+        name="Watch Mark Response Eample",
+        value={
+            "id": 5,
+            "user": 2,
+            "video": 15,
+            "watchMarkCount": 11,
+            "dateTime": "2022-05-22 12:34:56",
+        },
+    ),
+]

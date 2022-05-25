@@ -1,6 +1,8 @@
 """Serializers of wish application for json parsing"""
+from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from wishes.models import Wish
+from wishes.schemas import WISH_SERIALIZER_EXAMPLES
 
 
 class WishListSerializer(serializers.ModelSerializer):
@@ -21,6 +23,7 @@ class WishListSerializer(serializers.ModelSerializer):
         read_only_fields = ["__all__"]
 
 
+@extend_schema_serializer(examples=WISH_SERIALIZER_EXAMPLES)
 class WishSerializer(serializers.ModelSerializer):
     """WishSerializer used in create & destroy view"""
 
