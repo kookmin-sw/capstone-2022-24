@@ -35,11 +35,11 @@ class FellowReportSerializer(serializers.ModelSerializer):
         fields = ["has_reported", "last_modification_date_time"]
 
 
-class LeaderReportSerializer(serializers.ModelSerializer):
+class MemberReportSerializer(serializers.ModelSerializer):
     """Member serializer for Leader report"""
 
     class Meta:
-        """Metadata of LeaderReportSerializer"""
+        """Metadata of MemberReportSerializer"""
 
         model = Member
         fields = ["has_reported_leader"]

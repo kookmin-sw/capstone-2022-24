@@ -34,17 +34,17 @@ class AlreadyReportExceptions(APIException):
     default_code = "Already reported"
 
 
-class LeaderExceptions(APIException):
-    """Custom Exception that occurs when a leader report a leader"""
+class LeaderReportAuthorityExceptions(APIException):
+    """Custom Exception that have None Authority to report"""
 
     status_code = 403
-    default_detail = "모임장은 모임장 신고에 대한 권한이 없습니다."
-    default_code = "Leder report a Leder"
+    default_detail = "해당 모임의 모임장에게 신고할 권한이 없습니다."
+    default_code = "None Authority Report"
 
 
 class NoneReportExceptions(APIException):
-    """Custom Exception that User has not already reported"""
+    """Custom Exception that Report Record is not found"""
 
-    status_code = 409
+    status_code = 404
     default_detail = "신고 기록이 없습니다."
-    default_code = "Not Already reported"
+    default_code = "Report not found"

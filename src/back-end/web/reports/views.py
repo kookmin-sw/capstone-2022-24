@@ -5,13 +5,13 @@ from math import ceil
 from django.db.models import Q
 from django.utils import timezone
 from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
-from fellows.models import Fellow
-from fellows.serializers import FellowReportSerializer, LeaderReportSerializer
+from fellows.models import Fellow, Member
+from fellows.serializers import FellowReportSerializer, MemberReportSerializer
 from groups.models import Group
 from reports.exceptions import (
     AlreadyReportExceptions,
     GroupNotFoundExceptions,
-    LeaderExceptions,
+    LeaderReportAuthorityExceptions,
     NoneReportExceptions,
     WrongFellowExceptions,
     WrongGroupStateExcetpions,
@@ -20,8 +20,8 @@ from rest_framework import serializers, status, viewsets
 from rest_framework.response import Response
 
 
-class ReportClass(viewsets.ViewSet):
-    """Report Class"""
+class ReportView(viewsets.ViewSet):
+    """Report View Class for report group or leader"""
 
     @extend_schema(
         tags=["Priority-2", "Group"],
@@ -32,9 +32,9 @@ class ReportClass(viewsets.ViewSet):
                     # meaningless serializer. Just Use to make the example visible
                     name="GroupReportSerializer",
                     fields={
-                        "user_nickname": serializers.CharField(),
-                        "report_count": serializers.IntegerField(),
-                        "deleted_group": serializers.BooleanField(),
+                        "userNickname": serializers.CharField(),
+                        "reportCount": serializers.IntegerField(),
+                        "deletedGroup": serializers.BooleanField(),
                     },
                 ),
                 description="모임 신고 성공",
@@ -74,6 +74,7 @@ class ReportClass(viewsets.ViewSet):
         context = {"user_nickname": _user.nickname, "report_count": report_count}
 
         if report_count >= requeried_report_count:
+            # self.destory_group_by_report_group() #to refund mileage
             _group.delete()
             context["deleted_group"] = True
         else:
@@ -90,9 +91,9 @@ class ReportClass(viewsets.ViewSet):
                     # meaningless serializer. Just Use to make the example visible
                     name="GroupReportSerializer",
                     fields={
-                        "user_nickname": serializers.CharField(),
-                        "report_count": serializers.IntegerField(),
-                        "deleted_group": serializers.BooleanField(),
+                        "userNickname": serializers.CharField(),
+                        "reportCount": serializers.IntegerField(),
+                        "deletedGroup": serializers.BooleanField(),
                     },
                 ),
                 description="모임장 신고 성공",
@@ -105,24 +106,23 @@ class ReportClass(viewsets.ViewSet):
         _user = request.user
         try:
             _group = Group.objects.get(Q(id=group_id))
-            _fellow = Fellow.objects.get(Q(user=_user.id) & Q(group=group_id))
+            _member = Member.objects.select_related("fellow", "fellow__group").get(
+                Q(fellow__group_id=group_id) & Q(fellow__user_id=_user.id)
+            )
         except Group.DoesNotExist as e:
             raise GroupNotFoundExceptions from e
-        except Fellow.DoesNotExist as e:
-            raise WrongFellowExceptions from e
+        except Member.DoesNotExist as e:
+            raise LeaderReportAuthorityExceptions from e
 
         group_status = _group.get_status()
 
         if group_status in ("Recruited", "Recruiting", "Expired"):
             raise WrongGroupStateExcetpions
 
-        try:
-            if _fellow.member.has_reported_leader:
-                raise AlreadyReportExceptions
-        except Fellow.member.RelatedObjectDoesNotExist as e:
-            raise LeaderExceptions from e
+        if _member.has_reported_leader:
+            raise AlreadyReportExceptions
 
-        report_serializer = LeaderReportSerializer(_fellow.member, data={"has_reported_leader": True})
+        report_serializer = MemberReportSerializer(_member, data={"has_reported_leader": True})
         if report_serializer.is_valid(raise_exception=True):
             report_serializer.save()
 
@@ -134,6 +134,7 @@ class ReportClass(viewsets.ViewSet):
         context = {"user_nickname": _user.nickname, "report_count": report_count}
 
         if report_count >= requeried_report_count:
+            # self.destory_group_by_report_leader() #to refund mileage
             _group.delete()
             context["deleted_group"] = True
         else:
@@ -186,19 +187,18 @@ class ReportClass(viewsets.ViewSet):
         _user = request.user
         try:
             _group = Group.objects.get(Q(id=group_id))
-            _fellow = Fellow.objects.get(Q(user=_user.id) & Q(group=group_id))
+            _member = Member.objects.select_related("fellow", "fellow__group").get(
+                Q(fellow__group_id=group_id) & Q(fellow__user_id=_user.id)
+            )
         except Group.DoesNotExist as e:
             raise GroupNotFoundExceptions from e
-        except Fellow.DoesNotExist as e:
-            raise WrongFellowExceptions from e
+        except Member.DoesNotExist as e:
+            raise LeaderReportAuthorityExceptions from e
 
-        try:
-            if not _fellow.member.has_reported_leader:
-                raise NoneReportExceptions
-        except Fellow.member.RelatedObjectDoesNotExist as e:
-            raise LeaderExceptions from e
+        if not _member.has_reported_leader:
+            raise NoneReportExceptions
 
-        report_serializer = LeaderReportSerializer(_fellow.member, data={"has_reported_leader": False})
+        report_serializer = MemberReportSerializer(_member, data={"has_reported_leader": False})
         if report_serializer.is_valid(raise_exception=True):
             report_serializer.save()
 
