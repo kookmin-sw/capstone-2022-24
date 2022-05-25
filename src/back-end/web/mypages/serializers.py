@@ -9,6 +9,7 @@ from users.models import User
 from users.serializers import UserSerializer
 from videos.models import Video
 from videos.serializers import VideoHistorySerializer
+from watching_marks.serializers import WatchingMarkListSerializer
 from wishes.serializers import WishListSerializer
 
 
@@ -132,8 +133,8 @@ class VideoTotalHistorySerializer(serializers.Serializer):
 
     def get_watch_marks(self, user):
         """Get user's watch mark histories"""
-        _queryset = Video.objects.prefetch_related("watchingmark_set__user").filter(watchingmark__user=user).all()
-        return self.get_paginated_videos(_queryset)
+        _watch_marks = user.watchingmark_set.order_by("-date_time").all()
+        return self.get_paginated_videos(_watch_marks, WatchingMarkListSerializer)
 
     def get_wishes(self, user):
         """Get user's wish histories"""

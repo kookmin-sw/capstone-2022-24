@@ -46,7 +46,7 @@ class WatchingMarkListView(ListAPIView):
             # other query parameters are included
             if len(self.request.query_params) >= 3:
                 raise InvalidPaginationParameterException()
-            _queryset = self.request.user.watching_mark_set.order_by("-date_time")
+            _queryset = self.request.user.watchingmark_set.order_by("-date_time")
             # user does not wathing mark any videos yet
             if not _queryset:
                 raise WatchingMarkNotFoundException
