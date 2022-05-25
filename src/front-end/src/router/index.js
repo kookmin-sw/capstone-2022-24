@@ -48,7 +48,8 @@ const routes = [
 			await store
 				.dispatch('auth/loginWithSocial', social)
 				.then(() => {
-					next('/');
+					const fromUrl = localStorage.getItem('FROM');
+					window.location.replace(fromUrl);
 				})
 				.catch(() => {
 					next('/register');

@@ -58,6 +58,8 @@ export const auth = {
 			commit('SET_GOOGLE_AUTH', response);
 		},
 		async requestNaverAuth({ state }) {
+			const fromUrl = new URL(window.location.href);
+			localStorage.setItem('FROM', fromUrl);
 			const reqState = Math.random().toString(36).substr(2, 11);
 			const apiUrl = `https://nid.naver.com/oauth2.0/authorize`;
 			window.location.href = `${apiUrl}?response_type=code&client_id=${state.naver.clientId}&redirect_uri=${state.naver.redirectionUri}&state=${reqState}`;
@@ -69,7 +71,6 @@ export const auth = {
 		},
 		async loginWithSocial({ state, commit }, social) {
 			const url = `/users/login/oauth/${social}/`;
-
 			let data = null;
 			social === 'naver'
 				? (data = { code: state.naver.code })
@@ -77,7 +78,6 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					console.log(res.data);
 					const user = res.data.user.user;
 					const token = res.data.accessToken;
 					localStorage.setItem('ACCESS_TOKEN', token);
@@ -86,12 +86,10 @@ export const auth = {
 
 					if (user.isVerified) {
 						// login
-						console.log('login');
 						localStorage.setItem('NICKNAME', user.nickname);
 						commit('SET_PROFILE', user);
 						resolve();
 					} else {
-						console.log('sign up');
 						// sign up
 						reject();
 					}
