@@ -73,7 +73,6 @@ export const user = {
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
-					console.log(user);
 					const userProfile = {
 						nickname: user.nickname,
 						phone: user.cellPhoneNumber,
