@@ -52,7 +52,7 @@
 			<div class="btn-wrapper col-2">
 				<q-btn
 					unelevated
-					color="blue-4"
+					class="bg-blue-100 text-white text-bold"
 					id="login-btn"
 					v-if="isLogin === false"
 					@click="loginBtnClick">
@@ -60,7 +60,7 @@
 				</q-btn>
 				<q-btn
 					unelevated
-					color="blue"
+					class="text-blue-100 border-blue-100-none text-bold"
 					id="logout-btn"
 					v-else
 					@click="logoutBtnClick">

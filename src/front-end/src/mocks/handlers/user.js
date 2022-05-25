@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 export default [
 	// 마이페이지 최초 접근
-	rest.get('/users/mypage/', (req, res, ctx) => {
+	rest.get('/mypage/', (req, res, ctx) => {
 		return res(
 			ctx.status(200),
 			ctx.json({
