@@ -131,8 +131,7 @@
 						size="73px"
 						:class="{
 							selected: fellow.isMyself,
-							'bg-blue-100': fellow.profileImageUrl === null,
-						}">
+							'bg-blue-100': fellow.profileImageUrl === null}">
 						<img
 							:src="fellow.profileImageUrl"
 							:alt="fellow.id"
@@ -221,7 +220,7 @@ export default {
 			wishList: {
 				title: '찜한 작품',
 				method: 'user/pushWishList',
-				expandId: 'wish',
+				expandId: 'wishes',
 			},
 			starList: {
 				title: '별점 준 작품',
