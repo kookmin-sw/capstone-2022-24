@@ -5,13 +5,10 @@
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
 			{{ profile.nickname }}
 		</div>
-		<!--    TODO: profile img 태그 추가-->
-		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100">
-			<img
-				:src="profile.profileImageUrl"
-				:alt="'profile'"
-				v-if="profile.profileImageUrl" />
+		<q-avatar rounded size="73px" class="q-mb-md" v-if="profile.profileImg">
+			<img :src="profile.profileImg" :alt="'profile'" />
 		</q-avatar>
+		<q-avatar v-else rounded size="73px" class="q-mb-md bg-blue-100" />
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">전화번호</div>
 			<div>{{ profile.phone }}</div>
