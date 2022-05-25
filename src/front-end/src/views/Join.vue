@@ -13,6 +13,7 @@
 			@clickOk="applyGroup"
 			:isActive="isPayment"
 			:provider="selected.ott[0]"
+			:total-charge="totalCharge"
 			:role="role" />
 	</q-dialog>
 	<!-- 모든 ott 신청했을 때 -->

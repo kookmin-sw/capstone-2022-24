@@ -21,7 +21,9 @@
 					하시겠습니까?
 				</div>
 				<!--        TODO: ott 요금 정보 추가-->
-				<div class="q-mb-md">ott 요금 / 4 원이 마일리지에서 차감됩니다.</div>
+				<div class="q-mb-md text-h6">
+					{{ totalCharge }}원이 마일리지에서 차감됩니다.
+				</div>
 			</div>
 		</q-card-section>
 
@@ -50,6 +52,9 @@ export default {
 		},
 		role: {
 			type: String,
+			require: true,
+		},
+		totalCharge: {
 			require: true,
 		},
 	},
