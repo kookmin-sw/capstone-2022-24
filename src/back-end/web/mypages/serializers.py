@@ -9,6 +9,7 @@ from users.models import User
 from users.serializers import UserSerializer
 from videos.models import Video
 from videos.serializers import VideoHistorySerializer
+from wishes.serializers import WishListSerializer
 
 
 class MyPageSerializer(serializers.Serializer):
@@ -118,11 +119,11 @@ class VideoTotalHistorySerializer(serializers.Serializer):
     wishes = serializers.SerializerMethodField(read_only=True)
     stars = serializers.SerializerMethodField(read_only=True)
 
-    def get_paginated_videos(self, queryset):
+    def get_paginated_videos(self, queryset, serializer=VideoHistorySerializer):
         """Get paginated video histories"""
         paginator = VideoHistoryPagination()
         _page = paginator.paginate_queryset(queryset, self.context.get("request"))
-        return paginator.get_paginated_result(VideoHistorySerializer(_page, many=True).data)
+        return paginator.get_paginated_result(serializer(_page, many=True).data)
 
     def get_recent_views(self, user):
         """Get user's recent view histories"""
@@ -136,8 +137,8 @@ class VideoTotalHistorySerializer(serializers.Serializer):
 
     def get_wishes(self, user):
         """Get user's wish histories"""
-        _queryset = Video.objects.prefetch_related("wish_set__user").filter(wish__user=user).all()
-        return self.get_paginated_videos(_queryset)
+        _wishes = user.wish_set.order_by("-date_time").all()
+        return self.get_paginated_videos(_wishes, WishListSerializer)
 
     def get_stars(self, user):
         """Get user's star histories"""

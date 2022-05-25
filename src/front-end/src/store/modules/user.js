@@ -62,19 +62,14 @@ export const user = {
 		async initProfile({ commit }) {
 			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
-			const url = `/users/mypage/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-
+			const url = `/mypage/`;
 			const params = {
 				videoLimit: 6,
 				videoOffset: 0,
 			};
 
 			await http
-				.get(url, { params, headers })
+				.get(url, { params })
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
@@ -86,6 +81,7 @@ export const user = {
 						birthday: user.birthday,
 						isActive: user.isActive,
 						isVerified: user.isVerified,
+						mileages: user.totalMileages,
 					};
 					commit('SET_PROFILE', userProfile);
 
@@ -116,17 +112,13 @@ export const user = {
 			}
 		},
 		async pushWishList({ state, commit }) {
-			const url = `/users/mypage/wishes`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
+			const url = `/mypage/wishes`;
 			const params = {
 				videoLimit: 6,
 				videoOffset: state.wishList.length * 6,
 			};
 			http
-				.get(url, { params, headers })
+				.get(url, { params })
 				.then(res => {
 					commit('PUSH_WISH_LIST', res.data.results);
 				})
