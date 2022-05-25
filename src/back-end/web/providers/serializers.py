@@ -23,13 +23,20 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
     """Provider summary"""
 
     name = serializers.CharField(source="get_name_display")
+    charge = serializers.SerializerMethodField()
 
     class Meta:
         """Metadata for provider"""
 
         model = Provider
-        fields = ["id", "name", "logo_url", "link"]
+        fields = ["id", "name", "logo_url", "link", "charge"]
         read_only_fields = ["__all__"]
+
+    def get_charge(self, provider):
+        """Get member & leader's charge information"""
+        if hasattr(provider, "charge") and provider.charge:
+            return ChargeSerializer(provider.charge).data
+        return None
 
 
 @extend_schema_serializer(
@@ -77,19 +84,9 @@ class SubscriptionTypeSerializer(serializers.ModelSerializer):
 class ChargeSerializer(serializers.ModelSerializer):
     """Charge model serializer in providers application"""
 
-    provider = serializers.SerializerMethodField()
-    subscriptionType = serializers.SerializerMethodField()
-
     class Meta:
         """Meatadata for ChargeSerializer"""
 
         model = Charge
-        fields = "__all__"
-
-    def get_provider(self, obj):
-        """Get proivder data using ProviderSerializer"""
-        return ProviderSerializer(obj.provider).data
-
-    def get_subscription_type(self, obj):
-        """Get subscription type data using SubscriptionTypeSerializer"""
-        return SubscriptionTypeSerializer(obj.subscription_type).data
+        fields = ["service_charge_per_member", "total_subscription_charge"]
+        read_only_fields = ["__all__"]

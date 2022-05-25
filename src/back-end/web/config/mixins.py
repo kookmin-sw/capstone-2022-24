@@ -14,6 +14,8 @@ class MultipleFieldLookupMixin:
             queryset = self.filter_queryset(queryset)
             filters = {}
             for field in self.lookup_fields:
+                if field == "user_id":
+                    filters[field] = self.request.user.id
                 if self.kwargs.get(field, None):
                     filters[field] = self.kwargs[field]
             obj = get_object_or_404(queryset, **filters)  # Lookup the object
