@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Genre, ProductionCountry, Video
-from videos.schemas import DETAIL_MOVIE_VIEW_EXAPLE, DETAIL_TV_VIEW_EXAMPLE
+from videos.schemas import DETAIL_MOVIE_VIEW_EXAMPLE, DETAIL_TV_VIEW_EXAMPLE
 from watching_marks.models import WatchingMark
 from wishes.models import Wish
 
@@ -269,7 +269,7 @@ class DetailView(viewsets.ViewSet):
                     fields={"result": serializers.CharField()},
                 ),
                 description="상세 정보 출력 성공",
-                examples=DETAIL_MOVIE_VIEW_EXAPLE,
+                examples=DETAIL_MOVIE_VIEW_EXAMPLE,
             ),
             400: OpenApiResponse(
                 response=inline_serializer(

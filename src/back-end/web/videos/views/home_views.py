@@ -6,7 +6,6 @@ from config.exceptions.input import BadFormatException
 from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
 from drf_spectacular.utils import (
-    OpenApiExample,
     OpenApiParameter,
     OpenApiResponse,
     extend_schema,
@@ -17,6 +16,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.models import Video
+from videos.schemas import HOME_VIEW_EXAMPLE
 
 
 class VideoListPagination(LimitOffsetPagination):
@@ -53,6 +53,7 @@ class VideoListPagination(LimitOffsetPagination):
         OpenApiParameter(
             name="productionCountry", description="condtion of filtering video production country : KR, OTHER", type=str
         ),
+        OpenApiParameter(name="watched", description="condtion of watched video : True, False", type=str),
         OpenApiParameter(name="sort", description="video sort condition : random, new, release, order", type=str),
         OpenApiParameter(name="limit", description="number of Videos to display", type=int),
         OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
@@ -65,51 +66,7 @@ class VideoListPagination(LimitOffsetPagination):
                 fields={"result": serializers.CharField()},
             ),
             description="검색 성공",
-            examples=[
-                OpenApiExample(
-                    response_only=True,
-                    name="Success Example",
-                    value={
-                        "results": [
-                            {
-                                "videoId": 8,
-                                "title": "인 비트윈",
-                                "titleEnglish": "The In Between",
-                                "posterKey": "https://image.tmdb.org/t/p/original/qcOFxYpBvU8LwaMyKdjCoP7y7we.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2022,
-                                "category": "MV",
-                                "providers": ["NF"],
-                            },
-                            {
-                                "videoId": 9,
-                                "title": "수퍼 소닉",
-                                "titleEnglish": "Sonic the Hedgehog",
-                                "posterKey": "https://image.tmdb.org/t/p/original/pMXOlasWr1IzHGH8HWw1ZTXs6rQ.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2020,
-                                "category": "MV",
-                                "providers": ["WC", "NF", "WC"],
-                            },
-                            {
-                                "videoId": 10,
-                                "title": "벤전스",
-                                "titleEnglish": "Fistful of Vengeance",
-                                "posterKey": "https://image.tmdb.org/t/p/original/3cccEF9QZgV9bLWyupJO41HSrOV.jpg",
-                                "filmRating": None,
-                                "releaseDate": 2022,
-                                "category": "MV",
-                                "providers": ["NF"],
-                            },
-                        ],
-                        "page": {
-                            "limit": 3,
-                            "offset": 10,
-                            "total_count": 176,
-                        },
-                    },
-                )
-            ],
+            examples=HOME_VIEW_EXAMPLE,
         )
     },
 )
