@@ -73,11 +73,12 @@ export const user = {
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
+					console.log(user);
 					const userProfile = {
 						nickname: user.nickname,
 						phone: user.cellPhoneNumber,
 						email: user.email,
-						profileImg: user.profileImgUrl,
+						profileImg: user.profileImageUrl,
 						birthday: user.birthday,
 						isActive: user.isActive,
 						isVerified: user.isVerified,
