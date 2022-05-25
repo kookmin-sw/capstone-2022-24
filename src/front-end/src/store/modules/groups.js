@@ -18,17 +18,13 @@ export const groups = {
 	actions: {
 		async joinProviders({ commit }) {
 			const url = `/providers`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-			await http.get(url, { headers }).then(res => {
+			await http.get(url).then(res => {
+				console.log(res);
 				commit('SET_APPLIED', res.data.appliedProviders);
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
 		},
 		async applyGroup(context, applyer) {
-			// TODO: 엔드포인트 변경 예정 (PR중)
 			const url = `/applies/${applyer.role}/`;
 			const token = String(localStorage.getItem('ACCESS_TOKEN'));
 			const headers = {
