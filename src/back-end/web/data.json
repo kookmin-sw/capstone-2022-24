@@ -16840,7 +16840,7 @@
       "password": "pbkdf2_sha256$320000$yyzRu9gbWhP1q51ZdCuhwb$EMRC92sfULKo4C6H4NLnwniN/zDK62A9se7AigducpI=",
       "profile_image_url": null,
       "registration_date_time": "2022-05-11T07:18:41",
-      "total_mileages": 0,
+      "total_mileages": 20000,
       "withdrawal_date_time": null
     },
     "model": "users.user",
@@ -16903,7 +16903,7 @@
       "password": "pbkdf2_sha256$320000$nKSpGQ6YPAOGVDQ0tUKINt$8PgHtH3bhlsYbwYpHDC/4KnMCSjLYNskzYILh6Zb0wk=",
       "profile_image_url": null,
       "registration_date_time": "2022-05-19T03:39:33.685",
-      "total_mileages": 0,
+      "total_mileages": 10000,
       "withdrawal_date_time": null
     },
     "model": "users.user",
@@ -17013,16 +17013,6 @@
       "fellow": 1
     },
     "model": "fellows.leader",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "apply_date_time": "2022-05-21T20:30:33",
-      "payment": null,
-      "provider": 5,
-      "user": 1
-    },
-    "model": "applies.memberapply",
     "pk": 1
   },
   {

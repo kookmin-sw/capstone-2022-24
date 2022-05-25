@@ -23,7 +23,7 @@ class Group(models.Model):
         on_delete=models.CASCADE,
         blank=True,
     )
-    status = models.CharField(max_length=10, default="Recruiting", choices=STATUS_CHOICES)
+    status = models.CharField(max_length=10, default="Recruited", choices=STATUS_CHOICES)
     creation_date_time = models.DateTimeField(
         default=timezone.now,
     )

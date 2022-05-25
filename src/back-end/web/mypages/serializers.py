@@ -50,24 +50,17 @@ class MyPageGroupSerializer(serializers.Serializer):
     def to_representation(self, instance):
         _default = None
 
-        # 1. get group applies
-        _member_applies = instance.memberapply_set.all()
-        _leader_applies = instance.leaderapply_set.all()
+        # 1-1. get group applies
+        _applies = instance.groupapply_set.all()
+        _others = []
 
-        # 1-1. fill default if user instance is applying leader
-        if _leader_applies:
+        # 1-2. fill default if user instance is applying group
+        if _applies:
             # get apply details(provider & apply_date_time) and insert status <Recruiting>
-            _default = BaseApplySerializer(_leader_applies.first()).data
-            _leader_applies = _leader_applies[1:]
-
-        # 1-2. fill default if user instance is applying member
-        if not _default and _member_applies:
-            _default = BaseApplySerializer(_member_applies.first()).data
-            _member_applies = _member_applies[1:]
-
-        _others = (
-            BaseApplySerializer(_leader_applies, many=True).data + BaseApplySerializer(_member_applies, many=True).data
-        )
+            _default = BaseApplySerializer(_applies.first()).data
+            _other_applies = _applies[1:]
+            if _other_applies:
+                _others = BaseApplySerializer(_applies[1:], many=True).data
 
         # 2. get joined groups
         groups = {}

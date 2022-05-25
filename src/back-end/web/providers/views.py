@@ -11,10 +11,8 @@ from users.models import User
 def get_providers_by_user_apply_type(user: User):
     """make each provider list using queryset"""
     _queryset = Provider.objects.prefetch_related(
-        "memberapply_set",
-        "memberapply_set__user",
-        "leaderapply_set",
-        "leaderapply_set__user",
+        "groupapply_set",
+        "groupapply_set__user",
         "group_set",
         "group_set__fellow_set",
         "group_set__fellow_set__user",
@@ -22,7 +20,7 @@ def get_providers_by_user_apply_type(user: User):
     )  # type: QuerySet[Provider]
 
     # get applied providers
-    _applied_filter = Q(memberapply__user=user) | Q(leaderapply__user=user) | Q(group__fellow__user=user)
+    _applied_filter = Q(groupapply__user=user) | Q(group__fellow__user=user)
     _applied_providers = _queryset.filter(_applied_filter).all()  # type: QuerySet[Provider]
 
     # get not-applied providers
@@ -35,9 +33,9 @@ def get_providers_by_user_apply_type(user: User):
 
     # make dictionary data
     providers = dict(
-        applied_providers=list(_applied_providers),
-        not_applied_providers=list(_not_applied_providers),
-        not_supported_providers=list(_not_supported_providers),
+        applied_providers=list(_applied_providers.distinct()),
+        not_applied_providers=list(_not_applied_providers.distinct()),
+        not_supported_providers=list(_not_supported_providers.distinct()),
     )
     return providers
 
