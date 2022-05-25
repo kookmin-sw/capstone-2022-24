@@ -5,6 +5,7 @@ export const groups = {
 	state: {
 		applied: [],
 		notApplied: [],
+		isLack: false,
 	},
 	getters: {},
 	mutations: {
@@ -13,6 +14,9 @@ export const groups = {
 		},
 		SET_NOT_APPLIED(state, providers) {
 			state.notApplied = providers;
+		},
+		SET_LACK_MILEAGE(state, status) {
+			state.isLack = status;
 		},
 	},
 	actions: {
@@ -23,7 +27,9 @@ export const groups = {
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
 		},
-		async applyGroup(context, applyer) {
+		async applyGroup({ commit }, applyer) {
+			// TODO: 모임원 마일리지 사용 api 호출
+			// TODO: 현재 마일리지 확인
 			const url = `/applies/${applyer.role}/`;
 			const data = {
 				providerId: applyer.providerId,
@@ -32,9 +38,13 @@ export const groups = {
 				http
 					.post(url, data)
 					.then(() => {
+						commit('SET_LACK_MILEAGE', false);
 						resolve();
 					})
-					.catch(() => {
+					.catch(err => {
+						if (err.response.status === 400 && applyer.role === 'member') {
+							commit('SET_LACK_MILEAGE', true);
+						}
 						reject();
 					});
 			});

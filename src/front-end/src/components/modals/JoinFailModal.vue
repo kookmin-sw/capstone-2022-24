@@ -4,7 +4,8 @@
 
 		<q-card-section class="col text-center q-ma-lg q-mt-none" v-if="isActive">
 			<div class="text-h6">{{ $t('join.fail') }}</div>
-			<div class="text-grey">{{ $t('join.retry') }}</div>
+			<div class="text-grey" v-if="isLack">보유한 마일리지가 부족합니다.</div>
+			<div class="text-grey" v-else>{{ $t('join.retry') }}</div>
 		</q-card-section>
 
 		<q-card-actions align="right">
@@ -14,6 +15,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	name: 'JoinFailModal',
 	props: {
@@ -21,6 +24,9 @@ export default {
 			type: Boolean,
 			require: true,
 		},
+	},
+	computed: {
+		...mapState('groups', ['isLack']),
 	},
 };
 </script>
