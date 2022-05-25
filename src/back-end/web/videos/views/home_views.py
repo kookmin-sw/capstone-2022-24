@@ -1,6 +1,7 @@
 """APIs of Video application : HomeView"""
 # pylint: disable=R0914
 
+
 from config.exceptions.input import BadFormatException
 from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
@@ -52,9 +53,7 @@ class VideoListPagination(LimitOffsetPagination):
         OpenApiParameter(
             name="productionCountry", description="condtion of filtering video production country : KR, OTHER", type=str
         ),
-        OpenApiParameter(
-            name="sort", description="video sort condition : default, random, new, release, order", type=str
-        ),
+        OpenApiParameter(name="sort", description="video sort condition : random, new, release, order", type=str),
         OpenApiParameter(name="limit", description="number of Videos to display", type=int),
         OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
     ],
@@ -120,8 +119,7 @@ class HomeView(viewsets.ViewSet):
     permission_classes = (permissions.AllowAny,)
 
     sort_dict = {
-        "default": "id",
-        "random": "?",
+        "random": "id",
         "new": "-videoprovider__offer_date",
         "release": "-release_date",
         "order": "title",
@@ -224,9 +222,11 @@ class HomeView(viewsets.ViewSet):
         Sort : sort videos ramndom, new, release
         """
 
-        sort = self.request.query_params.get("sort", default="default")
+        sort = self.request.query_params.get("sort", default="random")
+
         try:
-            queryset = queryset.order_by(self.sort_dict[sort], "id")
+            if sort:
+                queryset = queryset.order_by(self.sort_dict[sort], "id")
         except KeyError as e:
             raise BadFormatException() from e
 

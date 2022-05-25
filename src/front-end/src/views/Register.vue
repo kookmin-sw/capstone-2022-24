@@ -191,10 +191,10 @@ export default {
 				return;
 			}
 			this.resizeImg();
-			const albumPhotosKey = 'app/front-end/users/profile/';
 			const fileInfo = {
 				nickname: this.nickname,
-				photoKey: albumPhotosKey + this.nickname + '.png',
+				photoKey:
+					process.env.VUE_APP_S3_ALBUM_PHOTO_KEY + this.nickname + '.png',
 				file: this.imageFile,
 			};
 			this.$store.dispatch('auth/signUp', fileInfo);

@@ -131,6 +131,11 @@ a.router-link-exact-active{
     border-radius: 0;
 }
 
+.border-blue-100-none{
+    border: #83BBFB 1px solid;
+
+}
+
 .border-grey-100 {
     border: #1B1B1B 1px solid;
 }

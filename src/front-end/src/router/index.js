@@ -48,7 +48,8 @@ const routes = [
 			await store
 				.dispatch('auth/loginWithSocial', social)
 				.then(() => {
-					next('/');
+					const fromUrl = localStorage.getItem('FROM');
+					window.location.replace(fromUrl);
 				})
 				.catch(() => {
 					next('/register');
@@ -56,11 +57,18 @@ const routes = [
 		},
 	},
 	{
-		// TODO: beforeEnter: url 입력으로 인한 접근 막기
 		path: '/register',
 		name: 'Register',
 		component: () =>
 			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
+		beforeEnter(to, from, next) {
+			const token = localStorage.getItem('ACCESS_TOKEN');
+			const isVerified = localStorage.getItem('VERIFIED');
+			if (token && isVerified === 'false') {
+				next();
+			}
+			next(from);
+		},
 	},
 	{
 		path: '/join/:userId',
