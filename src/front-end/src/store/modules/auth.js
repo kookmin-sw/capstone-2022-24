@@ -77,18 +77,21 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
+					console.log(res.data);
 					const user = res.data.user.user;
 					const token = res.data.accessToken;
 					localStorage.setItem('ACCESS_TOKEN', token);
 					localStorage.setItem('VERIFIED', user.isVerified);
 					commit('SET_TOKEN', token);
 
-					if (!user.isVerified) {
+					if (user.isVerified) {
 						// login
+						console.log('login');
 						localStorage.setItem('NICKNAME', user.nickname);
 						commit('SET_PROFILE', user);
 						resolve();
 					} else {
+						console.log('sign up');
 						// sign up
 						reject();
 					}

@@ -62,8 +62,8 @@ const routes = [
 			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
 		beforeEnter(to, from, next) {
 			const token = localStorage.getItem('ACCESS_TOKEN');
-			const isVerified = Boolean(localStorage.getItem('VERIFIED'));
-			if (token && isVerified) {
+			const isVerified = localStorage.getItem('VERIFIED');
+			if (token && isVerified === 'false') {
 				next();
 			}
 			next(from);
