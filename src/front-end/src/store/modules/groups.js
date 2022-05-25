@@ -19,7 +19,6 @@ export const groups = {
 		async joinProviders({ commit }) {
 			const url = `/providers`;
 			await http.get(url).then(res => {
-				console.log(res);
 				commit('SET_APPLIED', res.data.appliedProviders);
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});

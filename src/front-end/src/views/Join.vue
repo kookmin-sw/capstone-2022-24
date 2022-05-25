@@ -66,7 +66,7 @@
 					<div class="leader-expl col q-mb-md">
 						<div
 							class="text-weight-bold leader-title"
-							:class="{ 'text-blue-100': roleSelect.leader }">
+							:class="{ 'text-blue-200': roleSelect.leader }">
 							{{ $t('join.leaderGuideTitle') }}
 						</div>
 						<div>{{ $t('join.leaderGuide') }}</div>
@@ -75,7 +75,7 @@
 					<div class="member-expl col q-mb-md">
 						<div
 							class="text-weight-bold member-title"
-							:class="{ 'text-blue-100': roleSelect.member }">
+							:class="{ 'text-blue-200': roleSelect.member }">
 							{{ $t('join.memberGuideTitle') }}
 						</div>
 						<div>{{ $t('join.memberGuide') }}</div>
@@ -110,13 +110,56 @@
 				</div>
 				<div class="explanation col text-left q-mb-md">
 					<div v-if="!selected.ott[0]">신청할 OTT 서비스를 선택해주세요.</div>
-					<div v-else>
-						<div>
-							{{ selected.ott.join(' ') }}(을)를 {{ role }}(으)로 신청합니다.
+					<div v-else-if="role === 'leader'">
+						<div class="q-mb-md">
+							<span class="text-blue-200 text-bold"
+								>{{ selected.ott.join(' ') }} </span
+							>모임(을)를
+							<span class="text-blue-200 text-bold">모임장</span>으로
+							신청합니다.
 						</div>
-						<div>결제 금액은 5,500원 입니다.</div>
+						<div class="q-mb-xs">
+							{{ selected.ott.join(' ') }} 구독 비용 {{ providerCharge }}원
+						</div>
+						<div class="q-mb-md">
+							인당 결제 비용 {{ perCharge }}원 + 수수료
+							{{ totalCharge - perCharge }}원
+						</div>
+						<q-separator color="grey-4" />
+						<div class="q-mt-md q-mb-md">
+							최종 결제 비용 {{ totalCharge }}원
+						</div>
+						<q-separator color="grey-4" />
+						<div class="q-mt-md q-mb-lg">
+							모임장에게 모임 구성 후
+							<span class="text-blue-200 text-bold">최종 결제 비용을 제외</span
+							>한
+							<span class="text-blue-200 text-bold">{{ refunds }}원이 환급</span
+							>됩니다.
+						</div>
+					</div>
+					<div v-else>
+						<div class="q-mb-md">
+							<span class="text-blue-200 text-bold">
+								{{ selected.ott.join(' ') }} </span
+							>모임(을)를
+							<span class="text-blue-200 text-bold">모임원</span>으로
+							신청합니다.
+						</div>
+						<div class="q-mb-xs">
+							{{ selected.ott.join(' ') }} 구독 비용 {{ providerCharge }}원
+						</div>
+						<div class="q-mb-md">
+							인당 결제 비용 {{ perCharge }}원 + 수수료
+							{{ totalCharge - perCharge }}원
+						</div>
+						<q-separator color="grey-4" />
+						<div class="q-mt-md q-mb-md text-blue-200 text-bold">
+							최종 결제 비용 {{ totalCharge }}원
+						</div>
 					</div>
 				</div>
+
 				<q-btn
 					unelevated
 					color="blue-4"
@@ -150,6 +193,10 @@ export default {
 				leader: true,
 				member: false,
 			},
+			providerCharge: null,
+			totalCharge: null,
+			perCharge: null,
+			refunds: null,
 			state: true,
 			isSuccess: false,
 			isFail: false,
@@ -182,6 +229,13 @@ export default {
 					}
 				}
 			} else this.selected.ott.splice(this.ottFilters[idx].name, 1);
+			// charge
+			this.providerCharge =
+				this.ottFilters[this.selected.ott[0]].charge.totalSubscriptionCharge;
+			this.perCharge = this.providerCharge / 4;
+			this.totalCharge =
+				this.ottFilters[this.selected.ott[0]].charge.serviceChargePerMember;
+			this.refunds = this.providerCharge - this.totalCharge;
 		},
 		roleButtonClick() {
 			if (this.role === 'member') {
