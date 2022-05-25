@@ -24,23 +24,25 @@
 			</div>
 		</q-card-section>
 
+		<!-- TODO: histories, histories[0] 확인-->
 		<q-card-section
 			class="text-center"
-			v-for="history in histories"
+			v-for="history in histories[0]"
 			:key="history">
 			<!-- 충전 -->
 			<div
 				class="text-left q-mt-sm q-mb-sm q-ml-lg q-mr-lg"
 				v-if="history.amount > 0">
 				<span class="q-mr-sm text-weight-bold">충전 알림</span>
-				<span>정직 비용 {{ history.amount }}원이 추가되었습니다!</span>
-				<div class="text-grey q-mt-xs">아마존 프라임 모임 무사 종료금</div>
+				<div class="q-mt-xs">
+					정직 비용 {{ history.amount }}원이 추가되었습니다!
+				</div>
 				<div class="text-right text-grey">{{ history.renewalDateTime }}</div>
 			</div>
 			<!-- 사용 -->
 			<div class="text-left q-mt-sm q-mb-sm q-ml-lg q-mr-lg" v-else>
 				<span class="q-mr-sm text-weight-bold">사용 알림</span>
-				<span>{{ history.amount }}원이 사용되었습니다!</span>
+				<div class="q-mt-xs">{{ history.amount }}원이 사용되었습니다!</div>
 				<div class="text-right text-grey">{{ history.renewalDateTime }}</div>
 			</div>
 			<q-separator color="grey-4" />

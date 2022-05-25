@@ -12,10 +12,12 @@ export const mileage = {
 		},
 	},
 	actions: {
-		async getMileageHistory({ commit }) {
+		async getMileageHistory({ state, commit }) {
 			const url = `/mileages/`;
 			await http.get(url).then(res => {
+				console.log(res.data);
 				commit('SET_MILEAGE_HISTORY', res.data);
+				console.log(state.histories);
 			});
 		},
 	},
