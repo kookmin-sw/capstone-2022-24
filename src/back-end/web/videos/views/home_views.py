@@ -179,6 +179,17 @@ class HomeView(viewsets.ViewSet):
 
         return _filter
 
+    def watch_filtering(self, _filter, watched, _user):
+        """Method : filter video by watch mark"""
+
+        if watched == "True":
+            _filter &= Q(watchingmark__user_id=_user.id)
+        elif watched == "False":
+            _filter &= ~Q(watchingmark__user_id=_user.id)
+        else:
+            raise BadFormatException()
+        return _filter
+
     def list(self, request):
         """Method: Get Command to search, filter, sort"""
 
@@ -205,11 +216,15 @@ class HomeView(viewsets.ViewSet):
             "production_country": self.request.query_params.get("productionCountry", ""),
         }
 
+        watched = self.request.query_params.get("watched", "")
+
+        if (request.user.is_authenticated) & (watched != ""):
+            _filter = self.watch_filtering(_filter, watched, request.user)
+
         """
         #아직 구현예정이 없는 필터링 조건
         rating_min = self.request.query_params.get('ratingMin', None)
         rating_max = self.request.query_params.get('ratingMax', None)
-        watched = self.request.query_params.get('watched', None)
         """
 
         if filter_list != self.filter_default:
