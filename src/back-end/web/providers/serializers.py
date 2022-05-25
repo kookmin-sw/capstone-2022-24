@@ -39,18 +39,6 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
         return None
 
 
-# class SupportedProviderSummarySerializer(ProviderSummarySerializer):
-#     """Provider only supported"""
-#
-#     name = serializers.CharField(source="get_name_display")
-#     service_charge_per_member = serializers.IntegerField(source="charge.")
-#     total_subscription_charge = serializers.IntegerField(source="charge.total_subscription_charge")
-#
-#     class Meta(ProviderSummarySerializer.Meta):
-#         """Metadata for provider"""
-#         fields = ProviderSummarySerializer.Meta.fields + ["service_charge_per_member", ]
-
-
 @extend_schema_serializer(
     examples=PROVIDER_LIST_EXAMPLES,
 )

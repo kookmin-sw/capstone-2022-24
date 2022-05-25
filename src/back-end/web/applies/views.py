@@ -4,7 +4,8 @@ from collections import Counter
 
 from applies.exceptions import ApplyAlreadyExistException
 from applies.models import GroupApply
-from applies.serializers import ApplyCancelSerializer, GroupApplySerializer
+from applies.schemas import GROUP_APPLY_POST_EXAMPLE
+from applies.serializers import GroupApplySerializer
 from config.exceptions.input import (
     AlreadyJoinedGroupException,
     BadFormatException,
@@ -23,7 +24,6 @@ from drf_spectacular.utils import (
 from fellows.models import Leader, Member
 from fellows.views import create_fellows_and_map_into_group_by_applies
 from groups.views import create_group_with_provider
-from mileages.exceptions import MileageAmountException
 from mileages.views import create_histories_and_update_mileages
 from payments.models import Payment
 from providers.models import Charge, Provider, SubscriptionType
@@ -32,36 +32,7 @@ from rest_framework.generics import get_object_or_404
 
 
 @extend_schema_view(
-    create=extend_schema(
-        tags=["Priority-1", "Group"],
-        operation_id="모임원 신청",
-        request=inline_serializer(
-            name="MemberApplyRequestSerializer",
-            fields={
-                "providerId": serializers.IntegerField(),
-            },
-        ),
-        responses={
-            201: OpenApiResponse(
-                description="모임원 신청 성공",
-                response=inline_serializer(
-                    name="MemberApplyResponseSerializer", fields={"member_apply_id": serializers.IntegerField()}
-                ),
-            )
-        },
-    ),
-    update=extend_schema(
-        tags=["Priority-1", "Group"],
-        operation_id="모임원 취소",
-        request=inline_serializer(
-            name="LeaderApplyRequestSerializer",
-            fields={
-                "memberApplyId": serializers.IntegerField(),
-                "cancel": serializers.BooleanField(),
-            },
-        ),
-        responses={200: OpenApiResponse(description="모임원 취소 성공", response=ApplyCancelSerializer)},
-    ),
+    operation_id="모임 신청",
 )
 class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
     """Class for member, leader  apply to Group"""
@@ -72,6 +43,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         "user",
         "payment",
     )
+    http_method_names = ["post", "put"]
     lookup_fields = ("user_id", "provider_id")
 
     def get_object(self):
@@ -169,11 +141,6 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             raise NotEnoughSubscriptionInformationException() from subscription_error
         except IntegrityError as error:
             raise ApplyAlreadyExistException() from error
-        except MileageAmountException as mileage_error:
-            # if mileages are not enough
-            # clean apply object
-            super().destroy(self, request, *args, **kwargs)
-            raise MileageAmountException() from mileage_error
 
     def cancel(self, request, *args, **kwargs):
         """Method: process Cancling Group and refunding for Member"""
@@ -223,10 +190,88 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         except SubscriptionType.DoesNotExist as subscription_error:
             raise NotEnoughSubscriptionInformationException() from subscription_error
 
+    @extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임원 신청",
+        description="Apply member of provider(id={provider_id})",
+        request=inline_serializer(
+            name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
+        ),
+        responses={
+            201: OpenApiResponse(
+                response=inline_serializer(
+                    name="videoListSerializer",
+                    fields={
+                        "payment": {},
+                        "providerId": serializers.IntegerField(min_value=0),
+                        "applyDateTime": serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S"),
+                    },
+                ),
+                description="모임원 신청 완료",
+                examples=GROUP_APPLY_POST_EXAMPLE,
+            )
+        },
+    )
     def apply_member(self, request, *args, **kwargs):
         """POST /groups/applies/member"""
         return self.apply(request, apply_type="M", *args, **kwargs)
 
+    @extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임장 신청",
+        description="Apply leader of provider(id={provider_id})",
+        request=inline_serializer(
+            name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
+        ),
+        responses={
+            201: OpenApiResponse(
+                response=inline_serializer(
+                    name="videoListSerializer",
+                    fields={
+                        "payment": {},
+                        "providerId": serializers.IntegerField(min_value=0),
+                        "applyDateTime": serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S"),
+                    },
+                ),
+                description="모임장 신청 완료",
+                examples=GROUP_APPLY_POST_EXAMPLE,
+            )
+        },
+    )
     def apply_leader(self, request, *args, **kwargs):
         """POST /groups/applies/leader"""
         return self.apply(request, apply_type="L", *args, **kwargs)
+
+    @extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임원 취소",
+        description="Cancel applying of member",
+        request=inline_serializer(
+            name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
+        ),
+        responses={
+            204: OpenApiResponse(
+                description="모임원 취소 완료",
+            )
+        },
+    )
+    def cancel_member(self, request, *args, **kwargs):
+        """PUT /groups/applies/member"""
+        return self.cancel(request, *args, **kwargs)
+
+    @extend_schema(
+        tags=["Priority-1", "Group"],
+        operation_id="모임장 취소",
+        description="Cancel applying of leader",
+        request=inline_serializer(
+            name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
+        ),
+        responses={
+            204: OpenApiResponse(
+                description="모임장 취소 완료",
+            )
+        },
+    )
+    def cancel_leader(self, request, *args, **kwargs):
+        """PUT /groups/applies/leader"""
+        return self.cancel(request, *args, **kwargs)
