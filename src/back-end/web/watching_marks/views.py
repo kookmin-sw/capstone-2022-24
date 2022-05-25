@@ -17,6 +17,7 @@ from watching_marks.exceptions import (
     WatchingMarkAlreadyExistsException,
     WatchingMarkNotFoundException,
 )
+from watching_marks.schemas import WATCHINGMARK_LIST_EXAMPLES
 from watching_marks.serializers import (
     WatchingMarkListSerializer,
     WatchingMarkSerializer,
@@ -26,7 +27,7 @@ from watching_marks.serializers import (
 # pylint: disable=R0901
 @extend_schema(
     tags=["Priority-3", "User"],
-    examples=[],
+    examples=WATCHINGMARK_LIST_EXAMPLES,
 )
 class WatchingMarkListView(ListAPIView):
     """watching mark apis of user's video history"""
