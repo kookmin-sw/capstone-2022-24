@@ -11,18 +11,15 @@ from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from drf_spectacular.utils import (
-    OpenApiExample,
-    OpenApiResponse,
-    extend_schema,
-    inline_serializer,
-)
+from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_serializer
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Genre, ProductionCountry, Video
+from videos.schemas import DETAIL_MOVIE_VIEW_EXAPLE, DETAIL_TV_VIEW_EXAMPLE
+from watching_marks.models import WatchingMark
 from wishes.models import Wish
 
 
@@ -142,7 +139,7 @@ class DetailView(viewsets.ViewSet):
         }
 
     def video_personal_count(self, request_user, video_id, context):
-        """Method : Check whether the User Personal info : Wished"""
+        """Method : Check whether the User Personal info : Wished, Watched"""
 
         try:
             Wish.objects.get(Q(video=video_id) & Q(user=request_user))
@@ -150,7 +147,13 @@ class DetailView(viewsets.ViewSet):
         except Wish.DoesNotExist:
             wished = False
 
-        context["personal"] = {"wished": wished}
+        try:
+            WatchingMark.objects.get(Q(video=video_id) & Q(user=request_user))
+            watched = True
+        except WatchingMark.DoesNotExist:
+            watched = False
+
+        context["personal"] = {"wished": wished, "watched": watched}
 
         return context
 
@@ -166,62 +169,7 @@ class DetailView(viewsets.ViewSet):
                     fields={"result": serializers.CharField()},
                 ),
                 description="Success Example",
-                examples=[
-                    OpenApiExample(
-                        response_only=True,
-                        name="Success Example",
-                        value={
-                            "videoId": 200,
-                            "posterUrl": "https://image.tmdb.org/t/p/w500/ekp9PbSODHiTXXqnHJ4Sq6YHkhq.jpg",
-                            "title": "블리치",
-                            "titleEnglish": "Bleach",
-                            "releaseYear": "2004",
-                            "releaseDate": "10-05",
-                            "filmRating": None,
-                            "overview": "",
-                            "providers": [
-                                {
-                                    "name": "WV",
-                                    "logoUrl": "https://image.tmdb.org/t/p/original/8N0DNa4BO3lH24KWv1EjJh4TxoD.jpg",
-                                    "link": "https://www.wavve.com/",
-                                }
-                            ],
-                            "genres": ["Action & Adventure", "애니메이션", "Sci-Fi & Fantasy"],
-                            "productionCountries": ["일본"],
-                            "totalSeasons": 1,
-                            "totalEpisodes": 366,
-                            "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
-                            "public": {"wishCount": 0},
-                            "personal": {"wished": None},
-                            "similar": [
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/fbdM3vtY29PkipKrBb6NuTw7VDt.jpg",
-                                    "title": "교향시편 유레카 세븐",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/k3NQ7gVfnNPWbdCgg0x0Tv8CNNN.jpg",
-                                    "title": "신세기 에반게리온",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/pOjDuclpsWGV13Nj7XtZukuZj6f.jpg",
-                                    "title": "소녀혁명 우테나",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/9A7q9QjLoTfYLn7zejj7uRYA3IZ.jpg",
-                                    "title": "오란고교 사교클럽",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/5dfhAeijI1p5FeY3oOFEGwbuqiZ.jpg",
-                                    "title": "사무라이 참프루",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/ej3tcxv2YYVWy6WoOeWZTcrkiI8.jpg",
-                                    "title": "시리얼 익스페러먼츠 레인",
-                                },
-                            ],
-                        },
-                    )
-                ],
+                examples=DETAIL_TV_VIEW_EXAMPLE,
             ),
             400: OpenApiResponse(
                 response=inline_serializer(
@@ -300,8 +248,8 @@ class DetailView(viewsets.ViewSet):
             "total_seasons": tv_json_ob["number_of_seasons"],
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
-            "public": {"wish_count": tv.videototalcount.wish_count},
-            "personal": {"wished": None},
+            "public": {"wish_count": tv.videototalcount.wish_count, "watching_count": tv.videototalcount.watch_count},
+            "personal": {"wished": None, "watched": None},
             "similars": similar_list,
         }
 
@@ -321,61 +269,7 @@ class DetailView(viewsets.ViewSet):
                     fields={"result": serializers.CharField()},
                 ),
                 description="상세 정보 출력 성공",
-                examples=[
-                    OpenApiExample(
-                        response_only=True,
-                        name="Success Example",
-                        value={
-                            "videoId": 3,
-                            "posterUrl": "https://image.tmdb.org/t/p/w500/dBz61uAt6xjJt4yqhiZXQt0a1bB.jpg",
-                            "title": "킹덤: 아신전",
-                            "releaseYear": "2021",
-                            "releaseDate": "07-23",
-                            "titleEnglish": "Kingdom: Ashin of the North",
-                            "overview": (
-                                "비극과 배신이 삶을 덮친다. 기이하고 불길한 뭔가를 발견한다. 한순간에 가족과 동족을 잃은 여인."
-                                " 오직 복수를 꿈꾸며 살아온 그녀가 짙은 어둠을 마주한다."
-                            ),
-                            "providers": [
-                                {
-                                    "name": "NF",
-                                    "logoUrl": "https://image.tmdb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg",
-                                    "link": "https://www.netflix.com/kr/",
-                                }
-                            ],
-                            "genres": ["드라마", "판타지", "스릴러"],
-                            "productionCountries": ["대한민국"],
-                            "public": {"wishCount": 0},
-                            "personal": {"wished": False},
-                            "similar": [
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/cuFPxoFopAjFUz4oIMUzpzeTA8I.jpg",
-                                    "title": "9 불리츠",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/AmUGn1rJ9XDDP6DYn9OA2uV8MIg.jpg",
-                                    "title": "상티넬",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/2suj5y3WMaSC7zg4L9kMnsRiomy.jpg",
-                                    "title": "G-Zombie",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/x3NZwlJef6xvejLu49Z5l7tFVe7.jpg",
-                                    "title": "Z",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/iPTZGFmPs7HsXHYxiuxGolihjOH.jpg",
-                                    "title": "아미 오브 더 데드: 도둑들",
-                                },
-                                {
-                                    "posterUrl": "https://image.tmdb.org/t/p/w500/vQrResA1HSUuLQIf2EBtB7U5lGJ.jpg",
-                                    "title": "코다",
-                                },
-                            ],
-                        },
-                    )
-                ],
+                examples=DETAIL_MOVIE_VIEW_EXAPLE,
             ),
             400: OpenApiResponse(
                 response=inline_serializer(
@@ -438,8 +332,11 @@ class DetailView(viewsets.ViewSet):
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
-            "public": {"wish_count": movie.videototalcount.wish_count},
-            "personal": {"wished": None},
+            "public": {
+                "wish_count": movie.videototalcount.wish_count,
+                "watching_count": movie.videototalcount.watch_count,
+            },
+            "personal": {"wished": None, "watched": None},
             "similars": similar_list,
         }
 
