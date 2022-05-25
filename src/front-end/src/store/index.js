@@ -6,6 +6,7 @@ import { videoDetails } from '@/store/modules/videoDetails';
 import { videoDiscontinued } from '@/store/modules/videoDiscontinued';
 import { videoInteractions } from '@/store/modules/videoInteractions';
 import { videoExpands } from '@/store/modules/videoExpands';
+import { mileage } from '@/store/modules/mileage';
 
 export default createStore({
 	state: {},
@@ -20,5 +21,6 @@ export default createStore({
 		videoDiscontinued,
 		videoInteractions,
 		videoExpands,
+		mileage,
 	},
 });
