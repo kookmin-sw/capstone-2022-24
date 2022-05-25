@@ -14,6 +14,7 @@ urlpatterns = [
     path("videos/", include("videos.urls")),
     path("groups/", include("groups.urls")),
     path("groups/<int:group_id>/account/", include("group_accounts.urls")),
+    path("groups/<int:group_id>/reports/", include("reports.urls")),
     path("users/", include("users.urls")),
     path("applies/", include("applies.urls")),
     path("mypage/", include("mypages.urls")),

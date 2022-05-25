@@ -3,6 +3,7 @@ import register from '@/mocks/handlers/register';
 import user from '@/mocks/handlers/user';
 import groups from '@/mocks/handlers/groups';
 import videos from '@/mocks/handlers/videos';
+import mileage from '@/mocks/handlers/mileage';
 
 export const handlers = [
 	...Object.values(oauth),
@@ -10,4 +11,5 @@ export const handlers = [
 	...Object.values(user),
 	...Object.values(groups),
 	...Object.values(videos),
+	...Object.values(mileage),
 ];
