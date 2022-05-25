@@ -35,10 +35,8 @@ class MyPageDetailView(APIView):
         "fellow_set__group__group_account",
         "fellow_set__member",
         "fellow_set__leader",
-        "leaderapply_set",
-        "memberapply_set",
-        "leaderapply_set__provider",
-        "memberapply_set__provider",
+        "groupapply_set",
+        "groupapply_set__provider",
         "wish_set",
         "wish_set__video",
     )
