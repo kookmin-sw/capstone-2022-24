@@ -1,6 +1,5 @@
 """Admin configurations of applies application"""
-from applies.models import LeaderApply, MemberApply
+from applies.models import GroupApply
 from django.contrib import admin
 
-admin.site.register(LeaderApply)
-admin.site.register(MemberApply)
+admin.site.register(GroupApply)
