@@ -62,12 +62,12 @@ const routes = [
 		component: () =>
 			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
 		beforeEnter(to, from, next) {
-			const nickname = localStorage.getItem('NICKNAME');
 			const token = localStorage.getItem('ACCESS_TOKEN');
-			if ((!nickname && !token) || (nickname && token)) {
-				next(from);
+			const isVerified = localStorage.getItem('VERIFIED');
+			if (token && isVerified === true) {
+				next(to);
 			}
-			next(to);
+			next(from);
 		},
 	},
 	{

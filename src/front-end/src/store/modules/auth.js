@@ -26,7 +26,7 @@ export const auth = {
 	},
 	getters: {
 		isLogin(state) {
-			return state.profile.nickname !== null;
+			return state.token !== null;
 		},
 	},
 	mutations: {
@@ -80,11 +80,11 @@ export const auth = {
 					const user = res.data.user.user;
 					const token = res.data.accessToken;
 					localStorage.setItem('ACCESS_TOKEN', token);
+					localStorage.setItem('VERIFIED', user.isVerified);
 					commit('SET_TOKEN', token);
 
 					if (!user.isVerified) {
 						// login
-						console.log('login');
 						localStorage.setItem('NICKNAME', user.nickname);
 						commit('SET_PROFILE', user);
 						resolve();
@@ -104,6 +104,7 @@ export const auth = {
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');
 			localStorage.removeItem('NICKNAME');
+			localStorage.removeItem('IS_VERIFIED');
 			router.go(0);
 		},
 		nicknameDuplication(context, nickname) {
@@ -170,14 +171,11 @@ export const auth = {
 			http
 				.post(url, data)
 				.then(res => {
-					// 로그인 성공
-					const token = res.data.accessToken;
-					const user = res.data.user.user;
-					localStorage.setItem('ACCESS_TOKEN', token);
+					// 회원가입 성공
+					const user = res.data;
 					localStorage.setItem('NICKNAME', user.nickname);
-					commit('SET_TOKEN', token);
+					localStorage.setItem('VERIFIED', user.isVerified);
 					commit('SET_PROFILE', user);
-					console.log('success', res.data);
 					alert('회원가입에 성공했습니다.');
 					router.replace('/');
 				})
