@@ -263,6 +263,7 @@ export default {
 				providerId: this.ottFilters[provider].id,
 				paymentId: null,
 				role: this.role,
+				amount: this.totalCharge,
 			};
 			this.$store
 				.dispatch('groups/applyGroup', applyer)

@@ -28,17 +28,17 @@ export const groups = {
 			});
 		},
 		async applyGroup({ commit }, applyer) {
-			// TODO: 모임원 마일리지 사용 api 호출
-			// TODO: 현재 마일리지 확인
 			const url = `/applies/${applyer.role}/`;
 			const data = {
 				providerId: applyer.providerId,
 			};
+
 			return new Promise((resolve, reject) => {
 				http
 					.post(url, data)
 					.then(() => {
 						commit('SET_LACK_MILEAGE', false);
+						http.patch('/mileages/', { amount: applyer.amount }).then();
 						resolve();
 					})
 					.catch(err => {
