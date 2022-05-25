@@ -1,6 +1,8 @@
 """APIs of Video application : HomeView"""
 # pylint: disable=R0914
 
+from random import shuffle
+
 from config.exceptions.input import BadFormatException
 from config.exceptions.result import ResultNotFoundException
 from django.db.models import Q
@@ -121,7 +123,6 @@ class HomeView(viewsets.ViewSet):
 
     sort_dict = {
         "default": "id",
-        "random": "?",
         "new": "-videoprovider__offer_date",
         "release": "-release_date",
         "order": "title",
@@ -225,8 +226,13 @@ class HomeView(viewsets.ViewSet):
         """
 
         sort = self.request.query_params.get("sort", default="default")
+
         try:
-            queryset = queryset.order_by(self.sort_dict[sort], "id")
+            if sort != "random":
+                queryset = queryset.order_by(self.sort_dict[sort], "id").distinct()
+            else:
+                queryset = list(queryset)
+                shuffle(queryset)
         except KeyError as e:
             raise BadFormatException() from e
 
