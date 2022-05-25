@@ -277,7 +277,7 @@ DETAIL_MOVIE_VIEW_EXAMPLE = [
             ],
             "genres": ["액션", "모험"],
             "productionCountries": ["미국"],
-            "public": {"wishCount": 0, "watchingCount": 1},
+            "public": {"wishCount": 0, "watchCount": 1},
             "personal": {"wished": False, "watched": True},
             "similars": [
                 {"posterUrl": "https://image.tmdb.org/t/p/w500/SkNd3gVm26389N5jPaCM5hpekh.jpg", "title": "몬테 크리스토"},
@@ -325,7 +325,7 @@ DETAIL_TV_VIEW_EXAMPLE = [
             "totalSeasons": 1,
             "totalEpisodes": 366,
             "seasons": [{"number": 0, "name": "스페셜"}, {"number": 1, "name": "시즌 1"}],
-            "public": {"wishCount": 1, "watchingCount": 5},
+            "public": {"wishCount": 1, "watchCount": 5},
             "personal": {"wished": True, "watched": True},
             "similars": [
                 {"posterUrl": "https://image.tmdb.org/t/p/w500/97vxf06BrfiSuZJ5a03RuOHNyP0.jpg", "title": "진격의 거인"},

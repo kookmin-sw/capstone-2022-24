@@ -248,7 +248,7 @@ class DetailView(viewsets.ViewSet):
             "total_seasons": tv_json_ob["number_of_seasons"],
             "total_episodes": tv_json_ob["number_of_episodes"],
             "seasons": season_list,
-            "public": {"wish_count": tv.videototalcount.wish_count, "watching_count": tv.videototalcount.watch_count},
+            "public": {"wish_count": tv.videototalcount.wish_count, "watch_count": tv.videototalcount.watch_count},
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
         }
@@ -334,7 +334,7 @@ class DetailView(viewsets.ViewSet):
             "production_countries": movie_info_response["production_country_list"],
             "public": {
                 "wish_count": movie.videototalcount.wish_count,
-                "watching_count": movie.videototalcount.watch_count,
+                "watch_count": movie.videototalcount.watch_count,
             },
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
