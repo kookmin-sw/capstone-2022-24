@@ -7,13 +7,13 @@ export const auth = {
 	state: {
 		token: null,
 		naver: {
-			clientId: `HDyG0cg2DID7bPsLQ4_u`,
+			clientId: process.env.VUE_APP_NAVER_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/naver`,
 			code: null,
 			resState: null,
 		},
 		google: {
-			clientId: `111000957224-lu56fk9cgkavoika3b1b9872vv0lri8q.apps.googleusercontent.com`,
+			clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/google`,
 			token: null,
 		},
@@ -77,7 +77,6 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					console.log(res);
 					const user = res.data.user.user;
 					if (!user.isVerified) {
 						// login
@@ -102,7 +101,6 @@ export const auth = {
 		},
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');
-			localStorage.removeItem('NICKNAME');
 			router.go(0);
 		},
 		nicknameDuplication(context, nickname) {
@@ -163,7 +161,7 @@ export const auth = {
 				.post(url)
 				.then(res => {
 					// 로그인 성공
-					const token = res.headers.accesstoken;
+					const token = res.data.accessToken;
 					commit('SET_TOKEN', token);
 					localStorage.setItem('ACCESS_TOKEN', token);
 					alert('회원가입에 성공했습니다.');

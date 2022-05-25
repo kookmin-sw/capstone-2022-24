@@ -11,14 +11,14 @@
 				alt=""
 				style="display: block; width: 50%"
 				class="q-mr-auto q-mb-lg q-ml-auto" />
-			<q-btn
-				unelevated
-				size="md"
-				class="full-width google-btn"
-				@click="loginWithGoogle">
-				<q-icon class="q-ma-sm" name="fas fa-brands fa-google" size="24px" />
-				{{ $t('login.google') }}
-			</q-btn>
+			<!--			<q-btn-->
+			<!--				unelevated-->
+			<!--				size="md"-->
+			<!--				class="full-width google-btn"-->
+			<!--				@click="loginWithGoogle">-->
+			<!--				<q-icon class="q-ma-sm" name="fas fa-brands fa-google" size="24px" />-->
+			<!--				{{ $t('login.google') }}-->
+			<!--			</q-btn>-->
 			<q-btn
 				unelevated
 				size="md"
@@ -52,12 +52,12 @@ export default {
 </script>
 
 <style scoped>
-.google-btn {
-	background: white;
-	color: #191919;
-	border-radius: 6px;
-	border: solid 1px lightgrey;
-}
+/*.google-btn {*/
+/*	background: white;*/
+/*	color: #191919;*/
+/*	border-radius: 6px;*/
+/*	border: solid 1px lightgrey;*/
+/*}*/
 
 .naver-btn {
 	background: #03c75a;

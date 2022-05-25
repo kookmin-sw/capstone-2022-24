@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <template>
+	<!-- mileage modal -->
+	<q-dialog v-model="isMileageModal">
+		<mileage-modal :isActive="isMileageModal"></mileage-modal>
+	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
@@ -28,6 +32,12 @@
 				style="cursor: pointer"
 				@click="chargeCredit">
 				충전하기
+			</div>
+			<div
+				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
+				style="cursor: pointer"
+				@click="mileageHistoryBtnClick">
+				내역조회
 			</div>
 		</div>
 	</div>
@@ -189,16 +199,21 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import UserVideos from '@/components/userVideos';
+import UserVideos from '@/components/UserVideos';
+import MileageModal from '@/components/modals/MileageModal';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
-	components: { UserVideos },
+	components: {
+		UserVideos,
+		MileageModal,
+	},
 	data() {
 		return {
+			isMileageModal: false,
 			maxWidth: 6,
 			selectGroup: {},
 			recentList: {
@@ -258,6 +273,10 @@ export default {
 				.catch(function (error) {
 					if (error.code === 'USER_CANCEL') alert('결제가 취소되었습니다!');
 				});
+		},
+
+		mileageHistoryBtnClick() {
+			this.isMileageModal = !this.isMileageModal;
 		},
 	},
 };

@@ -26,16 +26,12 @@ export const videoExpands = {
 	actions: {
 		async loadWishList({ state, commit }, offset) {
 			const url = `/mypage/wishes`;
-			const token = localStorage.getItem('ACCESS_TOKEN');
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
 			const params = {
 				videoLimit: 12,
 				videoOffset: offset,
 			};
 			await http
-				.get(url, { params, headers })
+				.get(url, { params })
 				.then(res => {
 					commit('SET_TOTAL_WISH', res.data.page.totalCount - 1);
 					commit('ADD_WISH_VIDEOS', res.data.results);
