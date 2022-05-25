@@ -53,7 +53,7 @@ class VideoListPagination(LimitOffsetPagination):
         OpenApiParameter(
             name="productionCountry", description="condtion of filtering video production country : KR, OTHER", type=str
         ),
-        OpenApiParameter(name="watched", description="condtion of watched video : True, False", type=str),
+        OpenApiParameter(name="watched", description="condtion of watched video : Y, N", type=str),
         OpenApiParameter(name="sort", description="video sort condition : random, new, release, order", type=str),
         OpenApiParameter(name="limit", description="number of Videos to display", type=int),
         OpenApiParameter(name="offset", description="number of Videos list Start point", type=int),
@@ -139,9 +139,9 @@ class HomeView(viewsets.ViewSet):
     def watch_filtering(self, _filter, watched, _user):
         """Method : filter video by watch mark"""
 
-        if watched == "True":
+        if watched == "Y":
             _filter &= Q(watchingmark__user_id=_user.id)
-        elif watched == "False":
+        elif watched == "N":
             _filter &= ~Q(watchingmark__user_id=_user.id)
         else:
             raise BadFormatException()
