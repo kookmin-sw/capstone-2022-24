@@ -25,17 +25,12 @@ export const groups = {
 		},
 		async applyGroup(context, applyer) {
 			const url = `/applies/${applyer.role}/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
 			const data = {
 				providerId: applyer.providerId,
-				paymentId: applyer.paymentId,
 			};
 			return new Promise((resolve, reject) => {
 				http
-					.post(url, data, { headers })
+					.post(url, data)
 					.then(() => {
 						resolve();
 					})
