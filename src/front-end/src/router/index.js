@@ -56,16 +56,15 @@ const routes = [
 		},
 	},
 	{
-		// TODO: beforeEnter: url 입력으로 인한 접근 막기
 		path: '/register',
 		name: 'Register',
 		component: () =>
 			import(/* webpackChunkName: "Register" */ '@/views/Register.vue'),
 		beforeEnter(to, from, next) {
 			const token = localStorage.getItem('ACCESS_TOKEN');
-			const isVerified = localStorage.getItem('VERIFIED');
-			if (token && isVerified === true) {
-				next(to);
+			const isVerified = Boolean(localStorage.getItem('VERIFIED'));
+			if (token && isVerified) {
+				next();
 			}
 			next(from);
 		},
