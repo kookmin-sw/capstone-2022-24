@@ -111,6 +111,41 @@
 		<div v-if="!videoDetails.overview">등록된 줄거리가 없습니다.</div>
 		<div v-else>{{ videoDetails.overview }}</div>
 	</div>
+
+	<!-- 유사한 작품 추천 -->
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
+	<div class="q-ma-xl text-left">
+		<div class="q-mb-md text-h6 text-weight-bold">유사 작품 추천</div>
+		<div class="bg-blue-70 q-pa-lg">
+			<div
+				class="text-h6 text-bold bg-blue-70"
+				v-if="!videoDetails.similars"
+				style="height: 300px; line-height: 300px">
+				추가된 작품이 없습니다.
+			</div>
+			<div class="row video-list-frame" v-else>
+				<div
+					style="width: 15%"
+					v-for="video in videoDetails.similars"
+					:key="video.id">
+					<div class="video-poster">
+						<img
+							:src="video.posterUrl"
+							:alt="video.id"
+							class="video-poster-img" />
+					</div>
+					<div class="row no-wrap items-center">
+						<div class="col text-right q-mt-sm">
+							<div class="video-title text-left text-weight-bold">
+								{{ video.title }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- hr -->
 	<!--	<q-separator color="blue-1" size="2px" inset />-->
 	<!--	<q-separator color="blue-4" inset />-->
@@ -160,6 +195,7 @@ export default {
 			genre: '',
 			details: null,
 			wished: null,
+			currentPage: 1,
 		};
 	},
 	watch: {
@@ -214,6 +250,23 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 	row-gap: 24px;
+}
+
+.video-list-frame {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.video-poster {
+	width: 100%;
+	height: auto;
+	margin: 0 0 0 0;
+}
+.video-poster-img {
+	width: inherit;
+	max-height: 217px;
+	min-height: 200px;
+	object-fit: cover;
 }
 .video-title {
 	white-space: nowrap;
