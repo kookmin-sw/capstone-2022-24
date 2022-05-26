@@ -30,7 +30,12 @@
 
 		<q-card-actions align="right">
 			<q-btn flat label="취소" color="red" v-close-popup />
-			<q-btn flat label="변경" class="text-blue-200" @click="clickEdit" />
+			<q-btn
+				flat
+				label="변경"
+				class="text-blue-200"
+				@click="clickEdit"
+				v-close-popup />
 		</q-card-actions>
 	</q-card>
 </template>
@@ -69,6 +74,8 @@ export default {
 	methods: {
 		clickEdit() {
 			// TODO: 계정 유효성 검사
+			// TODO: 계정 변경 시 확인 알림 + 모임 재렌더링
+			// TODO: 계정 변경 실패 처리
 			if (this.identifier && this.password) {
 				this.isBlank = false;
 				const account = {
