@@ -220,7 +220,7 @@
 	<user-videos
 		:title="myVideos['watch-marks'].title"
 		:total="total['watch-marks']"
-		:total-page="Math.ceil(total.watch / maxWidth)"
+		:total-page="Math.ceil(total['watch-marks'] / maxWidth)"
 		:video-list="videos['watch-marks']"
 		:expand-id="myVideos['watch-marks'].expandId" />
 </template>
@@ -254,7 +254,7 @@ export default {
 				},
 				'watch-marks': {
 					title: '본 작품',
-					expandId: 'watched',
+					expandId: 'watch-marks',
 				},
 			},
 		};
