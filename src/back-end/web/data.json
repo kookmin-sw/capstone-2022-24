@@ -22,7 +22,7 @@
   {
     "fields": {
       "link": "https://watcha.com/",
-      "logo_key": "https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg",
+      "logo_key": "https://oopy.lazyrockets.com/api/rest/cdn/image/99453fde-4624-457f-8471-2393b96ccdbb.jpeg",
       "name": "WC",
       "tmdb_id": 97
     },
@@ -17158,5 +17158,68 @@
     },
     "model": "wishes.wish",
     "pk": 17
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:00.008",
+      "user": 1,
+      "video": 150
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:09.957",
+      "user": 1,
+      "video": 200
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:18.900",
+      "user": 1,
+      "video": 8
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:24.823",
+      "user": 1,
+      "video": 2
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:31.288",
+      "user": 1,
+      "video": 211
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:38.061",
+      "user": 1,
+      "video": 175
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "date_time": "2022-05-25T16:12:43.279",
+      "user": 1,
+      "video": 199
+    },
+    "model": "watching_marks.watchingmark",
+    "pk": 7
   }
 ]
