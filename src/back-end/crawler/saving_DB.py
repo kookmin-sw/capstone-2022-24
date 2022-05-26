@@ -97,25 +97,8 @@ def save_provider_data(video_provider_data):
             cursor.execute(sql_provider)
             provider_id = cursor.fetchall()[0][0]
 
-            """provider base save"""
-            sql = "INSERT INTO video_providers (video_id, offer_type,link,offer_date,deadline) VALUES (%s,%s,%s,%s,%s)"
-            values = (video_id, obj["offer_type"], obj["link"], item["crawling_time"], None)
-            cursor.execute(sql, values)
-            conn.commit()
-
-            """provider - video providers M:N relationship connect"""
-            if obj["offer_type"] == None:
-                sql = "SELECT id FROM video_providers WHERE video_id = %s AND offer_type IS NULL AND link= %s"
-                values = (video_id, obj["link"])
-            else:
-                sql = "SELECT id FROM video_providers WHERE video_id = %s AND offer_type =%s AND link= %s"
-                values = (video_id, obj["offer_type"], obj["link"])
-
-            cursor.execute(sql, values)
-
-            video_provider_id = cursor.fetchall()[0][0]
-            sql = "INSERT INTO video_providers_provider (videoprovider_id, provider_id) VALUES (%s,%s)"
-            values = (video_provider_id, provider_id)
+            sql = "INSERT INTO video_providers (video_id, provider_id, offer_type,link,offer_date,deadline) VALUES (%s,%s,%s,%s,%s,%s)"
+            values = (video_id, provider_id, obj["offer_type"], obj["link"], item["crawling_time"], None)
             cursor.execute(sql, values)
             conn.commit()
 
