@@ -5,6 +5,7 @@ import { videoList } from '@/store/modules/videoList';
 import { videoDetails } from '@/store/modules/videoDetails';
 import { videoDiscontinued } from '@/store/modules/videoDiscontinued';
 import { videoInteractions } from '@/store/modules/videoInteractions';
+import { groups } from '@/store/modules/groups';
 import { videoExpands } from '@/store/modules/videoExpands';
 import { mileage } from '@/store/modules/mileage';
 
@@ -20,6 +21,7 @@ export default createStore({
 		videoDetails,
 		videoDiscontinued,
 		videoInteractions,
+		groups,
 		videoExpands,
 		mileage,
 	},

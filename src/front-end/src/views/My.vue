@@ -81,9 +81,20 @@
 			</q-btn>
 		</div>
 
+		<!-- 모임 탈퇴 -->
+		<div class="text-left align-right">
+			<q-btn
+				flat
+				dense
+				class="text-grey"
+				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'"
+				@click="clickLeaveGroup">
+				모임 탈퇴 하기 &gt;
+			</q-btn>
+		</div>
 		<!-- 모임 모집 중 -->
 		<div
-			class="row q-mt-lg q-pa-md q-pb-xl bg-blue-70"
+			class="row q-pa-md q-mt-md q-pb-xl bg-blue-70"
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruiting'"
 			style="height: 343px">
 			<q-space class="col-2" />
@@ -94,16 +105,6 @@
 		</div>
 
 		<!-- 모집 완료 -->
-		<!-- 모임 탈퇴 -->
-		<div class="text-left align-right">
-			<q-btn
-				flat
-				dense
-				class="text-grey"
-				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
-				모임 탈퇴 하기 &gt;
-			</q-btn>
-		</div>
 		<!-- 모임 상세 정보 -->
 		<div
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
@@ -253,7 +254,11 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/selectGroup', groupId);
 		},
-
+		async clickLeaveGroup() {
+			console.log(this.getSelectGroup);
+			const id = this.getSelectGroup.provider.id;
+			await this.$store.dispatch('groups/LeaveGroup', id);
+		},
 		async chargeCredit() {
 			const tossPayments = await loadTossPayments(clientKey);
 			tossPayments
