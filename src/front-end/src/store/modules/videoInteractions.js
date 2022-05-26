@@ -6,30 +6,26 @@ export const videoInteractions = {
 	getters: {},
 	mutations: {},
 	actions: {
-		async addWish(context, videoId) {
-			const url = `videos/${videoId}/wishes/`;
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				Authorization: `Bearer ${token}`,
-			};
+		async addRecord(context, record) {
+			const url = `videos/${record.id}/${record.type}/`;
 			return new Promise((resolve, reject) => {
 				http
-					.post(url, {}, { headers })
+					.post(url)
 					.then(() => {
-						resolve();
+						resolve(record.type);
 					})
 					.catch(() => {
 						reject();
 					});
 			});
 		},
-		async cancleWish(context, videoId) {
-			const url = `videos/${videoId}/wishes/`;
+		async cancelRecord(context, record) {
+			const url = `videos/${record.id}/${record.type}/`;
 			return new Promise((resolve, reject) => {
 				http
 					.delete(url)
 					.then(() => {
-						resolve();
+						resolve(record.type);
 					})
 					.catch(() => {
 						reject();

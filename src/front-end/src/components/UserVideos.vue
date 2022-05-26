@@ -62,10 +62,6 @@ export default {
 		videoList: {
 			require: true,
 		},
-		pushVideoMethod: {
-			type: String,
-			require: true,
-		},
 		expandId: {
 			type: String,
 			require: true,
@@ -78,7 +74,7 @@ export default {
 	},
 	watch: {
 		currentPage: function () {
-			this.$store.dispatch(this.pushVideoMethod);
+			this.$store.dispatch('user/pushVideos', this.expandId);
 		},
 	},
 	computed: {
