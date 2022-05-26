@@ -96,7 +96,11 @@
 				flat
 				dense
 				class="text-grey"
-				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'"
+				v-if="
+					getSelectGroup !== null &&
+					(getSelectGroup.status === 'Recruited' ||
+						getSelectGroup.status === 'Reviewing')
+				"
 				@click="clickLeaveGroup">
 				모임 탈퇴 하기 &gt;
 			</q-btn>
@@ -116,7 +120,11 @@
 		<!-- 모집 완료 -->
 		<!-- 모임 상세 정보 -->
 		<div
-			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
+			v-if="
+				getSelectGroup !== null &&
+				(getSelectGroup.status === 'Recruited' ||
+					getSelectGroup.status === 'Reviewing')
+			">
 			<div class="bg-blue-70">
 				<!-- 모임 상태 뱃지 -->
 				<div class="align-right">
