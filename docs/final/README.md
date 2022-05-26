@@ -1,13 +1,16 @@
 # 최종발표
 
-## PPT
-[팀24-최종발표자료.pdf](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/%ED%8C%8024-%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)
+## 발표자료
+전체 열람: [구글 드라이브](https://drive.google.com/drive/folders/1o5XQvT6dadLZHN7DmaMO649vmjA76ieR?usp=sharing)
 
-## 보고서
-[팀24-수행결과보고서.pdf](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/%ED%8C%8024-%EC%88%98%ED%96%89%EA%B2%B0%EA%B3%BC%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf)
+### 포스터
+[팀24-포스터.pdf](https://drive.google.com/file/d/1sxowPyhf5-n5Ib_2kjYofxk6VE6n_Ek-/view?usp=sharing)
 
-## 시연 동영상
-[팀24-시연동영상.mp4](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/%ED%8C%8024-%EC%8B%9C%EC%97%B0%EB%8F%99%EC%98%81%EC%83%81.mp4)
+### 시연동영상
+[팀24-시연동영상.mp4](https://drive.google.com/file/d/1TqKWvC_4n-RmWddIWzbPYjJTP6oUwXBY/view?usp=sharing)
 
-## 포스터
-[팀24-포스터.pdf](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/%ED%8C%8024-%ED%8F%AC%EC%8A%A4%ED%84%B0.pdf)
+### 최종발표자료
+[팀24-최종발표자료.pdf](https://drive.google.com/file/d/1ErSdPIbUXKfdsXs29k_0gF1bzd17_1SG/view?usp=sharing)
+
+### 수행결과보고서
+[팀24-수행결과보고서.pdf](https://drive.google.com/file/d/1DrKCezF8PtANaUz0tbKqH2k3LJ6Xv4aR/view?usp=sharing)

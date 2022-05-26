@@ -59,7 +59,7 @@ In addition, as the number of OTT accounts subscribed increases, consumers have 
 So we planned this project that integrates OTT supplementary features to improve user convenience.
 
 ## 소개 영상
-<iframe width="900" height="506" src="https://www.youtube.com/embed/ixT1wWMar5o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![섬네일이미지](https://img.youtube.com/vi/ixT1wWMar5o/hqdefault.jpg)](https://youtu.be/ixT1wWMar5o)
 
 ## 팀 소개
 ### 팀원
@@ -95,16 +95,16 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 #### back-end
 - **language**
-  <img src="https://img.shields.io/badge/Python3-3776ab?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/python3-3776ab?style=flat-square&logo=python&logoColor=white"/>
 - **framework**
   <img src="https://img.shields.io/badge/Django-092e20?style=flat-square&logo=django&logoColor=white"/>
 - **database**
-  <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white"/>
 
 #### Infra
 - **cloud service**
   <img src="https://img.shields.io/badge/Amazon AWS-ff9900?style=flat-square&logo=amazonaws&logoColor=white"/>
-
+  - EC2, S3, Cloud Front
 - **CI/CD**
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
 
@@ -119,7 +119,8 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 ## 기타
 ### 발표 자료
 - [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/wiki/%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C-%EC%9E%90%EB%A3%8C)
-- [최종 발표](final/README.md)
+- [최종 발표](https://github.com/kookmin-sw/capstone-2022-24/wiki/%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C-%EC%9E%90%EB%A3%8C)
+- [수행결과보고서](https://github.com/kookmin-sw/capstone-2022-24/wiki/%EC%88%98%ED%96%89%EA%B2%B0%EA%B3%BC%EB%B3%B4%EA%B3%A0%EC%84%9C)
 
 ### 프로젝트 문서
 - [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
