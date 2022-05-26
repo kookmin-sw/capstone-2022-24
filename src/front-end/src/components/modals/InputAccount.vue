@@ -23,6 +23,9 @@
 				class="column col-9 q-pr-lg"
 				v-model="password"
 				@keyup="prompt = false" />
+			<div v-if="isBlank" class="q-mt-md text-red">
+				아이디 또는 비밀번호 입력하지 않았습니다.
+			</div>
 		</q-card-section>
 
 		<q-card-actions align="right">
@@ -48,11 +51,15 @@ export default {
 		pw: {
 			require: true,
 		},
+		groupId: {
+			require: true,
+		},
 	},
 	data() {
 		return {
 			identifier: ref(''),
 			password: ref(''),
+			isBlank: false,
 		};
 	},
 	created() {
@@ -61,8 +68,16 @@ export default {
 	},
 	methods: {
 		clickEdit() {
-			console.log(this.identifier);
-			console.log(this.password);
+			// TODO: 계정 유효성 검사
+			if (this.identifier && this.password) {
+				this.isBlank = false;
+				const account = {
+					groupId: this.groupId,
+					identifier: this.identifier,
+					password: this.password,
+				};
+				this.$store.dispatch('groups/editAccount', account);
+			} else this.isBlank = true;
 		},
 	},
 };

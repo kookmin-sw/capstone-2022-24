@@ -9,6 +9,7 @@
 		<input-account
 			persistent
 			:isActive="isInputModal"
+			:group-id="getSelectGroup.account.id"
 			:id="getSelectGroup.account.identifier"
 			:pw="getSelectGroup.account.password" />
 	</q-dialog>
