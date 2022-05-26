@@ -111,7 +111,7 @@
 				</div>
 				<div class="explanation col text-left q-mb-md">
 					<div v-if="!selected.ott[0]">신청할 OTT 서비스를 선택해주세요.</div>
-					<div v-else-if="role === 'leader'">
+					<div v-if="selected.ott[0] && role === 'leader'">
 						<div class="q-mb-md">
 							<span class="text-blue-200 text-bold"
 								>{{ selected.ott.join(' ') }} </span
@@ -139,7 +139,7 @@
 							>됩니다.
 						</div>
 					</div>
-					<div v-else>
+					<div v-if="selected.ott[0] && role === 'member'">
 						<div class="q-mb-md">
 							<span class="text-blue-200 text-bold">
 								{{ selected.ott.join(' ') }} </span
@@ -231,12 +231,14 @@ export default {
 				}
 			} else this.selected.ott.splice(this.ottFilters[idx].name, 1);
 			// charge
-			this.providerCharge =
-				this.ottFilters[this.selected.ott[0]].charge.totalSubscriptionCharge;
-			this.perCharge = this.providerCharge / 4;
-			this.totalCharge =
-				this.ottFilters[this.selected.ott[0]].charge.serviceChargePerMember;
-			this.refunds = this.providerCharge - this.totalCharge;
+			if (this.selected.ott[0]) {
+				this.providerCharge =
+					this.ottFilters[this.selected.ott[0]].charge.totalSubscriptionCharge;
+				this.perCharge = this.providerCharge / 4;
+				this.totalCharge =
+					this.ottFilters[this.selected.ott[0]].charge.serviceChargePerMember;
+				this.refunds = this.providerCharge - this.totalCharge;
+			}
 		},
 		roleButtonClick() {
 			if (this.role === 'member') {
