@@ -73,7 +73,6 @@ export const user = {
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
-					console.log(user);
 					const userProfile = {
 						nickname: user.nickname,
 						phone: user.cellPhoneNumber,
@@ -113,13 +112,8 @@ export const user = {
 			});
 
 			if (selected) {
-				const token = String(localStorage.getItem('ACCESS_TOKEN'));
-				const headers = {
-					authorization: `Bearer ${token}`,
-				};
-
 				const url = `/providers/${selected.provider.id}`;
-				await http.get(url, { headers }).then(res => {
+				await http.get(url).then(res => {
 					commit('SET_SELECT_GROUP', res.data);
 				});
 			}

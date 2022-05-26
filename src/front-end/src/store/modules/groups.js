@@ -6,6 +6,7 @@ export const groups = {
 		applied: [],
 		notApplied: [],
 		isLack: false,
+		isChangeFail: false,
 	},
 	getters: {},
 	mutations: {
@@ -17,6 +18,9 @@ export const groups = {
 		},
 		SET_LACK_MILEAGE(state, status) {
 			state.isLack = status;
+		},
+		SET_CHANGE_FAIL(state, status) {
+			state.isChangeFail = status;
 		},
 	},
 	actions: {
@@ -65,6 +69,33 @@ export const groups = {
 			await http.put(url, data, { headers }).then(res => {
 				console.log(res);
 			});
+		},
+
+		async editAccount({ commit }, account) {
+			let url = `/groups/${account.groupId}/account/id/`;
+			let data = {
+				identifier: account.identifier,
+			};
+			await http
+				.patch(url, data)
+				.then(() => {
+					commit('SET_CHANGE_FAIL', false);
+				})
+				.catch(() => {
+					commit('SET_CHANGE_FAIL', true);
+				});
+			url = `groups/${account.groupId}/account/password/`;
+			data = {
+				password: account.password,
+			};
+			await http
+				.patch(url, data)
+				.then(() => {
+					commit('SET_CHANGE_FAIL', false);
+				})
+				.catch(() => {
+					commit('SET_CHANGE_FAIL', true);
+				});
 		},
 	},
 };

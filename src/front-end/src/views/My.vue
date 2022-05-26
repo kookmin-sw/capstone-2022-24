@@ -2,7 +2,16 @@
 <template>
 	<!-- mileage modal -->
 	<q-dialog v-model="isMileageModal">
-		<mileage-modal :isActive="isMileageModal"></mileage-modal>
+		<mileage-modal :isActive="isMileageModal" />
+	</q-dialog>
+	<!-- ott 계정 수정 모달 -->
+	<q-dialog v-model="isInputModal">
+		<input-account
+			persistent
+			:isActive="isInputModal"
+			:group-id="getSelectGroup.account.id"
+			:id="getSelectGroup.account.identifier"
+			:pw="getSelectGroup.account.password" />
 	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
@@ -87,7 +96,11 @@
 				flat
 				dense
 				class="text-grey"
-				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'"
+				v-if="
+					getSelectGroup !== null &&
+					(getSelectGroup.status === 'Recruited' ||
+						getSelectGroup.status === 'Reviewing')
+				"
 				@click="clickLeaveGroup">
 				모임 탈퇴 하기 &gt;
 			</q-btn>
@@ -107,7 +120,11 @@
 		<!-- 모집 완료 -->
 		<!-- 모임 상세 정보 -->
 		<div
-			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
+			v-if="
+				getSelectGroup !== null &&
+				(getSelectGroup.status === 'Recruited' ||
+					getSelectGroup.status === 'Reviewing')
+			">
 			<div class="bg-blue-70">
 				<!-- 모임 상태 뱃지 -->
 				<div class="align-right">
@@ -154,7 +171,7 @@
 					<q-input
 						readonly
 						label="아이디"
-						v-model="getSelectGroup.account.id" />
+						v-model="getSelectGroup.account.identifier" />
 					<q-input
 						readonly
 						label="비밀번호"
@@ -163,7 +180,16 @@
 			</div>
 			<!-- 버튼 -->
 			<div class="row">
-				<q-space class="col-8" />
+				<q-space class="col-6" />
+				<!-- TODO: 모임장에게만 보이게 -->
+				<q-btn
+					outline
+					class="q-mr-sm text-blue-200"
+					@click="clickChangeAccount">
+					{{ getSelectGroup.provider.name }} 계정 입력<q-icon
+						name="fas fa-pen"
+						size="18px" />
+				</q-btn>
 				<q-btn outline class="q-mr-sm text-blue-200">
 					신고<q-icon name="no_accounts" />
 				</q-btn>
@@ -199,18 +225,21 @@ import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/UserVideos';
 import MileageModal from '@/components/modals/MileageModal';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
+import InputAccount from '@/components/modals/InputAccount';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
 	components: {
+		InputAccount,
 		UserVideos,
 		MileageModal,
 	},
 	data() {
 		return {
 			isMileageModal: false,
+			isInputModal: false,
 			maxWidth: 6,
 			selectGroup: {},
 			recentList: {
@@ -221,7 +250,7 @@ export default {
 			wishList: {
 				title: '찜한 작품',
 				method: 'user/pushWishList',
-				expandId: 'wish',
+				expandId: 'wishes',
 			},
 			starList: {
 				title: '별점 준 작품',
@@ -274,6 +303,9 @@ export default {
 
 		mileageHistoryBtnClick() {
 			this.isMileageModal = !this.isMileageModal;
+		},
+		clickChangeAccount() {
+			this.isInputModal = !this.isInputModal;
 		},
 	},
 };
