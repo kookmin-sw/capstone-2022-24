@@ -41,7 +41,7 @@
 
 <script>
 export default {
-	name: 'JoinFailModal',
+	name: 'PaymentModal',
 	props: {
 		isActive: {
 			type: Boolean,
