@@ -25,6 +25,8 @@ def dict_movie_update(data_path):
                     if check_sample(id, data_path) == True:
                         break
                     title = json_obj["results"][j]["title"]
+                    if (is_Korean_included(title) is False) & (title.encode().isalpha() is False):
+                        continue
                     Movie_dict[id] = {"tmdb_id": id, "title": title, "Category": "Movie"}
             else:
                 page_num = i - MAX_PAGE_LIMIT
