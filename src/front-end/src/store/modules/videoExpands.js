@@ -27,7 +27,7 @@ export const videoExpands = {
 		async loadVideoList({ state, commit }, { offset, type }) {
 			const url = `/mypage/${type}`;
 			const params = {
-				videoLimit: 36,
+				videoLimit: 48,
 				videoOffset: offset,
 			};
 			await http

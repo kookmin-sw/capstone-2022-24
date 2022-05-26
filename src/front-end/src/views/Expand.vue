@@ -65,7 +65,7 @@ export default {
 				// { label: '최근 조회한 작품', isSelect: false, name: 'recent' },
 				{ label: '찜한 작품', isSelect: false, name: 'wishes' },
 				// { label: '별점 준 작품', isSelect: false, name: 'star' },
-				// { label: '본 작품', isSelect: false, name: 'watched' },
+				{ label: '본 작품', isSelect: false, name: 'watch-marks' },
 			],
 			stars: 4,
 		};
@@ -96,9 +96,11 @@ export default {
 					});
 					done();
 				}, 1000);
+			} else {
+				done();
 			}
 		},
-		interactionButtonClick(idx) {
+		async interactionButtonClick(idx) {
 			this.interactions.forEach(i => {
 				if (i !== idx) {
 					i.isSelect = false;
@@ -106,6 +108,11 @@ export default {
 			});
 			this.interactions[idx].isSelect = true;
 			this.currentTab = this.interactions[idx].name;
+			await this.$store.commit('videoExpands/INIT_VIDEOS');
+			await this.$store.dispatch('videoExpands/loadVideoList', {
+				offset: this.videos.length,
+				type: this.currentTab,
+			});
 		},
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });

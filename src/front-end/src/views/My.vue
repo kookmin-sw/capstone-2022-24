@@ -211,13 +211,18 @@
 
 	<!--  찜한 작품  -->
 	<user-videos
-		v-if="getWishList"
-		:title="wishList.title"
-		:total="totalWish"
-		:total-page="Math.ceil(totalWish / maxWidth)"
-		:video-list="getWishList"
-		:push-video-method="wishList.method"
-		:expand-id="wishList.expandId" />
+		:title="myVideos.wishes.title"
+		:total="total.wishes"
+		:total-page="Math.ceil(total.wishes / maxWidth)"
+		:video-list="videos.wishes"
+		:expand-id="myVideos.wishes.expandId" />
+	<!-- 본 작품 -->
+	<user-videos
+		:title="myVideos['watch-marks'].title"
+		:total="total['watch-marks']"
+		:total-page="Math.ceil(total['watch-marks'] / maxWidth)"
+		:video-list="videos['watch-marks']"
+		:expand-id="myVideos['watch-marks'].expandId" />
 </template>
 
 <script>
@@ -242,38 +247,21 @@ export default {
 			isInputModal: false,
 			maxWidth: 6,
 			selectGroup: {},
-			recentList: {
-				title: '최근 조회 작품',
-				method: 'user/pushRecentList',
-				expandId: 'recent',
-			},
-			wishList: {
-				title: '찜한 작품',
-				method: 'user/pushWishList',
-				expandId: 'wishes',
-			},
-			starList: {
-				title: '별점 준 작품',
-				method: 'user/pushStarList',
-				expandId: 'star',
-			},
-			watchList: {
-				title: '본 작품',
-				method: 'user/pushWatchList',
-				expandId: 'watched',
+			myVideos: {
+				wishes: {
+					title: '찜한 작품',
+					expandId: 'wishes',
+				},
+				'watch-marks': {
+					title: '본 작품',
+					expandId: 'watch-marks',
+				},
 			},
 		};
 	},
 	computed: {
-		...mapState('user', ['profile', 'totalWish']),
-		...mapGetters('user', [
-			'getGroupList',
-			'getSelectGroup',
-			'getRecentList',
-			'getWishList',
-			'getStarList',
-			'getWatchList',
-		]),
+		...mapState('user', ['profile', 'total', 'videos']),
+		...mapGetters('user', ['getGroupList', 'getSelectGroup']),
 	},
 	async beforeCreate() {
 		window.reload;
@@ -300,7 +288,6 @@ export default {
 					if (error.code === 'USER_CANCEL') alert('결제가 취소되었습니다!');
 				});
 		},
-
 		mileageHistoryBtnClick() {
 			this.isMileageModal = !this.isMileageModal;
 		},
