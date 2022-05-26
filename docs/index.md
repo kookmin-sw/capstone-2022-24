@@ -60,6 +60,7 @@ So we planned this project that integrates OTT supplementary features to improve
 
 ## 소개 영상
 추후 업로드 예정
+[![섬네일이미지](이미지링크)](유튜브링크)
 
 ## 팀 소개
 ### 팀원
@@ -109,11 +110,10 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
 
 ## 시스템 설계도
+
 ## 시스템 구조도
 ![local architecture](local-env-architecture-final.drawio.png)
 ![dev architecture](dev-env-architecture-final.drawio.png)
-
-## 화면?
 
 ## 사용법
 ### 🖥 [Front-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89%EB%B0%A9%EB%B2%95)
@@ -122,7 +122,7 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 ## 기타
 ### 발표 자료
 - [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/midterm/%ED%8C%8024-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)
-- [최종 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/)
+- [최종 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/%ED%8C%8024-%EC%88%98%ED%96%89%EA%B2%B0%EA%B3%BC%EB%B3%B4%EA%B3%A0%EC%84%9C.docx.pdf)
 
 ### 프로젝트 문서
 - [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
