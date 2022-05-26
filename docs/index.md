@@ -59,8 +59,7 @@ In addition, as the number of OTT accounts subscribed increases, consumers have 
 So we planned this project that integrates OTT supplementary features to improve user convenience.
 
 ## 소개 영상
-추후 업로드 예정
-[![섬네일이미지](이미지링크)](유튜브링크)
+[![섬네일이미지](https://img.youtube.com/vi/RlONuO-xeMs/hqdefault.jpg)](https://youtu.be/RlONuO-xeMs)
 
 ## 팀 소개
 ### 팀원
@@ -109,8 +108,6 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 - **CI/CD**
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
 
-## 시스템 설계도
-
 ## 시스템 구조도
 ![local architecture](local-env-architecture-final.drawio.png)
 ![dev architecture](dev-env-architecture-final.drawio.png)
@@ -126,3 +123,4 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 ### 프로젝트 문서
 - [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
+- [Figma - 와이어프레임 및 프로토타입](https://www.figma.com/file/6K75DHjsBMIbt0574U7yd9/%EC%BA%A1%EC%8A%A4%ED%86%A42022?node-id=96%3A82)
