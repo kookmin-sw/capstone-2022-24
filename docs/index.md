@@ -59,7 +59,7 @@ In addition, as the number of OTT accounts subscribed increases, consumers have 
 So we planned this project that integrates OTT supplementary features to improve user convenience.
 
 ## 소개 영상
-[![섬네일이미지](https://img.youtube.com/vi/RlONuO-xeMs/hqdefault.jpg)](https://youtu.be/RlONuO-xeMs)
+[![섬네일이미지](https://img.youtube.com/vi/ixT1wWMar5o/hqdefault.jpg)](https://youtu.be/ixT1wWMar5o)
 
 ## 팀 소개
 ### 팀원
