@@ -39,3 +39,14 @@ class VideoHistoryPagination(LimitOffsetPagination):
             },
             "results": data,
         }
+
+    def get_paginated_response_schema(self, schema):
+        """Get paginated schema used in spectacular"""
+        return {
+            "page": {
+                "limit": "integer",
+                "offset": "integer",
+                "total_count": "integer",
+            },
+            "results": schema,
+        }

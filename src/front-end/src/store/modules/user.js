@@ -59,7 +59,7 @@ export const user = {
 		},
 	},
 	actions: {
-		async initProfile({ commit }) {
+		async initProfile({ state, commit, dispatch }) {
 			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
 			const url = `/mypage/`;
@@ -73,7 +73,6 @@ export const user = {
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
-					console.log(user);
 					const userProfile = {
 						nickname: user.nickname,
 						phone: user.cellPhoneNumber,
@@ -101,15 +100,22 @@ export const user = {
 				.catch(err => {
 					alert(err);
 				});
+
+			if (state.selectGroup) {
+				dispatch('selectGroup', state.selectGroup.provider.id);
+			}
 		},
 		async selectGroup({ state, commit }, groupId) {
 			// 사용자가 선택한 모임 정보가 존재하는지 확인
 			const selected = state.groupList.find(group => {
 				return group.provider.id === groupId;
 			});
+
 			if (selected) {
-				// TODO: 모임 상세 api 호출 (PR중)
-				commit('SET_SELECT_GROUP', selected);
+				const url = `/providers/${selected.provider.id}`;
+				await http.get(url).then(res => {
+					commit('SET_SELECT_GROUP', res.data);
+				});
 			}
 		},
 		async pushWishList({ state, commit }) {
