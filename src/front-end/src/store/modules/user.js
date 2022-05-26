@@ -10,10 +10,14 @@ export const user = {
 		groupsInfo: [],
 		selectGroup: {},
 		recentList: {},
-		wishList: [],
-		starList: {},
-		watchList: {},
-		totalWish: 0,
+		total: {
+			wishes: 0,
+			'watch-marks': 0,
+		},
+		videos: {
+			wishes: [],
+			'watch-marks': [],
+		},
 	},
 	getters: {
 		getGroupList(state) {
@@ -21,18 +25,6 @@ export const user = {
 		},
 		getSelectGroup(state) {
 			return state.selectGroup;
-		},
-		getRecentList(state) {
-			return state.recentList;
-		},
-		getWishList(state) {
-			return state.wishList;
-		},
-		getStarList(state) {
-			return state.starList;
-		},
-		getWatchList(state) {
-			return state.watchList;
 		},
 	},
 	mutations: {
@@ -48,18 +40,21 @@ export const user = {
 		SET_SELECT_GROUP(state, group) {
 			state.selectGroup = group;
 		},
-		INIT_VIDEOS(state) {
-			state.wishList = [];
+		INIT_VIDEOS(state, videos) {
+			state.total.wishes = videos.wishes.page.totalCount;
+			state.videos.wishes = [];
+			state.videos.wishes.push(videos.wishes.results);
+
+			state.total['watch-marks'] = videos.watchMarks.page.totalCount;
+			state.videos['watch-marks'] = [];
+			state.videos['watch-marks'].push(videos.watchMarks.results);
 		},
-		SET_TOTAL_WISH(state, total) {
-			state.totalWish = total;
-		},
-		PUSH_WISH_LIST(state, videoList) {
-			state.wishList.push(videoList);
+		PUSH_VIDEO_LIST(state, videos) {
+			state.videos[videos.type].push(videos.results);
 		},
 	},
 	actions: {
-		async initProfile({ commit }) {
+		async initProfile({ state, commit, dispatch }) {
 			commit('INIT_GROUP');
 			commit('SET_PROFILE', {});
 			const url = `/mypage/`;
@@ -73,7 +68,6 @@ export const user = {
 				.then(res => {
 					// init profile
 					const user = res.data.profile;
-					console.log(user);
 					const userProfile = {
 						nickname: user.nickname,
 						phone: user.cellPhoneNumber,
@@ -88,9 +82,7 @@ export const user = {
 
 					// set videos
 					const videos = res.data.videos;
-					commit('SET_TOTAL_WISH', videos.wishes.page.totalCount);
-					commit('INIT_VIDEOS');
-					commit('PUSH_WISH_LIST', videos.wishes.results);
+					commit('INIT_VIDEOS', videos);
 
 					// init groups
 					const groups = res.data.groups;
@@ -101,31 +93,37 @@ export const user = {
 				.catch(err => {
 					alert(err);
 				});
+
+			if (state.selectGroup) {
+				dispatch('selectGroup', state.selectGroup.provider.id);
+			}
 		},
 		async selectGroup({ state, commit }, groupId) {
 			// 사용자가 선택한 모임 정보가 존재하는지 확인
 			const selected = state.groupList.find(group => {
 				return group.provider.id === groupId;
 			});
+
 			if (selected) {
-				// TODO: 모임 상세 api 호출 (PR중)
-				commit('SET_SELECT_GROUP', selected);
+				const url = `/providers/${selected.provider.id}`;
+				await http.get(url).then(res => {
+					commit('SET_SELECT_GROUP', res.data);
+				});
 			}
 		},
-		async pushWishList({ state, commit }) {
-			const url = `/mypage/wishes`;
+		async pushVideos({ state, commit }, type) {
+			const url = `/mypage/${type}`;
 			const params = {
 				videoLimit: 6,
-				videoOffset: state.wishList.length * 6,
+				videoOffset: state.videos[type].length * 6,
 			};
-			http
-				.get(url, { params })
-				.then(res => {
-					commit('PUSH_WISH_LIST', res.data.results);
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			http.get(url, { params }).then(res => {
+				const videos = {
+					type: type,
+					results: res.data.results,
+				};
+				commit('PUSH_VIDEO_LIST', videos);
+			});
 		},
 	},
 };

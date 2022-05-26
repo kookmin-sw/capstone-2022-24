@@ -59,7 +59,7 @@ In addition, as the number of OTT accounts subscribed increases, consumers have 
 So we planned this project that integrates OTT supplementary features to improve user convenience.
 
 ## 소개 영상
-추후 업로드 예정
+<iframe width="900" height="506" src="https://www.youtube.com/embed/ixT1wWMar5o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## 팀 소개
 ### 팀원
@@ -95,18 +95,22 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 #### back-end
 - **language**
-  <img src="https://img.shields.io/badge/python3-3776ab?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Python3-3776ab?style=flat-square&logo=python&logoColor=white"/>
 - **framework**
   <img src="https://img.shields.io/badge/Django-092e20?style=flat-square&logo=django&logoColor=white"/>
 - **database**
-  <img src="https://img.shields.io/badge/MongoDB-47a248?style=flat-square&logo=mongodb&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MariaDB-003545?style=flat-square&logo=mariadb&logoColor=white"/>
 
 #### Infra
 - **cloud service**
   <img src="https://img.shields.io/badge/Amazon AWS-ff9900?style=flat-square&logo=amazonaws&logoColor=white"/>
-  - EC2, S3, Cloud Front
+
 - **CI/CD**
   <img src="https://img.shields.io/badge/GitHub Actions-2088ff?style=flat-square&logo=githubactions&logoColor=white"/>
+
+## 시스템 구조도
+![local architecture](local-env-architecture-final.drawio.png)
+![dev architecture](dev-env-architecture-final.drawio.png)
 
 ## 사용법
 ### 🖥 [Front-End](https://github.com/kookmin-sw/capstone-2022-24/wiki/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EC%84%9C%EB%B2%84-%EC%8B%A4%ED%96%89%EB%B0%A9%EB%B2%95)
@@ -114,8 +118,9 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 ## 기타
 ### 발표 자료
-- [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/midterm/%ED%8C%8024-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)
-- 최종 발표 - 추후 추가 예정
+- [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/wiki/%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C-%EC%9E%90%EB%A3%8C)
+- [최종 발표](final/README.md)
 
 ### 프로젝트 문서
 - [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
+- [Figma - 와이어프레임 및 프로토타입](https://www.figma.com/file/6K75DHjsBMIbt0574U7yd9/%EC%BA%A1%EC%8A%A4%ED%86%A42022?node-id=96%3A82)
