@@ -110,7 +110,8 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 
 ## 시스템 설계도
 ## 시스템 구조도
-![system architecture](local-env-architecture.png)
+![local architecture](local-env-architecture-final.drawio.png)
+![dev architecture](dev-env-architecture-final.drawio.png)
 
 ## 화면?
 
@@ -121,7 +122,7 @@ role: front-end, UI/UX 설계, 이벤트 렌더링, GitHub Page 문서 작성
 ## 기타
 ### 발표 자료
 - [중간 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/midterm/%ED%8C%8024-%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)
-- [최종 발표] 링크 추가예정
+- [최종 발표](https://github.com/kookmin-sw/capstone-2022-24/blob/develop/docs/final/)
 
 ### 프로젝트 문서
 - [GitHub wiki](https://github.com/kookmin-sw/capstone-2022-24/wiki)
