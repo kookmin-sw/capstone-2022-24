@@ -13,6 +13,17 @@
 			:id="getSelectGroup.account.identifier"
 			:pw="getSelectGroup.account.password" />
 	</q-dialog>
+	<!-- 모임 탈퇴 모달 -->
+	<q-dialog v-model="isLeaveModal">
+		<leave-group-modal
+			persistent
+			:isActive="isLeaveModal"
+			@clickLeave="leaveGroup" />
+	</q-dialog>
+	<!-- 모임 탈퇴 성공 모달 -->
+	<q-dialog v-model="isLeaveSuccess">
+		<leave-group-success persistent :isActive="isLeaveSuccess" />
+	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
@@ -226,17 +237,21 @@
 </template>
 
 <script>
+import { loadTossPayments } from '@tosspayments/payment-sdk';
 import { mapGetters, mapState } from 'vuex';
 import UserVideos from '@/components/UserVideos';
 import MileageModal from '@/components/modals/MileageModal';
-import { loadTossPayments } from '@tosspayments/payment-sdk';
 import InputAccount from '@/components/modals/InputAccount';
+import LeaveGroupModal from '@/components/modals/LeaveGroupModal';
+import LeaveGroupSuccess from '@/components/modals/LeaveGroupSuccess';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
 	components: {
+		LeaveGroupSuccess,
+		LeaveGroupModal,
 		InputAccount,
 		UserVideos,
 		MileageModal,
@@ -245,6 +260,8 @@ export default {
 		return {
 			isMileageModal: false,
 			isInputModal: false,
+			isLeaveModal: false,
+			isLeaveSuccess: false,
 			maxWidth: 6,
 			selectGroup: {},
 			myVideos: {
@@ -271,10 +288,13 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/selectGroup', groupId);
 		},
-		async clickLeaveGroup() {
-			console.log(this.getSelectGroup);
-			const id = this.getSelectGroup.provider.id;
-			await this.$store.dispatch('groups/LeaveGroup', id);
+		clickLeaveGroup() {
+			this.isLeaveModal = !this.isLeaveModal;
+		},
+		leaveGroup() {
+			// TODO: api 호출
+			// TODO: 성공, 실패 판단
+			this.isLeaveSuccess = true;
 		},
 		async chargeCredit() {
 			const tossPayments = await loadTossPayments(clientKey);

@@ -85,7 +85,7 @@
 						flat
 						@click="cancelRecord('watch-marks')"
 						class="col q-ma-sm bg-blue-100 text-white text-bold">
-						본 작품
+						본 작품 취소
 					</q-btn>
 					<q-btn
 						v-else-if="
@@ -95,7 +95,7 @@
 						outline
 						@click="addRecord('watch-marks')"
 						class="col q-ma-sm text-blue-200">
-						안 본 작품
+						본 작품 추가
 					</q-btn>
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>
