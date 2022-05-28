@@ -211,7 +211,6 @@ if __name__ == "__main__":
     tv_video_detail_data, tv_genre_data, tv_production_country_data = arrange_tv_video_detail(json_tv_dict)
     tv_provider_data = arrange_tv_provider(json_tv_dict)
     tv_detail_data = arrange_tv_detail_data(json_tv_dict)
-    save_tv_detail_data(tv_detail_data)
 
     save_video_data(tv_data)
     save_detail_data(tv_video_detail_data)
