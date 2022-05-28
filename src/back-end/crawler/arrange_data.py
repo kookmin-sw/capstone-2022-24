@@ -40,8 +40,8 @@ def arrange_movie_data(dicts):
     return result
 
 
-def arrange_movie_detail(dicts):
-    """method: Arrange movie detail, genre, production_country info in dicts to the format"""
+def arrange_movie_video_detail(dicts):
+    """method: Arrange movie video detail, genre, production_country info in dicts to the format"""
 
     detail_list = []
     genre_list = []
@@ -129,6 +129,26 @@ def arrange_movie_provider(dicts):
     return provider_list
 
 
+def arrange_movie_detail_data(dicts):
+    """method: Arrange movie detail info in dicts to the format"""
+    detail_list = []
+    for key, value in dicts.items():
+        tmdb_id = key
+        movie_data = value["data"][1]
+
+        """Arrange movie detail data"""
+        overview = check_vaild(movie_data, "overview")
+        object_detail = {
+            "tmdb_id": tmdb_id,
+            "category": "MV",
+            "overview": overview,
+            "source": "tmdb",
+        }
+        detail_list.append(object_detail)
+
+    return detail_list
+
+
 def arrange_tv_data(dicts):
     """method: Arrange base tv info in dicts to the format"""
 
@@ -172,8 +192,8 @@ def arrange_tv_data(dicts):
     return result
 
 
-def arrange_tv_detail(dicts):
-    """method: Arrange tv detail, genre, production_country info in dicts to the format"""
+def arrange_tv_video_detail(dicts):
+    """method: Arrange tv video detail, genre, production_country info in dicts to the format"""
 
     detail_list = []
     genre_list = []
@@ -255,3 +275,41 @@ def arrange_tv_provider(dicts):
         provider_list.append(object_providers)
 
     return provider_list
+
+
+def arrange_tv_detail_data(dicts):
+    """method: Arrange tv detail info in dicts to the format"""
+    detail_list = []
+    i = 0
+    for key, value in dicts.items():
+        season_list = []
+        tmdb_id = key
+        tv_data = value["data"][1]
+
+        """Arrange tv detail data"""
+        number_of_episodes = check_vaild(tv_data, "number_of_episodes")
+        number_of_seasons = check_vaild(tv_data, "number_of_seasons")
+        object_detail = {
+            "tmdb_id": tmdb_id,
+            "category": "TV",
+            "number_of_episodes": number_of_episodes,
+            "number_of_seasons": number_of_seasons,
+        }
+        seasons_data = check_vaild(tv_data, "seasons")
+        for item in seasons_data:
+            object_season_data = {
+                "season_number": item["season_number"],
+                "number_of_total_episodes": item["episode_count"],
+                "overview": item["overview"],
+            }
+            object_season = {
+                "season_name": item["name"],
+                "season_number": item["season_number"],
+                "season_data": object_season_data,
+            }
+            season_list.append(object_season)
+        object_detail["seasons"] = season_list
+
+        detail_list.append(object_detail)
+
+    return detail_list
