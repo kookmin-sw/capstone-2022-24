@@ -196,29 +196,23 @@ class DetailView(viewsets.ViewSet):
         season_number = season_num
 
         try:
-            tv = Video.objects.get(Q(id=tv_id))
+            tv = Video.objects.select_related("tvseriesdetail", "videototalcount").get(Q(id=tv_id))
         except Video.DoesNotExist as e:
             raise VideoNotFoundException() from e
 
+        series = tv.tvseriesdetail
         if tv.category != "TV":
             raise WrongVideoIDException()
 
         """====Use Open API to Get detail info===="""
 
         key = tv.tmdb_id
-        tv_url = f"https://api.themoviedb.org/3/tv/{key}?api_key={self.api_key}&language={self.language}"
-        tv_json_ob = self.get_request_to_json(tv_url)
-
-        season_list = self.get_season_list(tv_json_ob["seasons"])
-
-        tv_season_url = (
-            f"https://api.themoviedb.org/3/tv/{key}/season/{season_number}"
-            f"?api_key={self.api_key}&language={self.language}"
-        )
-        season_json_ob = self.get_request_to_json(tv_season_url)
-
-        if "success" in season_json_ob:
-            raise VideoNotFoundException()
+        season_data = series.tvseasondetail_set.get(Q(number=season_number))
+        season_list = []
+        seasons = series.tvseason_set.filter(Q(series_id=series.id))
+        for item in seasons:
+            season_object = {"name": item.name, "number": item.number}
+            season_list.append(season_object)
 
         tv_info_list = self.get_video_info(tv_id)
 
@@ -230,7 +224,6 @@ class DetailView(viewsets.ViewSet):
         similar_list = self.get_similar_list(tv_similar_json_ob, tv.category)
 
         """======Making Response======"""
-
         tv_info_response = self.make_video_response(tv_info_list)
 
         context = {
@@ -241,12 +234,12 @@ class DetailView(viewsets.ViewSet):
             "release_year": str(tv.release_date.year),
             "release_date": tv.release_date.strftime("%m-%d"),
             "film_rating": tv.film_rating,
-            "overview": season_json_ob["overview"],
+            "overview": season_data.overview,
             "providers": tv_info_response["provider_list"],
             "genres": tv_info_response["genre_list"],
             "production_countries": tv_info_response["production_country_list"],
-            "total_seasons": tv_json_ob["number_of_seasons"],
-            "total_episodes": tv_json_ob["number_of_episodes"],
+            "total_seasons": series.number_of_seasons,
+            "total_episodes": series.number_of_episodes,
             "seasons": season_list,
             "public": {"wish_count": tv.videototalcount.wish_count, "watch_count": tv.videototalcount.watch_count},
             "personal": {"wished": None, "watched": None},
@@ -295,7 +288,7 @@ class DetailView(viewsets.ViewSet):
         movie_id = video_id
 
         try:
-            movie = Video.objects.get(Q(id=movie_id))
+            movie = Video.objects.select_related("moviedetail", "videototalcount").get(Q(id=movie_id))
         except Video.DoesNotExist as e:
             raise VideoNotFoundException() from e
 
@@ -305,9 +298,6 @@ class DetailView(viewsets.ViewSet):
         """====Use Open API to Get detail info===="""
 
         key = movie.tmdb_id
-        movie_url = f"https://api.themoviedb.org/3/movie/{key}?api_key={self.api_key}&language={self.language}"
-        json_ob = self.get_request_to_json(movie_url)
-        overview = json_ob["overview"]
 
         movie_info_list = self.get_video_info(movie_id)
         movie_similar_url = (
@@ -328,7 +318,7 @@ class DetailView(viewsets.ViewSet):
             "release_year": str(movie.release_date.year),
             "release_date": movie.release_date.strftime("%m-%d"),
             "title_english": movie.title_english,
-            "overview": overview,
+            "overview": movie.moviedetail.overview,
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
