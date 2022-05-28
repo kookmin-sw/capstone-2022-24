@@ -193,19 +193,18 @@ class DetailView(viewsets.ViewSet):
         season_number = season_num
 
         try:
-            tv = Video.objects.select_related("tvseriesdetail", "videototalcount").get(Q(id=tv_id))
+            tv = Video.objects.prefetch_related(
+                "tvseriesdetail", "videototalcount", "tvseriesdetail__tvseasondetail_set"
+            ).get(Q(id=tv_id))
         except Video.DoesNotExist as e:
             raise VideoNotFoundException() from e
-
-        series = tv.tvseriesdetail
-        video_total_count = tv.videototalcount
 
         if tv.category != "TV":
             raise WrongVideoIDException()
 
         key = tv.tmdb_id
-        season_data = series.tvseasondetail_set.get(Q(number=season_number))
-        season_list = self.get_season_list(series)
+        season_data = tv.tvseriesdetail.tvseasondetail_set.get(Q(number=season_number))
+        season_list = self.get_season_list(tv.tvseriesdetail)
         tv_info_list = self.get_video_info(tv_id)
 
         """====Use Open API to Get similar list===="""
@@ -231,12 +230,12 @@ class DetailView(viewsets.ViewSet):
             "providers": tv_info_response["provider_list"],
             "genres": tv_info_response["genre_list"],
             "production_countries": tv_info_response["production_country_list"],
-            "total_seasons": series.number_of_seasons,
-            "total_episodes": series.number_of_episodes,
+            "total_seasons": tv.tvseriesdetail.number_of_seasons,
+            "total_episodes": tv.tvseriesdetail.number_of_episodes,
             "seasons": season_list,
             "public": {
-                "wish_count": video_total_count.wish_count,
-                "watch_count": video_total_count.watch_count,
+                "wish_count": tv.videototalcount.wish_count,
+                "watch_count": tv.videototalcount.watch_count,
             },
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
@@ -293,8 +292,6 @@ class DetailView(viewsets.ViewSet):
 
         key = movie.tmdb_id
         movie_info_list = self.get_video_info(movie_id)
-        video_total_count = movie.videototalcount
-        movie_detail = movie.moviedetail
 
         """====Use Open API to Get similar list===="""
 
@@ -316,13 +313,13 @@ class DetailView(viewsets.ViewSet):
             "release_year": str(movie.release_date.year),
             "release_date": movie.release_date.strftime("%m-%d"),
             "title_english": movie.title_english,
-            "overview": movie_detail.overview,
+            "overview": movie.moviedetail.overview,
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
             "public": {
-                "wish_count": video_total_count.wish_count,
-                "watch_count": video_total_count.watch_count,
+                "wish_count": movie.videototalcount.wish_count,
+                "watch_count": movie.videototalcount.watch_count,
             },
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
