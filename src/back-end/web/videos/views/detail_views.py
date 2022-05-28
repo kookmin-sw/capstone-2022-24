@@ -1,6 +1,5 @@
 """APIs of Video application : DetailView"""
 # pylint: disable=R0914
-
 import gettext
 import json
 
@@ -37,7 +36,7 @@ def tv_season_redirect_view(request, video_id):
 
 
 class DetailView(viewsets.ViewSet):
-    """Class that displays a detail informations of Movie"""
+    """Class that displays a detail informations of Movie, Tv"""
 
     language = "ko"
 
@@ -47,16 +46,14 @@ class DetailView(viewsets.ViewSet):
 
     category_title_naming = {"TV": "name", "MV": "title"}
 
-    def get_season_list(self, json_season):
+    def get_season_list(self, series):
         """Method: Get the Tv season lists"""
 
         season_list = []
-        for item in json_season:
-            season = {
-                "number": item["season_number"],
-                "name": item["name"],
-            }
-            season_list.append(season)
+        seasons = series.tvseason_set.filter(Q(series_id=series.id))
+        for item in seasons:
+            season_object = {"name": item.name, "number": item.number}
+            season_list.append(season_object)
 
         return season_list
 
@@ -201,26 +198,22 @@ class DetailView(viewsets.ViewSet):
             raise VideoNotFoundException() from e
 
         series = tv.tvseriesdetail
+        video_total_count = tv.videototalcount
+
         if tv.category != "TV":
             raise WrongVideoIDException()
 
-        """====Use Open API to Get detail info===="""
-
         key = tv.tmdb_id
         season_data = series.tvseasondetail_set.get(Q(number=season_number))
-        season_list = []
-        seasons = series.tvseason_set.filter(Q(series_id=series.id))
-        for item in seasons:
-            season_object = {"name": item.name, "number": item.number}
-            season_list.append(season_object)
-
+        season_list = self.get_season_list(series)
         tv_info_list = self.get_video_info(tv_id)
+
+        """====Use Open API to Get similar list===="""
 
         tv_similar_url = (
             f"https://api.themoviedb.org/3/tv/{key}/similar?api_key={self.api_key}&language={self.language}"
         )
         tv_similar_json_ob = self.get_request_to_json(tv_similar_url)
-
         similar_list = self.get_similar_list(tv_similar_json_ob, tv.category)
 
         """======Making Response======"""
@@ -241,7 +234,10 @@ class DetailView(viewsets.ViewSet):
             "total_seasons": series.number_of_seasons,
             "total_episodes": series.number_of_episodes,
             "seasons": season_list,
-            "public": {"wish_count": tv.videototalcount.wish_count, "watch_count": tv.videototalcount.watch_count},
+            "public": {
+                "wish_count": video_total_count.wish_count,
+                "watch_count": video_total_count.watch_count,
+            },
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
         }
@@ -295,11 +291,13 @@ class DetailView(viewsets.ViewSet):
         if movie.category != "MV":
             raise WrongVideoIDException()
 
-        """====Use Open API to Get detail info===="""
-
         key = movie.tmdb_id
-
         movie_info_list = self.get_video_info(movie_id)
+        video_total_count = movie.videototalcount
+        movie_detail = movie.moviedetail
+
+        """====Use Open API to Get similar list===="""
+
         movie_similar_url = (
             f"https://api.themoviedb.org/3/movie/{key}/similar?api_key={self.api_key}&language={self.language}"
         )
@@ -318,13 +316,13 @@ class DetailView(viewsets.ViewSet):
             "release_year": str(movie.release_date.year),
             "release_date": movie.release_date.strftime("%m-%d"),
             "title_english": movie.title_english,
-            "overview": movie.moviedetail.overview,
+            "overview": movie_detail.overview,
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
             "public": {
-                "wish_count": movie.videototalcount.wish_count,
-                "watch_count": movie.videototalcount.watch_count,
+                "wish_count": video_total_count.wish_count,
+                "watch_count": video_total_count.watch_count,
             },
             "personal": {"wished": None, "watched": None},
             "similars": similar_list,
