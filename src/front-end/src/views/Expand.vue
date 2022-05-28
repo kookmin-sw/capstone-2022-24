@@ -18,7 +18,7 @@
 		<div>
 			<q-infinite-scroll :offset="250" @load="videoOnLoad">
 				<div class="row video-list-frame">
-					<div style="width: 15%" v-for="video in wishList" :key="video.id">
+					<div style="width: 15%" v-for="video in videos" :key="video.id">
 						<div class="video-poster">
 							<img
 								:src="video.posterUrl"
@@ -42,11 +42,11 @@
 					</div>
 				</div>
 				<template v-slot:loading>
-					<div class="row justify-center" v-if="wishList.length < totalWish">
+					<div class="row justify-center" v-if="videos.length < totalResult">
 						<q-spinner-dots color="primary" size="40px" class="q-mb-lg" />
 					</div>
 				</template>
-				<div v-if="loadFail && wishList.length === 0" class="text-h6 text-bold">
+				<div v-if="loadFail && videos.length === 0" class="text-h6 text-bold">
 					추가한 작품이 존재하지 않습니다.
 				</div>
 			</q-infinite-scroll>
@@ -63,9 +63,9 @@ export default {
 			currentTab: '',
 			interactions: [
 				// { label: '최근 조회한 작품', isSelect: false, name: 'recent' },
-				{ label: '찜한 작품', isSelect: false, name: 'wish' },
+				{ label: '찜한 작품', isSelect: false, name: 'wishes' },
 				// { label: '별점 준 작품', isSelect: false, name: 'star' },
-				// { label: '본 작품', isSelect: false, name: 'watched' },
+				{ label: '본 작품', isSelect: false, name: 'watch-marks' },
 			],
 			stars: 4,
 		};
@@ -78,24 +78,29 @@ export default {
 			}
 		});
 		await this.$store.commit('videoExpands/INIT_VIDEOS');
-		await this.$store.dispatch('videoExpands/loadWishList', 0);
+		await this.$store.dispatch('videoExpands/loadVideoList', {
+			offset: this.videos.length,
+			type: this.currentTab,
+		});
 	},
 	computed: {
-		...mapState('videoExpands', ['wishList', 'totalWish', 'loadFail']),
+		...mapState('videoExpands', ['videos', 'totalResult', 'loadFail']),
 	},
 	methods: {
 		videoOnLoad(index, done) {
-			if (this.wishList.length <= this.totalWish) {
+			if (this.videos.length <= this.totalResult) {
 				setTimeout(() => {
-					this.$store.dispatch(
-						'videoExpands/loadWishList',
-						this.wishList.length,
-					);
+					this.$store.dispatch('videoExpands/loadVideoList', {
+						offset: this.videos.length,
+						type: this.currentTab,
+					});
 					done();
 				}, 1000);
+			} else {
+				done();
 			}
 		},
-		interactionButtonClick(idx) {
+		async interactionButtonClick(idx) {
 			this.interactions.forEach(i => {
 				if (i !== idx) {
 					i.isSelect = false;
@@ -103,6 +108,11 @@ export default {
 			});
 			this.interactions[idx].isSelect = true;
 			this.currentTab = this.interactions[idx].name;
+			await this.$store.commit('videoExpands/INIT_VIDEOS');
+			await this.$store.dispatch('videoExpands/loadVideoList', {
+				offset: this.videos.length,
+				type: this.currentTab,
+			});
 		},
 		videoClick(videoId, category) {
 			this.$router.push({ name: 'Details', params: { videoId, category } });

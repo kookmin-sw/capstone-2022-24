@@ -31,6 +31,8 @@ def dict_tv_update(data_path):
                         list = []
                     list.append(provider)
                     title = json_obj["results"][j]["name"]
+                    if (is_Korean_included(title) is False) & (title.isalpha() is False):
+                        continue
                     Tv_dict[id] = {"tmdb_id": id, "title": title, "Category": "TV", "provider_id": list}
             else:
                 page_Num = i - MAX_PAGE_LIMIT

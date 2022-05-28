@@ -61,21 +61,42 @@
 						:option-label="'name'">
 					</q-select>
 
+					<!-- 찜 버튼 -->
 					<q-btn
-						v-if="this.wished !== null && this.wished"
+						v-if="this.personal.wishes !== null && this.personal.wishes"
 						flat
-						@click="cancleWish"
+						@click="cancelRecord('wishes')"
 						class="col q-ma-sm bg-blue-100 text-white text-bold">
 						찜 취소
 					</q-btn>
 					<q-btn
-						v-else-if="this.wished !== null && !this.wished"
+						v-else-if="this.personal.wishes !== null && !this.personal.wishes"
 						outline
-						@click="addWish"
+						@click="addRecord('wishes')"
 						class="col q-ma-sm text-blue-200">
 						찜 하기
 					</q-btn>
-					<!--					<q-btn outline class="col q-ma-sm text-blue-200">안 본 영화</q-btn>-->
+					<!-- 본 버튼 -->
+					<q-btn
+						v-if="
+							this.personal['watch-marks'] !== null &&
+							this.personal['watch-marks']
+						"
+						flat
+						@click="cancelRecord('watch-marks')"
+						class="col q-ma-sm bg-blue-100 text-white text-bold">
+						본 작품 취소
+					</q-btn>
+					<q-btn
+						v-else-if="
+							this.personal['watch-marks'] !== null &&
+							!this.personal['watch-marks']
+						"
+						outline
+						@click="addRecord('watch-marks')"
+						class="col q-ma-sm text-blue-200">
+						본 작품 추가
+					</q-btn>
 					<!--					<q-btn outline class="col q-ma-sm text-blue-200">별점 주기</q-btn>-->
 				</div>
 				<!-- 작품을 서비스하는 ott 목록-->
@@ -110,6 +131,41 @@
 		<div class="q-mb-md text-h6 text-weight-bold">줄거리</div>
 		<div v-if="!videoDetails.overview">등록된 줄거리가 없습니다.</div>
 		<div v-else>{{ videoDetails.overview }}</div>
+	</div>
+
+	<!-- 유사한 작품 추천 -->
+	<q-separator color="blue-1" size="2px" inset />
+	<q-separator color="blue-4" inset />
+	<div class="q-ma-xl text-left">
+		<div class="q-mb-md text-h6 text-weight-bold">유사 작품 추천</div>
+		<div class="bg-blue-70 q-pa-lg">
+			<div
+				class="text-h6 text-bold bg-blue-70"
+				v-if="!videoDetails.similars"
+				style="height: 300px; line-height: 300px">
+				추가된 작품이 없습니다.
+			</div>
+			<div class="row video-list-frame" v-else>
+				<div
+					style="width: 15%"
+					v-for="video in videoDetails.similars"
+					:key="video.id">
+					<div class="video-poster">
+						<img
+							:src="video.posterUrl"
+							:alt="video.id"
+							class="video-poster-img" />
+					</div>
+					<div class="row no-wrap items-center">
+						<div class="col text-right q-mt-sm">
+							<div class="video-title text-left text-weight-bold">
+								{{ video.title }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- hr -->
 	<!--	<q-separator color="blue-1" size="2px" inset />-->
@@ -159,7 +215,13 @@ export default {
 			productionCountry: '',
 			genre: '',
 			details: null,
+			personal: {
+				wishes: null,
+				'watch-marks': null,
+			},
 			wished: null,
+			watched: null,
+			currentPage: 1,
 		};
 	},
 	watch: {
@@ -190,20 +252,27 @@ export default {
 			});
 			this.videoId = videoId;
 			this.category = category;
-			this.wished = this.videoDetails.personal.wished;
+			this.personal['wishes'] = this.videoDetails.personal.wished;
+			this.personal['watch-marks'] = this.videoDetails.personal.watched;
 		},
-		addWish() {
-			this.$store
-				.dispatch('videoInteractions/addWish', this.videoId)
-				.then(() => {
-					this.wished = true;
-				});
+		addRecord(type) {
+			const record = {
+				type: type,
+				id: this.videoId,
+			};
+			this.$store.dispatch('videoInteractions/addRecord', record).then(res => {
+				this.personal[res] = true;
+			});
 		},
-		cancleWish() {
+		cancelRecord(type) {
+			const record = {
+				type: type,
+				id: this.videoId,
+			};
 			this.$store
-				.dispatch('videoInteractions/cancleWish', this.videoId)
-				.then(() => {
-					this.wished = false;
+				.dispatch('videoInteractions/cancelRecord', record)
+				.then(res => {
+					this.personal[res] = false;
 				});
 		},
 	},
@@ -214,6 +283,23 @@ export default {
 .ott-icons-frame {
 	column-gap: 16px;
 	row-gap: 24px;
+}
+
+.video-list-frame {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.video-poster {
+	width: 100%;
+	height: auto;
+	margin: 0 0 0 0;
+}
+.video-poster-img {
+	width: inherit;
+	max-height: 217px;
+	min-height: 200px;
+	object-fit: cover;
 }
 .video-title {
 	white-space: nowrap;

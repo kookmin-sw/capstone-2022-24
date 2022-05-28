@@ -173,7 +173,7 @@ export default {
 					isSelect: false,
 					name: 'WC',
 					logoUrl:
-						'https://image.tmdb.org/t/p/original/cNi4Nv5EPsnvf5WmgwhfWDsdMUd.jpg',
+						'https://oopy.lazyrockets.com/api/rest/cdn/image/99453fde-4624-457f-8471-2393b96ccdbb.jpeg',
 				},
 				disneyPlus: {
 					label: '디즈니플러스',

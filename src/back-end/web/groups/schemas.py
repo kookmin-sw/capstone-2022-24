@@ -80,3 +80,16 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
         ),
     ),
 ]
+
+
+GROUP_PAYMENT_EXAMPLES = [
+    OpenApiExample(
+        name="Success Example (201)",
+        response_only=True,
+        value={
+            "paymentId": 12,
+            "amount": 4500,
+            "requestDateTime": "2022-05-24 12:34:56",
+        },
+    )
+]

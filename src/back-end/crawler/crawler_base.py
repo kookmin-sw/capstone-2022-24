@@ -62,3 +62,19 @@ def check_sample(id, path):
         return True
     else:
         return False
+
+
+def is_Korean_included(word):
+    """Method: Checking if title is not included Korean"""
+    for i in word:
+        if ord(i) > int("0x1100", 16) and ord(i) < int("0x11ff", 16):
+            return True
+        if ord(i) > int("0x3131", 16) and ord(i) < int("0x318e", 16):
+            return True
+        if ord(i) > int("0xa960", 16) and ord(i) < int("0xa97c", 16):
+            return True
+        if ord(i) > int("0xac00", 16) and ord(i) < int("0xd7a3", 16):
+            return True
+        if ord(i) > int("0xd7b0", 16) and ord(i) < int("0xd7fb", 16):
+            return True
+    return False

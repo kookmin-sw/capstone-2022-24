@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <template>
+	<!-- mileage modal -->
+	<q-dialog v-model="isMileageModal">
+		<mileage-modal :isActive="isMileageModal" />
+	</q-dialog>
+	<!-- ott 계정 수정 모달 -->
+	<q-dialog v-model="isInputModal">
+		<input-account
+			persistent
+			:isActive="isInputModal"
+			:group-id="getSelectGroup.account.id"
+			:id="getSelectGroup.account.identifier"
+			:pw="getSelectGroup.account.password" />
+	</q-dialog>
+	<!-- 모임 탈퇴 모달 -->
+	<q-dialog v-model="isLeaveModal">
+		<leave-group-modal
+			persistent
+			:isActive="isLeaveModal"
+			@clickLeave="leaveGroup" />
+	</q-dialog>
+	<!-- 모임 탈퇴 성공 모달 -->
+	<q-dialog v-model="isLeaveSuccess">
+		<leave-group-success persistent :isActive="isLeaveSuccess" />
+	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
 			{{ profile.nickname }}
 		</div>
-		<!--    TODO: profile img 태그 추가-->
-		<q-avatar rounded size="73px" class="q-mb-md bg-blue-100">
-			<img
-				:src="profile.profileImageUrl"
-				:alt="'profile'"
-				v-if="profile.profileImageUrl" />
+		<q-avatar rounded size="73px" class="q-mb-md" v-if="profile.profileImg">
+			<img :src="profile.profileImg" :alt="'profile'" />
 		</q-avatar>
+		<q-avatar v-else rounded size="73px" class="q-mb-md bg-blue-100" />
 		<div class="row q-mb-sm text-left">
 			<div class="text-weight-bold info-item">전화번호</div>
 			<div>{{ profile.phone }}</div>
@@ -28,6 +49,12 @@
 				style="cursor: pointer"
 				@click="chargeCredit">
 				충전하기
+			</div>
+			<div
+				class="q-ml-md q-pl-md q-pr-md border-blue-100 text-blue-200 radius-4"
+				style="cursor: pointer"
+				@click="mileageHistoryBtnClick">
+				내역조회
 			</div>
 		</div>
 	</div>
@@ -74,9 +101,24 @@
 			</q-btn>
 		</div>
 
+		<!-- 모임 탈퇴 -->
+		<div class="text-left align-right">
+			<q-btn
+				flat
+				dense
+				class="text-grey"
+				v-if="
+					getSelectGroup !== null &&
+					(getSelectGroup.status === 'Recruited' ||
+						getSelectGroup.status === 'Reviewing')
+				"
+				@click="clickLeaveGroup">
+				모임 탈퇴 하기 &gt;
+			</q-btn>
+		</div>
 		<!-- 모임 모집 중 -->
 		<div
-			class="row q-mt-lg q-pa-md q-pb-xl bg-blue-70"
+			class="row q-pa-md q-mt-md q-pb-xl bg-blue-70"
 			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruiting'"
 			style="height: 343px">
 			<q-space class="col-2" />
@@ -87,19 +129,13 @@
 		</div>
 
 		<!-- 모집 완료 -->
-		<!-- 모임 탈퇴 -->
-		<div class="text-left align-right">
-			<q-btn
-				flat
-				dense
-				class="text-grey"
-				v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
-				모임 탈퇴 하기 &gt;
-			</q-btn>
-		</div>
 		<!-- 모임 상세 정보 -->
 		<div
-			v-if="getSelectGroup !== null && getSelectGroup.status === 'Recruited'">
+			v-if="
+				getSelectGroup !== null &&
+				(getSelectGroup.status === 'Recruited' ||
+					getSelectGroup.status === 'Reviewing')
+			">
 			<div class="bg-blue-70">
 				<!-- 모임 상태 뱃지 -->
 				<div class="align-right">
@@ -146,7 +182,7 @@
 					<q-input
 						readonly
 						label="아이디"
-						v-model="getSelectGroup.account.id" />
+						v-model="getSelectGroup.account.identifier" />
 					<q-input
 						readonly
 						label="비밀번호"
@@ -155,7 +191,16 @@
 			</div>
 			<!-- 버튼 -->
 			<div class="row">
-				<q-space class="col-8" />
+				<q-space class="col-6" />
+				<!-- TODO: 모임장에게만 보이게 -->
+				<q-btn
+					outline
+					class="q-mr-sm text-blue-200"
+					@click="clickChangeAccount">
+					{{ getSelectGroup.provider.name }} 계정 입력<q-icon
+						name="fas fa-pen"
+						size="18px" />
+				</q-btn>
 				<q-btn outline class="q-mr-sm text-blue-200">
 					신고<q-icon name="no_accounts" />
 				</q-btn>
@@ -177,61 +222,63 @@
 
 	<!--  찜한 작품  -->
 	<user-videos
-		v-if="getWishList"
-		:title="wishList.title"
-		:total="totalWish"
-		:total-page="Math.ceil(totalWish / maxWidth)"
-		:video-list="getWishList"
-		:push-video-method="wishList.method"
-		:expand-id="wishList.expandId" />
+		:title="myVideos.wishes.title"
+		:total="total.wishes"
+		:total-page="Math.ceil(total.wishes / maxWidth)"
+		:video-list="videos.wishes"
+		:expand-id="myVideos.wishes.expandId" />
+	<!-- 본 작품 -->
+	<user-videos
+		:title="myVideos['watch-marks'].title"
+		:total="total['watch-marks']"
+		:total-page="Math.ceil(total['watch-marks'] / maxWidth)"
+		:video-list="videos['watch-marks']"
+		:expand-id="myVideos['watch-marks'].expandId" />
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import UserVideos from '@/components/userVideos';
 import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { mapGetters, mapState } from 'vuex';
+import UserVideos from '@/components/UserVideos';
+import MileageModal from '@/components/modals/MileageModal';
+import InputAccount from '@/components/modals/InputAccount';
+import LeaveGroupModal from '@/components/modals/LeaveGroupModal';
+import LeaveGroupSuccess from '@/components/modals/LeaveGroupSuccess';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
-	components: { UserVideos },
+	components: {
+		LeaveGroupSuccess,
+		LeaveGroupModal,
+		InputAccount,
+		UserVideos,
+		MileageModal,
+	},
 	data() {
 		return {
+			isMileageModal: false,
+			isInputModal: false,
+			isLeaveModal: false,
+			isLeaveSuccess: false,
 			maxWidth: 6,
 			selectGroup: {},
-			recentList: {
-				title: '최근 조회 작품',
-				method: 'user/pushRecentList',
-				expandId: 'recent',
-			},
-			wishList: {
-				title: '찜한 작품',
-				method: 'user/pushWishList',
-				expandId: 'wish',
-			},
-			starList: {
-				title: '별점 준 작품',
-				method: 'user/pushStarList',
-				expandId: 'star',
-			},
-			watchList: {
-				title: '본 작품',
-				method: 'user/pushWatchList',
-				expandId: 'watched',
+			myVideos: {
+				wishes: {
+					title: '찜한 작품',
+					expandId: 'wishes',
+				},
+				'watch-marks': {
+					title: '본 작품',
+					expandId: 'watch-marks',
+				},
 			},
 		};
 	},
 	computed: {
-		...mapState('user', ['profile', 'totalWish']),
-		...mapGetters('user', [
-			'getGroupList',
-			'getSelectGroup',
-			'getRecentList',
-			'getWishList',
-			'getStarList',
-			'getWatchList',
-		]),
+		...mapState('user', ['profile', 'total', 'videos']),
+		...mapGetters('user', ['getGroupList', 'getSelectGroup']),
 	},
 	async beforeCreate() {
 		window.reload;
@@ -241,7 +288,14 @@ export default {
 		async clickGroupLogo(groupId) {
 			await this.$store.dispatch('user/selectGroup', groupId);
 		},
-
+		clickLeaveGroup() {
+			this.isLeaveModal = !this.isLeaveModal;
+		},
+		leaveGroup() {
+			// TODO: api 호출
+			// TODO: 성공, 실패 판단
+			this.isLeaveSuccess = true;
+		},
 		async chargeCredit() {
 			const tossPayments = await loadTossPayments(clientKey);
 			tossPayments
@@ -253,6 +307,12 @@ export default {
 				.catch(function (error) {
 					if (error.code === 'USER_CANCEL') alert('결제가 취소되었습니다!');
 				});
+		},
+		mileageHistoryBtnClick() {
+			this.isMileageModal = !this.isMileageModal;
+		},
+		clickChangeAccount() {
+			this.isInputModal = !this.isInputModal;
 		},
 	},
 };

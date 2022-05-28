@@ -9,6 +9,7 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_seriali
 from group_accounts.models import GroupAccount
 from groups.exceptions import GroupNotFoundException, WatchingDurationException
 from groups.models import Group
+from groups.schemas import GROUP_PAYMENT_EXAMPLES
 from groups.serializers import GroupDetailSerializer, GroupPaymentResponseSerializer
 from mileages.serializers import MileageSerializer
 from payments.serializers import PaymentSaveSerializer
@@ -22,13 +23,26 @@ from users.serializers import UserMileageSerializer
 
 
 @extend_schema(
-    tags=["Priority-1", "Group"],
+    tags=["Deprecated"],
     operation_id="모임원 결제",
     request=inline_serializer(
         name="GroupPaymentRequestSerializer",
-        fields={"accessToken": serializers.CharField(), "providerId": serializers.IntegerField()},
+        fields={"providerId": serializers.IntegerField()},
     ),
-    responses={201: OpenApiResponse(description="모임원 결제 성공", response=GroupPaymentResponseSerializer)},
+    responses={
+        201: OpenApiResponse(
+            description="모임원 결제 성공",
+            response=inline_serializer(
+                name="GroupPaymentSerializerSample",
+                fields={
+                    "paymentId": serializers.IntegerField(),
+                    "amount": serializers.IntegerField(),
+                    "requestDateTime": serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S"),
+                },
+            ),
+            examples=GROUP_PAYMENT_EXAMPLES,
+        )
+    },
 )
 class GruopPaymentView(viewsets.ViewSet):
     """Class for member payments process to Group"""

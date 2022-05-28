@@ -7,13 +7,13 @@ export const auth = {
 	state: {
 		token: null,
 		naver: {
-			clientId: `HDyG0cg2DID7bPsLQ4_u`,
+			clientId: process.env.VUE_APP_NAVER_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/naver`,
 			code: null,
 			resState: null,
 		},
 		google: {
-			clientId: `111000957224-lu56fk9cgkavoika3b1b9872vv0lri8q.apps.googleusercontent.com`,
+			clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
 			redirectionUri: `${window.location.origin}/login/google`,
 			token: null,
 		},
@@ -58,6 +58,8 @@ export const auth = {
 			commit('SET_GOOGLE_AUTH', response);
 		},
 		async requestNaverAuth({ state }) {
+			const fromUrl = new URL(window.location.href);
+			localStorage.setItem('FROM', fromUrl);
 			const reqState = Math.random().toString(36).substr(2, 11);
 			const apiUrl = `https://nid.naver.com/oauth2.0/authorize`;
 			window.location.href = `${apiUrl}?response_type=code&client_id=${state.naver.clientId}&redirect_uri=${state.naver.redirectionUri}&state=${reqState}`;
@@ -69,7 +71,6 @@ export const auth = {
 		},
 		async loginWithSocial({ state, commit }, social) {
 			const url = `/users/login/oauth/${social}/`;
-
 			let data = null;
 			social === 'naver'
 				? (data = { code: state.naver.code })
@@ -77,13 +78,15 @@ export const auth = {
 
 			return new Promise((resolve, reject) => {
 				http.post(url, data).then(res => {
-					const user = res.data.user;
-					if (!user.isVerified) {
+					const user = res.data.user.user;
+					const token = res.data.accessToken;
+					localStorage.setItem('ACCESS_TOKEN', token);
+					localStorage.setItem('VERIFIED', user.isVerified);
+					commit('SET_TOKEN', token);
+
+					if (user.isVerified) {
 						// login
-						const token = res.data.accessToken;
-						localStorage.setItem('ACCESS_TOKEN', token);
 						localStorage.setItem('NICKNAME', user.nickname);
-						commit('SET_TOKEN', token);
 						commit('SET_PROFILE', user);
 						resolve();
 					} else {
@@ -101,6 +104,8 @@ export const auth = {
 		},
 		logout() {
 			localStorage.removeItem('ACCESS_TOKEN');
+			localStorage.removeItem('NICKNAME');
+			localStorage.removeItem('IS_VERIFIED');
 			router.go(0);
 		},
 		nicknameDuplication(context, nickname) {
@@ -144,26 +149,34 @@ export const auth = {
 			promise.then(
 				() => {},
 				() => {
-					return alert('파일 업로드에 실패했습니다. 다시 시도해주세요.');
+					return alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
 				},
 			);
 		},
-		signUp({ commit, dispatch }, user) {
+		async signUp({ commit, dispatch }, user) {
 			// upload image
 			const fileInfo = {
 				photoKey: user.photoKey,
 				file: user.file,
 			};
-			dispatch('uploadImage', fileInfo);
+			await dispatch('uploadImage', fileInfo);
+
+			const data = {
+				nickname: user.nickname,
+				profileImageUrl:
+					process.env.VUE_APP_S3_URL_PREFIX + encodeURI(user.nickname) + '.png',
+			};
+
 			// back-end api
-			const url = '/users';
+			const url = '/users/';
 			http
-				.post(url)
+				.post(url, data)
 				.then(res => {
-					// 로그인 성공
-					const token = res.headers.accesstoken;
-					commit('SET_TOKEN', token);
-					localStorage.setItem('ACCESS_TOKEN', token);
+					// 회원가입 성공
+					const user = res.data;
+					localStorage.setItem('NICKNAME', user.nickname);
+					localStorage.setItem('VERIFIED', user.isVerified);
+					commit('SET_PROFILE', user);
 					alert('회원가입에 성공했습니다.');
 					router.replace('/');
 				})
