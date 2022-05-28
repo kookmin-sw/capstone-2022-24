@@ -36,7 +36,7 @@ def tv_season_redirect_view(request, video_id):
 
 
 class DetailView(viewsets.ViewSet):
-    """Class that displays a detail informations of Movie, Tv"""
+    """Class that displays a detail informations of Movie, TV"""
 
     language = "ko"
 
@@ -47,7 +47,7 @@ class DetailView(viewsets.ViewSet):
     category_title_naming = {"TV": "name", "MV": "title"}
 
     def get_season_list(self, series):
-        """Method: Get the Tv season lists"""
+        """Method: Get the TV season data to lists"""
 
         season_list = []
         seasons = series.tvseason_set.filter(Q(series_id=series.id))
@@ -194,7 +194,10 @@ class DetailView(viewsets.ViewSet):
 
         try:
             tv = Video.objects.prefetch_related(
-                "tvseriesdetail", "videototalcount", "tvseriesdetail__tvseasondetail_set"
+                "tvseriesdetail",
+                "videototalcount",
+                "tvseriesdetail__tvseasondetail_set",
+                "tvseriesdetail__tvseason_set",
             ).get(Q(id=tv_id))
         except Video.DoesNotExist as e:
             raise VideoNotFoundException() from e
