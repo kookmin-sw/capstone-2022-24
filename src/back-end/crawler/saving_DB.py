@@ -106,7 +106,7 @@ def save_provider_data(video_provider_data):
 
 
 def save_movie_detail_data(movie_detail_data):
-    """Method : saving Movie details data"""
+    """Method : saving Movie details data in movieDetail model"""
     for item in movie_detail_data:
         sql_id = "SELECT id FROM videos WHERE tmdb_id =%s AND category= %s"
         values_id = (item["tmdb_id"], item["category"])
@@ -120,7 +120,7 @@ def save_movie_detail_data(movie_detail_data):
 
 
 def save_tv_detail_data(tv_detail_data):
-    """Method : saving tv details data"""
+    """Method : saving tv details data in tvSeriesDetail, tvSeason, tvSeasonDetail model"""
     for item in tv_detail_data:
         sql_id = "SELECT id FROM videos WHERE tmdb_id =%s AND category= %s"
         values_id = (item["tmdb_id"], item["category"])

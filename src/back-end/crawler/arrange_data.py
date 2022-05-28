@@ -131,12 +131,12 @@ def arrange_movie_provider(dicts):
 
 def arrange_movie_detail_data(dicts):
     """method: Arrange movie detail info in dicts to the format"""
+
     detail_list = []
     for key, value in dicts.items():
         tmdb_id = key
         movie_data = value["data"][1]
 
-        """Arrange movie detail data"""
         overview = check_vaild(movie_data, "overview")
         object_detail = {
             "tmdb_id": tmdb_id,
@@ -278,15 +278,14 @@ def arrange_tv_provider(dicts):
 
 
 def arrange_tv_detail_data(dicts):
-    """method: Arrange tv detail info in dicts to the format"""
+    """method: Arrange tv series detail, season, season detail info in dicts to the format"""
     detail_list = []
-    i = 0
+
     for key, value in dicts.items():
         season_list = []
         tmdb_id = key
         tv_data = value["data"][1]
 
-        """Arrange tv detail data"""
         number_of_episodes = check_vaild(tv_data, "number_of_episodes")
         number_of_seasons = check_vaild(tv_data, "number_of_seasons")
         object_detail = {
