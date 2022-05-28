@@ -45,7 +45,7 @@ class TvSeason(models.Model):
 class TvSeasonDetail(models.Model):
     """Definition of detailed information about TV seasons that compose the TV series"""
 
-    video = models.OneToOneField(
+    video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
     )
@@ -64,7 +64,9 @@ class TvSeasonDetail(models.Model):
     number = models.PositiveIntegerField(
         default=0,
     )
-    tmdb_number = models.PositiveIntegerField()
+    overview = models.TextField(
+        null=True,
+    )
 
     class Meta:
         """Metadata for Tv season details model"""
