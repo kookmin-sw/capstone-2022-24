@@ -4,9 +4,12 @@
 
 		<q-card-section class="col text-center q-ma-lg q-mt-none" v-if="isActive">
 			<div>
-				<div class="text-h6">정말 모임을 탈퇴하시겠습니까?</div>
-				<div class="q-mb-md">
-					탈퇴 예약 상태가 되며, 모임이 종료 후 자동으로 모임에서 탈퇴됩니다.
+				<div class="text-h6">모임을 정말 탈퇴하시겠습니까?</div>
+				<div
+					class="q-mb-md"
+					v-if="status === 'Recruited' || status === 'Reviewing'">
+					<span class="text-blue-200 text-bold">탈퇴 예약 상태</span>가 되며,
+					모임이 종료 후 자동으로 모임에서 탈퇴됩니다.
 				</div>
 			</div>
 		</q-card-section>
@@ -29,6 +32,9 @@ export default {
 	props: {
 		isActive: {
 			type: Boolean,
+			require: true,
+		},
+		status: {
 			require: true,
 		},
 	},

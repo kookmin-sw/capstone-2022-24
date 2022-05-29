@@ -18,6 +18,7 @@
 		<leave-group-modal
 			persistent
 			:isActive="isLeaveModal"
+			:status="getSelectGroup.status"
 			@clickLeave="leaveGroup" />
 	</q-dialog>
 	<!-- 모임 탈퇴 성공 모달 -->
