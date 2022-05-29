@@ -192,8 +192,8 @@
 			<!-- 버튼 -->
 			<div class="row">
 				<q-space class="col-6" />
-				<!-- TODO: 모임장에게만 보이게 -->
 				<q-btn
+					v-if="isLeader"
 					outline
 					class="q-mr-sm text-blue-200"
 					@click="clickChangeAccount">
@@ -278,7 +278,7 @@ export default {
 	},
 	computed: {
 		...mapState('user', ['profile', 'total', 'videos']),
-		...mapGetters('user', ['getGroupList', 'getSelectGroup']),
+		...mapGetters('user', ['getGroupList', 'getSelectGroup', 'isLeader']),
 	},
 	async beforeCreate() {
 		window.reload;

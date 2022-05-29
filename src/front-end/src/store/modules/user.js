@@ -26,6 +26,11 @@ export const user = {
 		getSelectGroup(state) {
 			return state.selectGroup;
 		},
+		isLeader(state) {
+			return state.selectGroup.fellows.find(fellow => {
+				return fellow.isMyself && fellow.isLeader;
+			});
+		},
 	},
 	mutations: {
 		INIT_GROUP(state) {
