@@ -1,8 +1,6 @@
 """Serializers of applies application for json parsing"""
 from applies.models import GroupApply
 from config.exceptions.input import NotSupportedProviderException
-from django.conf import settings
-from fellows.serializers import FellowProfileSerializer
 from payments.serializers import PaymentSerializer
 from providers.exceptions import NotFoundProviderException
 from providers.models import Provider
@@ -87,20 +85,15 @@ class GroupApplyCancelSerializer(serializers.Serializer):
         """Not used"""
 
 
-class GroupApplyTimeStampSerializer(serializers.Serializer):
+class GroupApplyTimeStampSerializer(serializers.ModelSerializer):
     """Time stamp serializer related to group apply datetime"""
 
-    def update(self, instance, validated_data):
-        """Not used"""
+    class Meta:
+        """Metaclass for GroupApplyTimeStampSerializer"""
 
-    def create(self, validated_data):
-        """Not used"""
-
-    apply_date_time = serializers.SerializerMethodField()
-
-    def get_apply_date_time(self, obj):
-        """Get applying datetime from group apply objecg"""
-        return obj.apply_date_time.strftime(settings.DATETIME_FORMAT)
+        model = GroupApply
+        fields = ("apply_date_time",)
+        read_only_fields = ("__all__",)
 
 
 class ApplyDetailSerializer(serializers.Serializer):
@@ -115,7 +108,6 @@ class ApplyDetailSerializer(serializers.Serializer):
     provider = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
     time_stamps = serializers.SerializerMethodField()
-    fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
     role = serializers.SerializerMethodField()
 
     def get_provider(self, obj):
@@ -133,3 +125,13 @@ class ApplyDetailSerializer(serializers.Serializer):
     def get_role(self, obj):
         """Get applying fellow type"""
         return obj.get_fellow_type_display()
+
+    def to_representation(self, instance):
+        """Include empty grouop detail fields"""
+        # exclude not total mileage in getting mileage history
+        _representation = super().to_representation(instance)
+        _representation["id"] = None
+        _representation["account"] = None
+        _representation["report"] = None
+        _representation["fellows"] = []
+        return _representation
