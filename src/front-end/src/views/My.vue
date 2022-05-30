@@ -25,6 +25,9 @@
 	<q-dialog v-model="isLeaveSuccess">
 		<leave-group-success persistent :isActive="isLeaveSuccess" />
 	</q-dialog>
+	<q-dialog v-model="isLeaveFail">
+		<leave-group-fail persistent :isActive="isLeaveFail" />
+	</q-dialog>
 	<!-- 프로필 영역 -->
 	<div class="column q-ma-xl">
 		<div class="q-mb-md text-left text-h6 text-weight-bold">
@@ -245,12 +248,14 @@ import MileageModal from '@/components/modals/MileageModal';
 import InputAccount from '@/components/modals/InputAccount';
 import LeaveGroupModal from '@/components/modals/LeaveGroupModal';
 import LeaveGroupSuccess from '@/components/modals/LeaveGroupSuccess';
+import LeaveGroupFail from '@/components/modals/LeaveGroupFail';
 
 const clientKey = 'test_ck_ADpexMgkW36nWZAzQJE3GbR5ozO0';
 
 export default {
 	name: 'My',
 	components: {
+		LeaveGroupFail,
 		LeaveGroupSuccess,
 		LeaveGroupModal,
 		InputAccount,
@@ -263,6 +268,7 @@ export default {
 			isInputModal: false,
 			isLeaveModal: false,
 			isLeaveSuccess: false,
+			isLeaveFail: false,
 			maxWidth: 6,
 			selectGroup: {},
 			myVideos: {
@@ -294,8 +300,21 @@ export default {
 		},
 		leaveGroup() {
 			// TODO: api 호출
-			// TODO: 성공, 실패 판단
-			this.isLeaveSuccess = true;
+			let role;
+			this.isLeader ? (role = 'leader') : (role = 'member');
+			const group = {
+				id: this.getSelectGroup.provider.id,
+				role: role,
+			};
+			console.log('leave group!!');
+			this.$store
+				.dispatch('groups/LeaveGroup', group)
+				.then(() => {
+					this.isLeaveSuccess = true;
+				})
+				.catch(() => {
+					this.isLeaveFail = true;
+				});
 		},
 		async chargeCredit() {
 			const tossPayments = await loadTossPayments(clientKey);

@@ -31,8 +31,9 @@ export const groups = {
 				commit('SET_NOT_APPLIED', res.data.notAppliedProviders);
 			});
 		},
-		async applyGroup({ commit }, applyer) {
+		async applyGroup(context, applyer) {
 			const url = `/applies/${applyer.role}/`;
+			console.log('apply url:', url);
 			const data = {
 				providerId: applyer.providerId,
 			};
@@ -40,34 +41,35 @@ export const groups = {
 			return new Promise((resolve, reject) => {
 				http
 					.post(url, data)
-					.then(() => {
-						commit('SET_LACK_MILEAGE', false);
-						http.patch('/mileages/', { amount: applyer.amount }).then();
+					.then(res => {
+						console.log(url, res.data);
+						// commit('SET_LACK_MILEAGE', false);
+						// http.patch('/mileages/', { amount: applyer.amount }).then();
 						resolve();
 					})
-					.catch(err => {
-						if (err.response.status === 400 && applyer.role === 'member') {
-							commit('SET_LACK_MILEAGE', true);
-						}
+					.catch(() => {
+						// if (err.response.status === 400 && applyer.role === 'member') {
+						// 	commit('SET_LACK_MILEAGE', true);
+						// }
 						reject();
 					});
 			});
 		},
-		async LeaveGroup(context, id) {
-			console.log('leave group', id);
-			// TODO: member, leader 변수
-			// TODO: 변경된 api requeset 확인, 적용
-			const token = String(localStorage.getItem('ACCESS_TOKEN'));
-			const headers = {
-				authorization: `Bearer ${token}`,
-			};
-			const role = 'member';
-			const url = `/applies/${role}/`;
+		async LeaveGroup(context, group) {
+			const url = `/applies/${group.role}/`;
+			console.log('leaveUrl:', url);
 			const data = {
-				provideId: id,
+				providerId: group.id,
 			};
-			await http.put(url, data, { headers }).then(res => {
-				console.log(res);
+			return new Promise((resolve, reject) => {
+				http
+					.put(url, data)
+					.then(() => {
+						resolve();
+					})
+					.catch(() => {
+						reject();
+					});
 			});
 		},
 
