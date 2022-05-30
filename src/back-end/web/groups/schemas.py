@@ -14,10 +14,10 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
                     "link": "https://www.primevideo.com/offers/nonprimehomepage/ref=atv_nb_lcl_ko_KR",
                     "logoUrl": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
                 },
-                "timeStamps": {"applyDateTime": "2022-05-31 03:43:11"},
                 "status": "Recruiting",
-                "role": "leader",
+                "timeStamps": {"applyDateTime": "2022-05-31 03:43:11"},
                 "fellows": [],
+                "role": "leader",
             }
         ),
     ),
@@ -53,8 +53,8 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
                     {
                         "id": 2,
                         "nickname": "캡스톤",
-                        "profileImageUrl": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3"
-                        ".daumcdn.net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
+                        "profileImageUrl": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3."
+                        "daumcdn.net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
                         "isLeader": False,
                         "isMyself": False,
                     },

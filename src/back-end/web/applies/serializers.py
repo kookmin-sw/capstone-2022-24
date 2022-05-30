@@ -113,10 +113,10 @@ class ApplyDetailSerializer(serializers.Serializer):
         """Not used"""
 
     provider = serializers.SerializerMethodField()
-    time_stamps = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
-    role = serializers.SerializerMethodField()
+    time_stamps = serializers.SerializerMethodField()
     fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
+    role = serializers.SerializerMethodField()
 
     def get_provider(self, obj):
         """Get provider data using ProviderSerializer"""
