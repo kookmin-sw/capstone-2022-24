@@ -1,3 +1,0 @@
-"""accounts URL Configuration"""
-
-urlpatterns = []
