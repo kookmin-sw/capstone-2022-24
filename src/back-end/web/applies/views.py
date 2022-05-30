@@ -8,7 +8,7 @@ from applies.exceptions import (
     ApplyNotFoundException,
 )
 from applies.models import GroupApply
-from applies.schemas import GROUP_APPLY_POST_EXAMPLE
+from applies.schemas import GROUP_APPLY_CANCEL_MEMBER_EXAMPLE, GROUP_APPLY_POST_EXAMPLE
 from applies.serializers import GroupApplySerializer
 from config.exceptions.input import (
     AlreadyJoinedGroupException,
@@ -29,6 +29,7 @@ from drf_spectacular.utils import (
 from fellows.models import Leader, Member
 from fellows.views import create_fellows_and_map_into_group_by_applies
 from groups.views import create_group_with_provider
+from mileages.serializers import MileageSerializer
 from mileages.views import create_histories_and_update_mileages
 from payments.models import Payment
 from providers.exceptions import ProviderNotFoundException
@@ -161,7 +162,14 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 ),
                 description="모임원 신청 완료",
                 examples=GROUP_APPLY_POST_EXAMPLE,
-            )
+            ),
+            409: OpenApiResponse(
+                description="이미 신청한 모임",
+                response=inline_serializer(
+                    name="AlreadyJoinedGroupException",
+                    fields={"description": serializers.CharField(default="이미 신청한 모임입니다.")},
+                ),
+            ),
         },
     )
     def apply_member(self, request, *args, **kwargs):
@@ -187,7 +195,14 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 ),
                 description="모임장 신청 완료",
                 examples=GROUP_APPLY_POST_EXAMPLE,
-            )
+            ),
+            409: OpenApiResponse(
+                description="이미 신청한 모임",
+                response=inline_serializer(
+                    name="AlreadyJoinedGroupException",
+                    fields={"description": serializers.CharField(default="이미 신청한 모임입니다.")},
+                ),
+            ),
         },
     )
     def apply_leader(self, request, *args, **kwargs):
@@ -203,8 +218,24 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         ),
         responses={
             200: OpenApiResponse(
+                response=MileageSerializer,
                 description="모임원 취소 완료",
-            )
+                examples=GROUP_APPLY_CANCEL_MEMBER_EXAMPLE,
+            ),
+            400: OpenApiResponse(
+                description="올바르지 않은 모임 신청 타입",
+                response=inline_serializer(
+                    name="ApplyFellowTypeNotMatchedException",
+                    fields={"detail": serializers.CharField(default="모임 신청 타입이 올바르지 않습니다.")},
+                ),
+            ),
+            404: OpenApiResponse(
+                description="모임 신청 기록 조회 실패",
+                response=inline_serializer(
+                    name="GroupApplyNotFoundResponse",
+                    fields={"detail": serializers.CharField(default="모임 신청 기록을 찾을 수 없습니다.")},
+                ),
+            ),
         },
     )
     def cancel_member(self, request, *args, **kwargs):
@@ -248,7 +279,21 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         responses={
             204: OpenApiResponse(
                 description="모임장 취소 완료",
-            )
+            ),
+            400: OpenApiResponse(
+                description="올바르지 않은 모임 신청 타입",
+                response=inline_serializer(
+                    name="ApplyFellowTypeNotMatchedException",
+                    fields={"detail": serializers.CharField(default="모임 신청 타입이 올바르지 않습니다.")},
+                ),
+            ),
+            404: OpenApiResponse(
+                description="모임 신청 기록 조회 실패",
+                response=inline_serializer(
+                    name="GroupApplyNotFoundResponse",
+                    fields={"detail": serializers.CharField(default="모임 신청 기록을 찾을 수 없습니다.")},
+                ),
+            ),
         },
     )
     def cancel_leader(self, request, *args, **kwargs):
