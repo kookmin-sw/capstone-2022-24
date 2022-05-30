@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 
 export default [
+	// 모집 중
 	rest.get('/providers/1', (req, res, ctx) => {
 		return res(
 			ctx.status(200),
@@ -38,13 +39,14 @@ export default [
 			}),
 		);
 	}),
-	rest.get('/providers/6', (req, res, ctx) => {
+	// 모집 완료
+	rest.get('/providers/4', (req, res, ctx) => {
 		return res(
 			ctx.status(200),
 			ctx.json({
 				id: 2,
 				provider: {
-					id: 6,
+					id: 4,
 					tmdbId: 0,
 					name: '라프텔',
 					link: 'https://laftel.net/',
@@ -92,8 +94,8 @@ export default [
 						id: 1,
 						nickname: 'ongot',
 						profileImageUrl: null,
-						isLeader: true,
-						isMyself: true,
+						isLeader: false,
+						isMyself: false,
 					},
 				],
 				report: {
@@ -103,5 +105,9 @@ export default [
 				},
 			}),
 		);
+	}),
+
+	rest.put('/applies/leader', (req, res, ctx) => {
+		return res(ctx.status(204), ctx.json({}));
 	}),
 ];
