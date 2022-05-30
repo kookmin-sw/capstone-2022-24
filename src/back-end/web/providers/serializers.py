@@ -78,15 +78,21 @@ class SubscriptionTypeSerializer(serializers.ModelSerializer):
         """Metadata of SubscriptionTypeSerializer"""
 
         model = SubscriptionType
-        fields = "__all__"
+        exclude = ("id",)
 
 
 class ChargeSerializer(serializers.ModelSerializer):
     """Charge model serializer in providers application"""
 
+    subscription_type = serializers.SerializerMethodField()
+
     class Meta:
         """Meatadata for ChargeSerializer"""
 
         model = Charge
-        fields = ["service_charge_per_member", "total_subscription_charge"]
         read_only_fields = ["__all__"]
+        exclude = ("id", "provider", "base_date")
+
+    def get_subscription_type(self, obj):
+        """Get subscription_type object data"""
+        return SubscriptionTypeSerializer(obj.subscription_type).data
