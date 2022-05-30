@@ -79,11 +79,8 @@ class GroupDetailSerializer(serializers.ModelSerializer):
                     f.user, context={"is_leader": not _member, "request": self.context["request"]}
                 ).data
             )
-            # if this fellow.user is same as login user
-            if f.user == _user:
-                _role = "모임장" if not _member else "모임원"
         _report = ReportSerializer(_report_meta).data
-        return {"fellows": _fellow_users, "report": _report, "role": _role}
+        return {"fellows": _fellow_users, "report": _report}
 
     def get_time_stamps(self, obj):
         """Get date time related fields"""

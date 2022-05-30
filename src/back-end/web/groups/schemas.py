@@ -7,7 +7,6 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
         response_only=True,
         value=(
             {
-                "id": 1,
                 "provider": {
                     "id": 5,
                     "tmdbId": 119,
@@ -15,23 +14,10 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
                     "link": "https://www.primevideo.com/offers/nonprimehomepage/ref=atv_nb_lcl_ko_KR",
                     "logoUrl": "https://image.tmdb.org/t/p/original/68MNrwlkpF7WnmNPXLah69CR5cb.jpg",
                 },
+                "timeStamps": {"applyDateTime": "2022-05-31 03:43:11"},
                 "status": "Recruiting",
-                "account": {
-                    "id": 1,
-                    "identifier": None,
-                    "password": None,
-                    "creationDateTime": None,
-                    "lastModificationDateTime": None,
-                },
-                "timeStamps": {
-                    "creationDateTime": "2022-05-20 02:33:15",
-                    "startWatchingDateTime": None,
-                    "endWatchingDateTime": None,
-                    "endReportingDateTime": None,
-                },
+                "role": "leader",
                 "fellows": [],
-                "report": {"reported": False, "reportCount": 0, "leaderReportCount": 0},
-                "role": None,
             }
         ),
     ),
@@ -75,7 +61,6 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
                     {"id": 1, "nickname": "ongot", "profileImageUrl": None, "isLeader": True, "isMyself": True},
                 ],
                 "report": {"reported": False, "reportCount": 0, "leaderReportCount": 0},
-                "role": "모임장",
             }
         ),
     ),
