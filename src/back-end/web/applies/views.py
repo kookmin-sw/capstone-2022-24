@@ -52,12 +52,6 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
     http_method_names = ["post", "put"]
     lookup_fields = ("user_id", "provider_id")
 
-    # def get_object(self):
-    #     filter_kwargs = {"user_id": self.request.user.id, "provider_id": self.request.data["provider_id"]}
-    #     obj = get_object_or_404(self.get_queryset(), **filter_kwargs)
-    #     self.check_object_permissions(self.request, obj)
-    #     return obj
-
     def get_number_of_remain_fellows_in(self, provider: Provider):
         """Get number of fellows by subscription detail and user request"""
         _total_fellows = provider.charge.number_of_subscribers - 1
