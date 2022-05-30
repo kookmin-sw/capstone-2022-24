@@ -72,19 +72,6 @@ class GroupApplySerializer(serializers.ModelSerializer):
             raise ProviderNotFoundException() from provider_error
 
 
-class GroupApplyCancelSerializer(serializers.Serializer):
-    """Leader Cancel Serializer for View Response"""
-
-    user_id = serializers.IntegerField()
-    provider_id = serializers.IntegerField()
-
-    def update(self, instance, validated_data):
-        """Not used"""
-
-    def create(self, validated_data):
-        """Not used"""
-
-
 class GroupApplyTimeStampSerializer(serializers.ModelSerializer):
     """Time stamp serializer related to group apply datetime"""
 
