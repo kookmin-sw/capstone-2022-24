@@ -1,6 +1,7 @@
 """Serializers of applies application for json parsing"""
 from applies.models import GroupApply
 from config.exceptions.input import NotSupportedProviderException
+from django.conf import settings
 from fellows.serializers import FellowProfileSerializer
 from payments.serializers import PaymentSerializer
 from providers.exceptions import NotFoundProviderException
@@ -73,7 +74,7 @@ class GroupApplySerializer(serializers.ModelSerializer):
             raise NotFoundProviderException() from provider_error
 
 
-class ApplyCancelSerializer(serializers.Serializer):
+class GroupApplyCancelSerializer(serializers.Serializer):
     """Leader Cancel Serializer for View Response"""
 
     user_id = serializers.IntegerField()
@@ -86,6 +87,22 @@ class ApplyCancelSerializer(serializers.Serializer):
         """Not used"""
 
 
+class GroupApplyTimeStampSerializer(serializers.Serializer):
+    """Time stamp serializer related to group apply datetime"""
+
+    def update(self, instance, validated_data):
+        """Not used"""
+
+    def create(self, validated_data):
+        """Not used"""
+
+    apply_date_time = serializers.SerializerMethodField()
+
+    def get_apply_date_time(self, obj):
+        """Get applying datetime from group apply objecg"""
+        return obj.apply_date_time.strftime(settings.DATETIME_FORMAT)
+
+
 class ApplyDetailSerializer(serializers.Serializer):
     """Abstract apply model serializer"""
 
@@ -95,10 +112,11 @@ class ApplyDetailSerializer(serializers.Serializer):
     def create(self, validated_data):
         """Not used"""
 
-    fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
     provider = serializers.SerializerMethodField()
     time_stamps = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
+    fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
 
     def get_provider(self, obj):
         """Get provider data using ProviderSerializer"""
@@ -110,4 +128,8 @@ class ApplyDetailSerializer(serializers.Serializer):
 
     def get_time_stamps(self, obj):
         """Get time stamps"""
-        return {"apply_date_time": obj.apply_date_time}
+        return GroupApplyTimeStampSerializer(obj).data
+
+    def get_role(self, obj):
+        """Get applying fellow type"""
+        return obj.get_fellow_type_display()
