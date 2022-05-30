@@ -49,18 +49,61 @@ GROUP_DETAIL_SERIALIZER_EXAMPLES = [
                     "endReportingDateTime": None,
                 },
                 "fellows": [
+                    {"id": 4, "nickname": "string", "profileImageUrl": None, "isLeader": True, "isMyself": False},
+                    {
+                        "id": 2,
+                        "nickname": "캡스톤",
+                        "profileImageUrl": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3.daumcdn."
+                        "net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
+                        "isLeader": False,
+                        "isMyself": False,
+                    },
+                    {"id": 1, "nickname": "ongot", "profileImageUrl": None, "isLeader": False, "isMyself": True},
+                ],
+                "report": {"reportedGroup": True, "reportedLeader": False, "reportCount": 1, "leaderReportCount": 0},
+            }
+        ),
+    ),
+    OpenApiExample(
+        name="Success Example (200, Recruited, Leader Myself)",
+        response_only=True,
+        value=(
+            {
+                "id": 2,
+                "provider": {
+                    "id": 6,
+                    "tmdbId": 0,
+                    "name": "라프텔",
+                    "link": "https://laftel.net/",
+                    "logoUrl": "https://blog.kakaocdn.net/dn/beMRoh/btqJUNc2uBT/gLb6LDCKEemdV8IEki0St0/img.png",
+                },
+                "status": "Recruited",
+                "account": {
+                    "id": 2,
+                    "identifier": None,
+                    "password": None,
+                    "creationDateTime": None,
+                    "lastModificationDateTime": None,
+                },
+                "timeStamps": {
+                    "creationDateTime": "2022-05-20 02:33:25",
+                    "startWatchingDateTime": None,
+                    "endWatchingDateTime": None,
+                    "endReportingDateTime": None,
+                },
+                "fellows": [
                     {"id": 4, "nickname": "string", "profileImageUrl": None, "isLeader": False, "isMyself": False},
                     {
                         "id": 2,
                         "nickname": "캡스톤",
-                        "profileImageUrl": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3."
-                        "daumcdn.net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
+                        "profileImageUrl": "https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3.daumcdn."
+                        "net%2Fshophow%2Fp%2FS16182251276.jpg%3Fut%3D20220129023802",
                         "isLeader": False,
                         "isMyself": False,
                     },
                     {"id": 1, "nickname": "ongot", "profileImageUrl": None, "isLeader": True, "isMyself": True},
                 ],
-                "report": {"reported": False, "reportCount": 0, "leaderReportCount": 0},
+                "report": {"reportedGroup": True, "reportedLeader": None, "reportCount": 1, "leaderReportCount": 0},
             }
         ),
     ),
