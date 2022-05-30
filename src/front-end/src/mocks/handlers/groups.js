@@ -107,7 +107,10 @@ export default [
 		);
 	}),
 
-	rest.put('/applies/leader', (req, res, ctx) => {
-		return res(ctx.status(204), ctx.json({}));
+	rest.put('/applies/leader/', (req, res, ctx) => {
+		return res(ctx.status(204));
+	}),
+	rest.put('/applies/member/', (req, res, ctx) => {
+		return res(ctx.status(204));
 	}),
 ];
