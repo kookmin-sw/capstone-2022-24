@@ -13,7 +13,7 @@ from groups.schemas import GROUP_PAYMENT_EXAMPLES
 from groups.serializers import GroupDetailSerializer, GroupPaymentResponseSerializer
 from mileages.serializers import MileageSerializer
 from payments.serializers import PaymentSaveSerializer
-from providers.exceptions import NotFoundProviderException
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Charge, Provider, SubscriptionType
 from rest_framework import serializers, status, viewsets
 from rest_framework.generics import RetrieveAPIView
@@ -190,4 +190,4 @@ def create_group_with_provider(provider: Provider):
         _group = Group.objects.create(provider=provider)
         return _group
     except Provider.DoesNotExist as e:
-        raise NotFoundProviderException() from e
+        raise ProviderNotFoundException() from e

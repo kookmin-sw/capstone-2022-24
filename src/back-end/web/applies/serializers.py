@@ -2,7 +2,7 @@
 from applies.models import GroupApply
 from config.exceptions.input import NotSupportedProviderException
 from payments.serializers import PaymentSerializer
-from providers.exceptions import NotFoundProviderException
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Provider
 from providers.serializers import ProviderSerializer
 from providers.validators import is_supported_provider
@@ -69,7 +69,7 @@ class GroupApplySerializer(serializers.ModelSerializer):
                 return provider_id
             raise NotSupportedProviderException()
         except Provider.DoesNotExist as provider_error:
-            raise NotFoundProviderException() from provider_error
+            raise ProviderNotFoundException() from provider_error
 
 
 class GroupApplyCancelSerializer(serializers.Serializer):

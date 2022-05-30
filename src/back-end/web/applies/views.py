@@ -2,7 +2,11 @@
 # pylint: disable=R0901,R0914,R0912
 from collections import Counter
 
-from applies.exceptions import ApplyAlreadyExistException, ApplyNotFoundException
+from applies.exceptions import (
+    ApplyAlreadyExistException,
+    ApplyFellowTypeNotMatchedException,
+    ApplyNotFoundException,
+)
 from applies.models import GroupApply
 from applies.schemas import GROUP_APPLY_POST_EXAMPLE
 from applies.serializers import GroupApplySerializer
@@ -13,6 +17,7 @@ from config.exceptions.input import (
     NotEnoughSubscriptionInformationException,
     NotSupportedProviderException,
 )
+from config.exceptions.result import ResultNotFoundException
 from config.mixins import MultipleFieldLookupMixin
 from django.db import IntegrityError
 from drf_spectacular.utils import (
@@ -26,6 +31,7 @@ from fellows.views import create_fellows_and_map_into_group_by_applies
 from groups.views import create_group_with_provider
 from mileages.views import create_histories_and_update_mileages
 from payments.models import Payment
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Charge, Provider, SubscriptionType
 from rest_framework import serializers, status, viewsets
 from rest_framework.response import Response
@@ -132,7 +138,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         except KeyError as key_error:
             raise InvalidProviderIdException() from key_error
         except Provider.DoesNotExist as provider_error:
-            raise BadFormatException() from provider_error
+            raise ProviderNotFoundException() from provider_error
         except Payment.DoesNotExist as payment_error:
             raise BadFormatException() from payment_error
         except Charge.DoesNotExist as charge_error:
@@ -234,6 +240,9 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             else:
                 # user has spent mileages
                 _amount = _provider.charge.service_charge_per_member
+            # check fellow type with valid api
+            if _apply.fellow_type != "M":
+                raise ApplyFellowTypeNotMatchedException()
             # return mileages
             _refund_mileages = create_histories_and_update_mileages(request, _amount)
             self.perform_destroy(_apply)
@@ -245,9 +254,9 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         except SubscriptionType.DoesNotExist as subscription_error:
             raise NotEnoughSubscriptionInformationException() from subscription_error
         except Provider.DoesNotExist as provider_error:
-            raise BadFormatException() from provider_error
-        except GroupApply.DoesNotExist as apply_error:
-            raise ApplyNotFoundException() from apply_error
+            raise ProviderNotFoundException() from provider_error
+        except ResultNotFoundException as not_found_error:
+            raise ApplyNotFoundException() from not_found_error
 
     @extend_schema(
         tags=["Priority-1", "Group"],
@@ -257,11 +266,26 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
         ),
         responses={
-            200: OpenApiResponse(
+            204: OpenApiResponse(
                 description="모임장 취소 완료",
             )
         },
     )
     def cancel_leader(self, request, *args, **kwargs):
         """PUT /groups/applies/leader"""
-        return self.cancel(request, *args, **kwargs)
+        try:
+            _apply = self.get_object()
+            # check fellow type with valid api
+            if _apply.fellow_type != "L":
+                raise ApplyFellowTypeNotMatchedException()
+            # delete group apply object
+            self.perform_destroy(_apply)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except TypeError as type_error:
+            raise BadFormatException() from type_error
+        except KeyError as key_error:
+            raise InvalidProviderIdException() from key_error
+        except Provider.DoesNotExist as provider_error:
+            raise ProviderNotFoundException() from provider_error
+        except ResultNotFoundException as not_found_error:
+            raise ApplyNotFoundException() from not_found_error
