@@ -77,6 +77,20 @@ def get_movie_data(file_path):
         object_en_title = {"title_english": title_english}
         Movie.append(object_en_title)
 
+        """video trailer Crawler"""
+        url = f"https://api.themoviedb.org/3/movie/{key}/videos?api_key={api_key}&language=ko-KR"
+        json_ob = get_request_to_object(url)
+
+        if json_ob["results"]:
+            trailer_obj = {"trailer": json_ob["results"]}
+        else:
+            url = f"https://api.themoviedb.org/3/movie/{key}/videos?api_key={api_key}"
+            json_ob = get_request_to_object(url)
+            json_ob_result = json_ob["results"]
+            trailer_obj = {"trailer": json_ob_result}
+
+        Movie.append(trailer_obj)
+
         """
         casts Crawling : Comment it because there're no plans to use it yet.
         url = f"https://api.themoviedb.org/3/movie/{key}/credits?api_key={api_key}&language={language}"

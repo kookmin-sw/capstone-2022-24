@@ -8,10 +8,12 @@ from arrange_data import (
     arrange_movie_data,
     arrange_movie_detail_data,
     arrange_movie_provider,
+    arrange_movie_trailer,
     arrange_movie_video_detail,
     arrange_tv_data,
     arrange_tv_detail_data,
     arrange_tv_provider,
+    arrange_tv_trailer,
     arrange_tv_video_detail,
 )
 from check_env import setting_env
@@ -113,8 +115,8 @@ def save_movie_detail_data(movie_detail_data):
         cursor.execute(sql_id, values_id)
         video_id = cursor.fetchall()[0][0]
 
-        sql = "INSERT INTO movie_details (video_id, overview, source) VALUES (%s, %s, %s)"
-        values = (video_id, item["overview"], item["source"])
+        sql = "INSERT INTO movie_details (video_id, overview, source, trailer_key) VALUES (%s, %s, %s, %s)"
+        values = (video_id, item["overview"], item["source"], item["trailer_url"])
         cursor.execute(sql, values)
         conn.commit()
 
@@ -127,8 +129,8 @@ def save_tv_detail_data(tv_detail_data):
         cursor.execute(sql_id, values_id)
         video_id = cursor.fetchall()[0][0]
 
-        sql = "INSERT INTO tv_series_details (video_id, number_of_seasons, number_of_episodes) VALUES (%s, %s, %s)"
-        values = (video_id, item["number_of_seasons"], item["number_of_episodes"])
+        sql = "INSERT INTO tv_series_details (video_id, number_of_seasons, number_of_episodes, trailer_key) VALUES (%s, %s, %s, %s)"
+        values = (video_id, item["number_of_seasons"], item["number_of_episodes"], item["trailer_url"])
         cursor.execute(sql, values)
 
         sql_series_id = f"SELECT id FROM tv_series_details WHERE video_id ={video_id}"
@@ -154,6 +156,25 @@ def save_tv_detail_data(tv_detail_data):
             )
             cursor.execute(sql, values)
 
+        conn.commit()
+
+
+def save_trailer_data(video_trailer_data):
+    """"""
+    for item in video_trailer_data:
+        category = item["category"]
+
+        sql_id = "SELECT id FROM videos WHERE tmdb_id =%s AND category= %s"
+        values_id = (item["tmdb_id"], category)
+        cursor.execute(sql_id, values_id)
+        video_id = cursor.fetchall()[0][0]
+
+        if category == "TV":
+            sql = "UPDATE tv_series_details SET trailer_key = %s WHERE video_id= %s"
+        else:
+            sql = "UPDATE movie_details SET trailer_key = %s WHERE video_id= %s"
+        values = (item["trailer_url"], video_id)
+        cursor.execute(sql, values)
         conn.commit()
 
 
@@ -211,6 +232,7 @@ if __name__ == "__main__":
     tv_video_detail_data, tv_genre_data, tv_production_country_data = arrange_tv_video_detail(json_tv_dict)
     tv_provider_data = arrange_tv_provider(json_tv_dict)
     tv_detail_data = arrange_tv_detail_data(json_tv_dict)
+    tv_trailer_data = arrange_tv_trailer(json_tv_dict)
 
     save_video_data(tv_data)
     save_detail_data(tv_video_detail_data)
@@ -218,5 +240,6 @@ if __name__ == "__main__":
     save_production_country_data(tv_production_country_data)
     save_provider_data(tv_provider_data)
     save_tv_detail_data(tv_detail_data)
+    save_trailer_data(tv_trailer_data)
 
     conn.close()

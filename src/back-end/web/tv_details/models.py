@@ -16,6 +16,10 @@ class TvSeriesDetail(models.Model):
     number_of_episodes = models.PositiveIntegerField(
         default=1,
     )
+    trailer_key = models.URLField(
+        max_length=100,
+        null=True,
+    )
 
     class Meta:
         """Metadata for Tv Series details model"""
@@ -55,10 +59,6 @@ class TvSeasonDetail(models.Model):
         on_delete=models.CASCADE,
     )
     number_of_total_episodes = models.PositiveIntegerField(
-        null=True,
-    )
-    trailer_key = models.URLField(
-        max_length=100,
         null=True,
     )
     number = models.PositiveIntegerField(

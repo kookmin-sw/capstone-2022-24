@@ -136,7 +136,7 @@ def arrange_movie_detail_data(dicts):
     for key, value in dicts.items():
         tmdb_id = key
         movie_data = value["data"][1]
-
+        trailer_dict = value["data"][4]
         overview = check_vaild(movie_data, "overview")
         object_detail = {
             "tmdb_id": tmdb_id,
@@ -144,9 +144,43 @@ def arrange_movie_detail_data(dicts):
             "overview": overview,
             "source": "tmdb",
         }
+        check = True
+        for item in trailer_dict:
+            if item["site"] == "YouTube":
+                trailer_key = item["key"]
+                object_detail["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
+                check = False
+                break
+        if check:
+            object_detail["trailer_url"] = None
         detail_list.append(object_detail)
 
     return detail_list
+
+
+def arrange_movie_trailer(dicts):
+    """method: Arrange movie trailer info in dicts to the format"""
+    tralier_list = []
+    for key, value in dicts.items():
+        tmdb_id = key
+        trailer_dict = value["data"][4]["trailer"]
+        check = True
+        object_trailer = {
+            "tmdb_id": tmdb_id,
+            "category": "MV",
+        }
+        for item in trailer_dict:
+            if item["site"] == "YouTube":
+                trailer_key = item["key"]
+                object_trailer["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
+                check = False
+                break
+        if check:
+            object_trailer["trailer_url"] = None
+
+        tralier_list.append(object_trailer)
+
+    return tralier_list
 
 
 def arrange_tv_data(dicts):
@@ -285,6 +319,9 @@ def arrange_tv_detail_data(dicts):
         season_list = []
         tmdb_id = key
         tv_data = value["data"][1]
+        trailer_dict = value["data"][5]["trailer"]
+
+        check = True
 
         number_of_episodes = check_vaild(tv_data, "number_of_episodes")
         number_of_seasons = check_vaild(tv_data, "number_of_seasons")
@@ -294,6 +331,16 @@ def arrange_tv_detail_data(dicts):
             "number_of_episodes": number_of_episodes,
             "number_of_seasons": number_of_seasons,
         }
+
+        for item in trailer_dict:
+            if item["site"] == "YouTube":
+                trailer_key = item["key"]
+                object_detail["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
+                check = False
+                break
+        if check:
+            object_detail["trailer_url"] = None
+
         seasons_data = check_vaild(tv_data, "seasons")
         for item in seasons_data:
             object_season_data = {
@@ -312,3 +359,28 @@ def arrange_tv_detail_data(dicts):
         detail_list.append(object_detail)
 
     return detail_list
+
+
+def arrange_tv_trailer(dicts):
+    """"""
+    tralier_list = []
+    for key, value in dicts.items():
+        tmdb_id = key
+        trailer_dict = value["data"][5]["trailer"]
+        check = True
+        object_trailer = {
+            "tmdb_id": tmdb_id,
+            "category": "TV",
+        }
+        for item in trailer_dict:
+            if item["site"] == "YouTube":
+                trailer_key = item["key"]
+                object_trailer["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
+                check = False
+                break
+        if check:
+            object_trailer["trailer_url"] = None
+
+        tralier_list.append(object_trailer)
+
+    return tralier_list

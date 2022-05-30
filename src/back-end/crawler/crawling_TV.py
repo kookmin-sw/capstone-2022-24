@@ -107,6 +107,19 @@ def get_tv_data(file_path):
         json_ob = get_request_to_object(url)
         TV.append(json_ob)
 
+        """video trailer Crawler"""
+        url = f"https://api.themoviedb.org/3/tv/{key}/videos?api_key={api_key}&language=ko-KR"
+        json_ob = get_request_to_object(url)
+
+        if json_ob["results"]:
+            trailer_obj = {"trailer": json_ob["results"]}
+        else:
+            url = f"https://api.themoviedb.org/3/tv/{key}/videos?api_key={api_key}"
+            json_ob = get_request_to_object(url)
+            json_ob_result = json_ob["results"]
+            trailer_obj = {"trailer": json_ob_result}
+        TV.append(trailer_obj)
+
         """
         casts Crawling : Comment it because there're no plans to use it yet.
         url =  f"https://api.themoviedb.org/3/tv/{key}/credits?api_key={api_key}&language={language}"
@@ -120,7 +133,6 @@ def get_tv_data(file_path):
 
 
 if __name__ == "__main__":
-
     tv_data_path = "./TvSample.json"
     tv_data = get_tv_data(tv_data_path)
     with open(tv_data_path, "w") as outfile:
