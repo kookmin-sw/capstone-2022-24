@@ -148,21 +148,6 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         except IntegrityError as error:
             raise ApplyAlreadyExistException() from error
 
-    def cancel(self, request, *args, **kwargs):
-        """Method: process Cancling Group and refunding for Member"""
-        # 모임 신청 기록 삭제
-        try:
-            # delete group apply object
-            return super().destroy(request, args, kwargs)
-        except TypeError as type_error:
-            raise BadFormatException() from type_error
-        except KeyError as key_error:
-            raise InvalidProviderIdException() from key_error
-        except Provider.DoesNotExist as provider_error:
-            raise BadFormatException() from provider_error
-        except GroupApply.DoesNotExist as apply_error:
-            raise ApplyNotFoundException() from apply_error
-
     @extend_schema(
         tags=["Priority-1", "Group"],
         operation_id="모임원 신청",
@@ -245,6 +230,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 raise ApplyFellowTypeNotMatchedException()
             # return mileages
             _refund_mileages = create_histories_and_update_mileages(request, _amount)
+            # delete apply object
             self.perform_destroy(_apply)
             return Response(_refund_mileages, status=status.HTTP_200_OK)
         except Payment.DoesNotExist as payment_error:
