@@ -14,6 +14,7 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_seriali
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from tv_details.models import TvSeasonDetail
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Genre, ProductionCountry, Video
@@ -50,7 +51,7 @@ class DetailView(viewsets.ViewSet):
         """Method: Get the TV season data to lists"""
 
         season_list = []
-        seasons = series.tvseason_set.filter(Q(series_id=series.id))
+        seasons = series.tvseason_set.all()
         for item in seasons:
             season_object = {"name": item.name, "number": item.number}
             season_list.append(season_object)
@@ -206,7 +207,11 @@ class DetailView(viewsets.ViewSet):
             raise WrongVideoIDException()
 
         key = tv.tmdb_id
-        season_data = tv.tvseriesdetail.tvseasondetail_set.get(Q(number=season_number))
+        try:
+            season_data = tv.tvseriesdetail.tvseasondetail_set.get(Q(number=season_number))
+        except TvSeasonDetail.DoesNotExist as e:
+            raise VideoNotFoundException() from e
+
         season_list = self.get_season_list(tv.tvseriesdetail)
         tv_info_list = self.get_video_info(tv_id)
 
@@ -235,6 +240,7 @@ class DetailView(viewsets.ViewSet):
             "production_countries": tv_info_response["production_country_list"],
             "total_seasons": tv.tvseriesdetail.number_of_seasons,
             "total_episodes": tv.tvseriesdetail.number_of_episodes,
+            "trailer_url": season_data.trailer_key,
             "seasons": season_list,
             "public": {
                 "wish_count": tv.videototalcount.wish_count,
@@ -286,7 +292,7 @@ class DetailView(viewsets.ViewSet):
         movie_id = video_id
 
         try:
-            movie = Video.objects.select_related("moviedetail", "videototalcount").get(Q(id=movie_id))
+            movie = Video.objects.prefetch_related("moviedetail", "videototalcount").get(Q(id=movie_id))
         except Video.DoesNotExist as e:
             raise VideoNotFoundException() from e
 
@@ -320,6 +326,7 @@ class DetailView(viewsets.ViewSet):
             "providers": movie_info_response["provider_list"],
             "genres": movie_info_response["genre_list"],
             "production_countries": movie_info_response["production_country_list"],
+            "trailer_url": movie.moviedetail.trailer_key,
             "public": {
                 "wish_count": movie.videototalcount.wish_count,
                 "watch_count": movie.videototalcount.watch_count,
