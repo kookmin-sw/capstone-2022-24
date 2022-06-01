@@ -49,11 +49,6 @@ class TvSeason(models.Model):
 class TvSeasonDetail(models.Model):
     """Definition of detailed information about TV seasons that compose the TV series"""
 
-    video = models.ForeignKey(
-        Video,
-        on_delete=models.CASCADE,
-    )
-
     series = models.ForeignKey(
         TvSeriesDetail,
         on_delete=models.CASCADE,
@@ -66,6 +61,7 @@ class TvSeasonDetail(models.Model):
     )
     overview = models.TextField(
         null=True,
+        blank=True,
     )
 
     class Meta:

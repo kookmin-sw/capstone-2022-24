@@ -14,6 +14,7 @@ from drf_spectacular.utils import OpenApiResponse, extend_schema, inline_seriali
 from rest_framework import permissions, serializers, status, viewsets
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from tv_details.models import TvSeasonDetail
 from video_providers.models import VideoProvider
 from videos.exceptions import WrongVideoIDException
 from videos.models import Genre, ProductionCountry, Video
@@ -206,7 +207,11 @@ class DetailView(viewsets.ViewSet):
             raise WrongVideoIDException()
 
         key = tv.tmdb_id
-        season_data = tv.tvseriesdetail.tvseasondetail_set.get(Q(number=season_number))
+        try:
+            season_data = tv.tvseriesdetail.tvseasondetail_set.get(Q(number=season_number))
+        except TvSeasonDetail.DoesNotExist as e:
+            raise VideoNotFoundException() from e
+
         season_list = self.get_season_list(tv.tvseriesdetail)
         tv_info_list = self.get_video_info(tv_id)
 
