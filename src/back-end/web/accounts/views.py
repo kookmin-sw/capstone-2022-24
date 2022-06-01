@@ -1,1 +1,0 @@
-"""APIs of accounts application"""
