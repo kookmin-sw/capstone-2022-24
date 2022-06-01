@@ -26,16 +26,15 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-    command: sh -c "python manage.py makemigrations --no-input &&
-                    python manage.py migrate &&
-                    python manage.py loaddata data.json &&
-                    python manage.py collectstatic --no-input &&
-                    python manage.py runserver 0.0.0.0:${WEB_PORT}"
+    command: sh -c "python manage.py prod makemigrations --no-input &&
+                    python manage.py prod migrate &&
+                    python manage.py prod loaddata data.json &&
+                    python manage.py prod collectstatic --no-input &&
+                    bash ./config/start.sh"
     restart: on-failure
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-      - ./static:${STATIC}
     expose:
       - "${WEB_PORT}"
     environment:
@@ -58,8 +57,6 @@ services:
     restart: on-failure
     volumes:
       - ./nginx:/etc/nginx/templates
-      - ./static:${STATIC}
-      - ./media:${MEDIA}
     environment:
       - WEB_HOST=${WEB_HOST}
       - WEB_DOCKERNAME=${WEB_DOCKERNAME}
@@ -91,7 +88,6 @@ services:
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-      - ./static:${STATIC}
     environment:
       - MODULE_NAME=${MODULE_NAME}
       - VARIABLE_NAME=${VARIABLE_NAME}

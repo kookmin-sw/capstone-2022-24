@@ -26,17 +26,16 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-    command: sh -c "python manage.py reset_db --noinput &&
-                    python manage.py makemigrations --no-input &&
-                    python manage.py migrate &&
-                    python manage.py loaddata data.json &&
-                    python manage.py collectstatic --no-input &&
-                    python manage.py runserver 0.0.0.0:${WEB_PORT}"
+    command: sh -c "python manage.py dev reset_db --noinput &&
+                    python manage.py dev makemigrations --no-input &&
+                    python manage.py dev migrate &&
+                    python manage.py dev loaddata data.json &&
+                    python manage.py dev collectstatic --no-input &&
+                    bash ./config/start.sh""
     restart: on-failure
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-      - ./static:${STATIC}
     expose:
       - "${WEB_PORT}"
     environment:
@@ -59,8 +58,6 @@ services:
     restart: on-failure
     volumes:
       - ./nginx:/etc/nginx/templates
-      - ./static:${STATIC}
-      - ./media:${MEDIA}
     environment:
       - WEB_HOST=${WEB_HOST}
       - WEB_DOCKERNAME=${WEB_DOCKERNAME}
@@ -92,7 +89,6 @@ services:
     volumes:
       - ./web:${WEB}
       - ./environment:${ENV}
-      - ./static:${STATIC}
     environment:
       - MODULE_NAME=${MODULE_NAME}
       - VARIABLE_NAME=${VARIABLE_NAME}
