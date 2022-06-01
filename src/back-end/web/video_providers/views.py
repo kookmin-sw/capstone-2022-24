@@ -51,14 +51,14 @@ class DiscontinuityClass(viewsets.ViewSet):
                 if video["video__id"] == provider["video__id"]:
                     provider_data = {
                         "name": provider["provider__name"],
-                        "logo_key": provider["provider__logo_key"],
+                        "logo_url": provider["provider__logo_key"],
                     }
                     provider_list.append(provider_data)
             temp = {
                 "id": video["video__id"],
                 "title": video["video__title"],
                 "category": video["video__category"],
-                "poster_key": video["video__poster_key"],
+                "poster_url": video["video__poster_key"],
                 "providers": provider_list,
             }
             data_list.append(temp)
