@@ -1,10 +1,11 @@
 """APIs of notifications application"""
 from config.exceptions.input import BadFormatException
 from django.db.models import Q
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from notifications.exceptions import NotificationNotFoundException
 from notifications.models import Notification, NotificationContent
 from notifications.paginations import NotificationPagination
+from notifications.schemas import NOTIFICATION_LIST_EXAMPLES
 from notifications.serializers import NotificationSerializer
 from providers.exceptions import NotFoundProviderException
 from providers.models import Provider
@@ -15,12 +16,20 @@ from rest_framework.response import Response
 
 @extend_schema_view(
     operation_id="알림",
-    list=extend_schema(
+    get=extend_schema(
         tags=["Priority-3", "User"],
         operation_id="알림 목록 조회",
-        description="Get notification list (limit=?, offset=?)",
+        parameters=[
+            OpenApiParameter(
+                name="read",
+                description="hasRead options (Y/N/all)",
+                type=str,
+            )
+        ],
+        description="Get notification list (limit=?, offset=?, read=Y/N/all)",
+        examples=NOTIFICATION_LIST_EXAMPLES,
     ),
-    partial_update=extend_schema(
+    patch=extend_schema(
         tags=["Priority-3", "Deprecated"],
         operation_id="알림 전체 읽음 표시",
         description="Read all notifications",
@@ -43,7 +52,7 @@ class NotificationListAndUpdateView(UpdateModelMixin, ListAPIView):
         try:
             _filter = Q(user_id=self.request.user.id)
             _params = self.request.query_params
-            if hasattr(_params, "read"):
+            if "read" in _params:
                 if _params["read"] in ("Y", "N"):
                     has_read = _params["read"] == "Y"
                     _filter &= Q(has_read=has_read)
