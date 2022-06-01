@@ -62,4 +62,4 @@ class Notification(models.Model):
         db_table = "notification"
 
     def __str__(self):
-        return f"[{'읽음' if self.has_read else '안읽음'} 알림 #{self.id}"
+        return f"[{'읽음' if self.has_read else '안읽음'} 알림 #{self.id} ({self.creation_date_time})"

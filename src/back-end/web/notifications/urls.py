@@ -1,3 +1,5 @@
 """notifications URL Configuration"""
+from django.urls import path
+from notifications.views import NotificationListAndUpdateView
 
-urlpatterns = []
+urlpatterns = [path("", NotificationListAndUpdateView.as_view(), "notifications")]
