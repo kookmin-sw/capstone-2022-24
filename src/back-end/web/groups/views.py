@@ -18,7 +18,6 @@ from providers.models import Charge, Provider, SubscriptionType
 from rest_framework import serializers, status, viewsets
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.response import Response
-from users.models import User
 from users.serializers import UserMileageSerializer
 
 
@@ -105,13 +104,12 @@ class GroupDetailView(RetrieveAPIView):
 
     def get_apply(self, *args, **filter_kwargs):
         """GET apply object of leader or member"""
-        _apply_queryset = User.objects.prefetch_related(
-            "groupapply_set__provider",
-        )
+        _apply_queryset = GroupApply.objects.select_related("provider", "user")
         _user = self.request.user
         try:
-            _fellow_apply = _user.groupapply_set.get(**filter_kwargs)
-            return _fellow_apply
+            filter_kwargs["user_id"] = _user.id
+            _apply = _apply_queryset.get(**filter_kwargs)
+            return _apply
         except GroupApply.DoesNotExist as apply_error:
             raise GroupNotFoundException from apply_error
 
@@ -122,12 +120,14 @@ class GroupDetailView(RetrieveAPIView):
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
         _filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
         try:
-            _group = _queryset.get(**_filter_kwargs)
+            _filter = _filter_kwargs.copy()
+            _filter["fellow__user_id"] = self.request.user.id
+            _group = _queryset.get(**_filter)
             self.check_object_permissions(self.request, _group)
             return _group
         except _queryset.model.DoesNotExist:
             # applied group but not joined yet
-            _apply = self.get_apply(_filter_kwargs)
+            _apply = self.get_apply(**_filter_kwargs)
             return _apply
 
     def get_serializer(self, *args, **kwargs):
