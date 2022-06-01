@@ -1,5 +1,6 @@
 version : '3'
 services:
+  # Database
   db:
     container_name: mariadb_local
     image: mariadb:latest
@@ -21,21 +22,24 @@ services:
       interval: 15s
       timeout: 10s
       retries: 5
+  # Database for Caching
   cache:
     container_name: redis_local
     image: redis:latest
     command: redis-server --requirepass ${CACHE_PASSWORD} --port ${CACHE_PORT}
     volumes:
       - ./cache/data:/data
-    ports:
-      - "${CACHE_PORT}:${CACHE_PORT}"
+    expose:
+      - "${CACHE_PORT}"
     healthcheck:
       test: "redis-cli -h ${CACHE_HOST} ping"
       interval: 3s
       timeout: 1s
       retries: 5
+  # WAS
   web:
     container_name: web_local
+    image: web_local
     build:
       context: .
       dockerfile : web/Dockerfile-local
@@ -65,12 +69,13 @@ services:
     depends_on:
       - db
       - cache
+      - broker
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
       interval: 1m
       timeout: 10s
       retries: 5
-
+  # Reverse Proxy
   nginx:
     container_name: nginx_local
     image: nginx:stable
@@ -91,7 +96,31 @@ services:
       - "443:443" # https
     depends_on:
       - web
-
-  # TODO
-  # celery
-  # rabbitMQ
+  # Message broker
+  broker:
+    container_name: rabbitmq_local
+    image: rabbitmq:3.10.2-management-alpine
+    environment:
+      - BROKER_USER=${BROKER_USER}
+      - BROKER_PASSWORD=${BROKER_PASSWORD}
+    ports:
+      - "${BROKER_UI_PORT}:${BROKER_UI_PORT}"
+    expose:
+      - "${BROKER_PORT}"
+  # Async Task Queue
+  queue:
+    container_name: celery_local
+    image: web_local
+    command: sh -c "celery -A config worker --loglevel=info"  # celery_conf.py, loglevel : info
+    restart: on-failure
+    volumes:
+      - ./web:${WEB}
+      - ./environment:${ENV}
+      - ./static:${STATIC}
+    environment:
+      - MODULE_NAME=${MODULE_NAME}
+      - VARIABLE_NAME=${VARIABLE_NAME}
+      - GUNICORN_CONFIG=${GUNICORN_CONFIG}
+      - SETTINGS_MODULE=${SETTINGS_MODULE}
+    depends_on:
+      - web
