@@ -1,27 +1,5 @@
 version : '3'
 services:
-  # Database
-  db:
-    container_name: mariadb_dev
-    image: mariadb:latest
-    restart: on-failure
-    ports:
-      - "${DB_PORT}:${DB_PORT}"
-    volumes:
-      - ./db/data:/var/lib/mysql
-      - ./db/conf.d:/etc/mysql/conf.d
-    environment:
-      - MYSQL_DATABASE=${DB_NAME}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_USER=${DB_ROOT_USER}
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - TZ=${TZ}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://${DB_HOST}:${DB_PORT}"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
   # Database for Caching
   cache:
     container_name: redis_dev
@@ -67,7 +45,6 @@ services:
       - GUNICORN_CONFIG=${GUNICORN_CONFIG}
       - SETTINGS_MODULE=${SETTINGS_MODULE}
     depends_on:
-      - db
       - cache
       - broker
     healthcheck:
