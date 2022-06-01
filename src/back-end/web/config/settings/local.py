@@ -49,7 +49,10 @@ CACHE_TTL = 60 * 1  # example: @method_decorator(cache_page(CACHE_TTL))
 TIME_ZONE = env("TZ")
 
 # celery: async task queue
-# CELERY_BROKER_URL = f"amqp://{env('BROKER_HOST_NAME')}@{env('BROKER_PASSWORD')}:{env('BROKER_PORT')}/0"
+CELERY_BROKER_URL = (
+    f"amqp://{env('BROKER_USER')}:{env('BROKER_PASSWORD')}" f"@{env('BROKER_HOST_NAME')}:{env('BROKER_PORT')}/0"
+)
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # app
 APP_PORT = env("APP_PORT")
