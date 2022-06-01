@@ -144,7 +144,7 @@ def save_tv_detail_data(tv_detail_data):
             )
             cursor.execute(sql, values)
 
-            sql = "INSERT INTO tv_season_details (series_id, number_of_total_episodes, number, overview) VALUES (%s, %s, %s, %s, %s)"
+            sql = "INSERT INTO tv_season_details (series_id, number_of_total_episodes, number, overview) VALUES (%s, %s, %s, %s)"
             values = (
                 series_id,
                 season_data["season_data"]["number_of_total_episodes"],

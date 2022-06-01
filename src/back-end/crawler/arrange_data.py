@@ -136,7 +136,7 @@ def arrange_movie_detail_data(dicts):
     for key, value in dicts.items():
         tmdb_id = key
         movie_data = value["data"][1]
-        trailer_dict = value["data"][4]
+        trailer_dict = value["data"][4]["trailer"]
         overview = check_vaild(movie_data, "overview")
         object_detail = {
             "tmdb_id": tmdb_id,
@@ -146,7 +146,7 @@ def arrange_movie_detail_data(dicts):
         }
         check = True
         for item in trailer_dict:
-            if item["site"] == "YouTube":
+            if (item["site"] == "YouTube") & (item["type"] == "Trailer"):
                 trailer_key = item["key"]
                 object_detail["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
                 check = False
@@ -170,7 +170,7 @@ def arrange_movie_trailer(dicts):
             "category": "MV",
         }
         for item in trailer_dict:
-            if item["site"] == "YouTube":
+            if (item["site"] == "YouTube") & (item["type"] == "Trailer"):
                 trailer_key = item["key"]
                 object_trailer["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
                 check = False
@@ -333,7 +333,7 @@ def arrange_tv_detail_data(dicts):
         }
 
         for item in trailer_dict:
-            if item["site"] == "YouTube":
+            if (item["site"] == "YouTube") & (item["type"] == "Trailer"):
                 trailer_key = item["key"]
                 object_detail["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
                 check = False
