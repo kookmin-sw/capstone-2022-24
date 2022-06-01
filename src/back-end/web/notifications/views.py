@@ -1,5 +1,8 @@
 """APIs of notifications application"""
-from config.exceptions.input import BadFormatException
+from config.exceptions.input import (
+    BadFormatException,
+    InvalidPaginationParameterException,
+)
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from notifications.exceptions import NotificationNotFoundException
@@ -52,16 +55,30 @@ class NotificationListAndUpdateView(UpdateModelMixin, ListAPIView):
         try:
             _filter = Q(user_id=self.request.user.id)
             _params = self.request.query_params
+            # validate pagination parameters
+            if "limit" in _params:
+                int(_params.get("limit"))
+            if "offset" in _params:
+                int(_params["offset"])
+            # validate read parameter
             if "read" in _params:
                 if _params["read"] in ("Y", "N"):
                     has_read = _params["read"] == "Y"
                     _filter &= Q(has_read=has_read)
-                elif _params["read"] not in ("all", "", None):
+                elif _params["read"] != "all":
                     raise BadFormatException()
+            # validate other parameter
+            if set(filter(lambda x: x not in ("limit", "offset", "read"), _params.keys())):
+                raise BadFormatException()
+            # filter queryset
             _queryset = self.queryset.filter(_filter).all()
+            # if queryset is empty
             if not _queryset:
                 raise Notification.DoesNotExist
+            # queryset exists
             return _queryset
+        except ValueError as type_error:
+            raise InvalidPaginationParameterException from type_error
         except Notification.DoesNotExist as not_exist:
             raise NotificationNotFoundException from not_exist
 
