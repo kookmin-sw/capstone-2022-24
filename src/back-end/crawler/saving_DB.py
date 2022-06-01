@@ -8,12 +8,10 @@ from arrange_data import (
     arrange_movie_data,
     arrange_movie_detail_data,
     arrange_movie_provider,
-    arrange_movie_trailer,
     arrange_movie_video_detail,
     arrange_tv_data,
     arrange_tv_detail_data,
     arrange_tv_provider,
-    arrange_tv_trailer,
     arrange_tv_video_detail,
 )
 from check_env import setting_env
@@ -158,25 +156,6 @@ def save_tv_detail_data(tv_detail_data):
         conn.commit()
 
 
-def save_trailer_data(video_trailer_data):
-    """"""
-    for item in video_trailer_data:
-        category = item["category"]
-
-        sql_id = "SELECT id FROM videos WHERE tmdb_id =%s AND category= %s"
-        values_id = (item["tmdb_id"], category)
-        cursor.execute(sql_id, values_id)
-        video_id = cursor.fetchall()[0][0]
-
-        if category == "TV":
-            sql = "UPDATE tv_series_details SET trailer_key = %s WHERE video_id= %s"
-        else:
-            sql = "UPDATE movie_details SET trailer_key = %s WHERE video_id= %s"
-        values = (item["trailer_url"], video_id)
-        cursor.execute(sql, values)
-        conn.commit()
-
-
 if __name__ == "__main__":
 
     """==========environment value setiing==========="""
@@ -231,7 +210,6 @@ if __name__ == "__main__":
     tv_video_detail_data, tv_genre_data, tv_production_country_data = arrange_tv_video_detail(json_tv_dict)
     tv_provider_data = arrange_tv_provider(json_tv_dict)
     tv_detail_data = arrange_tv_detail_data(json_tv_dict)
-    tv_trailer_data = arrange_tv_trailer(json_tv_dict)
 
     save_video_data(tv_data)
     save_detail_data(tv_video_detail_data)
@@ -239,6 +217,5 @@ if __name__ == "__main__":
     save_production_country_data(tv_production_country_data)
     save_provider_data(tv_provider_data)
     save_tv_detail_data(tv_detail_data)
-    save_trailer_data(tv_trailer_data)
 
     conn.close()

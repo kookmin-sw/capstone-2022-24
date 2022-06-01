@@ -359,28 +359,3 @@ def arrange_tv_detail_data(dicts):
         detail_list.append(object_detail)
 
     return detail_list
-
-
-def arrange_tv_trailer(dicts):
-    """"""
-    tralier_list = []
-    for key, value in dicts.items():
-        tmdb_id = key
-        trailer_dict = value["data"][5]["trailer"]
-        check = True
-        object_trailer = {
-            "tmdb_id": tmdb_id,
-            "category": "TV",
-        }
-        for item in trailer_dict:
-            if item["site"] == "YouTube":
-                trailer_key = item["key"]
-                object_trailer["trailer_url"] = f"https://www.youtube.com/watch?v={trailer_key}"
-                check = False
-                break
-        if check:
-            object_trailer["trailer_url"] = None
-
-        tralier_list.append(object_trailer)
-
-    return tralier_list
