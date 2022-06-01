@@ -11,36 +11,26 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    """
-    Video API
-    """,
+    # Video API
     path("videos/", include("videos.urls")),
     path("discontinues/", include("video_providers.urls")),
-    """
-    User API
-    """,
+    # User API
     path("users/", include("users.urls")),
     path("mypage/", include("mypages.urls")),
     path("mileages/", include("mileages.urls")),
     path("notifications/", include("notifications.urls")),
-    """
-    Group API
-    """,
+    # Group API
     path("applies/", include("applies.urls")),
     path("providers/", include("providers.urls")),
     path("groups/", include("groups.urls")),
     path("groups/<int:group_id>/account/", include("group_accounts.urls")),
     path("groups/<int:group_id>/reports/", include("reports.urls")),
-    """
-    Video history API
-    """,
+    # Video history API
     path("mypage/recent-views/", include("recent_views.urls")),
     path("mypage/watch-marks/", include("watching_marks.urls")),
     path("mypage/wishes/", include("wishes.urls")),
     path("mypage/stars/", include("star_ratings.urls")),
-    """
-    API Documentation
-    """,
+    # API Documentation
     path("docs/schema/", SpectacularJSONAPIView.as_view(), name="docs"),  # api documentation file
     path("docs/swagger/", SpectacularSwaggerView.as_view(url_name="docs"), name="swagger"),  # api docs by swagger
     path("docs/redoc/", SpectacularRedocView.as_view(url_name="docs"), name="redoc"),  # api docs by redoc
