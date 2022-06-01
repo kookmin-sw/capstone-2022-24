@@ -32,7 +32,6 @@ DEBUG = False
 
 CUSTOM_APPS = [
     "users",
-    "accounts",
     "applies",
     "wishes",
     "fellows",
