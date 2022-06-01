@@ -61,6 +61,7 @@ class TvSeasonDetail(models.Model):
     )
     overview = models.TextField(
         null=True,
+        blank=True,
     )
 
     class Meta:
