@@ -7,6 +7,8 @@ from rest_framework import serializers
 class NotificationContentSerializer(serializers.ModelSerializer):
     """Serializer of notification content model"""
 
+    category = serializers.CharField(source="get_category_display")
+
     class Meta:
         """Metadata of notification content serializer"""
 
