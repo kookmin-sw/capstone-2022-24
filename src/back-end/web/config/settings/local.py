@@ -50,9 +50,9 @@ TIME_ZONE = env("TZ")
 
 # celery: async task queue
 CELERY_BROKER_URL = (
-    f"amqp://{env('BROKER_USER')}:{env('BROKER_PASSWORD')}" f"@{env('BROKER_HOST_NAME')}:{env('BROKER_PORT')}/0"
+    f"amqp://{env('BROKER_USER')}:{env('BROKER_PASSWORD')}@{env('BROKER_HOST_NAME')}:{env('BROKER_PORT')}//"
 )
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_RESULT_BACKEND = CACHES["default"]["LOCATION"]
 
 # app
 APP_PORT = env("APP_PORT")
