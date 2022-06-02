@@ -52,7 +52,6 @@ class SubscriptionType(models.Model):
     """Model definition of subscription details"""
 
     name = models.CharField(max_length=20)
-    number_of_subscribers = models.PositiveSmallIntegerField()
     duration = models.DurationField(default=datetime.timedelta(days=30))
     detail = models.CharField(null=True, blank=True, max_length=200)
 
@@ -76,6 +75,7 @@ class Charge(models.Model):
         SubscriptionType,
         on_delete=models.CASCADE,
     )
+    number_of_subscribers = models.PositiveSmallIntegerField(default=1)
     service_charge_per_member = models.PositiveIntegerField(default=0)
     subscription_charge_per_member = models.PositiveIntegerField(default=0)
     total_subscription_charge = models.PositiveIntegerField(default=0)
