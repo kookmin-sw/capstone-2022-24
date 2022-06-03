@@ -80,6 +80,7 @@ class Notification(models.Model):
         """Metadata for notification model"""
 
         db_table = "notification"
+        ordering = ("-creation_date_time",)
 
     def __str__(self):
         return f"[{'읽음' if self.has_read else '안읽음'}] 알림 #{self.id} ({self.creation_date_time})"
