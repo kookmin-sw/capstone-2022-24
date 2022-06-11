@@ -1,7 +1,23 @@
 version : '3'
 services:
+  # Database for Caching
+  cache:
+    container_name: redis_dev
+    image: redis:latest
+    command: redis-server --requirepass ${CACHE_PASSWORD} --port ${CACHE_PORT}
+    volumes:
+      - ./cache/data:/data
+    expose:
+      - "${CACHE_PORT}"
+    healthcheck:
+      test: "redis-cli -h ${CACHE_HOST} ping"
+      interval: 3s
+      timeout: 1s
+      retries: 5
+  # WAS
   web:
     container_name: web_dev
+    image: web_dev
     build:
       context: .
       dockerfile : web/Dockerfile-dev
@@ -10,11 +26,12 @@ services:
         WEB: ${WEB}
         STATIC: ${STATIC}
         WEB_PORT: ${WEB_PORT}
-    command: sh -c "python manage.py dev makemigrations &&
+    command: sh -c "python manage.py dev reset_db --noinput &&
+                    python manage.py dev makemigrations --no-input &&
                     python manage.py dev migrate &&
-                    python manage.py loaddata data.json &&
+                    python manage.py dev loaddata data.json &&
                     python manage.py dev collectstatic --no-input &&
-                    bash ./config/start.sh"
+                    bash ./config/start.sh""
     restart: on-failure
     volumes:
       - ./web:${WEB}
@@ -26,12 +43,15 @@ services:
       - VARIABLE_NAME=${VARIABLE_NAME}
       - GUNICORN_CONFIG=${GUNICORN_CONFIG}
       - SETTINGS_MODULE=${SETTINGS_MODULE}
+    depends_on:
+      - cache
+      - broker
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://${WEB_HOST}:${WEB_PORT}" ]
       interval: 1m
       timeout: 10s
       retries: 5
-
+  # Reverse Proxy
   nginx:
     container_name: nginx_dev
     image: nginx:stable
@@ -50,6 +70,29 @@ services:
       - "443:443" # https
     depends_on:
       - web
-
-  # TODO
-  # Celery
+  # Message broker
+  broker:
+    container_name: rabbitmq_dev
+    image: rabbitmq:3.10.2-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=${BROKER_USER}
+      - RABBITMQ_DEFAULT_PASS=${BROKER_PASSWORD}
+    ports:
+      - "${BROKER_UI_PORT}:${BROKER_UI_PORT}"
+    expose:
+      - "${BROKER_PORT}"
+  # Async Task Queue
+  queue:
+    container_name: celery_dev
+    image: web_dev
+    command: sh -c "celery -A config worker --loglevel=info"
+    volumes:
+      - ./web:${WEB}
+      - ./environment:${ENV}
+    environment:
+      - MODULE_NAME=${MODULE_NAME}
+      - VARIABLE_NAME=${VARIABLE_NAME}
+      - GUNICORN_CONFIG=${GUNICORN_CONFIG}
+      - SETTINGS_MODULE=${SETTINGS_MODULE}
+    depends_on:
+      - web

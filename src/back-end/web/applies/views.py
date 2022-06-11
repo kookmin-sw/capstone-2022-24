@@ -2,9 +2,13 @@
 # pylint: disable=R0901,R0914,R0912
 from collections import Counter
 
-from applies.exceptions import ApplyAlreadyExistException
+from applies.exceptions import (
+    ApplyAlreadyExistException,
+    ApplyFellowTypeNotMatchedException,
+    ApplyNotFoundException,
+)
 from applies.models import GroupApply
-from applies.schemas import GROUP_APPLY_POST_EXAMPLE
+from applies.schemas import GROUP_APPLY_CANCEL_MEMBER_EXAMPLE, GROUP_APPLY_POST_EXAMPLE
 from applies.serializers import GroupApplySerializer
 from config.exceptions.input import (
     AlreadyJoinedGroupException,
@@ -13,6 +17,7 @@ from config.exceptions.input import (
     NotEnoughSubscriptionInformationException,
     NotSupportedProviderException,
 )
+from config.exceptions.result import ResultNotFoundException
 from config.mixins import MultipleFieldLookupMixin
 from django.db import IntegrityError
 from drf_spectacular.utils import (
@@ -24,11 +29,13 @@ from drf_spectacular.utils import (
 from fellows.models import Leader, Member
 from fellows.views import create_fellows_and_map_into_group_by_applies
 from groups.views import create_group_with_provider
+from mileages.serializers import MileageSerializer
 from mileages.views import create_histories_and_update_mileages
 from payments.models import Payment
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Charge, Provider, SubscriptionType
-from rest_framework import serializers, viewsets
-from rest_framework.generics import get_object_or_404
+from rest_framework import serializers, status, viewsets
+from rest_framework.response import Response
 
 
 @extend_schema_view(
@@ -42,19 +49,13 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         "provider",
         "user",
         "payment",
-    )
+    ).prefetch_related("provider__charge", "provider__charge__subscription_type")
     http_method_names = ["post", "put"]
     lookup_fields = ("user_id", "provider_id")
 
-    def get_object(self):
-        filter_kwargs = {"user_id": self.request.user.id, "provider_id": self.request.data["provider_id"]}
-        obj = get_object_or_404(self.get_queryset(), **filter_kwargs)
-        self.check_object_permissions(self.request, obj)
-        return obj
-
     def get_number_of_remain_fellows_in(self, provider: Provider):
         """Get number of fellows by subscription detail and user request"""
-        _total_fellows = provider.charge.subscription_type.number_of_subscribers - 1
+        _total_fellows = provider.charge.number_of_subscribers - 1
         _needed_leader = 1
         _needed_members = _total_fellows - _needed_leader
         return {"L": _needed_leader, "M": _needed_members}
@@ -132,7 +133,7 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         except KeyError as key_error:
             raise InvalidProviderIdException() from key_error
         except Provider.DoesNotExist as provider_error:
-            raise BadFormatException() from provider_error
+            raise ProviderNotFoundException() from provider_error
         except Payment.DoesNotExist as payment_error:
             raise BadFormatException() from payment_error
         except Charge.DoesNotExist as charge_error:
@@ -141,54 +142,6 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             raise NotEnoughSubscriptionInformationException() from subscription_error
         except IntegrityError as error:
             raise ApplyAlreadyExistException() from error
-
-    def cancel(self, request, *args, **kwargs):
-        """Method: process Cancling Group and refunding for Member"""
-        # --- 취소 가능 여부 검사
-        # 권한 체크
-        # 모임원 신청 기록 확인
-        # --- 마일리지 환금
-        # payment == null -> total_mileages를 provider.charge.serviceChargePerMember만큼 ++
-        # payment != null -> total_mileages를 payment.amount만큼 ++
-        # --- 모임원 신청 객체 삭제
-        # member_apply 객체 삭제
-        try:
-            # delete member_apply object
-            _provider_queryset = Provider.objects.prefetch_related(
-                "charge",
-                "charge__subscription_type",
-                "group_set",
-                "group_set__fellow_set",
-                "group_set__fellow_set__user",
-            )  # type: QuerySet[Provider]
-            _user = request.user
-            _provider = _provider_queryset.get(id=request.data["provider_id"])  # type: Provider
-            _apply = self.get_object()  # type: GroupApply
-            _fellow_type = _apply.fellow_type
-            # if user has payment information
-            if _fellow_type == "M":
-                if hasattr(_apply, "payment") and _apply.payment is not None:
-                    _amount = _apply.payment.amount
-                else:
-                    # user has spent mileages
-                    _amount = _provider.charge.service_charge_per_member
-                # return mileages
-                # _mileage_response = MileageViewSet.as_view({"put": "create"})(_mileage_request)
-                create_histories_and_update_mileages(request, _amount)
-            # cancel apply
-            return super().destroy(request, args, kwargs)
-        except TypeError as type_error:
-            raise BadFormatException() from type_error
-        except KeyError as key_error:
-            raise InvalidProviderIdException() from key_error
-        except Provider.DoesNotExist as provider_error:
-            raise BadFormatException() from provider_error
-        except Payment.DoesNotExist as payment_error:
-            raise BadFormatException() from payment_error
-        except Charge.DoesNotExist as charge_error:
-            raise NotEnoughSubscriptionInformationException() from charge_error
-        except SubscriptionType.DoesNotExist as subscription_error:
-            raise NotEnoughSubscriptionInformationException() from subscription_error
 
     @extend_schema(
         tags=["Priority-1", "Group"],
@@ -209,7 +162,14 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 ),
                 description="모임원 신청 완료",
                 examples=GROUP_APPLY_POST_EXAMPLE,
-            )
+            ),
+            409: OpenApiResponse(
+                description="이미 신청한 모임",
+                response=inline_serializer(
+                    name="AlreadyJoinedGroupException",
+                    fields={"description": serializers.CharField(default="이미 신청한 모임입니다.")},
+                ),
+            ),
         },
     )
     def apply_member(self, request, *args, **kwargs):
@@ -235,7 +195,14 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
                 ),
                 description="모임장 신청 완료",
                 examples=GROUP_APPLY_POST_EXAMPLE,
-            )
+            ),
+            409: OpenApiResponse(
+                description="이미 신청한 모임",
+                response=inline_serializer(
+                    name="AlreadyJoinedGroupException",
+                    fields={"description": serializers.CharField(default="이미 신청한 모임입니다.")},
+                ),
+            ),
         },
     )
     def apply_leader(self, request, *args, **kwargs):
@@ -250,14 +217,57 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
             name="GroupApplyRequest", fields={"providerId": serializers.IntegerField(min_value=0)}
         ),
         responses={
-            204: OpenApiResponse(
+            200: OpenApiResponse(
+                response=MileageSerializer,
                 description="모임원 취소 완료",
-            )
+                examples=GROUP_APPLY_CANCEL_MEMBER_EXAMPLE,
+            ),
+            400: OpenApiResponse(
+                description="올바르지 않은 모임 신청 타입",
+                response=inline_serializer(
+                    name="ApplyFellowTypeNotMatchedException",
+                    fields={"detail": serializers.CharField(default="모임 신청 타입이 올바르지 않습니다.")},
+                ),
+            ),
+            404: OpenApiResponse(
+                description="모임 신청 기록 조회 실패",
+                response=inline_serializer(
+                    name="GroupApplyNotFoundResponse",
+                    fields={"detail": serializers.CharField(default="모임 신청 기록을 찾을 수 없습니다.")},
+                ),
+            ),
         },
     )
     def cancel_member(self, request, *args, **kwargs):
         """PUT /groups/applies/member"""
-        return self.cancel(request, *args, **kwargs)
+        try:
+            _apply = self.get_object()
+            _fellow_type = _apply.fellow_type
+            _provider = _apply.provider
+            # if user has payment information
+            if hasattr(_apply, "payment") and _apply.payment is not None:
+                _amount = _apply.payment.amount
+            else:
+                # user has spent mileages
+                _amount = _provider.charge.service_charge_per_member
+            # check fellow type with valid api
+            if _apply.fellow_type != "M":
+                raise ApplyFellowTypeNotMatchedException()
+            # return mileages
+            _refund_mileages = create_histories_and_update_mileages(request, _amount)
+            # delete apply object
+            self.perform_destroy(_apply)
+            return Response(_refund_mileages, status=status.HTTP_200_OK)
+        except Payment.DoesNotExist as payment_error:
+            raise BadFormatException() from payment_error
+        except Charge.DoesNotExist as charge_error:
+            raise NotEnoughSubscriptionInformationException() from charge_error
+        except SubscriptionType.DoesNotExist as subscription_error:
+            raise NotEnoughSubscriptionInformationException() from subscription_error
+        except Provider.DoesNotExist as provider_error:
+            raise ProviderNotFoundException() from provider_error
+        except ResultNotFoundException as not_found_error:
+            raise ApplyNotFoundException() from not_found_error
 
     @extend_schema(
         tags=["Priority-1", "Group"],
@@ -269,9 +279,38 @@ class GroupApplyViewSet(MultipleFieldLookupMixin, viewsets.ModelViewSet):
         responses={
             204: OpenApiResponse(
                 description="모임장 취소 완료",
-            )
+            ),
+            400: OpenApiResponse(
+                description="올바르지 않은 모임 신청 타입",
+                response=inline_serializer(
+                    name="ApplyFellowTypeNotMatchedException",
+                    fields={"detail": serializers.CharField(default="모임 신청 타입이 올바르지 않습니다.")},
+                ),
+            ),
+            404: OpenApiResponse(
+                description="모임 신청 기록 조회 실패",
+                response=inline_serializer(
+                    name="GroupApplyNotFoundResponse",
+                    fields={"detail": serializers.CharField(default="모임 신청 기록을 찾을 수 없습니다.")},
+                ),
+            ),
         },
     )
     def cancel_leader(self, request, *args, **kwargs):
         """PUT /groups/applies/leader"""
-        return self.cancel(request, *args, **kwargs)
+        try:
+            _apply = self.get_object()
+            # check fellow type with valid api
+            if _apply.fellow_type != "L":
+                raise ApplyFellowTypeNotMatchedException()
+            # delete group apply object
+            self.perform_destroy(_apply)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except TypeError as type_error:
+            raise BadFormatException() from type_error
+        except KeyError as key_error:
+            raise InvalidProviderIdException() from key_error
+        except Provider.DoesNotExist as provider_error:
+            raise ProviderNotFoundException() from provider_error
+        except ResultNotFoundException as not_found_error:
+            raise ApplyNotFoundException() from not_found_error

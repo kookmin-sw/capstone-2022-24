@@ -65,25 +65,24 @@ class GroupDetailSerializer(serializers.ModelSerializer):
         _user = self.context.get("request").user
         _fellow_queryset = obj.fellow_set.all()
         _role = None  # front-end request
-        _report_meta = dict(reported=False, report_count=0, leader_report_count=0)
+        _report_meta = dict(reported_group=False, reported_leader=None, report_count=0, leader_report_count=0)
         _fellow_users = []
         for f in _fellow_queryset:
             _member = getattr(f, "member", None)
             if _member:
                 _report_meta["leader_report_count"] += _member.has_reported_leader
             if f.id == _user.id:
-                _report_meta["reported"] = f.has_reported
+                _report_meta["reported_group"] = f.has_reported
+                if _member:
+                    _report_meta["reported_leader"] = _member.has_reported_leader
             _report_meta["report_count"] += f.has_reported
             _fellow_users.append(
                 FellowProfileSerializer(
                     f.user, context={"is_leader": not _member, "request": self.context["request"]}
                 ).data
             )
-            # if this fellow.user is same as login user
-            if f.user == _user:
-                _role = "모임장" if not _member else "모임원"
         _report = ReportSerializer(_report_meta).data
-        return {"fellows": _fellow_users, "report": _report, "role": _role}
+        return {"fellows": _fellow_users, "report": _report}
 
     def get_time_stamps(self, obj):
         """Get date time related fields"""

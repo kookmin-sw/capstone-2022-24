@@ -11,7 +11,7 @@ class SupportedProviderValidator(APIException):
     default_code = "not_supported_validator"
 
 
-class NotFoundProviderException(APIException):
+class ProviderNotFoundException(APIException):
     """provider is not found"""
 
     status_code = status.HTTP_404_NOT_FOUND

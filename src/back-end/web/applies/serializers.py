@@ -1,9 +1,8 @@
 """Serializers of applies application for json parsing"""
 from applies.models import GroupApply
 from config.exceptions.input import NotSupportedProviderException
-from fellows.serializers import FellowProfileSerializer
 from payments.serializers import PaymentSerializer
-from providers.exceptions import NotFoundProviderException
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Provider
 from providers.serializers import ProviderSerializer
 from providers.validators import is_supported_provider
@@ -70,20 +69,18 @@ class GroupApplySerializer(serializers.ModelSerializer):
                 return provider_id
             raise NotSupportedProviderException()
         except Provider.DoesNotExist as provider_error:
-            raise NotFoundProviderException() from provider_error
+            raise ProviderNotFoundException() from provider_error
 
 
-class ApplyCancelSerializer(serializers.Serializer):
-    """Leader Cancel Serializer for View Response"""
+class GroupApplyTimeStampSerializer(serializers.ModelSerializer):
+    """Time stamp serializer related to group apply datetime"""
 
-    user_id = serializers.IntegerField()
-    provider_id = serializers.IntegerField()
+    class Meta:
+        """Metaclass for GroupApplyTimeStampSerializer"""
 
-    def update(self, instance, validated_data):
-        """Not used"""
-
-    def create(self, validated_data):
-        """Not used"""
+        model = GroupApply
+        fields = ("apply_date_time",)
+        read_only_fields = ("__all__",)
 
 
 class ApplyDetailSerializer(serializers.Serializer):
@@ -95,10 +92,10 @@ class ApplyDetailSerializer(serializers.Serializer):
     def create(self, validated_data):
         """Not used"""
 
-    fellows = serializers.ListField(child=FellowProfileSerializer(), default=[])
     provider = serializers.SerializerMethodField()
-    time_stamps = serializers.SerializerMethodField()
     status = serializers.SerializerMethodField()
+    time_stamps = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
 
     def get_provider(self, obj):
         """Get provider data using ProviderSerializer"""
@@ -110,4 +107,18 @@ class ApplyDetailSerializer(serializers.Serializer):
 
     def get_time_stamps(self, obj):
         """Get time stamps"""
-        return {"apply_date_time": obj.apply_date_time}
+        return GroupApplyTimeStampSerializer(obj).data
+
+    def get_role(self, obj):
+        """Get applying fellow type"""
+        return obj.get_fellow_type_display()
+
+    def to_representation(self, instance):
+        """Include empty grouop detail fields"""
+        # exclude not total mileage in getting mileage history
+        _representation = super().to_representation(instance)
+        _representation["id"] = None
+        _representation["account"] = None
+        _representation["report"] = None
+        _representation["fellows"] = []
+        return _representation
