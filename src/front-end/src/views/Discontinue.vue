@@ -29,7 +29,7 @@
 						:key="video.id"
 						style="position: relative">
 						<img
-							:src="video.posterUrl"
+							:src="video.posterKey"
 							:alt="video.title"
 							style="width: 100%; object-fit: cover"
 							@click="videoClick(video.id, video.category)" />
