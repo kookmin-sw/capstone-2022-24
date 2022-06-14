@@ -23,6 +23,20 @@ class ProviderSummarySerializer(serializers.ModelSerializer):
     """Provider summary"""
 
     name = serializers.CharField(source="get_name_display")
+    logo_url = serializers.URLField(source="logo_key")
+
+    class Meta:
+        """Meatadata for ProviderSerializer"""
+
+        model = Provider
+        fields = ["id", "name", "logo_url"]
+        read_only_fields = ("__all__",)
+
+
+class ProviderWithChargeSerializer(serializers.ModelSerializer):
+    """Provider with charge information"""
+
+    name = serializers.CharField(source="get_name_display")
     charge = serializers.SerializerMethodField()
 
     class Meta:
@@ -52,17 +66,17 @@ class ProviderListByApplyTypeSerializer(serializers.Serializer):
     def get_applied_providers(self, providers_obj):
         """Get providers by apply type"""
         _applied = providers_obj.get("applied_providers")
-        return ProviderSummarySerializer(_applied, many=True).data
+        return ProviderWithChargeSerializer(_applied, many=True).data
 
     def get_not_applied_providers(self, providers_obj):
         """Get providers by apply type"""
         _not_applied = providers_obj.get("not_applied_providers")
-        return ProviderSummarySerializer(_not_applied, many=True).data
+        return ProviderWithChargeSerializer(_not_applied, many=True).data
 
     def get_not_supported_providers(self, providers_obj):
         """Get providers that user can not apply"""
         _not_supported = providers_obj.get("not_supported_providers")
-        return ProviderSummarySerializer(_not_supported, many=True).data
+        return ProviderWithChargeSerializer(_not_supported, many=True).data
 
     def update(self, instance, validated_data):
         """Not used"""
