@@ -10,7 +10,7 @@ from notifications.models import Notification, NotificationContent
 from notifications.paginations import NotificationPagination
 from notifications.schemas import NOTIFICATION_LIST_EXAMPLES
 from notifications.serializers import NotificationSerializer
-from providers.exceptions import NotFoundProviderException
+from providers.exceptions import ProviderNotFoundException
 from providers.models import Provider
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import UpdateModelMixin
@@ -99,7 +99,7 @@ class NotificationListAndUpdateView(UpdateModelMixin, ListAPIView):
         except Notification.DoesNotExist as notification_not_exist:
             raise NotificationNotFoundException from notification_not_exist
         except Provider.DoesNotExist as provider_not_exist:
-            raise NotFoundProviderException from provider_not_exist
+            raise ProviderNotFoundException from provider_not_exist
         except NotificationContent.DoesNotExist as notification_content_not_exist:
             raise NotificationNotFoundException from notification_content_not_exist
 
