@@ -9,7 +9,7 @@ from providers.models import Provider
 class GroupApply(models.Model):
     """Abstract model definition about Common part of apply"""
 
-    FELLOW_CHOICES = (("M", "모임원"), ("L", "모임장"))
+    FELLOW_CHOICES = (("M", "member"), ("L", "leader"))
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payment, on_delete=models.SET_NULL, null=True, blank=True)

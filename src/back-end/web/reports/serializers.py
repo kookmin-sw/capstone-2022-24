@@ -11,7 +11,11 @@ class ReportSerializer(serializers.Serializer):
     def create(self, validated_data):
         """Not used"""
 
-    reported = serializers.BooleanField(
+    reported_group = serializers.BooleanField(
+        read_only=True,
+        default=False,
+    )
+    reported_leader = serializers.BooleanField(
         read_only=True,
         default=False,
     )

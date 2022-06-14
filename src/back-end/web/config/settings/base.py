@@ -91,31 +91,6 @@ INSTALLED_APPS = [
     "annoying",
 ] + CUSTOM_APPS
 
-REST_FRAMEWORK = {
-    # camel case converter
-    "DEFAULT_RENDERER_CLASSES": (
-        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
-        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
-    ),
-    "DEFAULT_PARSER_CLASSES": (
-        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
-        "djangorestframework_camel_case.parser.CamelCaseFormParser",
-        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
-    ),
-    "JSON_UNDERSCOREIZE": {
-        "no_underscore_before_number": True,
-    },
-    # API document automation: drf-spectacular
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # Permit only to authenticated user
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
-    # time stamp format
-    "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
-    "DATE_FORMAT": "%Y-%m-%d",
-    "TIME_FORMAT": "%H:%M:%S",
-}
-
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",  # cors
     "django.middleware.security.SecurityMiddleware",
@@ -185,6 +160,11 @@ USE_I18N = True
 
 USE_TZ = False
 
+# Time stamp format
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_FORMAT = "%Y-%m-%d"
+TIME_FORMAT = "%H:%M:%S"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_URL = "/static/"
@@ -235,6 +215,32 @@ SESSION_COOKIE_SECURE = True
 
 # user model
 AUTH_USER_MODEL = "users.User"
+
+# drf settings
+REST_FRAMEWORK = {
+    # camel case converter
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+    ),
+    "JSON_UNDERSCOREIZE": {
+        "no_underscore_before_number": True,
+    },
+    # API document automation: drf-spectacular
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # Permit only to authenticated user
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    # time stamp format
+    "DATETIME_FORMAT": DATETIME_FORMAT,
+    "DATE_FORMAT": DATE_FORMAT,
+    "TIME_FORMAT": TIME_FORMAT,
+}
 
 # API document automation (drf-spectacular)
 SPECTACULAR_SETTINGS = {
@@ -381,3 +387,9 @@ AUTHENTICATION_BACKENDS = {
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 }
+
+# Celery settings
+CELERY_TIMEZONE = "Asia/Seoul"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
