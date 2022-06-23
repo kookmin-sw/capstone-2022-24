@@ -76,7 +76,7 @@ class WatchingMarkCreateAndDestroyView(MultipleFieldLookupMixin, CreateAPIView, 
     queryset = Video.objects.prefetch_related("watchingmark_set", "watchingmark_set__user", "videototalcount")
     serializer_class = WatchingMarkSerializer
     permission_classes = (permissions.IsAuthenticated,)  # TODO
-    lookup_fields = ("user", "video")
+    lookup_fields = ("user_id", "video_id")
 
     def get_video_by_id(self, video_id):
         """Find video object among queryset by its id"""

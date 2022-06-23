@@ -218,7 +218,7 @@ class HomeView(viewsets.ViewSet):
                 "video_id": model.id,
                 "title": model.title,
                 "title_english": model.title_english,
-                "poster_key": model.poster_key,
+                "poster_url": model.poster_key,
                 "film_rating": model.film_rating,
                 "release_date": model.release_date.year,
                 "category": model.category,

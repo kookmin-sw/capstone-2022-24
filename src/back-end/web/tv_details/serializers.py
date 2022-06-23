@@ -40,12 +40,7 @@ class TvSeasonSerializer(serializers.ModelSerializer):
 class TvSeasonDetailSerializer(serializers.ModelSerializer):
     """TvSeasonDetail model Serializer in tv details application"""
 
-    video = serializers.SerializerMethodField()
     series = serializers.SerializerMethodField()
-
-    def get_video(self, obj):
-        """Method : get to Video data Using TvSeriesDetailSerializer"""
-        return VideoSerializer(obj.video).data
 
     def get_series(self, obj):
         """Method : get to TV series data Using TvSeriesDetailSerializer"""
