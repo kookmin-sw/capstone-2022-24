@@ -129,7 +129,7 @@
 			<div class="row" id="videos-wrapper">
 				<div class="videos" v-for="video in videos" :key="video.id">
 					<img
-						:src="video.posterKey"
+						:src="video.posterUrl"
 						:alt="video.title"
 						style="width: 100%; object-fit: cover"
 						@click="videoClick(video.videoId, video.category)" />
