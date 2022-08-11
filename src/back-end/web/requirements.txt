@@ -35,7 +35,7 @@ Deprecated==1.2.13
 dill==0.3.4
 distlib==0.3.1
 dj-rest-auth==2.2.4
-Django==4.0.4
+Django==4.0.7
 django-allauth==0.50.0
 django-annoying==0.10.6
 django-celery-results==2.3.1
