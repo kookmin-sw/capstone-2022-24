@@ -1,25 +1,26 @@
 """Serializers of notification models for json parsing"""
 from notifications.models import Notification, NotificationContent
-from providers.serializers import ProviderSerializer
+from providers.serializers import ProviderSummarySerializer
 from rest_framework import serializers
-from users.serializers import UserSerializer
 
 
 class NotificationContentSerializer(serializers.ModelSerializer):
     """Serializer of notification content model"""
 
+    category = serializers.CharField(source="get_category_display")
+
     class Meta:
         """Metadata of notification content serializer"""
 
         model = NotificationContent
-        fields = "__all__"
-        read_only_fields = "__all__"
+        fields = ("category", "keyword", "message")
+        read_only_fields = ("__all__",)
 
 
 class NotificationSerializer(serializers.ModelSerializer):
     """Serializer of notification model"""
 
-    user = serializers.SerializerMethodField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     provider = serializers.SerializerMethodField()
     content = serializers.SerializerMethodField()
 
@@ -28,15 +29,11 @@ class NotificationSerializer(serializers.ModelSerializer):
 
         model = Notification
         fields = "__all__"
-        read_only_fields = ("user", "provider", "content", "creation_date_time")
-
-    def get_user(self, obj):
-        """Get user data using UserSerializer"""
-        return UserSerializer(obj.user).data
+        read_only_fields = ("provider", "content", "creation_date_time")
 
     def get_provider(self, obj):
         """Get provider data using ProviderSerializer"""
-        return ProviderSerializer(obj.provider).data
+        return ProviderSummarySerializer(obj.provider).data
 
     def get_content(self, obj):
         """Get notification details using NotificationContentSerializer"""
