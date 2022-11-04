@@ -130,7 +130,7 @@ toml==0.10.2
 tomli==2.0.1
 trio==0.20.0
 trio-websocket==0.9.2
-Twisted==22.4.0
+Twisted==22.10.0
 txaio==22.2.1
 typing_extensions==4.1.1
 uritemplate==4.1.1
