@@ -28,7 +28,7 @@ constantly==15.1.0
 coreapi==2.3.3
 coreschema==0.0.4
 coverage==6.3.2
-cryptography==36.0.1
+cryptography==39.0.1
 daphne==3.0.2
 defusedxml==0.7.1
 Deprecated==1.2.13
